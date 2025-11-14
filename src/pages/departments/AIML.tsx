@@ -954,7 +954,7 @@ const AIMLDepartment: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {physicalFacilities?.otherLabs?.map(ol => (
                       <div key={ol.id} className="border rounded-lg p-4 text-center hover:shadow-md">
-                        <img src={ol.image_url} alt={ol.name} className="w-full h-48 object-cover rounded-md mb-4" />
+                        <img src={ol.image_url} alt={ol.name} className="w-full h-auto object-cover rounded-lg shadow" />
                         <h4 className="font-bold text-lg text-gray-800">{ol.name}</h4>
                       </div>
                     ))}

@@ -2210,7 +2210,7 @@ const ECTDepartment: React.FC = () => {
                       "https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/WhatsApp%20Image%202024-02-08%20at%2011.35.39%20AM.jpeg",
                       "https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/WhatsApp%20Image%202024-02-08%20at%2011.35.38%20AM%20(2).jpeg"
                     ].map((src, idx) => (
-                      <img key={idx} src={src} alt={`Physical Facility ${idx + 1}`} className="rounded-lg shadow-md object-cover w-full h-64" />
+                      <img key={idx} src={src} alt={`Physical Facility ${idx + 1}`} className="w-full h-auto rounded-lg shadow object-cover" />
                     ))}
                   </div>
                 </details>
@@ -2263,7 +2263,7 @@ const ECTDepartment: React.FC = () => {
                       "https://srivasaviengg.ac.in/image/ece%20images/Isaac%20Asimov%20Space%20Centre.jpg",
                       "https://srivasaviengg.ac.in/image/ece%20images/SPLab.jpg"
                     ].map((src, idx) => (
-                      <img key={idx} src={src} alt={`Lab Facility ${idx + 1}`} className="rounded-lg shadow-md object-cover w-full h-64" />
+                      <img key={idx} src={src} alt={`Lab Facility ${idx + 1}`} className="w-full h-auto rounded-lg shadow object-cover" />
                     ))}
                   </div>
                 </details>
@@ -2273,8 +2273,8 @@ const ECTDepartment: React.FC = () => {
                 <details className="border rounded-lg p-4">
                   <summary className="font-semibold cursor-pointer text-[#B22222]">Department Library</summary>
                   <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <img src="https://srivasaviengg.ac.in/image/ecelibrary/Deprtmnt%20Lib.JPG" alt="Department Library 1" className="rounded-lg shadow-md object-cover w-full h-64" />
-                    <img src="https://srivasaviengg.ac.in/image/ecelibrary/Deprtmnt%20Lib1.JPG" alt="Department Library 2" className="rounded-lg shadow-md object-cover w-full h-64" />
+                    <img src="https://srivasaviengg.ac.in/image/ecelibrary/Deprtmnt%20Lib.JPG" alt="Department Library 1" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/image/ecelibrary/Deprtmnt%20Lib1.JPG" alt="Department Library 2" className="w-full h-auto rounded-lg shadow object-cover" />
                   </div>
                   <h5 className="text-center mt-4">The department runs an exclusive department Library to the benefit of Faculty as well as students.</h5>
                   <div className="overflow-x-auto mt-4">

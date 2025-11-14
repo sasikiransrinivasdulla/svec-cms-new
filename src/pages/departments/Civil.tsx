@@ -520,8 +520,7 @@ const CivilDepartment: React.FC = () => {
                 <img
                   src="/images/departments/ce/cse-lib.jpg"
                   alt="Faculty Incharge"
-                  className="rounded-lg shadow-lg mb-4 max-h-96 object-contain"
-                  style={{ height: '100%' }}
+                  className="w-full h-auto object-cover rounded-lg shadow-md"
                 />
               </div>
               {/* Paragraph content on the right */}
@@ -955,43 +954,43 @@ const CivilDepartment: React.FC = () => {
                 </ul>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                   <div>
-                    <img src="/images/departments/ce/civil_adslab.jpg" alt="Strength of Materials Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_adslab.jpg" alt="Strength of Materials Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Strength of Materials Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_cadlab.jpg" alt="CAD & GIS Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_cadlab.jpg" alt="CAD & GIS Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">CAD & GIS Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_ctlab.jpg" alt="Concrete Technology Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_ctlab.jpg" alt="Concrete Technology Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Concrete Technology Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_gtlab.jpg" alt="Engineering Geology Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_gtlab.jpg" alt="Engineering Geology Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Engineering Geology Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_sllab.jpg" alt="Surveying Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_sllab.jpg" alt="Surveying Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Surveying Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_fmlab.jpg" alt="Fluid Mechanics & Hydraulic Machinery Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_fmlab.jpg" alt="Fluid Mechanics & Hydraulic Machinery Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Fluid Mechanics & Hydraulic Machinery Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_waterlab.jpg" alt="Waste Water Engineering Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_waterlab.jpg" alt="Waste Water Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Waste Water Engineering Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_adslab.jpg" alt="Advanced Structural Engineering Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_adslab.jpg" alt="Advanced Structural Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Advanced Structural Engineering Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_geolab.jpg" alt="Geotechnical Engineering Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_geolab.jpg" alt="Geotechnical Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Geotechnical Engineering Lab</h4>
                   </div>
                   <div>
-                    <img src="/images/departments/ce/civil_telab.jpg" alt="Transportation Engineering Lab" className="w-full rounded-lg shadow" />
+                    <img src="/images/departments/ce/civil_telab.jpg" alt="Transportation Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                     <h4 className="text-center my-3 text-success">Transportation Engineering Lab</h4>
                   </div>
                 </div>

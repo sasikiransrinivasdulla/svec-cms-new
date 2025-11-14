@@ -775,35 +775,35 @@ const EEEDepartment: React.FC = () => {
             </div>
             <div className="flex flex-wrap justify-center gap-8">
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_CPLAB.jpg" alt="Computer Programming Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_CPLAB.jpg" alt="Computer Programming Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                 <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Computer Programming Lab</h5>
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_CS_LAB.jpg" alt="Control Systems Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_CS_LAB.jpg" alt="Control Systems Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                 <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Control Systems Lab</h5>
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EMS_LAB.jpg" alt="EMS Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EMS_LAB.jpg" alt="EMS Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                 <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EMS Lab</h5>
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_ETNT_LAB.jpg" alt="ET & NT Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_ETNT_LAB.jpg" alt="ET & NT Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                 <h5 className="text-center my-3 text-green-700 text-lg font-semibold">ET &amp; NT Lab</h5>
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EM1.jpg" alt="EM Lab1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EM1.jpg" alt="EM Lab1" className="w-full h-auto rounded-lg shadow object-cover" />
                 <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EM Lab1</h5>
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EM2.jpg" alt="EM Lab2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EM2.jpg" alt="EM Lab2" className="w-full h-auto rounded-lg shadow object-cover" />
                 <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EM Lab2</h5>
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_PELAB.jpg" alt="Power Electronics Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_PELAB.jpg" alt="Power Electronics Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                 <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Power Electronics Lab</h5>
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_RD.jpg" alt="R & D Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_RD.jpg" alt="R & D Lab" className="w-full h-auto rounded-lg shadow object-cover" />
                 <h5 className="text-center my-3 text-green-700 text-lg font-semibold">R &amp; D Lab</h5>
               </div>
             </div>
@@ -816,7 +816,7 @@ const EEEDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Library</h2>
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
               <div className="md:w-1/2 flex justify-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/library3.jpg" alt="Faculty Incharge" className="rounded-lg shadow-md w-full max-w-md object-cover mb-4 md:mb-0" />
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/library3.jpg" alt="Faculty Incharge" className="w-full h-auto rounded-lg shadow-md object-cover" />
               </div>
               <div className="md:w-1/2 text-lg text-gray-700">
                 <p>
@@ -836,13 +836,13 @@ const EEEDepartment: React.FC = () => {
             </div>
             <div className="flex flex-wrap justify-center gap-8 mb-8">
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="/images/departments/eee/eee_lib1.jpg" alt="Library 1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="/images/departments/eee/eee_lib1.jpg" alt="Library 1" className="w-full h-auto rounded-lg shadow object-cover" />
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="/images/departments/eee/eee_lib2.jpg" alt="Library 2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="/images/departments/eee/eee_lib2.jpg" alt="Library 2" className="w-full h-auto rounded-lg shadow object-cover" />
               </div>
               <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="/images/departments/eee/eee_lib3.jpg" alt="Library 3" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <img src="/images/departments/eee/eee_lib3.jpg" alt="Library 3" className="w-full h-auto rounded-lg shadow object-cover" />
               </div>
             </div>
             <div className="flex flex-col items-center text-lg text-gray-700">
@@ -1679,20 +1679,20 @@ const EEEDepartment: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="col-span-1 flex flex-col items-center">
                   <h3 className="text-primary text-xl font-semibold mb-2">2018-22</h3>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1822.jpeg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1822.jpeg" alt="Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
                   <h5 className="text-center my-3 text-green-700">Roll No: 19A85A0221 <br />Name: J. Mahesh Srinu</h5>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1822_2.jpeg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover mt-4" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1822_2.jpeg" alt="Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
                   <h5 className="text-center my-3 text-green-700">Roll No: 19A85A0209 <br />Name: D. Preethi</h5>
                 </div>
                 <div className="col-span-1 flex flex-col items-center">
                   <h3 className="text-primary text-xl font-semibold mb-2">2017-21</h3>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1721.jpeg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1721.jpeg" alt="Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
                   <h5 className="text-center my-3 text-green-700">Roll No: 17A81A0234 <br />Name: V. Sri Naga Vijaya Lakshmi</h5>
                   <h3 className="text-primary text-xl font-semibold mb-2 mt-8">2016-20</h3>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1620.jpeg" alt="Image 5" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1620.jpeg" alt="Image 5" className="w-full h-auto rounded-lg shadow object-cover" />
                   <h5 className="text-center my-3 text-green-700">Roll No: 16A81A0219 <br />Name: K. Ganga Prasanna</h5>
                   <h3 className="text-primary text-xl font-semibold mb-2 mt-8">2015-19</h3>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1519.jpeg" alt="Image 6" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1519.jpeg" alt="Image 6" className="w-full h-auto rounded-lg shadow object-cover" />
                   <h5 className="text-center my-3 text-green-700">Roll No: 15A81A0226 <br />Name: N. Rishitha Anasuya Devi</h5>
                 </div>
               </div>
@@ -1718,10 +1718,10 @@ const EEEDepartment: React.FC = () => {
             <div className="mt-8">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col items-center">
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_lee_project1.jpg" alt="LEE Project 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_lee_project1.jpg" alt="LEE Project 1" className="w-full h-auto rounded-lg shadow object-cover" />
                 </div>
                 <div className="flex flex-col items-center">
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_lee_project2.jpg" alt="LEE Project 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_lee_project2.jpg" alt="LEE Project 2" className="w-full h-auto rounded-lg shadow object-cover" />
                 </div>
               </div>
             </div>
@@ -1850,16 +1850,16 @@ const EEEDepartment: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="flex flex-col items-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp1.jpg" alt="Product 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp1.jpg" alt="Product 1" className="w-full h-auto rounded-lg shadow object-cover" />
               </div>
               <div className="flex flex-col items-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp2.jpg" alt="Product 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp2.jpg" alt="Product 2" className="w-full h-auto rounded-lg shadow object-cover" />
               </div>
               <div className="flex flex-col items-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp3.jpg" alt="Product 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp3.jpg" alt="Product 3" className="w-full h-auto rounded-lg shadow object-cover" />
               </div>
               <div className="flex flex-col items-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp4.jpg" alt="Product 4" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp4.jpg" alt="Product 4" className="w-full h-auto rounded-lg shadow object-cover" />
               </div>
             </div>
           </div>
@@ -1880,8 +1880,8 @@ const EEEDepartment: React.FC = () => {
                       </div>
                       <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
                       <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
                       </div>
                     </div>
                   </div>
@@ -1903,12 +1903,12 @@ const EEEDepartment: React.FC = () => {
                     <li>Self-charging of Hybrid E-bicycle</li>
                   </ul>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da1.jpg" alt="Product 1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da2.jpg" alt="Product 2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da3.jpg" alt="Product 3" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da4.jpg" alt="Product 4" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da5.jpeg" alt="Product 5" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da6.jpeg" alt="Product 6" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da1.jpg" alt="Product 1" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da2.jpg" alt="Product 2" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da3.jpg" alt="Product 3" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da4.jpg" alt="Product 4" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da5.jpeg" alt="Product 5" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da6.jpeg" alt="Product 6" className="w-full h-auto rounded-lg shadow object-cover" />
                   </div>
                 </div>
               </details>
@@ -1931,8 +1931,8 @@ const EEEDepartment: React.FC = () => {
                       </div>
                       <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
                       <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
                       </div>
                     </div>
                   </div>
@@ -1954,7 +1954,7 @@ const EEEDepartment: React.FC = () => {
                 </ul>
                 <div className="mb-5 px-5">
                   <div className="flex flex-col items-center justify-center">
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_ssa1.jpg" alt="Social Service Activity" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_ssa1.jpg" alt="Social Service Activity" className="w-full h-auto rounded-lg shadow object-cover" />
                     <p className="text-center font-semibold mt-2">Our 3rd Year B.Tech Students at Orphan Home</p>
                   </div>
                 </div>
@@ -1964,10 +1964,10 @@ const EEEDepartment: React.FC = () => {
                 <div className="mb-5 p-5">
                   <p>LEE 7TH anniversary was organised by 2009-2013 batch students on 17th of February 2012. The chief guest for this anniversary is our honourable president SRIGRANDHI.SATYANARAYANA followed by the principal Dr.J.SRI HARI RAO & Chairman of LEE Mr.CH.RAMBABU. It was celebrated in the presence of all the faculty members and students of all years. Prizes are given to all of the winners of various events conducted, and also for the rank holders in previous semesters. Apart from this students give a rocking performance in cultural.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le1.jpg" alt="LEE 7th Anniversary 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le2.jpg" alt="LEE 7th Anniversary 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le3.jpg" alt="LEE 7th Anniversary 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le4.jpg" alt="LEE 7th Anniversary 4" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le1.jpg" alt="LEE 7th Anniversary 1" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le2.jpg" alt="LEE 7th Anniversary 2" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le3.jpg" alt="LEE 7th Anniversary 3" className="w-full h-auto rounded-lg shadow object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le4.jpg" alt="LEE 7th Anniversary 4" className="w-full h-auto rounded-lg shadow object-cover" />
                   </div>
                 </div>
               </details>

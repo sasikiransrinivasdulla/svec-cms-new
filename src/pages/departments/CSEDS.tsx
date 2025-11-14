@@ -212,16 +212,15 @@ const CSTDepartment: React.FC = () => {
       case 'Department':
         return (
           <div className="animate-fade-in">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
-              <div className="relative">
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-6">
+              <div className="md:w-1/3">
                 <img
                   src="/aihod.jpg"
                   alt="Dr. G. Loshma"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
+                  className="w-full h-auto object-cover rounded-lg shadow-md"
                 />
               </div>
-              <div className="lg:col-span-2 space-y-4">
+              <div className="md:w-2/3 space-y-4">
                 <div className="mb-4">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
                   <p className="text-lg text-[#8B0000] font-medium mb-2">Head of Department, CSE-AI</p>
@@ -230,6 +229,7 @@ const CSTDepartment: React.FC = () => {
                 </div>
               </div>
             </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
             <p className="text-gray-700 mb-3">
               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
@@ -1634,7 +1634,7 @@ const CSTDepartment: React.FC = () => {
                   {g.images.map(img => (
                     <div key={img.id} className="w-full md:w-1/3 flex justify-center">
                       <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
-                        className="img-fluid m-3 rounded shadow" />
+                        className="w-full h-auto rounded-lg shadow object-cover" />
                     </div>
                   ))}
                 </div>
@@ -1795,7 +1795,7 @@ const CSTDepartment: React.FC = () => {
                     {g.images.map(img => (
                       <div key={img.id} className="w-full md:w-1/3 flex justify-center">
                         <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
-                          className="img-fluid m-3 rounded shadow" />
+                          className="w-full h-auto rounded-lg shadow object-cover" />
                       </div>
                     ))}
                   </div>

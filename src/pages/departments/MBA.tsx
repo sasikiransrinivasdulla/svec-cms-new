@@ -296,15 +296,15 @@ const MBADepartment: React.FC = () => {
             </div>
 
             {/* HOD Information */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-8">
-              <div className="relative">
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
+              <div className="md:w-1/3">
                 <img
                   src="/mbaHosd1.jpeg"
                   alt="Mr. D. Naveen Kumar"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
+                  className="w-full h-auto object-cover rounded-lg shadow-md"
                 />
               </div>
-              <div className="lg:col-span-2 space-y-4">
+              <div className="md:w-2/3 space-y-4">
                 <div className="mb-4">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">Mr. D. Naveen Kumar</h3>
                   <p className="text-lg text-[#B22222] font-medium mb-2">Sr.Asst.Professor & Head of Department, MBA</p>
@@ -854,7 +854,7 @@ const MBADepartment: React.FC = () => {
                   <img
                     src="/images/departments/mba/president.png"
                     alt="President's Message"
-                    className="max-w-full h-auto rounded-lg shadow-md"
+                    className="w-full h-auto object-cover rounded-lg shadow-md max-w-xl"
                   />
                 </div>
               </div>
@@ -865,7 +865,7 @@ const MBADepartment: React.FC = () => {
                   <img
                     src="/images/departments/mba/secretary.png"
                     alt="Secretary and Correspondent's Message"
-                    className="max-w-full h-auto rounded-lg shadow-md"
+                    className="w-full h-auto object-cover rounded-lg shadow-md max-w-xl"
                   />
                 </div>
               </div>
