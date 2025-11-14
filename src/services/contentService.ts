@@ -1,0 +1,38 @@
+
+// Static content service (Firebase removed)
+// This service provides static content for the home page
+
+// Default content for the home page
+const DEFAULT_HOME_CONTENT = {
+  stats: [
+    { "icon": "Users", "label": "Students", "value": "10000+" },
+    { "icon": "Building", "label": "Labs", "value": "25+" },
+    { "icon": "BookOpen", "label": "Courses", "value": "50+" },
+    { "icon": "Users", "label": "Alumni", "value": "5000+" },
+    { "icon": "Users", "label": "Clubs", "value": "10+" },
+    { "icon": "Users", "label": "Events", "value": "100+" },
+    { "icon": "Users", "label": "Research Papers", "value": "200+" },
+    { "icon": "TrendingUp", "label": "Placements", "value": "90%" },
+    { "icon": "Award", "label": "Accreditation", "value": "NAAC A" },
+    { "icon": "Users", "label": "Faculty", "value": "350+" },
+    { "icon": "Award", "label": "Years of Excellence", "value": "25+" },
+    { "icon": "Building", "label": "Departments", "value": "12" }
+  ],
+  quickLinks: [
+    { "title": "Academics", "desc": "Explore our comprehensive academic programs", "link": "/academics", "icon": "BookOpen" },
+    { "title": "Admissions", "desc": "Join our community of future engineers", "link": "/admissions", "icon": "Users" },
+    { "title": "Placements", "desc": "Excellent career opportunities await", "link": "/placements", "icon": "TrendingUp" },
+    { "title": "Research", "desc": "Cutting-edge research and innovation", "link": "/rd-innovation", "icon": "Award" }
+  ],
+  news: [
+    { "date": "2025-01-15", "title": "New AI Lab Inaugurated with State-of-the-Art Equipment", "category": "Infrastructure" },
+    { "date": "2025-01-12", "title": "Students Win National Level Technical Symposium", "category": "Achievement" },
+    { "date": "2025-01-10", "title": "Industry Partnership with Leading Tech Companies", "category": "Placements" },
+    { "date": "2025-01-08", "title": "Research Paper Published in International Journal", "category": "Research" }
+  ]
+};
+
+export async function getHomePageContent() {
+  console.log('Returning static home page content');
+  return DEFAULT_HOME_CONTENT;
+}

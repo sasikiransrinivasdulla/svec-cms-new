@@ -1,0 +1,715 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tab optimization classes - Instant switching with smooth visual feedback */
+@layer components {
+  .tab-button {
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-weight: 500; /* font-medium */
+    outline: none; /* focus:outline-none */
+    transition: all 0.1s ease-out; /* Super fast transition */
+    transform: translateZ(0); /* Force hardware acceleration */
+    will-change: background-color, color, box-shadow;
+  }
+  
+  .tab-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px hsla(var(--svec-red), 0.5);
+  }
+  
+  .tab-button.active-tab {
+    color: white;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* shadow-lg */
+    background: linear-gradient(135deg, hsl(var(--svec-red)), hsl(var(--svec-red)/0.9));
+    transition: all 0.15s ease-out;
+  }
+  
+  .tab-button.inactive-tab {
+    background-color: hsl(var(--svec-gray));
+    color: hsl(215 14% 20%);
+    transition: all 0.1s ease-out;
+  }
+  
+  .tab-button.inactive-tab:hover {
+    background-color: hsl(var(--svec-gray)/0.8);
+  }
+  
+  .tab-content {
+    min-height: 200px;
+    contain: layout style paint;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.08s ease-out, transform 0.08s ease-out; /* Ultra-fast content switching */
+  }
+  
+  .tab-content-enter {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  
+  .tab-content-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .no-loading-btn {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+  }
+  
+  /* Instant feedback animations */
+  .instant-tab-switch {
+    transition: none !important;
+  }
+  
+  .smooth-tab-content {
+    animation: quickFadeIn 0.1s ease-out;
+  }
+}
+
+@keyframes quickFadeIn {
+  from {
+    opacity: 0.7;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Logo Loader Animations */
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes logoSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logoRing {
+  from {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+@keyframes textFade {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Custom animations for smooth page transitions */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes gentleBounce {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-3px);
+  }
+
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Utility classes */
+.animate-slide-in-right {
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+.animate-slide-in-top {
+  animation: slideInFromTop 0.2s ease-out;
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.3s ease-out;
+}
+
+.animate-gentle-bounce {
+  animation: gentleBounce 2s infinite;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Custom border widths */
+.border-3 {
+  border-width: 3px;
+}
+
+.border-4 {
+  border-width: 4px;
+}
+
+/* Cursor underline effects */
+.hover-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: hsl(var(--svec-red));
+  transition: width 0.3s ease-out;
+}
+
+.hover-underline:hover::after {
+  width: 100%;
+}
+
+/* Alternative underline for navigation */
+.nav-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-underline::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: hsl(var(--svec-red));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-underline:hover::before {
+  width: 100%;
+}
+
+/* Enhanced hover effects for navigation */
+nav a {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+nav a::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: hsl(var(--svec-red));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+nav a:hover::before {
+  width: 100%;
+}
+
+/* Scroll animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.animate-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s ease-in-out forwards;
+}
+
+.animate-fade-pulse {
+  animation: fade-pulse 1s ease-in-out infinite;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Removed float animation to prevent background movement */
+
+@keyframes scrollNews {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(-100% + 300px));
+  }
+}
+
+@keyframes scrollEvents {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(-100% + 300px));
+  }
+}
+
+/* Removed floating animations to prevent background movement */
+
+/* Removed rotateGlow animation to prevent background movement */
+
+/* Removed slideRight animation to prevent background movement */
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s infinite;
+  }
+
+  /* Removed float animation class to prevent background movement */
+
+  /* Removed floating animation classes to prevent background movement */
+
+  /* Removed rotate-glow animation class to prevent background movement */
+
+  /* Removed slide-right animation class to prevent background movement */
+
+  .scale-102 {
+    --tw-scale-x: 1.02;
+    --tw-scale-y: 1.02;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+}
+
+@layer base {
+  :root {
+    /* Only two colors - vibrant red and white */
+    --svec-red: 357 81% 41%;         /* #E01E26 - Vibrant red (primary) */
+    --svec-white: 0 0% 100%;         /* Pure white */
+    
+    /* Base theme colors using only red and white */
+    --background: var(--svec-white);
+    --foreground: 0 0% 0%;           /* Black text for readability */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    
+    /* Primary is the vibrant red */
+    --primary: var(--svec-red);
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary is white with slight gray tint for hover states */
+    --secondary: 0 0% 98%;             /* Very light gray (almost white) */
+    --secondary-foreground: var(--svec-red);
+    
+    /* All other UI elements use either red or white */
+    --muted: 0 0% 98%;               /* Slightly off-white */
+    --muted-foreground: 0 0% 45%;    /* Mid-gray text */
+    --accent: var(--svec-red);
+    --accent-foreground: 0 0% 100%;
+    --destructive: var(--svec-red);
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;              /* Light gray border */
+    --input: 0 0% 100%;
+    --ring: var(--svec-red);
+    --radius: 0.5rem;
+    
+    /* Chart colors - only red and grayscale */
+    --chart-1: var(--svec-red);
+    --chart-2: 0 0% 0%;              /* Black */
+    --chart-3: 0 0% 20%;             /* Dark gray */
+    --chart-4: 0 0% 40%;             /* Medium gray */
+    --chart-5: 0 0% 60%;             /* Light gray */
+    
+    /* Sidebar customization - only red and white */
+    --sidebar-background: var(--svec-white);
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: var(--svec-red);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--svec-red);
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: var(--svec-red);
+  }
+
+  .dark {
+    /* Dark theme colors - only red and dark backgrounds */
+    --background: 0 0% 10%;           /* Almost black background */
+    --foreground: 0 0% 100%;          /* White text for readability */
+    --card: 0 0% 12%;                 /* Slightly lighter black */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 100%;
+    
+    /* Only the same vibrant red is used */
+    --primary: var(--svec-red);       /* Same red as light mode */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 15%;           /* Slightly lighter than background for hover states */
+    --secondary-foreground: var(--svec-red);
+    
+    /* Other dark mode UI elements - black and red */
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 80%;
+    --accent: var(--svec-red);        /* Same red accent */
+    --accent-foreground: 0 0% 100%;
+    --destructive: var(--svec-red);
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: var(--svec-red);
+    
+    /* Chart colors for dark mode - red and grayscales */
+    --chart-1: var(--svec-red);       /* Same vibrant red */
+    --chart-2: 0 0% 100%;             /* White */
+    --chart-3: 0 0% 80%;              /* Light gray */
+    --chart-4: 0 0% 60%;              /* Medium gray */
+    --chart-5: 0 0% 40%;              /* Dark gray */
+    
+    /* Sidebar dark theme - red and black */
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: var(--svec-red);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--svec-red);
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: var(--svec-red);
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html, body {
+    background: white !important;
+    background-color: white !important;
+    background-image: none !important;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Hide scrollbar for sidebar navigation */
+[data-scrollable-nav]::-webkit-scrollbar {
+  display: none;
+}
+
+[data-scrollable-nav] {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+/* Company logos scrolling animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+/* CST Department Dropdown Styles - Match Image Format */
+@layer components {
+  .cst-dropdown {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  }
+
+  .cst-dropdown summary {
+    background: linear-gradient(135deg, #B22222 0%, #B22222 100%);
+    color: white;
+    padding: 16px 20px;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    outline: none;
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cst-dropdown summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cst-dropdown summary::marker {
+    display: none;
+    content: '';
+  }
+
+  /* White Triangle Arrow */
+  .cst-dropdown summary::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid white;
+    transition: transform 0.3s ease;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Rotate triangle when open */
+  .cst-dropdown[open] summary::after {
+    transform: rotate(180deg);
+  }
+
+  /* Hover effect */
+  .cst-dropdown summary:hover {
+    background: linear-gradient(135deg, #A52A2A 0%, #A52A2A 100%);
+    box-shadow: 0 2px 8px rgba(178, 34, 34, 0.3);
+  }
+
+  /* Content styling */
+  .cst-dropdown .cst-dropdown-content {
+    padding: 20px;
+    background-color: white;
+    border-top: 1px solid rgba(178, 34, 34, 0.1);
+  }
+
+  /* Animation for opening/closing */
+  .cst-dropdown[open] .cst-dropdown-content {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Ensure first dropdown is visually prominent when open */
+  .cst-dropdown:first-of-type[open] {
+    box-shadow: 0 4px 12px rgba(178, 34, 34, 0.2);
+  }
+
+  .cst-dropdown:first-of-type summary {
+    background: linear-gradient(135deg, #B22222 0%, #CC2525 100%);
+  }
+}
