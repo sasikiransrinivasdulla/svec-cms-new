@@ -24,56 +24,56 @@ import {
 // Placement modules configuration
 const PLACEMENT_MODULES = [
   {
-    key: 'placement-carousel',
+    key: 'carousel',
     name: 'Placement Carousel',
     icon: Images,
     description: 'Manage placement success story images and carousel',
     table: 'placement_carousel'
   },
   {
-    key: 'placement-intro',
+    key: 'intro',
     name: 'Placement Introduction',
     icon: FileText,
     description: 'Edit placement cell introduction and overview',
     table: 'placement_intro'
   },
   {
-    key: 'placement-officer',
+    key: 'officer',
     name: 'Placement Officer',
     icon: User,
     description: 'Manage placement officer information',
     table: 'placement_officer'
   },
   {
-    key: 'placement-team',
+    key: 'team',
     name: 'Placement Team',
     icon: Users,
     description: 'Manage placement team members and coordinators',
     table: 'placement_team'
   },
   {
-    key: 'yearwise-charts',
+    key: 'charts',
     name: 'Year-wise Charts',
     icon: BarChart,
     description: 'Manage placement statistics and charts',
     table: 'placement_yearwise_charts'
   },
   {
-    key: 'category-table',
+    key: 'category',
     name: 'Category Table',
     icon: Table,
     description: 'Manage branch-wise placement data',
     table: 'placement_category_table'
   },
   {
-    key: 'company-logos',
+    key: 'logos',
     name: 'Company Logos',
     icon: Building2,
     description: 'Manage recruiting company logos',
     table: 'placement_company_logos'
   },
   {
-    key: 'placement-pdfs',
+    key: 'pdfs',
     name: 'Placement PDFs',
     icon: FileDown,
     description: 'Manage placement reports and documents',
@@ -171,8 +171,8 @@ export default function PlacementDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-red-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-red-50 pt-32">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
         {/* Header */}
         <PlacementHeader user={user} />
 
