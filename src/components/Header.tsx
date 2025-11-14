@@ -522,7 +522,7 @@ const departments = [
               rel="noopener noreferrer"
               className="hidden sm:block bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
-              E-CAP
+              ECAP
             </a>
             <button
               className={`lg:hidden p-2 rounded-lg hover:bg-secondary/50 transition-all duration-200 no-underline ${textColorClass} ${isMenuOpen ? 'bg-secondary/30' : ''}`}
@@ -710,7 +710,7 @@ const departments = [
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center bg-primary text-primary-foreground rounded-md py-3 font-semibold hover:bg-primary/90 transition-colors"
               >
-                E-CAP
+                ECAP
               </a>
             </div>
           </aside>

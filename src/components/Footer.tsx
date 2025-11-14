@@ -35,8 +35,9 @@ const Footer: React.FC = () => {
                 <p className="text-sm text-gray-400">Engineering College</p>
               </div>
             </div>
-            <p className="text-sm leading-relaxed">
-              Empowering students with quality engineering education and fostering innovation for over two decades.
+            <p className="text-sm leading-relaxed text-justify">
+            Sri Vasavi Engineering College (SVEC) in West and East Godavari districts has maintained its values for over 20 years, nurturing more than 30,000 students and evolving from a small school into a distinguished engineering college.
+
             </p>
             <div className="flex space-x-4">
               <Facebook className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
@@ -49,11 +50,13 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-base font-semibold mb-4 text-white">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="/about" className="hover:text-primary transition-colors text-sm">About Us</Link></li>
-              <li><Link href="/academics" className="hover:text-primary transition-colors text-sm">Academics</Link></li>
-              <li><Link href="/admissions" className="hover:text-primary transition-colors text-sm">Admissions</Link></li>
-              <li><Link href="/placements" className="hover:text-primary transition-colors text-sm">Placements</Link></li>
-              <li><Link href="/rd-innovation" className="hover:text-primary transition-colors text-sm">R&D</Link></li>
+              <li><Link href="http://62.72.31.209:3001" className="hover:text-primary transition-colors text-sm">Course End Survey</Link></li>
+              <li><Link href="http://62.72.31.209:3005" className="hover:text-primary transition-colors text-sm">Grievance Cell</Link></li>
+              <li><Link href="http://62.72.31.209:3002" className="hover:text-primary transition-colors text-sm">Exit Facilities Portal</Link></li>
+              <li><Link href="http://62.72.31.209:3003" className="hover:text-primary transition-colors text-sm">Graduate Survey</Link></li>
+               <li><Link href="https://sves.org.in/ecap/olpaymentlogin.aspx" className="hover:text-primary transition-colors text-sm">Online Fee Payment</Link></li>
+               <li><Link href="https://sves.org.in/ecap/consultancyfee.aspx" className="hover:text-primary transition-colors text-sm">Consultancy Fee</Link></li>
+              
             </ul>
           </div>
 
@@ -79,11 +82,11 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-sm">+91-866-2461555</p>
+                <p className="text-sm">08818-284355</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-sm">info@srivasaviengg.ac.in</p>
+                <p className="text-sm">principal@srivasaviengg.ac.in</p>
               </div>
             </div>
           </div>
