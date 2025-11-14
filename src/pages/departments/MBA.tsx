@@ -119,7 +119,7 @@ const MBADepartment: React.FC = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
             <p className="text-gray-700 mb-3">
-              The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints.
+              The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints by providing new dimensions in the body of knowledge needed for managerial development.
             </p>
           </div>
         );
@@ -275,7 +275,7 @@ const MBADepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+            {/* <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2> */}
 
             {/* Desktop Navigation Tabs */}
             <div className="hidden md:block relative mb-8">
@@ -312,16 +312,13 @@ const MBADepartment: React.FC = () => {
                   <p className="text-gray-600">Fax No: 08818-284322</p>
                   <p className="text-gray-600">Email: <a href="mailto:hod_mba@srivasaviengg.ac.in" className="text-primary hover:underline">hod_mba@srivasaviengg.ac.in</a></p>
                 </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints by providing new dimensions in the body of knowledge needed for managerial development.
-                </p>
               </div>
             </div>
 
             {/* Department Profile Tab Navigation */}
             <div className="mt-12">
 
-              
+
 
               <div className="mt-4">
                 {renderDeptTabContent()}
@@ -655,7 +652,7 @@ const MBADepartment: React.FC = () => {
             </div>
           </div>
         );
-        
+
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1093,7 +1090,7 @@ const MBADepartment: React.FC = () => {
       {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
-  
+
 };
 
 export default MBADepartment;

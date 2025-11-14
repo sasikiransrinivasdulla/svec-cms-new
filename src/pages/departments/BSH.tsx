@@ -1,6 +1,6 @@
 
- import React, { useState, useEffect } from 'react';
-import { Book, BookOpen, Award,  Users, FileText, Activity,  Phone,  Microscope,  Download, Presentation, Trophy,  Building, Link as LinkIcon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Book, BookOpen, Award, Users, FileText, Activity, Phone, Microscope, Download, Presentation, Trophy, Building, Link as LinkIcon } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 const BSHDepartment: React.FC = () => {
@@ -314,7 +314,7 @@ const BSHDepartment: React.FC = () => {
         );
       case 'Vision':
         return (
-          <div className="animate-fade-in">
+          <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
             <p className="text-gray-700">
               To provide excellent foundation in basic sciences and humanities to create competent engineers with strong analytical and communication skills.
@@ -323,7 +323,7 @@ const BSHDepartment: React.FC = () => {
         );
       case 'Mission':
         return (
-          <div className="animate-fade-in">
+          <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>To impart quality education in basic sciences and humanities.</li>
@@ -583,31 +583,31 @@ const BSHDepartment: React.FC = () => {
             )}
           </div>
         );
-     
 
-        case 'FDPs/Workshops Participated':
-  return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">FDPs/Workshops Participated</h2>
-      {loadingFdp ? (
-        <div>Loading...</div>
-      ) : fdpError ? (
-        <div className="text-red-600">Error: {fdpError}</div>
-      ) : (
-        <details open>
-          <summary className="font-semibold text-lg mb-2">FDPs/Workshops Participated</summary>
-          <ul className="list-disc ml-6 mt-4 space-y-2">
-            {fdpDocs.map((doc, idx) => (
-              <li key={doc.id}>
-                {doc.title} -{' '}
-                <a href={doc.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-              </li>
-            ))}
-          </ul>
-        </details>
-      )}
-    </div>
-  );
+
+      case 'FDPs/Workshops Participated':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">FDPs/Workshops Participated</h2>
+            {loadingFdp ? (
+              <div>Loading...</div>
+            ) : fdpError ? (
+              <div className="text-red-600">Error: {fdpError}</div>
+            ) : (
+              <details open>
+                <summary className="font-semibold text-lg mb-2">FDPs/Workshops Participated</summary>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  {fdpDocs.map((doc, idx) => (
+                    <li key={doc.id}>
+                      {doc.title} -{' '}
+                      <a href={doc.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
+          </div>
+        );
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -622,7 +622,7 @@ const BSHDepartment: React.FC = () => {
                       className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
                         ? 'bg-[#B22222] text-white shadow-lg'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
+                        }`}
                     >
                       {section === 'SalientFeatures' ? 'Salient Features' : section}
                     </button>
@@ -718,7 +718,7 @@ const BSHDepartment: React.FC = () => {
                               className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
                                 ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                                 : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center gap-3">
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
@@ -856,7 +856,7 @@ const BSHDepartment: React.FC = () => {
 
       case 'Faculty Profiles':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
             {loadingFaculty ? (
               <div>Loading faculty data...</div>

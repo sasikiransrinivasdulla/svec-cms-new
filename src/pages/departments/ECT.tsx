@@ -62,8 +62,8 @@ const ECTDepartment: React.FC = () => {
     switch (activeDeptTab) {
       case 'Department':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
             <p className="text-gray-700 leading-relaxed mb-4">
               The Department of Electronics & Communication Technology was established in the year 2012. The department offers B.Tech program in Electronics & Communication Technology with an intake of 60 students.
             </p>
@@ -71,8 +71,8 @@ const ECTDepartment: React.FC = () => {
         );
       case 'Vision':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
             <div className="bg-gray-50 p-6 rounded-lg border-l-4 border-[#B22222] shadow-md">
               <p className="text-gray-700 italic">
                 "To emerge as a center of excellence in Electronics & Communication Technology education producing competent professionals with research orientation and ethical values to serve the needs of industry and society."
@@ -82,8 +82,8 @@ const ECTDepartment: React.FC = () => {
         );
       case 'Mission':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
             <div className="space-y-4">
               <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-[#B22222] shadow-sm">
                 <p className="text-gray-700">
@@ -110,29 +110,29 @@ const ECTDepartment: React.FC = () => {
         );
       case 'PEOs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
             <div className="space-y-4">
-              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PEO 1:</h4>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 1</h4>
                 <p className="text-gray-700">
                   Graduates will have strong foundation in Electronics & Communication Technology to pursue higher education, research or technical employment.
                 </p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PEO 2:</h4>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 2</h4>
                 <p className="text-gray-700">
                   Graduates will be equipped with practical skills and knowledge to design, develop and implement innovative solutions to real-world problems.
                 </p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PEO 3:</h4>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 3</h4>
                 <p className="text-gray-700">
                   Graduates will possess professional ethics, communication skills, teamwork and leadership qualities required for successful career.
                 </p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PEO 4:</h4>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 4</h4>
                 <p className="text-gray-700">
                   Graduates will engage in lifelong learning to adapt to rapidly evolving technological landscape.
                 </p>
@@ -142,123 +142,84 @@ const ECTDepartment: React.FC = () => {
         );
       case 'POs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
             <div className="space-y-3">
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 1: Engineering Knowledge</h4>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO 1: Engineering Knowledge</h4>
                 <p className="text-gray-700">Apply knowledge of mathematics, science, and engineering fundamentals to solve complex engineering problems.</p>
               </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 2: Problem Analysis</h4>
-                <p className="text-gray-700">Identify, formulate, research literature and analyze complex engineering problems to arrive at substantiated conclusions.</p>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO 2: Problem Analysis</h4>
+                <p className="text-gray-700">Identify, formulate, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.</p>
               </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 3: Design/Development of Solutions</h4>
-                <p className="text-gray-700">Design solutions for complex engineering problems and design system components or processes that meet specified needs.</p>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO 3: Design/Development of Solutions</h4>
+                <p className="text-gray-700">Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and the cultural, societal, and environmental considerations.</p>
               </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 4: Investigation</h4>
-                <p className="text-gray-700">Use research-based knowledge and methods to design experiments, analyze and interpret data.</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 5: Modern Tool Usage</h4>
-                <p className="text-gray-700">Apply appropriate techniques and modern engineering tools necessary for engineering practice.</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 6: The Engineer and Society</h4>
-                <p className="text-gray-700">Apply reasoning to assess societal, health, safety, legal and cultural issues and the consequent responsibilities.</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 7: Environment and Sustainability</h4>
-                <p className="text-gray-700">Understand the impact of engineering solutions in a societal context and demonstrate knowledge of sustainable development.</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 8: Ethics</h4>
-                <p className="text-gray-700">Apply ethical principles and commit to professional ethics and responsibilities.</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 9: Individual and Team Work</h4>
-                <p className="text-gray-700">Function effectively as an individual, and as a member or leader in diverse teams.</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 10: Communication</h4>
-                <p className="text-gray-700">Communicate effectively on complex engineering activities with the engineering community and society.</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 11: Project Management</h4>
-                <p className="text-gray-700">Demonstrate knowledge and understanding of management principles and apply these to one's own work.</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PO 12: Life-long Learning</h4>
-                <p className="text-gray-700">Recognize the need for, and have the preparation and ability to engage in independent and life-long learning.</p>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO 4: Conduct Investigations</h4>
+                <p className="text-gray-700">Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of information to provide valid conclusions.</p>
               </div>
             </div>
           </div>
         );
       case 'PSOs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
             <div className="space-y-4">
-              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PSO 1:</h4>
-                <p className="text-gray-700">
-                  Apply knowledge of analog and digital electronics, signal processing, communication systems, and embedded systems to solve real-world engineering problems.
-                </p>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 1</h4>
+                <p className="text-gray-700">Apply the knowledge of electronics, communication systems and signal processing techniques to design and develop hardware and software solutions.</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PSO 2:</h4>
-                <p className="text-gray-700">
-                  Design and implement electronic circuits, communication systems, and IoT solutions using industry-standard tools and technologies.
-                </p>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 2</h4>
+                <p className="text-gray-700">Analyze and design embedded systems, VLSI circuits and communication networks for practical applications.</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h4 className="font-semibold text-gray-800">PSO 3:</h4>
-                <p className="text-gray-700">
-                  Develop skills in emerging areas such as wireless communications, VLSI design, and embedded systems to meet industry requirements.
-                </p>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 3</h4>
+                <p className="text-gray-700">Demonstrate professional competence and ethical responsibility in the field of electronics and communication technology.</p>
               </div>
             </div>
           </div>
         );
       case 'COs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Course Outcomes (COs)</h3>
-            <p className="text-gray-700 mb-4">
-              Each course in the ECT curriculum has specific Course Outcomes that align with the Program Outcomes and Program Specific Outcomes. These Course Outcomes are measurable and ensure that students acquire the intended knowledge and skills from each course.
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              The course outcomes are defined for each course and are aligned with the Program Outcomes and Program Specific Outcomes. The course outcomes are assessed through direct and indirect assessment tools.
             </p>
-            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-              <p className="text-gray-700">
-                For detailed Course Outcomes of each subject, please refer to the course syllabi available in the Syllabus section.
-              </p>
+            <div className="mb-4">
+              <a
+                href="https://srivasaviengg.ac.in/uploads/ect/COs.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
+              >
+                <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
+              </a>
             </div>
           </div>
         );
       case 'SalientFeatures':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Experienced and dedicated faculty members with specializations in various domains</li>
-              <li>State-of-the-art laboratories with modern equipment and software tools</li>
-              <li>Regular workshops, seminars, and guest lectures by industry experts</li>
-              <li>Strong industry-institute interaction through internships and projects</li>
-              <li>Focus on research and innovation in emerging technologies</li>
-              <li>Active student chapter for technical activities and competitions</li>
-              <li>Excellent placement record in reputed companies</li>
-              <li>Professional skills development through value-added courses</li>
-              <li>Well-equipped department library with reference materials</li>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Experienced and dedicated faculty members with expertise in various domains</li>
+              <li>Modern laboratories equipped with latest technology and equipment</li>
+              <li>Strong focus on practical learning through projects and internships</li>
+              <li>Industry collaborations for enhanced learning opportunities</li>
+              <li>Student-centric teaching methodologies</li>
+              <li>Regular workshops and training programs on emerging technologies</li>
+              <li>Active participation in technical clubs and student activities</li>
             </ul>
           </div>
         );
       default:
-        return (
-          <div className="py-6">
-            <p className="text-center text-gray-500">Select a tab to view content</p>
-          </div>
-        );
+        return null;
     }
   };
 
@@ -1907,129 +1868,146 @@ const ECTDepartment: React.FC = () => {
         );
       case 'Department Profile':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
-
-            {/* HOD Information */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-8">
-              <div className="relative">
-                <img
-                  src="/ecehod.jpg"
-                  alt="Dr. E.Kusuma Kumari"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. E.Kusuma Kumari</h3>
-                  <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of Department, ECT</p>
-                  <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                  <p className="text-gray-600">Fax No: 08818-284322</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ece@srivasaviengg.ac.in</a></p>
-                </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department of Electronics & Communication Technology came into inception from 2019 onwards with an intake of 60 seats in B.Tech. It is one of the most significant branches of engineering which has always been in demand. The department aims primarily at excellence not only in theoretical but also in Experimental Research in various domains.
-                </p>
-              </div>
-            </div>
-
-            {/* Department Profile Tab Navigation */}
-            <div className="mt-12">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
-
-              {/* Department Profile Navigation - Grid Layout */}
-              <div className="mb-8">
-                {/* Row 1: Department, Vision */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('Department')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Department
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Vision')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Vision
-                  </button>
-                </div>
-
-                {/* Row 2: Mission, PEOs, POs */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('Mission')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PEOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PEOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('POs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    POs
-                  </button>
-                </div>
-
-                {/* Row 3: PSOs, COs */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('PSOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PSOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('COs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    COs
-                  </button>
-                </div>
-
-                {/* Row 4: Salient Features (centered) */}
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => setActiveDeptTab('SalientFeatures')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Salient Features
-                  </button>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <div className="space-y-8">
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
                 </div>
               </div>
+
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+                </div>
+              </div>
+
+              {/* Department Overview (HOD Profile - Only shown on Department tab) */}
+              {activeDeptTab === 'Department' && (
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                  <div className="md:w-1/3">
+                    <img
+                      src="/ecehod.jpg"
+                      alt="Dr. E.Kusuma Kumari"
+                      className="w-full h-auto object-cover rounded-lg shadow-md"
+                    />
+                  </div>
+                  <div className="md:w-2/3">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-2">Dr. E.Kusuma Kumari</h3>
+                    <p className="text-gray-700 mb-2">Professor & Head of Department, ECT</p>
+                    <p className="text-gray-700 mb-2">Phone No: 08818-284355(O)-(Ext.-377)</p>
+                    <p className="text-gray-700 mb-2">Fax No: 08818-284322</p>
+                    <p className="text-gray-700 mb-2">
+                      <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_ece@srivasaviengg.ac.in</a>
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                setActiveDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full p-4 rounded-xl transition-all duration-300 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg shadow-[#B22222]/50'
+                                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-gray-700/50'
+                                  }`}>
+                                  <span className="text-lg font-bold">{index + 1}</span>
+                                </div>
+                                <div className="flex-1 text-left">
+                                  <div className="font-semibold">{section === 'SalientFeatures' ? 'Salient Features' : section}</div>
+                                  {isActive && <div className="text-xs text-white/70 mt-1">Currently viewing</div>}
+                                </div>
+                                {isActive && (
+                                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Floating Settings Button (Mobile Only) */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-r from-[#B22222] to-[#8B0000] rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-300"
+                aria-label="Open Department Navigation"
+              >
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
 
               {/* Tab Content */}
-              <div className="mt-6">
+              <div className="mt-8">
                 {renderDeptTabContent()}
               </div>
             </div>

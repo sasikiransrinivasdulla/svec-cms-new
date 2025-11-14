@@ -8,20 +8,20 @@ type Doc = { id: number; academic_year: string; title: string; file_url: string 
 type Image = { id: number; image_url: string; alt_text: string };
 type Gallery = { id: number; title: string; images: Image[] };
 
-type Classroom = { id:number; title:string; document_url:string };
-type TimeTable = { id:number; title:string; document_url:string };
-type SeminarHall = { id:number; title:string; document_url:string };
-type Lab = { id:number; name:string; configuration:string; usage_info:string; num_systems:number; image_url:string };
-type OtherLab = { id:number; name:string; image_url:string };
+type Classroom = { id: number; title: string; document_url: string };
+type TimeTable = { id: number; title: string; document_url: string };
+type SeminarHall = { id: number; title: string; document_url: string };
+type Lab = { id: number; name: string; configuration: string; usage_info: string; num_systems: number; image_url: string };
+type OtherLab = { id: number; name: string; image_url: string };
 const AIMLDepartment: React.FC = () => {
   const [faculty, setFaculty] = React.useState<any[]>([]);
-    const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
-    const [nonTeachingFaculty, setNonTeachingFaculty] = React.useState<any[]>([]);
-    const [syllabus, setSyllabus] = React.useState<any[]>([]);
-    const [mous, setMous] = React.useState<any[]>([]);
-    const [fdp, setFdp] = React.useState<any[]>([]);
-    const [data, setData] = React.useState<any[]>([]);
-    const [workshopsdata,setWorkshops]=React.useState<
+  const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
+  const [nonTeachingFaculty, setNonTeachingFaculty] = React.useState<any[]>([]);
+  const [syllabus, setSyllabus] = React.useState<any[]>([]);
+  const [mous, setMous] = React.useState<any[]>([]);
+  const [fdp, setFdp] = React.useState<any[]>([]);
+  const [data, setData] = React.useState<any[]>([]);
+  const [workshopsdata, setWorkshops] = React.useState<
     { title: string; items: { text: string; url: string }[] }[]
   >([])
   const [studentAchievements, setStudentAchievements] = React.useState<any[]>([]);
@@ -32,11 +32,11 @@ const AIMLDepartment: React.FC = () => {
     stats?: any[];
   }>({});
   const batches = academicToppers.batches ?? [];
-  const stats   = academicToppers.stats ?? [];
-  const [extra, setExtra] = React.useState<{documents:any[]; clubs:any[]}>({documents:[], clubs:[]});
-  const [hackathons, setHackathons] = React.useState<{documents: Doc[]; galleries: Gallery[]}>({documents: [], galleries: []});
+  const stats = academicToppers.stats ?? [];
+  const [extra, setExtra] = React.useState<{ documents: any[]; clubs: any[] }>({ documents: [], clubs: [] });
+  const [hackathons, setHackathons] = React.useState<{ documents: Doc[]; galleries: Gallery[] }>({ documents: [], galleries: [] });
   const [handbooks, setHandbooks] = React.useState<any[]>([]);
-  const [acdemictoppersgal,setAcademicToppersGal] = React.useState<{galleries: Gallery[]}>({galleries: []});
+  const [acdemictoppersgal, setAcademicToppersGal] = React.useState<{ galleries: Gallery[] }>({ galleries: [] });
   const [physicalFacilities, setPhysicalFacilities] = useState<{
     classrooms: Classroom[];
     timeTables: TimeTable[];
@@ -44,19 +44,19 @@ const AIMLDepartment: React.FC = () => {
     labs: Lab[];
     otherLabs: OtherLab[];
   }>();
-   React.useEffect(() => {
-                fetch('/api/aiml/aiml-physical-facilities?dept=aiml')
-                  .then(res => res.json())
-                  .then(setPhysicalFacilities)
-                  .catch(console.error);
-              }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-physical-facilities?dept=aiml')
+      .then(res => res.json())
+      .then(setPhysicalFacilities)
+      .catch(console.error);
+  }, []);
 
-            React.useEffect(() => {
-                fetch('/api/aiml/academic-toppers-gallery?dept=aiml')
-                  .then(res => res.json())
-                  .then(setAcademicToppersGal)
-                  .catch(console.error);
-              }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/academic-toppers-gallery?dept=aiml')
+      .then(res => res.json())
+      .then(setAcademicToppersGal)
+      .catch(console.error);
+  }, []);
 
   React.useEffect(() => {
     fetch('/api/aiml/aiml-handbooks?dept=aiml')
@@ -73,109 +73,109 @@ const AIMLDepartment: React.FC = () => {
       .catch(console.error);
   }, []);
 
-React.useEffect(() => {
-  fetch('/api/aiml/aiml-extracurricular-activities?dept=aiml')
-    .then(res => res.json())
-    .then(data => setExtra(data))
-    .catch(console.error);
-}, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-extracurricular-activities?dept=aiml')
+      .then(res => res.json())
+      .then(data => setExtra(data))
+      .catch(console.error);
+  }, []);
 
   React.useEffect(() => {
-            fetch('/api/aiml/aiml-academic-toppers?dept=aiml')
-              .then((res) => res.json())
-              .then((data) => {
-                setAcademicToppers(data);
-              })
-          }, []);
-
-  React.useEffect(() => {
-            fetch('/api/aiml/aiml-placements?dept=aiml')
-              .then((res) => res.json())
-              .then((data) => {
-                setPlacements(data);
-              })
-          }, []);
-
-
-  React.useEffect(() => {
-            fetch('/api/aiml/student-achievements?dept=aiml')
-              .then((res) => res.json())
-              .then((data) => {
-                setStudentAchievements(data);
-              })
-          }, []);
-
-    React.useEffect(() => {
-            fetch('/api/aiml/faculty-development-programs?dept=aiml')
-              .then((res) => res.json())
-              .then((data) => {
-                setFdp(data);
-              })
-          }, []);
-    React.useEffect(() => {
-            fetch('/api/aiml/aiml-workshops?dept=aiml')
-              .then((res) => res.json())
-              .then((data) => {
-                setWorkshops(data);
-              })
-          }, []);
-    
-    React.useEffect(() => {
-            fetch('/api/aiml/faculty-achievements?dept=aiml')
-              .then((res) => res.json())
-              .then((data) => {
-                setData(data);
-              })
-          }, []);
-
-    React.useEffect(() => {
-            fetch("/api/aiml/aiml-syllabus?dept=aiml")
-              .then((res) => res.json())
-              .then((data) => {
-                setSyllabus(data);
-              })
-          }, []);
-    
-    React.useEffect(() => {
-      fetch('/api/aiml/aiml-mous?dept=aiml')
+    fetch('/api/aiml/aiml-academic-toppers?dept=aiml')
       .then((res) => res.json())
-              .then((data) => {
-                setMous(data);
-              })
-          }, []);
-    
-  
-    React.useEffect(() => {
-      fetch('/api/aiml/aiml-faculty-profiles?dept=aiml')
-        .then(res => res.json())
-        .then((data) => {
-          //console.log(data)
-          setFaculty(data); // directly set data, no type filter for now
-        });
-    }, []);
-  
-    React.useEffect(() => {
-      fetch("/api/aiml/aiml-technical-faculty?dept=aiml")
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log(data.technical)
-          setTechnicalFaculty(data.technical || []);
-        });
-    }, []);
-  
-    React.useEffect(() => {
-      fetch("/api/aiml/aiml-non-teaching-staff?dept=aiml")
-        .then((res) => res.json())
-        .then((data) => {
-          //console.log(data)
-          setNonTeachingFaculty(data.nonTeaching || []);
-        });
-    }, []);
-  
+      .then((data) => {
+        setAcademicToppers(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-placements?dept=aiml')
+      .then((res) => res.json())
+      .then((data) => {
+        setPlacements(data);
+      })
+  }, []);
+
+
+  React.useEffect(() => {
+    fetch('/api/aiml/student-achievements?dept=aiml')
+      .then((res) => res.json())
+      .then((data) => {
+        setStudentAchievements(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/aiml/faculty-development-programs?dept=aiml')
+      .then((res) => res.json())
+      .then((data) => {
+        setFdp(data);
+      })
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-workshops?dept=aiml')
+      .then((res) => res.json())
+      .then((data) => {
+        setWorkshops(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/aiml/faculty-achievements?dept=aiml')
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/aiml/aiml-syllabus?dept=aiml")
+      .then((res) => res.json())
+      .then((data) => {
+        setSyllabus(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-mous?dept=aiml')
+      .then((res) => res.json())
+      .then((data) => {
+        setMous(data);
+      })
+  }, []);
+
+
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-faculty-profiles?dept=aiml')
+      .then(res => res.json())
+      .then((data) => {
+        //console.log(data)
+        setFaculty(data); // directly set data, no type filter for now
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/aiml/aiml-technical-faculty?dept=aiml")
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data.technical)
+        setTechnicalFaculty(data.technical || []);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/aiml/aiml-non-teaching-staff?dept=aiml")
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data)
+        setNonTeachingFaculty(data.nonTeaching || []);
+      });
+  }, []);
+
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
-  
+
   // Fetch department data from database
   const { data: departmentData, loading, error } = useDepartmentData('AIML');
 
@@ -202,61 +202,50 @@ React.useEffect(() => {
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
-      case 'Department':
-        return (
-          <div className="mt-6 space-y-4">
-            <p className="text-gray-700 leading-relaxed">
-              Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
-            </p>
-
-          </div>
-        );
       case 'Vision':
         return (
-          <div className="mt-6">
-            <p className="text-gray-700 leading-relaxed">
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
+            <p className="text-gray-700">
               To evolve as a center of academic excellence and advanced research in the field of Artificial Intelligence and Machine Learning by developing competent professionals with ethical values to meet the technological challenges.
             </p>
           </div>
         );
       case 'Mission':
         return (
-          <div className="mt-6">
-            <ul className="list-disc pl-5 space-y-3">
-              <li className="text-gray-700 leading-relaxed">
-                To impart quality education through innovative teaching-learning methods in Artificial Intelligence and Machine Learning.
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                To establish Center of Excellence through collaboration with industries to bridge the gap between academia and industry.
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                To provide opportunities for students to acquire problem solving skills through projects and internships.
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                To inculcate entrepreneurial skills, ethical values, and leadership qualities among students to make them responsible citizens.
-              </li>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>To impart quality education through innovative teaching-learning methods in Artificial Intelligence and Machine Learning.</li>
+              <li>To establish Center of Excellence through collaboration with industries to bridge the gap between academia and industry.</li>
+              <li>To provide opportunities for students to acquire problem solving skills through projects and internships.</li>
+              <li>To inculcate entrepreneurial skills, ethical values, and leadership qualities among students to make them responsible citizens.</li>
             </ul>
           </div>
         );
       case 'PEOs':
         return (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Program Educational Objectives (PEOs)</h3>
-            <p className="text-gray-700 mb-4 italic">Graduates of Artificial Intelligence and Machine Learning Program will be able to:</p>
-            <ul className="list-disc pl-5 space-y-3">
-              <li className="text-gray-700 leading-relaxed">
-                <strong>PEO1:</strong> Excel in professional career and/or higher education by acquiring knowledge in Artificial Intelligence, Machine Learning and related areas.
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                <strong>PEO2:</strong> Analyze real-world problems and design innovative solutions using Artificial Intelligence, Machine Learning and allied technologies.
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                <strong>PEO3:</strong> Function effectively as individuals and as team members with professional ethics and social responsibility.
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                <strong>PEO4:</strong> Engage in continuous learning through research, training and professional development.
-              </li>
-            </ul>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4">Graduates of Artificial Intelligence and Machine Learning Program will be able to:</p>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 1</h4>
+                <p className="text-gray-700">Excel in professional career and/or higher education by acquiring knowledge in Artificial Intelligence, Machine Learning and related areas.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 2</h4>
+                <p className="text-gray-700">Analyze real-world problems and design innovative solutions using Artificial Intelligence, Machine Learning and allied technologies.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 3</h4>
+                <p className="text-gray-700">Function effectively as individuals and as team members with professional ethics and social responsibility.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 4</h4>
+                <p className="text-gray-700">Engage in continuous learning through research, training and professional development.</p>
+              </div>
+            </div>
           </div>
         );
       case 'POs':
@@ -306,19 +295,22 @@ React.useEffect(() => {
         );
       case 'PSOs':
         return (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Program Specific Outcomes (PSOs)</h3>
-            <ul className="list-disc pl-5 space-y-3">
-              <li className="text-gray-700 leading-relaxed">
-                <strong>PSO1:</strong> Apply the concepts of Artificial Intelligence, Machine Learning, Deep Learning and Data Science to solve real-world problems.
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                <strong>PSO2:</strong> Design and develop intelligent systems and applications using modern tools and technologies in the field of Artificial Intelligence and Machine Learning.
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                <strong>PSO3:</strong> Apply the principles of Artificial Intelligence and Machine Learning to address industrial and societal challenges.
-              </li>
-            </ul>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 1</h4>
+                <p className="text-gray-700">Apply the concepts of Artificial Intelligence, Machine Learning, Deep Learning and Data Science to solve real-world problems.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 2</h4>
+                <p className="text-gray-700">Design and develop intelligent systems and applications using modern tools and technologies in the field of Artificial Intelligence and Machine Learning.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 3</h4>
+                <p className="text-gray-700">Apply the principles of Artificial Intelligence and Machine Learning to address industrial and societal challenges.</p>
+              </div>
+            </div>
           </div>
         );
       case 'COs':
@@ -333,7 +325,7 @@ React.useEffect(() => {
                 href="https://srivasaviengg.ac.in/uploads/aiml/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
               >
                 <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
               </a>
@@ -342,38 +334,29 @@ React.useEffect(() => {
         );
       case 'SalientFeatures':
         return (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Salient Features</h3>
-            <ul className="list-disc pl-5 space-y-3">
-              <li className="text-gray-700 leading-relaxed">
-                Well-qualified faculty with expertise in AI, ML, and Data Science
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                State-of-the-art laboratories with advanced computing facilities
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                Industry collaborations through MoUs with leading tech companies
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                Regular workshops, hackathons, and technical symposiums
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                Access to specialized software and tools for AI/ML development
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                Extensive industry internship opportunities
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                Research projects in cutting-edge areas of AI and ML
-              </li>
-              <li className="text-gray-700 leading-relaxed">
-                Strong placement record with tech giants and startups
-              </li>
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Well-qualified faculty with expertise in AI, ML, and Data Science</li>
+              <li>State-of-the-art laboratories with advanced computing facilities</li>
+              <li>Industry collaborations through MoUs with leading tech companies</li>
+              <li>Regular workshops, hackathons, and technical symposiums</li>
+              <li>Access to specialized software and tools for AI/ML development</li>
+              <li>Extensive industry internship opportunities</li>
+              <li>Research projects in cutting-edge areas of AI and ML</li>
+              <li>Strong placement record with tech giants and startups</li>
             </ul>
           </div>
         );
       default:
-        return null;
+        return (
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
+            <p className="text-gray-700 leading-relaxed">
+              Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
+            </p>
+          </div>
+        );
     }
   };
 
@@ -398,7 +381,7 @@ React.useEffect(() => {
       });
   }, []);
 
-  
+
 
   const renderContent = () => {
     switch (activeContent) {
@@ -406,83 +389,83 @@ React.useEffect(() => {
         return (
           <div id="academic-toppers" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-          Academic Toppers
-        </h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Academic Toppers
+              </h2>
 
-        {/* ---------- Batch PDF Links ---------- */}
-        <div className="mb-8">
-          {batches.map((batch) => (
-            <details
-              key={batch.id}
-              open
-              className="border border-gray-300 rounded-lg mb-4"
-            >
-              <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
-                {batch.title || `Academic Toppers for the Batch ${batch.batch}`}
-              </summary>
-              <ul className="list-disc ml-6 mt-4">
-                <li>
-                  {batch.description ?? `Academic Toppers for the Batch ${batch.batch}`} –
-                  <a
-                    href={batch.pdf_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
+              {/* ---------- Batch PDF Links ---------- */}
+              <div className="mb-8">
+                {batches.map((batch) => (
+                  <details
+                    key={batch.id}
+                    open
+                    className="border border-gray-300 rounded-lg mb-4"
                   >
-                    View
-                  </a>
-                </li>
-              </ul>
-            </details>
-          ))}
-
-          {/* ---------- Stats Table ---------- */}
-          <div className="overflow-x-auto mt-8">
-            <table className="min-w-full bg-white border-collapse">
-              <thead>
-                <tr className="border-b-2 border-gray-200">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">ACADEMIC YEAR</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">PARTICULARS</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">NO. OF STUDENTS BENEFITED</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">SCHOLARSHIP AMOUNT</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stats.map((row, idx) => (
-                  <tr
-                    key={row.id}
-                    className="border-b border-gray-100 hover:bg-gray-50"
-                  >
-                    <td className="py-3 px-4 text-gray-600">{idx + 1}</td>
-                    <td className="py-3 px-4 text-gray-600">{row.academic_year}</td>
-                    <td className="py-3 px-4 font-medium text-gray-800">{row.particulars}</td>
-                    <td className="py-3 px-4 text-gray-600">{row.students_benefited}</td>
-                    <td className="py-3 px-4 text-gray-600">{row.scholarship_amount}</td>
-                  </tr>
+                    <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
+                      {batch.title || `Academic Toppers for the Batch ${batch.batch}`}
+                    </summary>
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        {batch.description ?? `Academic Toppers for the Batch ${batch.batch}`} –
+                        <a
+                          href={batch.pdf_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >
+                          View
+                        </a>
+                      </li>
+                    </ul>
+                  </details>
                 ))}
-              </tbody>
-            </table>
-          </div>
-           {/* ---------- Image Gallery ---------- */}
 
-            <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
-        {acdemictoppersgal.galleries.map(g => (
-          <div key={g.id} className="container mx-auto mb-8">
-            <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
-            <div className="flex flex-wrap justify-center items-center gap-4">
-              {g.images.map(img => (
-                <div key={img.id} className="w-full md:w-1/3 flex justify-center">
-                  <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
-                       className="img-fluid m-3 rounded shadow" />
+                {/* ---------- Stats Table ---------- */}
+                <div className="overflow-x-auto mt-8">
+                  <table className="min-w-full bg-white border-collapse">
+                    <thead>
+                      <tr className="border-b-2 border-gray-200">
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">ACADEMIC YEAR</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">PARTICULARS</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">NO. OF STUDENTS BENEFITED</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">SCHOLARSHIP AMOUNT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stats.map((row, idx) => (
+                        <tr
+                          key={row.id}
+                          className="border-b border-gray-100 hover:bg-gray-50"
+                        >
+                          <td className="py-3 px-4 text-gray-600">{idx + 1}</td>
+                          <td className="py-3 px-4 text-gray-600">{row.academic_year}</td>
+                          <td className="py-3 px-4 font-medium text-gray-800">{row.particulars}</td>
+                          <td className="py-3 px-4 text-gray-600">{row.students_benefited}</td>
+                          <td className="py-3 px-4 text-gray-600">{row.scholarship_amount}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              ))}
+                {/* ---------- Image Gallery ---------- */}
+
+                <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
+                {acdemictoppersgal.galleries.map(g => (
+                  <div key={g.id} className="container mx-auto mb-8">
+                    <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
+                    <div className="flex flex-wrap justify-center items-center gap-4">
+                      {g.images.map(img => (
+                        <div key={img.id} className="w-full md:w-1/3 flex justify-center">
+                          <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
+                            className="img-fluid m-3 rounded shadow" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-        </div>
-      </div>
           </div>
         );
       case 'Technical Association':
@@ -513,329 +496,259 @@ React.useEffect(() => {
         return (
           <div id="extra-curricular-activities" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-          Extra-Curricular Activities
-        </h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Extra-Curricular Activities
+              </h2>
 
-        {/* Documents */}
-        <ul className="list-disc ml-6 mt-4">
-          {extra.documents.map(doc => (
-            <li key={doc.id}>
-              {doc.title} ({doc.academic_year}) –
-              <a
-                href={doc.pdf_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline ml-2"
-              >
-                View More
-              </a>
-            </li>
-          ))}
-        </ul>
+              {/* Documents */}
+              <ul className="list-disc ml-6 mt-4">
+                {extra.documents.map(doc => (
+                  <li key={doc.id}>
+                    {doc.title} ({doc.academic_year}) –
+                    <a
+                      href={doc.pdf_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline ml-2"
+                    >
+                      View More
+                    </a>
+                  </li>
+                ))}
+              </ul>
 
-        {/* Clubs */}
-        {extra.clubs.map(club => (
-          <div key={club.id} className="mt-8">
-            <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">
-              {club.name}
-            </h3>
-            <div className="prose max-w-none">
-              <h3 className="text-lg font-bold mb-2">{club.subtitle}</h3>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                {club.description}
-              </p>
+              {/* Clubs */}
+              {extra.clubs.map(club => (
+                <div key={club.id} className="mt-8">
+                  <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">
+                    {club.name}
+                  </h3>
+                  <div className="prose max-w-none">
+                    <h3 className="text-lg font-bold mb-2">{club.subtitle}</h3>
+                    <p className="text-gray-700 leading-relaxed mb-6">
+                      {club.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
           </div>
         );
       case 'Handbooks':
         return (
           <div id="handbooks" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-          Academic HandBooks
-        </h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Academic HandBooks
+              </h2>
 
-        <div className="space-y-6">
-          {handbooks.map((group) => (
-            <div key={group.group} className="space-y-4">
-              {/* group.group is like "Academic Year 2023-24" */}
-              {Array.from(
-                new Set(group.items.map((i: any) => i.sem_type))
-              ).map((sem) => (
-                <details key={String(sem)} open>
-                  <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
-                    {group.group}: {sem}
-                  </summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    {group.items
-                      .filter((i: any) => i.sem_type === sem)
-                      .map((i: any, idx: number) => (
-                        <li key={idx}>
-                          {i.text} –
-                          <a
-                            href={i.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
-                          >
-                            View
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </details>
-              ))}
+              <div className="space-y-6">
+                {handbooks.map((group) => (
+                  <div key={group.group} className="space-y-4">
+                    {/* group.group is like "Academic Year 2023-24" */}
+                    {Array.from(
+                      new Set(group.items.map((i: any) => i.sem_type))
+                    ).map((sem) => (
+                      <details key={String(sem)} open>
+                        <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
+                          {group.group}: {sem}
+                        </summary>
+                        <ul className="list-disc list-inside space-y-2 ml-4">
+                          {group.items
+                            .filter((i: any) => i.sem_type === sem)
+                            .map((i: any, idx: number) => (
+                              <li key={idx}>
+                                {i.text} –
+                                <a
+                                  href={i.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline ml-2"
+                                >
+                                  View
+                                </a>
+                              </li>
+                            ))}
+                        </ul>
+                      </details>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
           </div>
         );
 
       case 'Department Profile':
         return (
-          <div id="department-profile" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-lg shadow-sm">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                <div className="relative">
-                  <img
-                    src="/aihod.jpg"
-                    alt="Dr. G. Loshma"
-                    className="w-full h-80 object-cover rounded-lg shadow-md"
-                  />
-                </div>
-                <div className="lg:col-span-2 space-y-4">
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
-                    <p className="text-gray-600">Mobile No: 7672082130</p>
-                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-442)</p>
-                    <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed">
-                    Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
-                  </p>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <div className="space-y-8">
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Department Profile Tab Navigation */}
-              <div className="mt-12">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+                </div>
+              </div>
 
-                {/* Department Profile Navigation - Grid Layout */}
-                <div className="mb-8">
-                  {/* Row 1: Department, Vision */}
-                  <div className="flex justify-center gap-4 mb-4">
-                    <button
-                      onClick={() => setActiveDeptTab('Department')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Department
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('Vision')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Vision
-                    </button>
+              {/* Department Overview with HOD Profile */}
+              {activeDeptTab === 'Department' && (
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                  <div className="md:w-1/3">
+                    <img
+                      src="/aihod.jpg"
+                      alt="Dr. G. Loshma"
+                      className="w-full h-auto object-cover rounded-lg shadow-md"
+                    />
                   </div>
+                  <div className="md:w-2/3">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
+                    <p className="text-gray-700 mb-2">Professor & Head of the Department</p>
+                    <p className="text-gray-700 mb-2">Mobile No: 7672082130</p>
+                    <p className="text-gray-700 mb-2">Phone No: 08818-284355(O)-(Ext.-442)</p>
+                    <p className="text-gray-700 mb-2">
+                      <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_aim@srivasaviengg.ac.in</a>
+                    </p>
 
-                  {/* Row 2: Mission, PEOs, POs */}
-                  <div className="flex justify-center gap-4 mb-4">
-                    <button
-                      onClick={() => setActiveDeptTab('Mission')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Mission
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('PEOs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      PEOs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('POs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      POs
-                    </button>
-                  </div>
-
-                  {/* Row 3: PSOs, COs */}
-                  <div className="flex justify-center gap-4 mb-4">
-                    <button
-                      onClick={() => setActiveDeptTab('PSOs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      PSOs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('COs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      COs
-                    </button>
-                  </div>
-
-                  {/* Row 4: Salient Features (centered) */}
-                  <div className="flex justify-center">
-                    <button
-                      onClick={() => setActiveDeptTab('SalientFeatures')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Salient Features
-                    </button>
                   </div>
                 </div>
+              )}
 
-                {/* Game-Style Right Side Settings Panel */}
-                {settingsPanelOpen && (
-                  <div className="fixed inset-0 z-50">
-                    {/* Backdrop */}
-                    <div
-                      className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
-                      onClick={() => setSettingsPanelOpen(false)}
-                    ></div>
-
-                    {/* Settings Panel */}
-                    <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
-                      {/* Panel Header */}
-                      <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                              </svg>
-                            </div>
-                            <div>
-                              <h3 className="text-white font-bold text-lg">Department Navigation</h3>
-                              <p className="text-white/70 text-sm">Select a section to explore</p>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => setSettingsPanelOpen(false)}
-                            className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                          >
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                          </button>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
+                          </div>
                         </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
                       </div>
-
-                      {/* Panel Content */}
-                      <div className="p-6 h-full overflow-y-auto">
-                        <div className="space-y-3">
-                          {sections.map((section, index) => {
-                            const isActive = section === activeDeptTab;
-                            return (
-                              <button
-                                key={section}
-                                onClick={() => {
-                                  setActiveDeptTab(section);
-                                  setSettingsPanelOpen(false);
-                                }}
-                                className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                  ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
-                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                                  }`}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                    }`}>
-                                    {index + 1}
-                                  </div>
-                                  <div>
-                                    <div className="font-semibold">
-                                      {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                    </div>
-                                    <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                      {section === 'Department' && 'Overview & HOD Profile'}
-                                      {section === 'Vision' && 'Department Vision Statement'}
-                                      {section === 'Mission' && 'Department Mission Statement'}
-                                      {section === 'PEOs' && 'Program Educational Objectives'}
-                                      {section === 'POs' && 'Program Outcomes'}
-                                      {section === 'PSOs' && 'Program Specific Outcomes'}
-                                      {section === 'COs' && 'Course Outcomes'}
-                                      {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                    </div>
-                                  </div>
-                                  {isActive && (
-                                    <div className="ml-auto">
-                                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                    </div>
-                                  )}
+                    </div>
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                setActiveDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
+                                  }`}>
+                                  {index + 1}
                                 </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-
-                        {/* Panel Footer */}
-                        <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                          <div className="text-center">
-                            <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                            <div className="text-white/50 text-xs">
-                              Click any section above to navigate instantly
-                            </div>
+                                <div>
+                                  <div className="font-semibold">
+                                    {section === 'SalientFeatures' ? 'Salient Features' : section}
+                                  </div>
+                                  <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
+                                    {section === 'Department' && 'Overview & HOD Profile'}
+                                    {section === 'Vision' && 'Department Vision Statement'}
+                                    {section === 'Mission' && 'Department Mission Statement'}
+                                    {section === 'PEOs' && 'Program Educational Objectives'}
+                                    {section === 'POs' && 'Program Outcomes'}
+                                    {section === 'PSOs' && 'Program Specific Outcomes'}
+                                    {section === 'COs' && 'Course Outcomes'}
+                                    {section === 'SalientFeatures' && 'Key Highlights & Features'}
+                                  </div>
+                                </div>
+                                {isActive && (
+                                  <div className="ml-auto">
+                                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                  </div>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {/* Panel Footer */}
+                      <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                        <div className="text-center">
+                          <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
+                          <div className="text-white/50 text-xs">
+                            Click any section above to navigate instantly
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                )}
-
-                {/* Floating Settings Button - Mobile Only */}
-                <button
-                  onClick={() => setSettingsPanelOpen(true)}
-                  className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-                  title="Artificial Intelligence & Machine Learning Department"
-                >
-                  <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-
-                  {/* Mobile Label */}
-                  <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                    Menu
-                    <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
-                  </div>
-                </button>
-
-                <div className="mt-4">
-                  {renderDeptTabContent()}
                 </div>
+              )}
+
+              {/* Floating Settings Button - Mobile Only */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                title="Department Navigation"
+              >
+                <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {/* Mobile Label */}
+                <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                  Menu
+                  <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
+                </div>
+              </button>
+
+              {/* Tab Content */}
+              <div>
+                {renderDeptTabContent()}
               </div>
             </div>
           </div>
@@ -864,9 +777,9 @@ React.useEffect(() => {
                         <td className="px-6 py-4">{member.qualification}</td>
                         <td className="px-6 py-4">{member.designation}</td>
                         <td className="px-6 py-4">
-                            <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline transition-colors duration-200">View</a>
-                            
-                          </td>
+                          <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline transition-colors duration-200">View</a>
+
+                        </td>
 
                       </tr>
                     ))}
@@ -875,28 +788,28 @@ React.useEffect(() => {
               </div>
             </div>
             <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Staff</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Staff</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {TechnicalFaculty.map((member, index) => (
+                      <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                        <td className="px-6 py-4">{index + 1}</td>
+                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                        <td className="px-6 py-4">{member.designation}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {TechnicalFaculty.map((member, index) => (
-                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                    ))}
+                  </tbody>
+                </table>
               </div>
+            </div>
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Profiles</h2>
               <div className="overflow-x-auto">
@@ -983,118 +896,118 @@ React.useEffect(() => {
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
 
               <details open className="border border-gray-300 rounded-lg mb-4">
-          <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Class Rooms</summary>
-          <div className="p-4">
-            {physicalFacilities?.classrooms?.map(c => (
-              <div key={c.id} className="mb-2">
-                <span>{c.title}</span>
-                <a href={c.document_url} target="_blank" rel="noreferrer"
-                   className="ml-2 text-blue-600 hover:underline inline-flex items-center">
-                  <FileText className="h-5 w-5 mr-1"/> View
-                </a>
-              </div>
-            ))}
+                <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Class Rooms</summary>
+                <div className="p-4">
+                  {physicalFacilities?.classrooms?.map(c => (
+                    <div key={c.id} className="mb-2">
+                      <span>{c.title}</span>
+                      <a href={c.document_url} target="_blank" rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center">
+                        <FileText className="h-5 w-5 mr-1" /> View
+                      </a>
+                    </div>
+                  ))}
 
-            <h5 className="font-medium text-lg mt-4 mb-2">Class Time Tables</h5>
-            {physicalFacilities?.timeTables?.map(t => (
-              <div key={t.id} className="mb-2">
-                <span>{t.title}</span>
-                <a href={t.document_url} target="_blank" rel="noreferrer"
-                   className="ml-2 text-blue-600 hover:underline inline-flex items-center">
-                  <FileText className="h-5 w-5 mr-1"/> View
-                </a>
-              </div>
-            ))}
-          </div>
-        </details>
-
-        <details className="border border-gray-300 rounded-lg mb-4">
-          <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Seminar Halls</summary>
-          <div className="p-4">
-            {physicalFacilities?.seminarHalls?.map(s => (
-              <div key={s.id} className="mb-2">
-                <span>{s.title}</span>
-                <a href={s.document_url} target="_blank" rel="noreferrer"
-                   className="ml-2 text-blue-600 hover:underline inline-flex items-center">
-                  <FileText className="h-5 w-5 mr-1"/> View
-                </a>
-              </div>
-            ))}
-          </div>
-        </details>
-
-        <details className="border border-gray-300 rounded-lg mb-4">
-          <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Laboratories</summary>
-          <div className="p-4">
-            {physicalFacilities?.labs?.map(lab => (
-              <div key={lab.id} className="mb-8">
-                <h3 className="text-xl font-semibold text-center mb-4">{lab.name}</h3>
-                <p className="text-gray-700 mb-2">{lab.configuration}</p>
-                {lab.usage_info && <p className="text-gray-700 mb-2">Usage: {lab.usage_info}</p>}
-                <p className="text-gray-700 mb-4">No. of Systems: {lab.num_systems}</p>
-                <img src={lab.image_url} alt={lab.name}
-                     className="w-full h-auto object-cover rounded-lg shadow-md mb-4"/>
-              </div>
-            ))}
-
-            <h3 className="text-xl font-semibold mb-4">Other Laboratories</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {physicalFacilities?.otherLabs?.map(ol => (
-                <div key={ol.id} className="border rounded-lg p-4 text-center hover:shadow-md">
-                  <img src={ol.image_url} alt={ol.name} className="w-full h-48 object-cover rounded-md mb-4"/>
-                  <h4 className="font-bold text-lg text-gray-800">{ol.name}</h4>
+                  <h5 className="font-medium text-lg mt-4 mb-2">Class Time Tables</h5>
+                  {physicalFacilities?.timeTables?.map(t => (
+                    <div key={t.id} className="mb-2">
+                      <span>{t.title}</span>
+                      <a href={t.document_url} target="_blank" rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center">
+                        <FileText className="h-5 w-5 mr-1" /> View
+                      </a>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </details>
+
+              <details className="border border-gray-300 rounded-lg mb-4">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Seminar Halls</summary>
+                <div className="p-4">
+                  {physicalFacilities?.seminarHalls?.map(s => (
+                    <div key={s.id} className="mb-2">
+                      <span>{s.title}</span>
+                      <a href={s.document_url} target="_blank" rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center">
+                        <FileText className="h-5 w-5 mr-1" /> View
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </details>
+
+              <details className="border border-gray-300 rounded-lg mb-4">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Laboratories</summary>
+                <div className="p-4">
+                  {physicalFacilities?.labs?.map(lab => (
+                    <div key={lab.id} className="mb-8">
+                      <h3 className="text-xl font-semibold text-center mb-4">{lab.name}</h3>
+                      <p className="text-gray-700 mb-2">{lab.configuration}</p>
+                      {lab.usage_info && <p className="text-gray-700 mb-2">Usage: {lab.usage_info}</p>}
+                      <p className="text-gray-700 mb-4">No. of Systems: {lab.num_systems}</p>
+                      <img src={lab.image_url} alt={lab.name}
+                        className="w-full h-auto object-cover rounded-lg shadow-md mb-4" />
+                    </div>
+                  ))}
+
+                  <h3 className="text-xl font-semibold mb-4">Other Laboratories</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {physicalFacilities?.otherLabs?.map(ol => (
+                      <div key={ol.id} className="border rounded-lg p-4 text-center hover:shadow-md">
+                        <img src={ol.image_url} alt={ol.name} className="w-full h-48 object-cover rounded-md mb-4" />
+                        <h4 className="font-bold text-lg text-gray-800">{ol.name}</h4>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </details>
             </div>
           </div>
-        </details>
-              </div>
-            </div>
         );
       case 'Syllabus':
         return (
           <div id="syllabus" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-  <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
-  <div className="container mx-auto">
-    {syllabus.length === 0 ? (
-      <div className="text-center text-gray-500">No syllabus data available.</div>
-    ) : (
-      // Group syllabus items by category to create collapsible sections
-      Object.entries(
-        syllabus.reduce((groups, item) => {
-          const cat = item.category || "Others";
-          if (!groups[cat]) groups[cat] = [];
-          groups[cat].push(item);
-          return groups;
-        }, {} as Record<string, any[]>)
-      ).map(([category, items]) => (
-        <div className="section" key={category}>
-          <details open={category.toLowerCase().includes("b.tech")}>
-            <summary className="font-semibold text-lg">{category}</summary>
-            <div className="nav-content p-3">
-              <ul className="list-disc list-inside my-0">
-                {(items as any[]).map((item, idx) => (
-                  <li className="m-0 p-0" key={item.id}>
-                    {item.title} –
-                    <a
-                      href={item.pdf_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline ml-2"
-                    >
-                      View
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
+              <div className="container mx-auto">
+                {syllabus.length === 0 ? (
+                  <div className="text-center text-gray-500">No syllabus data available.</div>
+                ) : (
+                  // Group syllabus items by category to create collapsible sections
+                  Object.entries(
+                    syllabus.reduce((groups, item) => {
+                      const cat = item.category || "Others";
+                      if (!groups[cat]) groups[cat] = [];
+                      groups[cat].push(item);
+                      return groups;
+                    }, {} as Record<string, any[]>)
+                  ).map(([category, items]) => (
+                    <div className="section" key={category}>
+                      <details open={category.toLowerCase().includes("b.tech")}>
+                        <summary className="font-semibold text-lg">{category}</summary>
+                        <div className="nav-content p-3">
+                          <ul className="list-disc list-inside my-0">
+                            {(items as any[]).map((item, idx) => (
+                              <li className="m-0 p-0" key={item.id}>
+                                {item.title} –
+                                <a
+                                  href={item.pdf_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline ml-2"
+                                >
+                                  View
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </details>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
-          </details>
-        </div>
-      ))
-    )}
-  </div>
-</div>
 
           </div>
         );
@@ -1102,74 +1015,74 @@ React.useEffect(() => {
         return (
           <div id="hackathons" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
 
-        {/* Documents */}
-        <div className="mb-6">
-          <ul className="list-disc list-inside">
-            {hackathons.documents.map(doc => (
-              <li key={doc.id}>
-                {doc.title} -
-                <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
-                   className="text-primary hover:underline ml-2">
-                  For more details
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+              {/* Documents */}
+              <div className="mb-6">
+                <ul className="list-disc list-inside">
+                  {hackathons.documents.map(doc => (
+                    <li key={doc.id}>
+                      {doc.title} -
+                      <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
+                        className="text-primary hover:underline ml-2">
+                        For more details
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-        {/* Galleries */}
-        <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
-        {hackathons.galleries.map(g => (
-          <div key={g.id} className="container mx-auto mb-8">
-            <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
-            <div className="flex flex-wrap justify-center items-center gap-4">
-              {g.images.map(img => (
-                <div key={img.id} className="w-full md:w-1/3 flex justify-center">
-                  <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
-                       className="img-fluid m-3 rounded shadow" />
+              {/* Galleries */}
+              <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
+              {hackathons.galleries.map(g => (
+                <div key={g.id} className="container mx-auto mb-8">
+                  <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
+                  <div className="flex flex-wrap justify-center items-center gap-4">
+                    {g.images.map(img => (
+                      <div key={img.id} className="w-full md:w-1/3 flex justify-center">
+                        <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
+                          className="img-fluid m-3 rounded shadow" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-        ))}
-      </div>
           </div>
         );
       case 'Workshops':
         return (
           <div id="workshops" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-        Workshops/SOC/Seminars/Guest Lectures
-      </h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Workshops/SOC/Seminars/Guest Lectures
+              </h2>
 
-      {workshopsdata.map(section => (
-        <div key={section.title} className="section mt-6">
-          <details open={section.title === 'Workshops'}>
-            <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">
-              {section.title}
-            </summary>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              {section.items.map((item, idx) => (
-                <li key={idx}>
-                  {item.text} –
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
-                  >
-                    View More
-                  </a>
-                </li>
+              {workshopsdata.map(section => (
+                <div key={section.title} className="section mt-6">
+                  <details open={section.title === 'Workshops'}>
+                    <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">
+                      {section.title}
+                    </summary>
+                    <ul className="list-disc list-inside space-y-2 ml-4">
+                      {section.items.map((item, idx) => (
+                        <li key={idx}>
+                          {item.text} –
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline ml-2"
+                          >
+                            View More
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                </div>
               ))}
-            </ul>
-          </details>
-        </div>
-      ))}
-    </div>
+            </div>
           </div>
         );
       case 'Contact':
@@ -1199,20 +1112,20 @@ React.useEffect(() => {
                 <details open>
                   <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">FDP Attended</summary>
                   <ul className="list-disc list-inside space-y-2 ml-4">
-              {fdp.map((item, idx) => (
-                <li key={item.id ?? idx}>
-                  {item.title} ({item.year}) –
-                  <a
-                    href={item.file_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-              ))}
-            </ul>
+                    {fdp.map((item, idx) => (
+                      <li key={item.id ?? idx}>
+                        {item.title} ({item.year}) –
+                        <a
+                          href={item.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >
+                          View
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 </details>
               </div>
             </div>
@@ -1222,74 +1135,74 @@ React.useEffect(() => {
         return (
           <div id="mous" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
-      <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
+              <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
 
-      <div className="overflow-x-auto flex justify-center">
-        <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="py-3 px-4 border-b">S.No</th>
-              <th className="py-3 px-4 border-b">Organization Name</th>
-              <th className="py-3 px-4 border-b">From</th>
-              <th className="py-3 px-4 border-b">To</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mous.map((mou: any, index: number) => (
-              <tr key={mou.id ?? index}>
-                <td className="py-3 px-4 border-b">{index + 1}</td>
-                <td className="py-3 px-4 border-b">{mou.organization_name}</td>
-                <td className="py-3 px-4 border-b">
-                  {new Date(mou.start_date).toLocaleDateString("en-GB")}
-                </td>
-                <td className="py-3 px-4 border-b">
-                  {mou.end_date
-                    ? new Date(mou.end_date).toLocaleDateString("en-GB")
-                    : "Till Date"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+              <div className="overflow-x-auto flex justify-center">
+                <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="py-3 px-4 border-b">S.No</th>
+                      <th className="py-3 px-4 border-b">Organization Name</th>
+                      <th className="py-3 px-4 border-b">From</th>
+                      <th className="py-3 px-4 border-b">To</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {mous.map((mou: any, index: number) => (
+                      <tr key={mou.id ?? index}>
+                        <td className="py-3 px-4 border-b">{index + 1}</td>
+                        <td className="py-3 px-4 border-b">{mou.organization_name}</td>
+                        <td className="py-3 px-4 border-b">
+                          {new Date(mou.start_date).toLocaleDateString("en-GB")}
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          {mou.end_date
+                            ? new Date(mou.end_date).toLocaleDateString("en-GB")
+                            : "Till Date"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         );
       case 'Faculty Achievements':
         return (
-         <div id="faculty-achievements" className="space-y-8 animate-fade-in">
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-          Faculty Achievements
-        </h2>
+          <div id="faculty-achievements" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Faculty Achievements
+              </h2>
 
-        {data.map((section, idx) => (
-          <div key={idx} className="mt-4">
-            <details>
-              <summary className="text-lg font-semibold">{section.title}</summary>
-              <div className="nav-content">
-                <ul className="list-disc ml-6 mt-4">
-                  {section.items?.map((item: any, i: number) => (
-                    <li key={i}>
-                      {item.text} –
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </details>
+              {data.map((section, idx) => (
+                <div key={idx} className="mt-4">
+                  <details>
+                    <summary className="text-lg font-semibold">{section.title}</summary>
+                    <div className="nav-content">
+                      <ul className="list-disc ml-6 mt-4">
+                        {section.items?.map((item: any, i: number) => (
+                          <li key={i}>
+                            {item.text} –
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline ml-2"
+                            >
+                              View
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
         );
       case 'Student Achievements':
         return (
@@ -1297,34 +1210,34 @@ React.useEffect(() => {
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h3 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h3>
               {studentAchievements.map((section, idx) => (
-          <div key={idx} className="mt-4">
-            <details>
-              <summary className="text-lg font-semibold">{section.title}</summary>
-              <div className="nav-content">
-                <ul className="list-disc ml-6 mt-4">
-                  {section.items?.map((item: any, i: number) => (
-                    <li key={i}>
-                      {item.text}
-                      {item.url && (
-                        <>
-                          {" – "}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </details>
-          </div>
-        ))}
+                <div key={idx} className="mt-4">
+                  <details>
+                    <summary className="text-lg font-semibold">{section.title}</summary>
+                    <div className="nav-content">
+                      <ul className="list-disc ml-6 mt-4">
+                        {section.items?.map((item: any, i: number) => (
+                          <li key={i}>
+                            {item.text}
+                            {item.url && (
+                              <>
+                                {" – "}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline ml-2"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -1334,34 +1247,34 @@ React.useEffect(() => {
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
               {placements.map((section, idx) => (
-          <div key={idx} className="mt-4">
-            <details>
-              <summary className="text-lg font-semibold">{section.title}</summary>
-              <div className="nav-content">
-                <ul className="list-disc ml-6 mt-4">
-                  {section.items?.map((item: any, i: number) => (
-                    <li key={i}>
-                      {item.text}
-                      {item.url && (
-                        <>
-                          {" – "}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </details>
-          </div>
-        ))}
+                <div key={idx} className="mt-4">
+                  <details>
+                    <summary className="text-lg font-semibold">{section.title}</summary>
+                    <div className="nav-content">
+                      <ul className="list-disc ml-6 mt-4">
+                        {section.items?.map((item: any, i: number) => (
+                          <li key={i}>
+                            {item.text}
+                            {item.url && (
+                              <>
+                                {" – "}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline ml-2"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -1380,7 +1293,7 @@ React.useEffect(() => {
         );
     }
   };
-  
+
   // Modify content output to match the screenshot design
   const renderContentWithTitle = () => {
     // Just return the content without adding another title, since it's already included in content sections

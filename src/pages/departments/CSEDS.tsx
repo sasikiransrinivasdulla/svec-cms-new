@@ -7,182 +7,182 @@ type Doc = { id: number; academic_year: string; title: string; file_url: string 
 type Image = { id: number; image_url: string; alt_text: string };
 type Gallery = { id: number; title: string; images: Image[] };
 const CSTDepartment: React.FC = () => {
-      const [sidebarOpen, setSidebarOpen] = useState(false);
-      const [activeContent, setActiveContent] = useState('Department Profile');
-      const [activeDeptTab, setActiveDeptTab] = useState('Department');
-      const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
-      const [faculty, setFaculty] = React.useState<any[]>([]);
-      const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
-      const [nonTeachingFaculty, setNonTeachingFaculty] = React.useState<any[]>([]);
-        const [boardOfStudies, setBoardOfStudies] = useState<any[]>([]);
-        const [loadingBOS, setLoadingBOS] = useState(true);
-        const [bosError, setBOSError] = useState<string | null>(null);
-        const [bosmeetings, setBosMeetings] = useState<any[]>([]);
-        const [syllabus, setSyllabus] = React.useState<any[]>([]);
-        const [mous, setMous] = React.useState<any[]>([]);
-        const [fdp, setFdp] = React.useState<any[]>([]);
-        const [data, setData] = React.useState<any[]>([]);
-        const [workshopsdata,setWorkshops]=React.useState<
-            { title: string; items: { text: string; url: string }[] }[]
-          >([]);
-        const [studentAchievements, setStudentAchievements] = React.useState<any[]>([]);
-         const [placements, setPlacements] = React.useState<any[]>([]);
-          const [academicToppers, setAcademicToppers] = React.useState<{
-             dept?: string;
-             batches?: any[];
-             stats?: any[];
-           }>({});
-           const batches = academicToppers.batches ?? [];
-           const stats   = academicToppers.stats ?? [];
-          const [acdemictoppersgal,setAcademicToppersGal] = React.useState<{galleries: Gallery[]}>({galleries: []});
-          const [technicalAssociation, setTechnicalAssociation] = React.useState<any[]>([]);
-          const [extra, setExtra] = React.useState<{documents:any[]; clubs:any[]}>({documents:[], clubs:[]});
-            const [hackathons, setHackathons] = React.useState<{documents: Doc[]; galleries: Gallery[]}>({documents: [], galleries: []});
-            const [handbooks, setHandbooks] = React.useState<any[]>([]);
-            React.useEffect(() => {
-                fetch('/api/aiml/aiml-handbooks?dept=cseds')
-                  .then(res => res.json())
-                  .then(setHandbooks)
-                  .catch(console.error);
-              }, []);
-            
-            
-              React.useEffect(() => {
-                fetch('/api/aiml/aiml-hackathons?dept=cseds')
-                  .then(res => res.json())
-                  .then(setHackathons)
-                  .catch(console.error);
-              }, []);
-            
-            React.useEffect(() => {
-              fetch('/api/aiml/aiml-extracurricular-activities?dept=cseds')
-                .then(res => res.json())
-                .then(data => setExtra(data))
-                .catch(console.error);
-            }, []);
-          React.useEffect(() => {
-              fetch('/api/aiml/technical-association?dept=cseds')
-                .then(res => res.json())
-                .then(setTechnicalAssociation)
-                .catch(console.error);
-            }, []);
-          React.useEffect(() => {
-              fetch('/api/aiml/academic-toppers-gallery?dept=cseds')
-                .then(res => res.json())
-                .then(setAcademicToppersGal)
-                .catch(console.error);
-            }, []);
-        React.useEffect(() => {
-                    fetch('/api/aiml/aiml-academic-toppers?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setAcademicToppers(data);
-                      })
-                  }, []);
-        React.useEffect(() => {
-                    fetch('/api/aiml/aiml-placements?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setPlacements(data);
-                      })
-                  }, []);
-         React.useEffect(() => {
-                    fetch('/api/aiml/student-achievements?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setStudentAchievements(data);
-                      })
-                  }, []);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
+  const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
+  const [faculty, setFaculty] = React.useState<any[]>([]);
+  const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
+  const [nonTeachingFaculty, setNonTeachingFaculty] = React.useState<any[]>([]);
+  const [boardOfStudies, setBoardOfStudies] = useState<any[]>([]);
+  const [loadingBOS, setLoadingBOS] = useState(true);
+  const [bosError, setBOSError] = useState<string | null>(null);
+  const [bosmeetings, setBosMeetings] = useState<any[]>([]);
+  const [syllabus, setSyllabus] = React.useState<any[]>([]);
+  const [mous, setMous] = React.useState<any[]>([]);
+  const [fdp, setFdp] = React.useState<any[]>([]);
+  const [data, setData] = React.useState<any[]>([]);
+  const [workshopsdata, setWorkshops] = React.useState<
+    { title: string; items: { text: string; url: string }[] }[]
+  >([]);
+  const [studentAchievements, setStudentAchievements] = React.useState<any[]>([]);
+  const [placements, setPlacements] = React.useState<any[]>([]);
+  const [academicToppers, setAcademicToppers] = React.useState<{
+    dept?: string;
+    batches?: any[];
+    stats?: any[];
+  }>({});
+  const batches = academicToppers.batches ?? [];
+  const stats = academicToppers.stats ?? [];
+  const [acdemictoppersgal, setAcademicToppersGal] = React.useState<{ galleries: Gallery[] }>({ galleries: [] });
+  const [technicalAssociation, setTechnicalAssociation] = React.useState<any[]>([]);
+  const [extra, setExtra] = React.useState<{ documents: any[]; clubs: any[] }>({ documents: [], clubs: [] });
+  const [hackathons, setHackathons] = React.useState<{ documents: Doc[]; galleries: Gallery[] }>({ documents: [], galleries: [] });
+  const [handbooks, setHandbooks] = React.useState<any[]>([]);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-handbooks?dept=cseds')
+      .then(res => res.json())
+      .then(setHandbooks)
+      .catch(console.error);
+  }, []);
 
-        React.useEffect(() => {
-                    fetch('/api/aiml/aiml-workshops?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setWorkshops(data);
-                      })
-                  }, []);
-         React.useEffect(() => {
-                    fetch('/api/aiml/faculty-achievements?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setData(data);
-                      })
-                  }, []);
 
-        React.useEffect(() => {
-                    fetch('/api/aiml/faculty-development-programs?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setFdp(data);
-                      })
-                  }, []);
-        React.useEffect(() => {
-              fetch('/api/aiml/aiml-mous?dept=cseds')
-              .then((res) => res.json())
-                      .then((data) => {
-                        setMous(data);
-                      })
-                  }, []);
-            
-        React.useEffect(() => {
-                    fetch("/api/aiml/aiml-syllabus?dept=cseds")
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setSyllabus(data);
-                      })
-                  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-hackathons?dept=cseds')
+      .then(res => res.json())
+      .then(setHackathons)
+      .catch(console.error);
+  }, []);
 
-        React.useEffect(() => {
-            fetch('/api/aiml/board-of-meeting-minutes?dept=cseds')
-              .then(res => res.json())
-              .then((data) => {
-                //console.log(data)
-                setBosMeetings(data); // directly set data, no type filter for now
-              });
-          }, []);
-      
-        React.useEffect(() => {
-          setLoadingBOS(true);
-          fetch("/api/aiml/aiml-board-of-studies?dept=cseds")
-            .then(res => {
-              if (!res.ok) throw new Error('Failed to fetch Board of Studies');
-              return res.json();
-            })
-            .then(data => {
-              setBoardOfStudies(data);
-              setLoadingBOS(false);
-            })
-            .catch(err => {
-              setBOSError(err.message);
-              setLoadingBOS(false);
-            });
-        }, []);
-      React.useEffect(() => {
-            fetch('/api/aiml/aiml-faculty-profiles?dept=cseds')
-              .then(res => res.json())
-              .then((data) => {
-                //console.log(data)
-                setFaculty(data); // directly set data, no type filter for now
-              });
-          }, []);
-        
-          React.useEffect(() => {
-            fetch("/api/aiml/aiml-technical-faculty?dept=cseds")
-              .then((res) => res.json())
-              .then((data) => {
-                // console.log(data.technical)
-                setTechnicalFaculty(data.technical || []);
-              });
-          }, []);
-        
-          React.useEffect(() => {
-            fetch("/api/aiml/aiml-non-teaching-staff?dept=cseds")
-              .then((res) => res.json())
-              .then((data) => {
-                //console.log(data)
-                setNonTeachingFaculty(data.nonTeaching || []);
-              });
-          }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-extracurricular-activities?dept=cseds')
+      .then(res => res.json())
+      .then(data => setExtra(data))
+      .catch(console.error);
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/technical-association?dept=cseds')
+      .then(res => res.json())
+      .then(setTechnicalAssociation)
+      .catch(console.error);
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/academic-toppers-gallery?dept=cseds')
+      .then(res => res.json())
+      .then(setAcademicToppersGal)
+      .catch(console.error);
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-academic-toppers?dept=cseds')
+      .then((res) => res.json())
+      .then((data) => {
+        setAcademicToppers(data);
+      })
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-placements?dept=cseds')
+      .then((res) => res.json())
+      .then((data) => {
+        setPlacements(data);
+      })
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/student-achievements?dept=cseds')
+      .then((res) => res.json())
+      .then((data) => {
+        setStudentAchievements(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-workshops?dept=cseds')
+      .then((res) => res.json())
+      .then((data) => {
+        setWorkshops(data);
+      })
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/faculty-achievements?dept=cseds')
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/aiml/faculty-development-programs?dept=cseds')
+      .then((res) => res.json())
+      .then((data) => {
+        setFdp(data);
+      })
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-mous?dept=cseds')
+      .then((res) => res.json())
+      .then((data) => {
+        setMous(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/aiml/aiml-syllabus?dept=cseds")
+      .then((res) => res.json())
+      .then((data) => {
+        setSyllabus(data);
+      })
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/aiml/board-of-meeting-minutes?dept=cseds')
+      .then(res => res.json())
+      .then((data) => {
+        //console.log(data)
+        setBosMeetings(data); // directly set data, no type filter for now
+      });
+  }, []);
+
+  React.useEffect(() => {
+    setLoadingBOS(true);
+    fetch("/api/aiml/aiml-board-of-studies?dept=cseds")
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch Board of Studies');
+        return res.json();
+      })
+      .then(data => {
+        setBoardOfStudies(data);
+        setLoadingBOS(false);
+      })
+      .catch(err => {
+        setBOSError(err.message);
+        setLoadingBOS(false);
+      });
+  }, []);
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-faculty-profiles?dept=cseds')
+      .then(res => res.json())
+      .then((data) => {
+        //console.log(data)
+        setFaculty(data); // directly set data, no type filter for now
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/aiml/aiml-technical-faculty?dept=cseds")
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data.technical)
+        setTechnicalFaculty(data.technical || []);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/aiml/aiml-non-teaching-staff?dept=cseds")
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data)
+        setNonTeachingFaculty(data.nonTeaching || []);
+      });
+  }, []);
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
@@ -208,7 +208,7 @@ const CSTDepartment: React.FC = () => {
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
-      
+
       case 'Department':
         return (
           <div className="animate-fade-in">
@@ -216,7 +216,7 @@ const CSTDepartment: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
               <div className="relative">
                 <img
-                 src="/aihod.jpg"
+                  src="/aihod.jpg"
                   alt="Dr. G. Loshma"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                 />
@@ -231,10 +231,10 @@ const CSTDepartment: React.FC = () => {
               </div>
             </div>
             <p className="text-gray-700 mb-3">
-               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
+              Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
-            
-            <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
+
+            {/* <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
                 <thead className="text-xs bg-gray-50 uppercase text-gray-700">
@@ -256,7 +256,7 @@ const CSTDepartment: React.FC = () => {
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> */}
           </div>
         );
       case 'Vision':
@@ -414,8 +414,8 @@ const CSTDepartment: React.FC = () => {
                       key={section}
                       onClick={() => setActiveDeptTab(section)}
                       className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                          ? 'bg-[#B22222] text-white shadow-lg'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                     >
                       {section === 'SalientFeatures' ? 'Salient Features' : section}
@@ -483,8 +483,8 @@ const CSTDepartment: React.FC = () => {
                                 setSettingsPanelOpen(false);
                               }}
                               className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                  ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
-                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                 }`}
                             >
                               <div className="flex items-center gap-3">
@@ -557,7 +557,7 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-        case 'Contact':
+      case 'Contact':
         return (
           <div id="contact" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
@@ -580,34 +580,34 @@ const CSTDepartment: React.FC = () => {
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h3 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h3>
               {studentAchievements.map((section, idx) => (
-          <div key={idx} className="mt-4">
-            <details>
-              <summary className="text-lg font-semibold">{section.title}</summary>
-              <div className="nav-content">
-                <ul className="list-disc ml-6 mt-4">
-                  {section.items?.map((item: any, i: number) => (
-                    <li key={i}>
-                      {item.text}
-                      {item.url && (
-                        <>
-                          {" – "}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </details>
-          </div>
-        ))}
+                <div key={idx} className="mt-4">
+                  <details>
+                    <summary className="text-lg font-semibold">{section.title}</summary>
+                    <div className="nav-content">
+                      <ul className="list-disc ml-6 mt-4">
+                        {section.items?.map((item: any, i: number) => (
+                          <li key={i}>
+                            {item.text}
+                            {item.url && (
+                              <>
+                                {" – "}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline ml-2"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -616,43 +616,43 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
-  <div className="container mx-auto">
-    {syllabus.length === 0 ? (
-      <div className="text-center text-gray-500">No syllabus data available.</div>
-    ) : (
-      // Group syllabus items by category to create collapsible sections
-      Object.entries(
-        syllabus.reduce((groups, item) => {
-          const cat = item.category || "Others";
-          if (!groups[cat]) groups[cat] = [];
-          groups[cat].push(item);
-          return groups;
-        }, {} as Record<string, any[]>)
-      ).map(([category, items]) => (
-        <div className="section" key={category}>
-          <details open={category.toLowerCase().includes("b.tech")}>
-            <summary className="font-semibold text-lg">{category}</summary>
-            <div className="nav-content p-3">
-              <ul className="list-disc list-inside my-0">
-                {(items as any[]).map((item, idx) => (
-                  <li className="m-0 p-0" key={item.id}>
-                    {item.title} –
-                    <a
-                      href={item.pdf_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline ml-2"
-                    >
-                      View
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </details>
-        </div>
-      ))
-    )}
+            <div className="container mx-auto">
+              {syllabus.length === 0 ? (
+                <div className="text-center text-gray-500">No syllabus data available.</div>
+              ) : (
+                // Group syllabus items by category to create collapsible sections
+                Object.entries(
+                  syllabus.reduce((groups, item) => {
+                    const cat = item.category || "Others";
+                    if (!groups[cat]) groups[cat] = [];
+                    groups[cat].push(item);
+                    return groups;
+                  }, {} as Record<string, any[]>)
+                ).map(([category, items]) => (
+                  <div className="section" key={category}>
+                    <details open={category.toLowerCase().includes("b.tech")}>
+                      <summary className="font-semibold text-lg">{category}</summary>
+                      <div className="nav-content p-3">
+                        <ul className="list-disc list-inside my-0">
+                          {(items as any[]).map((item, idx) => (
+                            <li className="m-0 p-0" key={item.id}>
+                              {item.title} –
+                              <a
+                                href={item.pdf_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline ml-2"
+                              >
+                                View
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         );
@@ -743,10 +743,10 @@ const CSTDepartment: React.FC = () => {
         );
 
 
-            case 'Board of Studies':
-            return (
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+      case 'Board of Studies':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
               <div className="overflow-x-auto">
                 {loadingBOS ? (
@@ -778,71 +778,71 @@ const CSTDepartment: React.FC = () => {
                   </table>
                 )}
               </div>
-            
 
-            <div className="mt-4">
-              <div className="flex flex-col justify-center items-center mb-5">
-                <h4 className="text-xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
-                <ul className="my-2 space-y-3 list-none">
-                  {bosmeetings.map((item, idx) => (
-                    <li key={idx} className="text-center">
-                      {item.meeting_title} –{" "}
-                      <a
-                        href={item.document_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  ))}
-                 </ul>
+
+              <div className="mt-4">
+                <div className="flex flex-col justify-center items-center mb-5">
+                  <h4 className="text-xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
+                  <ul className="my-2 space-y-3 list-none">
+                    {bosmeetings.map((item, idx) => (
+                      <li key={idx} className="text-center">
+                        {item.meeting_title} –{" "}
+                        <a
+                          href={item.document_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#850209] hover:underline ml-2"
+                        >
+                          View
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
           </div>
         );
 
 
-        
+
 
       case 'MoUs':
         return (
           <div id="mous" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
-                <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
+              <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
 
-                <div className="overflow-x-auto flex justify-center">
-                  <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="py-3 px-4 border-b">S.No</th>
-                        <th className="py-3 px-4 border-b">Organization Name</th>
-                        <th className="py-3 px-4 border-b">From</th>
-                        <th className="py-3 px-4 border-b">To</th>
+              <div className="overflow-x-auto flex justify-center">
+                <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="py-3 px-4 border-b">S.No</th>
+                      <th className="py-3 px-4 border-b">Organization Name</th>
+                      <th className="py-3 px-4 border-b">From</th>
+                      <th className="py-3 px-4 border-b">To</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {mous.map((mou: any, index: number) => (
+                      <tr key={mou.id ?? index}>
+                        <td className="py-3 px-4 border-b">{index + 1}</td>
+                        <td className="py-3 px-4 border-b">{mou.organization_name}</td>
+                        <td className="py-3 px-4 border-b">
+                          {new Date(mou.start_date).toLocaleDateString("en-GB")}
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          {mou.end_date
+                            ? new Date(mou.end_date).toLocaleDateString("en-GB")
+                            : "Till Date"}
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {mous.map((mou: any, index: number) => (
-                        <tr key={mou.id ?? index}>
-                          <td className="py-3 px-4 border-b">{index + 1}</td>
-                          <td className="py-3 px-4 border-b">{mou.organization_name}</td>
-                          <td className="py-3 px-4 border-b">
-                            {new Date(mou.start_date).toLocaleDateString("en-GB")}
-                          </td>
-                          <td className="py-3 px-4 border-b">
-                            {mou.end_date
-                              ? new Date(mou.end_date).toLocaleDateString("en-GB")
-                              : "Till Date"}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                    ))}
+                  </tbody>
+                </table>
               </div>
+            </div>
           </div>
         );
       case 'Physical Facilities':
@@ -1473,20 +1473,20 @@ const CSTDepartment: React.FC = () => {
                 <details open>
                   <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">FDP Attended</summary>
                   <ul className="list-disc list-inside space-y-2 ml-4">
-              {fdp.map((item, idx) => (
-                <li key={item.id ?? idx}>
-                  {item.title} ({item.year}) –
-                  <a
-                    href={item.file_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-              ))}
-            </ul>
+                    {fdp.map((item, idx) => (
+                      <li key={item.id ?? idx}>
+                        {item.title} ({item.year}) –
+                        <a
+                          href={item.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >
+                          View
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 </details>
               </div>
             </div>
@@ -1494,72 +1494,72 @@ const CSTDepartment: React.FC = () => {
         );
       case 'Faculty Achievements':
         return (
-         <div id="faculty-achievements" className="space-y-8 animate-fade-in">
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-          Faculty Achievements
-        </h2>
+          <div id="faculty-achievements" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Faculty Achievements
+              </h2>
 
-        {data.map((section, idx) => (
-          <div key={idx} className="mt-4">
-            <details>
-              <summary className="text-lg font-semibold">{section.title}</summary>
-              <div className="nav-content">
-                <ul className="list-disc ml-6 mt-4">
-                  {section.items?.map((item: any, i: number) => (
-                    <li key={i}>
-                      {item.text} –
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </details>
+              {data.map((section, idx) => (
+                <div key={idx} className="mt-4">
+                  <details>
+                    <summary className="text-lg font-semibold">{section.title}</summary>
+                    <div className="nav-content">
+                      <ul className="list-disc ml-6 mt-4">
+                        {section.items?.map((item: any, i: number) => (
+                          <li key={i}>
+                            {item.text} –
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline ml-2"
+                            >
+                              View
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
         );
-        case 'Workshops':
+      case 'Workshops':
         return (
           <div id="workshops" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-        Workshops/SOC/Seminars/Guest Lectures
-      </h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Workshops/SOC/Seminars/Guest Lectures
+              </h2>
 
-      {workshopsdata.map(section => (
-        <div key={section.title} className="section mt-6">
-          <details open={section.title === 'Workshops'}>
-            <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">
-              {section.title}
-            </summary>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              {section.items.map((item, idx) => (
-                <li key={idx}>
-                  {item.text} –
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
-                  >
-                    View More
-                  </a>
-                </li>
+              {workshopsdata.map(section => (
+                <div key={section.title} className="section mt-6">
+                  <details open={section.title === 'Workshops'}>
+                    <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">
+                      {section.title}
+                    </summary>
+                    <ul className="list-disc list-inside space-y-2 ml-4">
+                      {section.items.map((item, idx) => (
+                        <li key={idx}>
+                          {item.text} –
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline ml-2"
+                          >
+                            View More
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                </div>
               ))}
-            </ul>
-          </details>
-        </div>
-      ))}
-    </div>
+            </div>
           </div>
         );
       case 'Merit Scholarship/Academic Toppers':
@@ -1569,119 +1569,119 @@ const CSTDepartment: React.FC = () => {
 
             <h3 className="text-xl font-semibold text-center mb-4">Merit Scholarships / Academic Toppers</h3>
             {/* ---------- Batch PDF Links ---------- */}
-        <div className="mb-8">
-          {batches.map((batch) => (
-            <details
-              key={batch.id}
-              open
-              className="border border-gray-300 rounded-lg mb-4"
-            >
-              <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
-                {batch.title || `Academic Toppers for the Batch ${batch.batch}`}
-              </summary>
-              <ul className="list-disc ml-6 mt-4">
-                <li>
-                  {batch.description ?? `Academic Toppers for the Batch ${batch.batch}`} –
-                  <a
-                    href={batch.pdf_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-              </ul>
-            </details>
-          ))}
+            <div className="mb-8">
+              {batches.map((batch) => (
+                <details
+                  key={batch.id}
+                  open
+                  className="border border-gray-300 rounded-lg mb-4"
+                >
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    {batch.title || `Academic Toppers for the Batch ${batch.batch}`}
+                  </summary>
+                  <ul className="list-disc ml-6 mt-4">
+                    <li>
+                      {batch.description ?? `Academic Toppers for the Batch ${batch.batch}`} –
+                      <a
+                        href={batch.pdf_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline ml-2"
+                      >
+                        View
+                      </a>
+                    </li>
+                  </ul>
+                </details>
+              ))}
 
-          {/* ---------- Stats Table ---------- */}
-          <div className="overflow-x-auto mt-8">
-            <table className="min-w-full bg-white border-collapse">
-              <thead>
-                <tr className="border-b-2 border-gray-200">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">ACADEMIC YEAR</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">PARTICULARS</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">NO. OF STUDENTS BENEFITED</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">SCHOLARSHIP AMOUNT</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stats.map((row, idx) => (
-                  <tr
-                    key={row.id}
-                    className="border-b border-gray-100 hover:bg-gray-50"
-                  >
-                    <td className="py-3 px-4 text-gray-600">{idx + 1}</td>
-                    <td className="py-3 px-4 text-gray-600">{row.academic_year}</td>
-                    <td className="py-3 px-4 font-medium text-gray-800">{row.particulars}</td>
-                    <td className="py-3 px-4 text-gray-600">{row.students_benefited}</td>
-                    <td className="py-3 px-4 text-gray-600">{row.scholarship_amount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+              {/* ---------- Stats Table ---------- */}
+              <div className="overflow-x-auto mt-8">
+                <table className="min-w-full bg-white border-collapse">
+                  <thead>
+                    <tr className="border-b-2 border-gray-200">
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">ACADEMIC YEAR</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">PARTICULARS</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">NO. OF STUDENTS BENEFITED</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">SCHOLARSHIP AMOUNT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stats.map((row, idx) => (
+                      <tr
+                        key={row.id}
+                        className="border-b border-gray-100 hover:bg-gray-50"
+                      >
+                        <td className="py-3 px-4 text-gray-600">{idx + 1}</td>
+                        <td className="py-3 px-4 text-gray-600">{row.academic_year}</td>
+                        <td className="py-3 px-4 font-medium text-gray-800">{row.particulars}</td>
+                        <td className="py-3 px-4 text-gray-600">{row.students_benefited}</td>
+                        <td className="py-3 px-4 text-gray-600">{row.scholarship_amount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
             {/* ---------- Image Gallery ---------- */}
 
             <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
-        {acdemictoppersgal.galleries.map(g => (
-          <div key={g.id} className="container mx-auto mb-8">
-            <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
-            <div className="flex flex-wrap justify-center items-center gap-4">
-              {g.images.map(img => (
-                <div key={img.id} className="w-full md:w-1/3 flex justify-center">
-                  <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
-                       className="img-fluid m-3 rounded shadow" />
+            {acdemictoppersgal.galleries.map(g => (
+              <div key={g.id} className="container mx-auto mb-8">
+                <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
+                <div className="flex flex-wrap justify-center items-center gap-4">
+                  {g.images.map(img => (
+                    <div key={img.id} className="w-full md:w-1/3 flex justify-center">
+                      <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
+                        className="img-fluid m-3 rounded shadow" />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        ))}
+              </div>
+            ))}
           </div>
         );
       case 'Extra-Curricular Activities':
         return (
           <div id="extra-curricular-activities" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-          Extra-Curricular Activities
-        </h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Extra-Curricular Activities
+              </h2>
 
-        {/* Documents */}
-        <ul className="list-disc ml-6 mt-4">
-          {extra.documents.map(doc => (
-            <li key={doc.id}>
-              {doc.title} ({doc.academic_year}) –
-              <a
-                href={doc.pdf_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline ml-2"
-              >
-                View More
-              </a>
-            </li>
-          ))}
-        </ul>
+              {/* Documents */}
+              <ul className="list-disc ml-6 mt-4">
+                {extra.documents.map(doc => (
+                  <li key={doc.id}>
+                    {doc.title} ({doc.academic_year}) –
+                    <a
+                      href={doc.pdf_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline ml-2"
+                    >
+                      View More
+                    </a>
+                  </li>
+                ))}
+              </ul>
 
-        {/* Clubs */}
-        {extra.clubs.map(club => (
-          <div key={club.id} className="mt-8">
-            <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">
-              {club.name}
-            </h3>
-            <div className="prose max-w-none">
-              <h3 className="text-lg font-bold mb-2">{club.subtitle}</h3>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                {club.description}
-              </p>
+              {/* Clubs */}
+              {extra.clubs.map(club => (
+                <div key={club.id} className="mt-8">
+                  <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">
+                    {club.name}
+                  </h3>
+                  <div className="prose max-w-none">
+                    <h3 className="text-lg font-bold mb-2">{club.subtitle}</h3>
+                    <p className="text-gray-700 leading-relaxed mb-6">
+                      {club.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
           </div>
         );
 
@@ -1689,119 +1689,119 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Technical Association</h2>
-             {technicalAssociation.map((section, idx) => (
-          <div key={idx} className="mt-4">
-            <details>
-              <summary className="text-lg font-semibold">{section.title}</summary>
-              <div className="nav-content">
-                <ul className="list-disc ml-6 mt-4">
-                  {section.items?.map((item: any, i: number) => (
-                    <li key={i}>
-                      {item.text}
-                      {item.url && (
-                        <>
-                          {" – "}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+            {technicalAssociation.map((section, idx) => (
+              <div key={idx} className="mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">{section.title}</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4">
+                      {section.items?.map((item: any, i: number) => (
+                        <li key={i}>
+                          {item.text}
+                          {item.url && (
+                            <>
+                              {" – "}
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline ml-2"
+                              >
+                                View
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
               </div>
-            </details>
-          </div>
-        ))}
+            ))}
           </div>
         );
-      
+
       case 'Handbooks':
         return (
           <div id="handbooks" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-          Academic HandBooks
-        </h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                Academic HandBooks
+              </h2>
 
-        <div className="space-y-6">
-          {handbooks.map((group) => (
-            <div key={group.group} className="space-y-4">
-              {/* group.group is like "Academic Year 2023-24" */}
-              {Array.from(
-                new Set(group.items.map((i: any) => i.sem_type))
-              ).map((sem) => (
-                <details key={String(sem)} open>
-                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
-                    {group.group}: {sem}
-                  </summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    {group.items
-                      .filter((i: any) => i.sem_type === sem)
-                      .map((i: any, idx: number) => (
-                        <li key={idx}>
-                          {i.text} –
-                          <a
-                            href={i.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
-                          >
-                            View
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </details>
-              ))}
+              <div className="space-y-6">
+                {handbooks.map((group) => (
+                  <div key={group.group} className="space-y-4">
+                    {/* group.group is like "Academic Year 2023-24" */}
+                    {Array.from(
+                      new Set(group.items.map((i: any) => i.sem_type))
+                    ).map((sem) => (
+                      <details key={String(sem)} open>
+                        <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                          {group.group}: {sem}
+                        </summary>
+                        <ul className="list-disc list-inside space-y-2 ml-4">
+                          {group.items
+                            .filter((i: any) => i.sem_type === sem)
+                            .map((i: any, idx: number) => (
+                              <li key={idx}>
+                                {i.text} –
+                                <a
+                                  href={i.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline ml-2"
+                                >
+                                  View
+                                </a>
+                              </li>
+                            ))}
+                        </ul>
+                      </details>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
           </div>
         );
       case 'Hackathons':
         return (
           <div id="hackathons" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
 
-        {/* Documents */}
-        <div className="mb-6">
-          <ul className="list-disc list-inside">
-            {hackathons.documents.map(doc => (
-              <li key={doc.id}>
-                {doc.title} -
-                <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
-                   className="text-primary hover:underline ml-2">
-                  For more details
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+              {/* Documents */}
+              <div className="mb-6">
+                <ul className="list-disc list-inside">
+                  {hackathons.documents.map(doc => (
+                    <li key={doc.id}>
+                      {doc.title} -
+                      <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
+                        className="text-primary hover:underline ml-2">
+                        For more details
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-        {/* Galleries */}
-        <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
-        {hackathons.galleries.map(g => (
-          <div key={g.id} className="container mx-auto mb-8">
-            <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
-            <div className="flex flex-wrap justify-center items-center gap-4">
-              {g.images.map(img => (
-                <div key={img.id} className="w-full md:w-1/3 flex justify-center">
-                  <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
-                       className="img-fluid m-3 rounded shadow" />
+              {/* Galleries */}
+              <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
+              {hackathons.galleries.map(g => (
+                <div key={g.id} className="container mx-auto mb-8">
+                  <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
+                  <div className="flex flex-wrap justify-center items-center gap-4">
+                    {g.images.map(img => (
+                      <div key={img.id} className="w-full md:w-1/3 flex justify-center">
+                        <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
+                          className="img-fluid m-3 rounded shadow" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-        ))}
-      </div>
           </div>
         );
 
@@ -1899,7 +1899,7 @@ const CSTDepartment: React.FC = () => {
     }
   }
 
-   const renderContentWithTitle = () => {
+  const renderContentWithTitle = () => {
     // Just return the content without adding another title, since it's already included in content sections
     return (
       <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">

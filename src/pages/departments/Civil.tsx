@@ -7,7 +7,7 @@ import { useOptimizedTabLoader } from '@/hooks/useOptimizedTabLoader';
 const CivilDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
-  
+
   // Use the optimized tab loader hook for instant switching
   const {
     activeTab: activeDeptTab,
@@ -17,7 +17,7 @@ const CivilDepartment: React.FC = () => {
     getContentProps,
     getLoaderProps
   } = useOptimizedTabLoader('Department', { animationDuration: 150 });
-  
+
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
   // Dynamic content state
@@ -205,139 +205,119 @@ const CivilDepartment: React.FC = () => {
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
-      case 'Department':
-        return (
-          <div>
-            {/* Department Overview Section */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
-              <p className="text-gray-700 leading-relaxed mb-4 text-justify">
-                The Department of Civil Engineering was established in the
-                year 2001 with a vision to strive towards quality education,
-                research and consultancy. Civil Engineering is one of the
-                oldest and broadest engineering discipline which has been an
-                aspect of life, since the beginning of human civilization.
-                Efforts have been made to provide high quality technical
-                education to students with a view to make them successful
-                professionals. In order to attain the pre-defined objectives,
-                focus has been made on Outcome Based Education, which
-                facilitates the students to analyze problems, design and
-                develop solutions and usage of modern tools, by making
-                him/herself as an ethical Engineer with best of the kind
-                leadership traits. Department is offering B.Tech (Civil) with
-                an intake of 60 and M. Tech (Structural Engg.) with 18
-                students. Department comprises well qualified and proficient
-                faculty to direct the students in reaching their goals.
-              </p>
-            </div>
-
-            {/* Courses Offered Section */}
-            <div className="mb-10">
-              <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-700 mb-4">
-                  <thead className="text-xs bg-gray-50 uppercase">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">S.No</th>
-                      <th scope="col" className="px-6 py-3">Name of the Course</th>
-                      <th scope="col" className="px-6 py-3">Eligibility Criteria</th>
-                      <th scope="col" className="px-6 py-3">Duration</th>
-                      <th scope="col" className="px-6 py-3">Intake</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="bg-white border-b">
-                      <td className="px-6 py-4">1</td>
-                      <td className="px-6 py-4">B.Tech-Civil Engineering</td>
-                      <td className="px-6 py-4">AP EAPCET</td>
-                      <td className="px-6 py-4">4 Years</td>
-                      <td className="px-6 py-4">60</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        );
       case 'Vision':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
-            <p className="text-gray-700 leading-relaxed">
-              To be a Department that strives towards quality
-              education,research and consultancy in Civil Engineering.
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
+            <p className="text-gray-700">
+              To be a Department that strives towards quality education, research and consultancy in Civil Engineering.
             </p>
           </div>
         );
       case 'Mission':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <b>M1:</b>To provide broad and high quality education to its
-              students for a successful professional career.<br />
-              <b>M2:</b>To serve the construction industry through
-              dissemination of knowledge and technical service to rural
-              community and professionals.<br />
-              <b>M3:</b>To include ethics and human values, effective
-              communication and leadership qualities among students to meet
-              the challenge of the society.<br />
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>To provide broad and high quality education to its students for a successful professional career.</li>
+              <li>To serve the construction industry through dissemination of knowledge and technical service to rural community and professionals.</li>
+              <li>To include ethics and human values, effective communication and leadership qualities among students to meet the challenge of the society.</li>
             </ul>
           </div>
         );
       case 'PEOs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
             <p className="text-gray-700 mb-4">The graduates will:</p>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and civil engineering principles.</li>
-              <li>Analyze real-life problems and design socially responsible and environmentally sustainable civil engineering solutions.</li>
-              <li>Adapt to evolving technologies through continuous learning.</li>
-              <li>Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</li>
-            </ul>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 1</h4>
+                <p className="text-gray-700">Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and civil engineering principles.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 2</h4>
+                <p className="text-gray-700">Analyze real-life problems and design socially responsible and environmentally sustainable civil engineering solutions.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 3</h4>
+                <p className="text-gray-700">Adapt to evolving technologies through continuous learning.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 4</h4>
+                <p className="text-gray-700">Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</p>
+              </div>
+            </div>
           </div>
         );
       case 'POs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li><strong>Engineering Knowledge:</strong> Apply knowledge of mathematics, science, engineering fundamentals, and civil engineering principles to solve complex engineering problems.</li>
-              <li><strong>Problem Analysis:</strong> Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</li>
-              <li><strong>Design/Development of Solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</li>
-              <li><strong>Modern Tool Usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</li>
-            </ul>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
+            <div className="space-y-3">
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO1: Engineering Knowledge</h4>
+                <p className="text-gray-700">Apply knowledge of mathematics, science, engineering fundamentals, and civil engineering principles to solve complex engineering problems.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO2: Problem Analysis</h4>
+                <p className="text-gray-700">Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO3: Design/Development of Solutions</h4>
+                <p className="text-gray-700">Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO4: Modern Tool Usage</h4>
+                <p className="text-gray-700">Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</p>
+              </div>
+            </div>
           </div>
         );
       case 'PSOs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Apply standard practices and strategies in construction management using modern surveying tools to deliver quality infrastructure.</li>
-              <li>Apply the fundamentals of civil engineering to solve engineering problems in interdisciplinary domains.</li>
-              <li>Develop sustainable solutions for real-world problems in structural engineering, geotechnical engineering, transportation engineering, and water resources engineering.</li>
-            </ul>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 1</h4>
+                <p className="text-gray-700">Apply standard practices and strategies in construction management using modern surveying tools to deliver quality infrastructure.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 2</h4>
+                <p className="text-gray-700">Apply the fundamentals of civil engineering to solve engineering problems in interdisciplinary domains.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 3</h4>
+                <p className="text-gray-700">Develop sustainable solutions for real-world problems in structural engineering, geotechnical engineering, transportation engineering, and water resources engineering.</p>
+              </div>
+            </div>
           </div>
         );
       case 'COs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Course Outcomes (COs)</h3>
-            <p className="text-gray-700 leading-relaxed">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 mb-4">
               The course outcomes are defined for each course and are aligned with the Program Outcomes and Program Specific Outcomes. The course outcomes are assessed through direct and indirect assessment tools.
             </p>
-            <p className="mt-4 text-gray-700">
-              <a href="https://srivasaviengg.ac.in/uploads/civil/COs.pdf" className="text-[#B22222] hover:underline">Download Course Outcomes Document</a>
-            </p>
+            <div className="mb-4">
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/COs.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
+              >
+                <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
+              </a>
+            </div>
           </div>
         );
       case 'SalientFeatures':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>Experienced and dedicated faculty members with specializations in various domains</li>
               <li>State-of-the-art laboratories with modern equipment and tools</li>
               <li>Strong industry-institute interaction through consultancy services</li>
@@ -349,57 +329,12 @@ const CivilDepartment: React.FC = () => {
             </ul>
           </div>
         );
-      case 'Department Library':
-        return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Library</h3>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-              {/* Image on the left */}
-              <div className="md:w-1/2 flex justify-center">
-                <img
-                  src="/images/departments/ce/cse-lib.jpg"
-                  alt="Department Library"
-                  className="rounded-lg shadow-lg mb-4 max-h-96 object-contain"
-                />
-              </div>
-              {/* Paragraph content on the right */}
-              <div className="md:w-1/2">
-                <p className="text-lg">
-                  Department Library offers a variety of books related to Civil Engineering. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                  <div className="bg-white rounded-lg shadow border">
-                    <div className="bg-[#B22222] text-white rounded-t-lg py-2">
-                      <h5 className="mb-0 text-center text-lg font-semibold">No. of Titles</h5>
-                    </div>
-                    <div className="py-4">
-                      <p className="text-red-600 font-bold text-center text-xl">244</p>
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-lg shadow border">
-                    <div className="bg-green-600 text-white rounded-t-lg py-2">
-                      <h5 className="mb-0 text-center text-lg font-semibold">No. of Volumes</h5>
-                    </div>
-                    <div className="py-4">
-                      <p className="text-green-600 font-bold text-center text-xl">352</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Faculty Incharge Details */}
-            <div className="flex flex-col items-center mt-8">
-              <h3 className="text-xl font-bold text-center">Faculty Incharge</h3>
-              <p className="mt-4 text-lg">Mr. M.Prem Kumar Raju, Asst. Professor</p>
-            </div>
-          </div>
-        );
       default:
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
             <p className="text-gray-700 leading-relaxed">
-              The Department of Civil Engineering was established in 2011. The department offers undergraduate program in Civil Engineering with an intake of 60 students.
+              The Department of Civil Engineering was established in the year 2001 with a vision to strive towards quality education, research and consultancy. Civil Engineering is one of the oldest and broadest engineering discipline which has been an aspect of life, since the beginning of human civilization. Efforts have been made to provide high quality technical education to students with a view to make them successful professionals.
             </p>
           </div>
         );
@@ -689,137 +624,170 @@ const CivilDepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            {/* HOD Information Section */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                <div className="relative">
-                  <img
-                    src="/Civilhod.png"
-                    alt="Dr. G. Radhakrishnan"
-                    className="w-full h-80 object-cover rounded-lg shadow-md"
-                  />
+            <div className="space-y-8">
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => switchDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
                 </div>
-                <div className="lg:col-span-2 space-y-4">
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Radhakrishnan</h3>
-                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
-                    <p className="text-gray-600">Qualification: M.E., Ph.D</p>
-                    <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
+              </div>
+
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+                </div>
+              </div>
+
+              {/* Department Overview with HOD Profile */}
+              {activeDeptTab === 'Department' && (
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                  <div className="md:w-1/3">
+                    <img
+                      src="/Civilhod.png"
+                      alt="Dr. G. Radhakrishnan"
+                      className="w-full h-auto object-cover rounded-lg shadow-md"
+                    />
                   </div>
-                  <p className="text-gray-700 leading-relaxed">
-                    Welcome to the Department of Civil Engineering at Sri Vasavi Engineering College. Our department is committed to providing excellent education in civil engineering while fostering innovation and research. We focus on developing skilled professionals who can contribute to the infrastructure development of our nation. Our experienced faculty and state-of-the-art facilities ensure that our students receive comprehensive training in both theoretical knowledge and practical applications of civil engineering principles.
-                  </p>
+                  <div className="md:w-2/3">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-2">Dr. G. Radhakrishnan</h3>
+                    <p className="text-gray-700 mb-2">Professor & Head of the Department</p>
+                    <p className="text-gray-700 mb-2">Qualification: M.E., Ph.D</p>
+                    <p className="text-gray-700 mb-2">
+                      <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_civil@srivasaviengg.ac.in</a>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
 
-            {/* Department Profile Navigation */}
-            <div className="mt-12">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h3>
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                switchDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
+                                  }`}>
+                                  {index + 1}
+                                </div>
+                                <div>
+                                  <div className="font-semibold">
+                                    {section === 'SalientFeatures' ? 'Salient Features' : section}
+                                  </div>
+                                  <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
+                                    {section === 'Department' && 'Overview & HOD Profile'}
+                                    {section === 'Vision' && 'Department Vision Statement'}
+                                    {section === 'Mission' && 'Department Mission Statement'}
+                                    {section === 'PEOs' && 'Program Educational Objectives'}
+                                    {section === 'POs' && 'Program Outcomes'}
+                                    {section === 'PSOs' && 'Program Specific Outcomes'}
+                                    {section === 'COs' && 'Course Outcomes'}
+                                    {section === 'SalientFeatures' && 'Key Highlights & Features'}
+                                  </div>
+                                </div>
+                                {isActive && (
+                                  <div className="ml-auto">
+                                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                  </div>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {/* Panel Footer */}
+                      <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                        <div className="text-center">
+                          <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
+                          <div className="text-white/50 text-xs">
+                            Click any section above to navigate instantly
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
-              {/* Desktop Navigation - Single Line */}
-              <div className="hidden md:flex justify-center gap-2 mb-8 flex-wrap">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => switchDeptTab(section)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === section
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                  </button>
-                ))}
-              </div>
-
-              {/* Mobile Navigation - Grid Layout */}
-              <div className="md:hidden mb-8">
-                <div className="grid grid-cols-2 gap-2 mb-3">
-                  <button
-                    onClick={() => switchDeptTab('Department')}
-                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Department'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Department
-                  </button>
-                  <button
-                    onClick={() => switchDeptTab('Vision')}
-                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Vision'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Vision
-                  </button>
+              {/* Floating Settings Button - Mobile Only */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                title="Department Navigation"
+              >
+                <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {/* Mobile Label */}
+                <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                  Menu
+                  <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
                 </div>
-                <div className="grid grid-cols-3 gap-2 mb-3">
-                  <button
-                    onClick={() => switchDeptTab('Mission')}
-                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Mission'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    onClick={() => switchDeptTab('PEOs')}
-                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PEOs
-                  </button>
-                  <button
-                    onClick={() => switchDeptTab('POs')}
-                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'POs'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    POs
-                  </button>
-                </div>
-                <div className="grid grid-cols-2 gap-2 mb-3">
-                  <button
-                    onClick={() => switchDeptTab('PSOs')}
-                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PSOs
-                  </button>
-                  <button
-                    onClick={() => switchDeptTab('COs')}
-                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'COs'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    COs
-                  </button>
-                </div>
-                <div className="grid grid-cols-1">
-                  <button
-                    onClick={() => switchDeptTab('SalientFeatures')}
-                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Salient Features
-                  </button>
-                </div>
-              </div>
+              </button>
 
               {/* Tab Content */}
-              <div className="mt-6">
+              <div>
                 {renderDeptTabContent()}
               </div>
             </div>
@@ -1189,171 +1157,171 @@ const CivilDepartment: React.FC = () => {
             </div>
           </div>
         );
-        case 'Consultancy':
-  return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Consultancy</h2>
-      <div className="space-y-6">
-        {/* Dynamic Consultancy Activities */}
-        {consultancyActivities.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {consultancyActivities.map((consultancy: any, index: number) => (
-              <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                <h4 className="font-semibold text-lg mb-2">{consultancy.project_title}</h4>
-                {consultancy.description && (
-                  <p className="text-gray-700 mb-2">{consultancy.description}</p>
-                )}
-                {consultancy.client_name && (
-                  <p className="text-sm text-gray-600 mb-2">
-                    <strong>Client:</strong> {consultancy.client_name}
-                  </p>
-                )}
-                {consultancy.faculty_involved && (
-                  <p className="text-sm text-gray-600 mb-2">
-                    <strong>Faculty Involved:</strong> {consultancy.faculty_involved}
-                  </p>
-                )}
-                {consultancy.project_value && (
-                  <p className="text-sm text-gray-600 mb-2">
-                    <strong>Project Value:</strong> ₹{consultancy.project_value.toLocaleString()}
-                  </p>
-                )}
-                {consultancy.project_type && (
-                  <span className="inline-block px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800 mb-2">
-                    {consultancy.project_type}
-                  </span>
-                )}
-                {consultancy.document_url && (
-                  <a
-                    href={consultancy.document_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-2 text-[#B22222] hover:underline"
-                  >
-                    View Document
-                  </a>
-                )}
-              </div>
-            ))}
+      case 'Consultancy':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Consultancy</h2>
+            <div className="space-y-6">
+              {/* Dynamic Consultancy Activities */}
+              {consultancyActivities.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {consultancyActivities.map((consultancy: any, index: number) => (
+                    <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <h4 className="font-semibold text-lg mb-2">{consultancy.project_title}</h4>
+                      {consultancy.description && (
+                        <p className="text-gray-700 mb-2">{consultancy.description}</p>
+                      )}
+                      {consultancy.client_name && (
+                        <p className="text-sm text-gray-600 mb-2">
+                          <strong>Client:</strong> {consultancy.client_name}
+                        </p>
+                      )}
+                      {consultancy.faculty_involved && (
+                        <p className="text-sm text-gray-600 mb-2">
+                          <strong>Faculty Involved:</strong> {consultancy.faculty_involved}
+                        </p>
+                      )}
+                      {consultancy.project_value && (
+                        <p className="text-sm text-gray-600 mb-2">
+                          <strong>Project Value:</strong> ₹{consultancy.project_value.toLocaleString()}
+                        </p>
+                      )}
+                      {consultancy.project_type && (
+                        <span className="inline-block px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800 mb-2">
+                          {consultancy.project_type}
+                        </span>
+                      )}
+                      {consultancy.document_url && (
+                        <a
+                          href={consultancy.document_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block mt-2 text-[#B22222] hover:underline"
+                        >
+                          View Document
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                // Fallback static content if API fails
+                <ul className="list-disc ml-6 space-y-4">
+                  <li>
+                    Consultancy Details for the Academic year 2022-2023 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2021-2022 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2020-2021 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2019-2020 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2018-2019 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2017-2018 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2016-2017 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2015-2016 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2014-2015 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                  <li>
+                    Consultancy Details for the Academic year 2013-2014 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                </ul>
+              )}
+            </div>
           </div>
-        ) : (
-          // Fallback static content if API fails
-          <ul className="list-disc ml-6 space-y-4">
-            <li>
-              Consultancy Details for the Academic year 2022-2023 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2021-2022 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2020-2021 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2019-2020 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2018-2019 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2017-2018 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2016-2017 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2015-2016 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2014-2015 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-            <li>
-              Consultancy Details for the Academic year 2013-2014 -{' '}
-              <a
-                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf"
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View
-              </a>
-            </li>
-          </ul>
-        )}
-      </div>
-    </div>
-  );
+        );
 
       case 'Syllabus':
         return (

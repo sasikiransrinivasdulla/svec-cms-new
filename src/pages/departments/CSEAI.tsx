@@ -317,6 +317,7 @@ const CSTDepartment: React.FC = () => {
   }, []);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
@@ -388,7 +389,7 @@ const CSTDepartment: React.FC = () => {
               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
 
-            <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
+            {/* <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
                 <thead className="text-xs bg-gray-50 uppercase text-gray-700">
@@ -410,7 +411,7 @@ const CSTDepartment: React.FC = () => {
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> */}
           </div>
         );
       case 'Vision':
@@ -560,201 +561,145 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <div className="space-y-8">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Department Profile</h2>
-
-              {/* HOD Information Section */}
-              <div className="mb-10">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                  <div className="relative">
-                    <img
-                      src="/aihod.jpg"
-                      alt="Dr. G. Loshma"
-                      className="w-full h-80 object-cover rounded-lg shadow-md"
-                    />
-                  </div>
-                  <div className="lg:col-span-2 space-y-4">
-                    <div className="mb-4">
-                      <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                      <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
-                      <p className="text-gray-600">Mobile No: 7672082130</p>
-                      <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-442)</p>
-                      <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
-                    </div>
-                    <p className="text-gray-700 leading-relaxed">
-                      Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
-                    </p>
-                  </div>
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Department Profile Navigation */}
-              <div className="mt-12">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h3>
-
-                {/* Desktop Navigation - Single Line */}
-                <div className="hidden md:flex justify-center gap-2 mb-8 flex-wrap">
-                  <button
-                    onClick={() => setActiveDeptTab('Department')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Department'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Department
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Vision')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Vision'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Vision
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Mission')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Mission'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PEOs')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'PEOs'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PEOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('POs')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'POs'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    POs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PSOs')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'PSOs'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PSOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('COs')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'COs'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    COs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('SalientFeatures')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'SalientFeatures'
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Salient Features
-                  </button>
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
                 </div>
+              </div>
 
-                {/* Mobile Navigation - Grid Layout */}
-                <div className="md:hidden mb-8">
-                  <div className="grid grid-cols-2 gap-2 mb-3">
-                    <button
-                      onClick={() => setActiveDeptTab('Department')}
-                      className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Department'
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Department
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('Vision')}
-                      className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Vision'
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Vision
-                    </button>
+              {/* Department Overview (HOD Profile - Only shown on Department tab) */}
+              {activeDeptTab === 'Department' && (
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                  <div className="md:w-1/3">
+                    <img
+                      src="/aihod.jpg"
+                      alt="Dr. G. Loshma"
+                      className="w-full h-auto object-cover rounded-lg shadow-md"
+                    />
                   </div>
-                  <div className="grid grid-cols-3 gap-2 mb-3">
-                    <button
-                      onClick={() => setActiveDeptTab('Mission')}
-                      className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Mission'
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Mission
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('PEOs')}
-                      className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      PEOs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('POs')}
-                      className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'POs'
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      POs
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 mb-3">
-                    <button
-                      onClick={() => setActiveDeptTab('PSOs')}
-                      className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      PSOs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('COs')}
-                      className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'COs'
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      COs
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-1">
-                    <button
-                      onClick={() => setActiveDeptTab('SalientFeatures')}
-                      className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Salient Features
-                    </button>
+                  <div className="md:w-2/3">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
+                    <p className="text-gray-700 mb-2">Professor & Head of the Department</p>
+                    <p className="text-gray-700 mb-2">Mobile No: 7672082130</p>
+                    <p className="text-gray-700 mb-2">Phone No: 08818-284355(O)-(Ext.-442)</p>
+                    <p className="text-gray-700 mb-2">
+                      <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_aim@srivasaviengg.ac.in</a>
+                    </p>
                   </div>
                 </div>
+              )}
 
-                {/* Tab Content */}
-                <div className="mt-8">
-                  {renderDeptTabContent()}
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                setActiveDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full p-4 rounded-xl transition-all duration-300 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg shadow-[#B22222]/50'
+                                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-gray-700/50'
+                                  }`}>
+                                  <span className="text-lg font-bold">{index + 1}</span>
+                                </div>
+                                <div className="flex-1 text-left">
+                                  <div className="font-semibold">{section === 'SalientFeatures' ? 'Salient Features' : section}</div>
+                                  {isActive && <div className="text-xs text-white/70 mt-1">Currently viewing</div>}
+                                </div>
+                                {isActive && (
+                                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              )}
+
+              {/* Floating Settings Button (Mobile Only) */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-r from-[#B22222] to-[#8B0000] rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-300"
+                aria-label="Open Department Navigation"
+              >
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+
+              {/* Tab Content */}
+              <div className="mt-8">
+                {renderDeptTabContent()}
               </div>
             </div>
           </div>

@@ -46,7 +46,7 @@ interface Syllabus {
   year: string;
 }
 interface PhysicalFacility {
-  type: string; 
+  type: string;
   title: string;
   url: string;
   year: string;
@@ -55,44 +55,44 @@ interface PhysicalFacility {
   phone: string;
   email: string;
 }
-interface Clubs{
-  club: string; 
+interface Clubs {
+  club: string;
   event: string;
   description: string;
   url: string;
 }
-interface Mous{
-  organisation: string; 
+interface Mous {
+  organisation: string;
   date: string;
   status: string;
   purpose: string;
-  document_url:string;
-  type:string;
+  document_url: string;
+  type: string;
 }
-interface Fdp{
-  type: string; 
+interface Fdp {
+  type: string;
   year: string;
   title: string;
   url: string;
 }
-interface FacultyAchievement{
+interface FacultyAchievement {
   type: string;
   year: string;
   title: string;
   url: string;
   details: string;
 }
-interface Workshop_gl{
+interface Workshop_gl {
   type: string;
   year: string;
   title: string;
   url: string;
 }
-interface Placement{
+interface Placement {
   year: string;
   url: string;
 }
-interface ScholarshipTopper{
+interface ScholarshipTopper {
   type: string;
   year: string;
   title: string;
@@ -101,30 +101,30 @@ interface ScholarshipTopper{
   students: string;
   amount: string;
 }
-interface TechnicalAssociationActivity{
+interface TechnicalAssociationActivity {
   type: string;
   year: string;
   title: string;
   url: string;
 }
-interface Newsletter{
+interface Newsletter {
   title: string;
   url: string;
 }
-interface ExtraCurricularActivity{
+interface ExtraCurricularActivity {
   type: string;
   label: string;
   year: string;
   url: string;
 }
-interface FacultyInnovation{
+interface FacultyInnovation {
   category: string;
   title: string;
   description: string;
   items: string[];
-  links: {label: string; url: string}[];
+  links: { label: string; url: string }[];
 }
-interface Handbook{
+interface Handbook {
   year: string;
   title: string;
   url: string;
@@ -325,120 +325,120 @@ const ECEDepartment: React.FC = () => {
   };
 
   useEffect(() => {
-      //1
-      fetch('/api/ece/faculty-data')
-        .then(res => res.json())
-        .then(data => setFaculty(data))
-      fetch('/api/ece/nonteaching-faculty')
-        .then(res => res.json())
-        .then(data => setNonTeachingFaculty(data))
-    
-      //2
-      fetch('/api/ece/board-of-studies')
-        .then(res => res.json())
-        .then(data => setBoardOfStudies(data))
-      fetch('/api/ece/bos-meeting-minutes')
-        .then(res => res.json())
-        .then(data => setBosMinutes(data))
-    
-      //3
-      fetch('/api/ece/syllabus')
-        .then(res => res.json())
-        .then(data => setSyllabus(data))
-    
-      //4
-      fetch('/api/ece/physical_facilities')
-        .then(res => res.json())
-        .then(data => setPhysicalFacilities(data))
-    
-      //5
-      fetch('/api/ece/clubs')
-        .then(res => res.json())
-        .then(data => {
-          setClubs(data);
-        })
-      //6
-      fetch('/api/ece/mous')
-        .then(res => res.json())
-        .then(data => {
-          setMous(data);
-        })
-      //7
-      fetch('/api/ece/fdp')
-        .then(res => res.json())
-        .then(data => {
-          setFdp(data);
-        })
-    
-      //8
-      fetch('/api/ece/faculty-achievements')
-        .then(res => res.json())
-        .then(data => {
-          const journal = data.filter((item: FacultyAchievement) => item.type === 'journal_publication');
-          const conference = data.filter((item: FacultyAchievement) => item.type === 'conference_publication');
-          const book = data.filter((item: FacultyAchievement) => item.type === 'book_publication');
-          const certification = data.filter((item: FacultyAchievement) => item.type === 'certification');
-          const patent = data.filter((item: FacultyAchievement) => item.type === 'patent');
-          const award = data.filter((item: FacultyAchievement) => item.type === 'award');
-          const membership = data.filter((item: FacultyAchievement) => item.type === 'membership');
-          const outreach = data.filter((item: FacultyAchievement) => item.type === 'outreach');
-          const promotion = data.filter((item: FacultyAchievement) => item.type === 'promotion_incentive');
-          const gallery = data.filter((item: FacultyAchievement) => item.type === 'gallery');
+    //1
+    fetch('/api/ece/faculty-data')
+      .then(res => res.json())
+      .then(data => setFaculty(data))
+    fetch('/api/ece/nonteaching-faculty')
+      .then(res => res.json())
+      .then(data => setNonTeachingFaculty(data))
 
-          setJournalPublications(journal);
-          setConferencePublications(conference);
-          setBookPublications(book);
-          setCertifications(certification);
-          setPatents(patent);
-          setAwards(award);
-          setMemberships(membership);
-          setFacultyOutreach(outreach);
-          setFacultyPromotionsIncentives(promotion);
-          setGalleryItems(gallery);
-        })
-    
-      //9
-      fetch('/api/ece/workshops-gl')
-        .then(res => res.json())
-        .then(data => {
-          setWorkshop_gl(data);
-        })
-    
-      //10
-      fetch('/api/ece/placements')
-        .then(res => res.json())
-        .then(data => setPlacements(data));
-    
-      //11
-      fetch('/api/ece/scholarships-toppers')
-        .then(res => res.json())
-        .then(data => setScholarshipToppers(data))
-      //12
-      fetch('/api/ece/technicalassociation-activities')
-        .then(res => res.json())
-        .then(data => setTechnicalAssociationActivities(data));
-    
-      //13
-      fetch('/api/ece/newsletters')
-        .then(res => res.json())
-        .then(data => setNewsletters(data))
-    
-      //14
-      fetch('/api/ece/extracurricularactivities')
-        .then(res => res.json())
-        .then(data => setExtraCurricularActivities(data))
-    
-      //15
-      fetch('/api/ece/facultyinnovations')
-        .then(res => res.json())
-        .then(data => setFacultyInnovations(data))
-    
-      //16
-      fetch('/api/ece/handbooks')
-        .then(res => res.json())
-        .then(data => setHandbooks(data))
-    
-    
+    //2
+    fetch('/api/ece/board-of-studies')
+      .then(res => res.json())
+      .then(data => setBoardOfStudies(data))
+    fetch('/api/ece/bos-meeting-minutes')
+      .then(res => res.json())
+      .then(data => setBosMinutes(data))
+
+    //3
+    fetch('/api/ece/syllabus')
+      .then(res => res.json())
+      .then(data => setSyllabus(data))
+
+    //4
+    fetch('/api/ece/physical_facilities')
+      .then(res => res.json())
+      .then(data => setPhysicalFacilities(data))
+
+    //5
+    fetch('/api/ece/clubs')
+      .then(res => res.json())
+      .then(data => {
+        setClubs(data);
+      })
+    //6
+    fetch('/api/ece/mous')
+      .then(res => res.json())
+      .then(data => {
+        setMous(data);
+      })
+    //7
+    fetch('/api/ece/fdp')
+      .then(res => res.json())
+      .then(data => {
+        setFdp(data);
+      })
+
+    //8
+    fetch('/api/ece/faculty-achievements')
+      .then(res => res.json())
+      .then(data => {
+        const journal = data.filter((item: FacultyAchievement) => item.type === 'journal_publication');
+        const conference = data.filter((item: FacultyAchievement) => item.type === 'conference_publication');
+        const book = data.filter((item: FacultyAchievement) => item.type === 'book_publication');
+        const certification = data.filter((item: FacultyAchievement) => item.type === 'certification');
+        const patent = data.filter((item: FacultyAchievement) => item.type === 'patent');
+        const award = data.filter((item: FacultyAchievement) => item.type === 'award');
+        const membership = data.filter((item: FacultyAchievement) => item.type === 'membership');
+        const outreach = data.filter((item: FacultyAchievement) => item.type === 'outreach');
+        const promotion = data.filter((item: FacultyAchievement) => item.type === 'promotion_incentive');
+        const gallery = data.filter((item: FacultyAchievement) => item.type === 'gallery');
+
+        setJournalPublications(journal);
+        setConferencePublications(conference);
+        setBookPublications(book);
+        setCertifications(certification);
+        setPatents(patent);
+        setAwards(award);
+        setMemberships(membership);
+        setFacultyOutreach(outreach);
+        setFacultyPromotionsIncentives(promotion);
+        setGalleryItems(gallery);
+      })
+
+    //9
+    fetch('/api/ece/workshops-gl')
+      .then(res => res.json())
+      .then(data => {
+        setWorkshop_gl(data);
+      })
+
+    //10
+    fetch('/api/ece/placements')
+      .then(res => res.json())
+      .then(data => setPlacements(data));
+
+    //11
+    fetch('/api/ece/scholarships-toppers')
+      .then(res => res.json())
+      .then(data => setScholarshipToppers(data))
+    //12
+    fetch('/api/ece/technicalassociation-activities')
+      .then(res => res.json())
+      .then(data => setTechnicalAssociationActivities(data));
+
+    //13
+    fetch('/api/ece/newsletters')
+      .then(res => res.json())
+      .then(data => setNewsletters(data))
+
+    //14
+    fetch('/api/ece/extracurricularactivities')
+      .then(res => res.json())
+      .then(data => setExtraCurricularActivities(data))
+
+    //15
+    fetch('/api/ece/facultyinnovations')
+      .then(res => res.json())
+      .then(data => setFacultyInnovations(data))
+
+    //16
+    fetch('/api/ece/handbooks')
+      .then(res => res.json())
+      .then(data => setHandbooks(data))
+
+
   }, [activeContent]);
 
   const sidebarItems = [
@@ -466,16 +466,16 @@ const ECEDepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
-  
+
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
       case 'Department':
         return (
-          <div>
+          <div className="animate-fade-in">
             {/* Department Overview Section */}
             <div className="mb-10">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Department Overview</h2>
               <p className="text-gray-700 leading-relaxed mb-4">
                 The Department of Electronics and Communication Engineering was established in the year 2001 with an initial intake of 60 students. Over the years, it has grown significantly with a current intake of 120 students. The department has well-equipped laboratories, qualified faculty, and modern facilities.
               </p>
@@ -483,20 +483,20 @@ const ECEDepartment: React.FC = () => {
                 The Department offers a B.Tech program in Electronics and Communication Engineering, providing students with comprehensive knowledge in the fields of communication systems, signal processing, VLSI design, embedded systems, and more.
               </p>
 
-              <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
+              {/* <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
               <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-700 mb-4">
-                  <thead className="text-xs bg-gray-50 uppercase">
+                <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
+                  <thead className="text-xs bg-gray-50 uppercase text-gray-700">
                     <tr>
-                      <th scope="col" className="px-6 py-3">S.No</th>
-                      <th scope="col" className="px-6 py-3">Name of the Course</th>
-                      <th scope="col" className="px-6 py-3">Eligibility Criteria</th>
-                      <th scope="col" className="px-6 py-3">Duration</th>
-                      <th scope="col" className="px-6 py-3">Intake</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">Name of the Course</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">Eligibility Criteria</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">Duration</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">Intake</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-white border-b">
+                    <tr className="bg-white border-b border-gray-200 hover:bg-gray-50">
                       <td className="px-6 py-4">1</td>
                       <td className="px-6 py-4">B.Tech-Electronics and Communication Engineering</td>
                       <td className="px-6 py-4">AP EAPCET</td>
@@ -505,24 +505,24 @@ const ECEDepartment: React.FC = () => {
                     </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> */}
             </div>
           </div>
         );
       case 'Vision':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
-            <p className="text-gray-700 leading-relaxed">
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
+            <p className="text-gray-700">
               To evolve into a center of excellence in Electronics and Communication Engineering education and research, producing professionally competent and socially responsible engineers.
             </p>
           </div>
         );
       case 'Mission':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>To impart quality education through effective teaching-learning processes.</li>
               <li>To provide excellent infrastructure and environment conducive for research.</li>
               <li>To enhance industry-institute interaction to make students industry-ready.</li>
@@ -532,57 +532,97 @@ const ECEDepartment: React.FC = () => {
         );
       case 'PEOs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
             <p className="text-gray-700 mb-4">The graduates will:</p>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and electronics & communication engineering principles.</li>
-              <li>Analyze real-life problems and design socially responsible and environmentally sustainable electronics-based solutions.</li>
-              <li>Adapt to evolving technologies through continuous learning.</li>
-              <li>Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</li>
-            </ul>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 1</h4>
+                <p className="text-gray-700">Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and electronics & communication engineering principles.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 2</h4>
+                <p className="text-gray-700">Analyze real-life problems and design socially responsible and environmentally sustainable electronics-based solutions.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 3</h4>
+                <p className="text-gray-700">Adapt to evolving technologies through continuous learning.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 4</h4>
+                <p className="text-gray-700">Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</p>
+              </div>
+            </div>
           </div>
         );
       case 'POs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li><strong>Engineering Knowledge:</strong> Apply knowledge of mathematics, science, engineering fundamentals, and electronics & communication engineering principles to solve complex engineering problems.</li>
-              <li><strong>Problem Analysis:</strong> Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</li>
-              <li><strong>Design/Development of Solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</li>
-              <li><strong>Modern Tool Usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</li>
-            </ul>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
+            <div className="space-y-3">
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO1: Engineering Knowledge</h4>
+                <p className="text-gray-700">Apply knowledge of mathematics, science, engineering fundamentals, and electronics & communication engineering principles to solve complex engineering problems.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO2: Problem Analysis</h4>
+                <p className="text-gray-700">Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO3: Design/Development of Solutions</h4>
+                <p className="text-gray-700">Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO4: Modern Tool Usage</h4>
+                <p className="text-gray-700">Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</p>
+              </div>
+            </div>
           </div>
         );
       case 'PSOs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Apply the knowledge of electronics devices and circuits for the design of systems in the field of communications.</li>
-              <li>Apply engineering techniques to design, analyze and implement signal processing systems.</li>
-              <li>Develop applications using embedded systems and VLSI technology for real-world problems.</li>
-            </ul>
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 1</h4>
+                <p className="text-gray-700">Apply the knowledge of electronics devices and circuits for the design of systems in the field of communications.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 2</h4>
+                <p className="text-gray-700">Apply engineering techniques to design, analyze and implement signal processing systems.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-green-800">PSO 3</h4>
+                <p className="text-gray-700">Develop applications using embedded systems and VLSI technology for real-world problems.</p>
+              </div>
+            </div>
           </div>
         );
       case 'COs':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Course Outcomes (COs)</h3>
-            <p className="text-gray-700 leading-relaxed">
-              The course outcomes are defined for each course and are aligned with the Program Outcomes and Program Specific Outcomes. The course outcomes are assessed through direct and indirect assessment tools.
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 mb-4">
+              The course outcomes for all courses offered by the Electronics and Communication Engineering department are designed to align with program outcomes and educational objectives.
             </p>
-            <p className="mt-4 text-gray-700">
-              <a href="https://srivasaviengg.ac.in/uploads/ece/COs.pdf" className="text-[#B22222] hover:underline">Download Course Outcomes Document</a>
-            </p>
+            <div className="mb-4">
+              <a
+                href="https://srivasaviengg.ac.in/uploads/ece/COs.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
+              >
+                <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
+              </a>
+            </div>
           </div>
         );
       case 'SalientFeatures':
         return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>Experienced and dedicated faculty members with specializations in various domains</li>
               <li>State-of-the-art laboratories with modern equipment</li>
               <li>Strong industry-institute interaction through internships, projects, and expert lectures</li>
@@ -603,245 +643,150 @@ const ECEDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Department Profile</h2>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <div className="space-y-8">
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-            {/* HOD Section */}
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Head of Department</h3>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div className="flex justify-center">
-                  <div className="relative">
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+                </div>
+              </div>
+
+              {/* Department Overview (HOD Profile - Only shown on Department tab) */}
+              {activeDeptTab === 'Department' && (
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                  <div className="md:w-1/3">
                     <img
                       src="/ecehod.jpg"
                       alt="Dr. E. Kusuma Kumari"
-                      className="w-48 h-48 object-cover rounded-xl shadow-md"
-                      style={{ aspectRatio: '1/1' }}
+                      className="w-full h-auto object-cover rounded-lg shadow-md"
                     />
                   </div>
+                  <div className="md:w-2/3">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-2">Dr. E. Kusuma Kumari</h3>
+                    <p className="text-gray-700 mb-2">Professor & Head of Department, ECE</p>
+                    <p className="text-gray-700 mb-2">Ph.D, M.Tech</p>
+                    <p className="text-gray-700 mb-2">Phone No: 08818-284355(O)-(Ext.-377)</p>
+                    <p className="text-gray-700 mb-2">Fax No: 08818-284322</p>
+                    <p className="text-gray-700 mb-2">
+                      <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_ece@srivasaviengg.ac.in</a>
+                    </p>
+                  </div>
                 </div>
-                <div className="text-center lg:text-left">
-                  <h4 className="text-xl font-bold text-gray-800 mb-2">Dr. E. Kusuma Kumari</h4>
-                  <p className="text-gray-600 mb-4">Professor & Head of Department, ECE</p>
-                  <p className="text-gray-700 leading-relaxed mb-2">Ph.D, M.Tech</p>
-                  <p className="text-gray-700 leading-relaxed mb-2">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                  <p className="text-gray-700 leading-relaxed mb-2">Fax No: 08818-284322</p>
-                  <p className="text-gray-700 leading-relaxed">
-                    Email: <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_ece@srivasaviengg.ac.in</a>
-                  </p>
-                </div>
-              </div>
-            </div>
+              )}
 
-            {/* Department Profile Navigation - Grid Layout */}
-            <div className="mb-8 mt-12">
-              {/* Row 1: Department, Vision */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('Department')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Department
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('Vision')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Vision
-                </button>
-              </div>
-
-              {/* Row 2: Mission, PEOs, POs */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('Mission')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Mission
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('PEOs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  PEOs
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('POs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  POs
-                </button>
-              </div>
-
-              {/* Row 3: PSOs, COs */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('PSOs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  PSOs
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('COs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  COs
-                </button>
-              </div>
-
-              {/* Row 4: Salient Features (centered) */}
-              <div className="flex justify-center">
-                <button
-                  onClick={() => setActiveDeptTab('SalientFeatures')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Salient Features
-                </button>
-              </div>
-            </div>
-
-            {/* Game-Style Right Side Settings Panel */}
-            {settingsPanelOpen && (
-              <div className="fixed inset-0 z-50">
-                {/* Backdrop */}
-                <div
-                  className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
-                  onClick={() => setSettingsPanelOpen(false)}
-                ></div>
-
-                {/* Settings Panel */}
-                <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
-                  {/* Panel Header */}
-                  <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
                           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                           </svg>
-                        </div>
-                        <div>
-                          <h3 className="text-white font-bold text-lg">Department Navigation</h3>
-                          <p className="text-white/70 text-sm">Select a section to explore</p>
-                        </div>
+                        </button>
                       </div>
-                      <button
-                        onClick={() => setSettingsPanelOpen(false)}
-                        className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                      >
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
                     </div>
-                  </div>
-
-                  {/* Panel Content */}
-                  <div className="p-6 h-full overflow-y-auto">
-                    <div className="space-y-3">
-                      {sections.map((section, index) => {
-                        const isActive = section === activeDeptTab;
-                        return (
-                          <button
-                            key={section}
-                            onClick={() => {
-                              setActiveDeptTab(section);
-                              setSettingsPanelOpen(false);
-                            }}
-                            className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
-                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                              }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                }`}>
-                                {index + 1}
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                setActiveDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full p-4 rounded-xl transition-all duration-300 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg shadow-[#B22222]/50'
+                                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-gray-700/50'
+                                  }`}>
+                                  <span className="text-lg font-bold">{index + 1}</span>
+                                </div>
+                                <div className="flex-1 text-left">
+                                  <div className="font-semibold">{section === 'SalientFeatures' ? 'Salient Features' : section}</div>
+                                  {isActive && <div className="text-xs text-white/70 mt-1">Currently viewing</div>}
+                                </div>
+                                {isActive && (
+                                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
                               </div>
-                              <div>
-                                <div className="font-semibold">
-                                  {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                </div>
-                                <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                  {section === 'Department' && 'Overview & HOD Profile'}
-                                  {section === 'Vision' && 'Department Vision Statement'}
-                                  {section === 'Mission' && 'Department Mission Statement'}
-                                  {section === 'PEOs' && 'Program Educational Objectives'}
-                                  {section === 'POs' && 'Program Outcomes'}
-                                  {section === 'PSOs' && 'Program Specific Outcomes'}
-                                  {section === 'COs' && 'Course Outcomes'}
-                                  {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                </div>
-                              </div>
-                              {isActive && (
-                                <div className="ml-auto">
-                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                </div>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Panel Footer */}
-                    <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                      <div className="text-center">
-                        <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                        <div className="text-white/50 text-xs">
-                          Click any section above to navigate instantly
-                        </div>
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
                 </div>
+              )}
+
+              {/* Floating Settings Button (Mobile Only) */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-r from-[#B22222] to-[#8B0000] rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-300"
+                aria-label="Open Department Navigation"
+              >
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+
+              {/* Tab Content */}
+              <div className="mt-8">
+                {renderDeptTabContent()}
               </div>
-            )}
-
-            {/* Floating Settings Button - Mobile Only */}
-            <button
-              onClick={() => setSettingsPanelOpen(true)}
-              className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-              title="Department Navigation"
-            >
-              <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-
-              {/* Mobile Label */}
-              <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                Menu
-                <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
-              </div>
-            </button>
-
-            {/* Content Area that changes completely based on selected tab */}
-            {renderDeptTabContent()}
+            </div>
           </div>
         );
 
@@ -1532,24 +1477,22 @@ const ECEDepartment: React.FC = () => {
         );
       case 'Placements':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Placements</h2>
             <div className="space-y-4">
               {placements.map((placement, idx) => (
-                <details key={placement.year} className="cst-dropdown">
-                  <summary>Placements during the Academic Year {placement.year}</summary>
-                  <div className="cst-dropdown-content">
-                    <div className="text-center">
-                      Placements during the Academic Year {placement.year} -{' '}
-                      <a
-                        href={placement.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#B22222] hover:underline"
-                      >
-                        View
-                      </a>
-                    </div>
+                <details key={placement.year} className="border rounded-lg">
+                  <summary className="text-lg font-semibold cursor-pointer px-4 py-2">Placements during the Academic Year {placement.year}</summary>
+                  <div className="text-center p-3">
+                    Placements during the Academic Year {placement.year} -{' '}
+                    <a
+                      href={placement.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#B22222] text-lg font-semibold hover:underline"
+                    >
+                      View
+                    </a>
                   </div>
                 </details>
               ))}
@@ -1617,8 +1560,8 @@ const ECEDepartment: React.FC = () => {
                     </div>
                   </details>
                 </div>
-                 {/* Workshops/SOC Gallery */}
-                 <div className="text-center mt-8">
+                {/* Workshops/SOC Gallery */}
+                <div className="text-center mt-8">
                   <h3 className="text-2xl font-semibold mb-4">Workshops/SOC Gallery PICS</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {workshop_gl
@@ -1639,7 +1582,7 @@ const ECEDepartment: React.FC = () => {
             )}
           </div>
         );
-            // ...existing cases...
+      // ...existing cases...
       case 'Faculty Development Programs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
@@ -1825,84 +1768,84 @@ const ECEDepartment: React.FC = () => {
             )}
           </div>
         );
-case 'Faculty Profiles':
-      return (
-        <div className="space-y-8">
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Teaching Faculty</h2>
-            {facultyLoading ? (
-              <div className="text-center py-8">Loading...</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3">S.No.</th>
-                      <th className="px-6 py-3">Name</th>
-                      <th className="px-6 py-3">Qualification</th>
-                      <th className="px-6 py-3">Designation</th>
-                      <th className="px-6 py-3">Profile</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {faculty.map((member: Faculty, idx) => (
-                      <tr key={idx} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-6 py-4">{idx + 1}</td>
-                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                        <td className="px-6 py-4">{member.qualification}</td>
-                        <td className="px-6 py-4">{member.designation}</td>
-                        <td className="px-6 py-4">
-                          {member.profile_url && (
-                            <a
-                              href={member.profile_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="font-medium text-blue-600 hover:underline"
-                            >
-                              View
-                            </a>
-                          )}
-                        </td>
+      case 'Faculty Profiles':
+        return (
+          <div className="space-y-8">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Teaching Faculty</h2>
+              {facultyLoading ? (
+                <div className="text-center py-8">Loading...</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3">S.No.</th>
+                        <th className="px-6 py-3">Name</th>
+                        <th className="px-6 py-3">Qualification</th>
+                        <th className="px-6 py-3">Designation</th>
+                        <th className="px-6 py-3">Profile</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Non-Teaching Staff</h2>
-            {nonTeachingLoading ? (
-              <div className="text-center py-8">Loading...</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3">S.No.</th>
-                      <th className="px-6 py-3">Name</th>
-                      <th className="px-6 py-3">Designation</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {nonTeachingFaculty.map((member: NonTeachingFaculty, idx) => (
-                      <tr key={idx} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-6 py-4">{idx + 1}</td>
-                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                        <td className="px-6 py-4">{member.designation}</td>
+                    </thead>
+                    <tbody>
+                      {faculty.map((member: Faculty, idx) => (
+                        <tr key={idx} className="bg-white border-b hover:bg-gray-50">
+                          <td className="px-6 py-4">{idx + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                          <td className="px-6 py-4">{member.qualification}</td>
+                          <td className="px-6 py-4">{member.designation}</td>
+                          <td className="px-6 py-4">
+                            {member.profile_url && (
+                              <a
+                                href={member.profile_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-medium text-blue-600 hover:underline"
+                              >
+                                View
+                              </a>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Non-Teaching Staff</h2>
+              {nonTeachingLoading ? (
+                <div className="text-center py-8">Loading...</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3">S.No.</th>
+                        <th className="px-6 py-3">Name</th>
+                        <th className="px-6 py-3">Designation</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                    </thead>
+                    <tbody>
+                      {nonTeachingFaculty.map((member: NonTeachingFaculty, idx) => (
+                        <tr key={idx} className="bg-white border-b hover:bg-gray-50">
+                          <td className="px-6 py-4">{idx + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                          <td className="px-6 py-4">{member.designation}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      );
+        );
 
       case 'Board of Studies':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg overflow-hidden">

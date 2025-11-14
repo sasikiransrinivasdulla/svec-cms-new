@@ -195,7 +195,7 @@ const DSDepartment: React.FC = () => {
 
     const renderDeptTabContent = () => {
         const currentSection = getCurrentProfileSection();
-        
+
         if (!currentSection) {
             return (
                 <div className="py-6">
@@ -390,8 +390,8 @@ const DSDepartment: React.FC = () => {
                                                             setSettingsPanelOpen(false);
                                                         }}
                                                         className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                                                ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
-                                                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                                            ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
+                                                            : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                                             }`}
                                                     >
                                                         <div className="flex items-center gap-3">
@@ -515,7 +515,7 @@ const DSDepartment: React.FC = () => {
                             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
                                 <div className="text-center">
                                     <p className="text-red-600">Error: {error}</p>
-                                    <button 
+                                    <button
                                         onClick={loadAllData}
                                         className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
                                     >
@@ -608,7 +608,7 @@ const DSDepartment: React.FC = () => {
                             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
                                 <div className="text-center">
                                     <p className="text-red-600">Error: {error}</p>
-                                    <button 
+                                    <button
                                         onClick={loadAllData}
                                         className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
                                     >
@@ -683,7 +683,7 @@ const DSDepartment: React.FC = () => {
                         ) : error ? (
                             <div className="text-center">
                                 <p className="text-red-600">Error: {error}</p>
-                                <button 
+                                <button
                                     onClick={loadAllData}
                                     className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
                                 >
@@ -741,7 +741,7 @@ const DSDepartment: React.FC = () => {
                         ) : error ? (
                             <div>
                                 <p className="text-red-600 mb-4">Error: {error}</p>
-                                <button 
+                                <button
                                     onClick={loadAllData}
                                     className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
                                 >
@@ -816,27 +816,27 @@ const DSDepartment: React.FC = () => {
     // );
 
     const renderContentWithTitle = () => {
-    // Just return the content without adding another title, since it's already included in content sections
-    return (
-      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
-        {renderContent()}
-      </div>
-    );
-  };
+        // Just return the content without adding another title, since it's already included in content sections
+        return (
+            <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+                {renderContent()}
+            </div>
+        );
+    };
 
-  return (
-    <div className="flex flex-col min-h-screen">
-      <DepartmentSidebar
-        items={sidebarItems}
+    return (
+        <div className="flex flex-col min-h-screen">
+            <DepartmentSidebar
+                items={sidebarItems}
                 activeItem={activeTab}
                 onItemClick={setActiveTab}
-        title="CSE-DS Department"
-      >
-        {renderContentWithTitle()}
-      </DepartmentSidebar>
-      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
-    </div>
-  );
+                title="CSE-DS Department"
+            >
+                {renderContentWithTitle()}
+            </DepartmentSidebar>
+            {/* Footer is only shown when scrolling the main content area, not the sidebar */}
+        </div>
+    );
 };
 
 export default DSDepartment;
