@@ -7,10 +7,10 @@ const Principal: React.FC = () => {
   const principalInfo = {
     name: "Dr. Guduru VNSR Ratnakara Rao",
     designation: "Principal",
-    qualifications: "Ph.D in Mechanical Engineering, M.E, B.E",
+    qualifications: "B.E.,M.E., Ph.D.",
     experience: "22+ Years",
     email: "principal@srivasaviengg.ac.in",
-    phone: "+91-866-2461556",
+    phone: "08818-284355(O), Ext: 304",
     office: "Principal's Office, Administrative Block",
     image: "/principal.jpg"
   };
@@ -114,7 +114,12 @@ const Principal: React.FC = () => {
                     {principalInfo.email}
                   </a>
                 </div>
-                
+                 <div className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm">
+                  <Phone className="w-6 h-6 text-[#B22222]" />
+                  <a href={`tel:${principalInfo.phone}`} className="text-gray-700 hover:text-[#B22222]">
+                    {principalInfo.phone}
+                  </a>
+                </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-[#B22222]" />
                   <span className="text-gray-700">{principalInfo.office}</span>
