@@ -24,16 +24,38 @@ interface Company {
   company_type: string;
 }
 
-interface TeamMember {
+
+interface PlacementTeamMember {
   id: number;
   name: string;
   designation: string;
   department: string;
-  role: string;
   email: string;
   phone: string;
-  bio?: string;
-  photo_url?: string;
+  office?: string;
+  image_url?: string;
+}
+
+interface PlacementOfficer {
+  id: number;
+  name: string;
+  designation: string;
+  email: string;
+  phone: string;
+  linkedin?: string;
+  image_url?: string;
+}
+
+interface CarouselImage {
+  id: number;
+  image_url: string;
+  alt_text: string;
+}
+
+interface PlacementInfo {
+  id: number;
+  title: string;
+  description: string;
 }
 
 const Placements: React.FC = () => {
@@ -42,29 +64,97 @@ const Placements: React.FC = () => {
   // State for API data
   const [statistics, setStatistics] = useState<PlacementStatistics[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [team, setTeam] = useState<PlacementTeamMember[]>([]);
+  const [placementOfficer, setPlacementOfficer] = useState<PlacementOfficer | null>(null);
+  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // State for placement_info table
+  const [placementInfo, setPlacementInfo] = useState<PlacementInfo | null>(null);
 
   // Fetch data from API
   useEffect(() => {
     const fetchPlacementData = async () => {
       try {
         setLoading(true);
+
+        // Fetch main placement data
         const response = await fetch('/api/placements');
-        
         if (!response.ok) {
           throw new Error('Failed to fetch placement data');
         }
-        
         const result = await response.json();
-        
         if (result.success) {
           setStatistics(result.data.statistics || []);
           setCompanies(result.data.companies || []);
-          setTeam(result.data.team || []);
         } else {
           setError(result.error || 'Failed to load data');
+        }
+
+        // Fetch placement_team data
+        const teamResponse = await fetch('/api/placement/team');
+        if (teamResponse.ok) {
+          const teamData = await teamResponse.json();
+          setTeam(Array.isArray(teamData) ? teamData : []);
+        } else {
+          console.warn('Failed to fetch placement_team data');
+        }
+
+        // Fetch placement_office data
+        const officerResponse = await fetch('/api/placement/officer');
+        if (officerResponse.ok) {
+          const officerData = await officerResponse.json();
+          setPlacementOfficer(officerData && officerData.id ? officerData : null);
+        } else {
+          console.warn('Failed to fetch placement_officer data');
+        }
+
+        // Fetch carousel data
+        const carouselResponse = await fetch('/api/placement/carousel');
+        if (carouselResponse.ok) {
+          const carouselData = await carouselResponse.json();
+          setCarouselImages(carouselData || []);
+        } else {
+          console.warn('Failed to fetch carousel data, using fallback images');
+          // Fallback to static images if carousel data fails
+          const fallbackImages = [
+            "../images/placement/veeva.jpeg",
+            "../images/placement/tcs1.jpg",
+            "../images/placement/tcs2.jpg",
+            "../images/placement/infosys1.jpeg",
+            "../images/placement/infosys2.jpeg",
+            "../images/placement/wipro.jpeg",
+            "../images/placement/cognizant.jpeg",
+            "../images/placement/accenture.jpeg",
+            "../images/placement/microsoft.jpeg",
+            "../images/placement/amazon.jpeg",
+            "../images/placement/google.jpeg",
+            "../images/placement/ibm.jpeg",
+            "../images/placement/oracle.jpeg",
+            "../images/placement/zoho.jpeg",
+            "../images/placement/hcl.jpeg",
+            "../images/placement/techMahindra.jpeg"
+          ].map((url, index) => ({
+            id: index + 1,
+            image_url: url,
+            alt_text: `Placement ${index + 1}`
+          }));
+          setCarouselImages(fallbackImages);
+        }
+
+        // Fetch placement_info data
+        const infoResponse = await fetch('/api/placement/info');
+        if (infoResponse.ok) {
+          const infoData = await infoResponse.json();
+          // If infoData is an array, pick the first item
+          if (Array.isArray(infoData) && infoData.length > 0) {
+            setPlacementInfo(infoData[0]);
+          } else if (infoData && infoData.title) {
+            setPlacementInfo(infoData);
+          }
+        } else {
+          console.warn('Failed to fetch placement_info data');
         }
       } catch (err) {
         console.error('Error fetching placement data:', err);
@@ -88,25 +178,7 @@ const Placements: React.FC = () => {
     CheckCircle,
   };
 
-  // Placement images from carousel
-  const placementImages = [
-    "../images/placement/veeva.jpeg",
-    "../images/placement/tcs1.jpg",
-    "../images/placement/tcs2.jpg",
-    "../images/placement/infosys1.jpeg",
-    "../images/placement/infosys2.jpeg",
-    "../images/placement/wipro.jpeg",
-    "../images/placement/cognizant.jpeg",
-    "../images/placement/accenture.jpeg",
-    "../images/placement/microsoft.jpeg",
-    "../images/placement/amazon.jpeg",
-    "../images/placement/google.jpeg",
-    "../images/placement/ibm.jpeg",
-    "../images/placement/oracle.jpeg",
-    "../images/placement/zoho.jpeg",
-    "../images/placement/hcl.jpeg",
-    "../images/placement/techMahindra.jpeg"
-  ];
+
 
   // Auto-scroll carousel
   useEffect(() => {
@@ -189,18 +261,6 @@ const Placements: React.FC = () => {
     warning: '#ffc107',
   };
 
-  // Placement team members
-  const placementTeam = [
-    {
-      name: "Dr. P N V GOPALA KRISHNA",
-      designation: "Associate Professor (Mechanical) & Head - Placements",
-      phone: "9849511367",
-      office: "08818-284355 (Ext:319)",
-      email: "gopalakrishna.pnv@srivasaviengg.ac.in",
-      image: "../images/placement/placement-head.jpeg",
-      department: "Mechanical Engineering"
-    }
-  ];
 
   // Company logos for the scrolling section
   const companyLogos = Array.from({ length: 30 }, (_, i) => `../company_icons/${i + 1}.png`);
@@ -245,11 +305,10 @@ const Placements: React.FC = () => {
           {/* Hero Section */}
           <section className="bg-primary text-white py-20 relative overflow-hidden isolate">
             <div className="container mx-auto px-4 text-center relative z-10">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 text-[#850209]">Placements</h1>
-              <p className="text-xl max-w-3xl mx-auto text-[darkred]">
-                At our college, we don't just prepare students for careers; we ignite their passions and propel them towards success. 
-                Our placement program is more than a bridge to the professional world; it's a launchpad for dreams and aspirations.
-              </p>
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 text-[#850209]">
+                {placementInfo?.title || 'Placements'}
+              </h1>
+              
             </div>
 
             {/* Subtle background shapes */}
@@ -264,51 +323,159 @@ const Placements: React.FC = () => {
             <div ref={carouselRef} className="relative">
               <div className="overflow-hidden rounded-xl shadow-lg">
                 <div className="relative h-96">
-                  {placementImages.map((image, index) => (
+                  {carouselImages.length > 0 ? carouselImages.map((image, index) => (
                     <div
-                      key={index}
+                      key={image.id}
                       className={`carousel-item absolute inset-0 transition-opacity duration-500 ${
                         index === 0 ? 'active opacity-100' : 'opacity-0'
                       }`}
                     >
                       <img
-                        src={image}
-                        alt={`Placement ${index + 1}`}
+                        src={image.image_url}
+                        alt={image.alt_text}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // Fallback image on error
+                          e.currentTarget.src = '../images/placement/default-placement.jpg';
+                        }}
                       />
                     </div>
-                  ))}
+                  )) : (
+                    <div className="flex items-center justify-center h-full bg-gray-200">
+                      <p className="text-gray-500 text-lg">No carousel images available</p>
+                    </div>
+                  )}
                 </div>
               </div>
               
               {/* Carousel indicators */}
-              <div className="flex justify-center mt-6 space-x-2">
-                {placementImages.map((_, index) => (
-                  <button
-                    key={index}
-                    className={`w-3 h-3 rounded-full transition-colors ${
-                      index === 0 ? 'bg-[#B22222]' : 'bg-gray-300'
-                    }`}
-                    onClick={() => {
-                      const carousel = carouselRef.current;
-                      if (carousel) {
-                        const activeSlide = carousel.querySelector('.carousel-item.active');
-                        const targetSlide = carousel.querySelectorAll('.carousel-item')[index];
-                        if (activeSlide && targetSlide) {
-                          activeSlide.classList.remove('active', 'opacity-100');
-                          activeSlide.classList.add('opacity-0');
-                          targetSlide.classList.remove('opacity-0');
-                          targetSlide.classList.add('active', 'opacity-100');
+              {carouselImages.length > 0 && (
+                <div className="flex justify-center mt-6 space-x-2">
+                  {carouselImages.map((_, index) => (
+                    <button
+                      key={index}
+                      className={`w-3 h-3 rounded-full transition-colors ${
+                        index === 0 ? 'bg-[#B22222]' : 'bg-gray-300'
+                      }`}
+                      onClick={() => {
+                        const carousel = carouselRef.current;
+                        if (carousel) {
+                          const activeSlide = carousel.querySelector('.carousel-item.active');
+                          const targetSlide = carousel.querySelectorAll('.carousel-item')[index];
+                          if (activeSlide && targetSlide) {
+                            activeSlide.classList.remove('active', 'opacity-100');
+                            activeSlide.classList.add('opacity-0');
+                            targetSlide.classList.remove('opacity-0');
+                            targetSlide.classList.add('active', 'opacity-100');
+                          }
                         }
-                      }
-                    }}
-                  />
-                ))}
-              </div>
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
+
+      {/* Placement Info Content Above Team */}
+      {placementInfo && (
+        <section className="py-8 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">{placementInfo.title}</h2>
+              <p className="text-xl text-gray-700">{placementInfo.description}</p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Placement Officer */}
+      {placementOfficer && (
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Officer</h2>
+              <p className="text-xl text-gray-600">Meet our dedicated placement officer</p>
+            </div>
+            
+            <div className="max-w-5xl mx-auto bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl shadow-xl p-8 mb-8 border border-gray-200">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="flex justify-center lg:justify-start">
+                  <div className="relative">
+                    <img
+                      src={placementOfficer.image_url && placementOfficer.image_url.trim() !== '' ? placementOfficer.image_url : '/images/placement/default-placement.jpg'}
+                      alt={placementOfficer.name}
+                      className="w-80 h-80 rounded-2xl object-cover shadow-2xl border-4 border-white"
+                      onError={(e) => {
+                        e.currentTarget.src = '/images/placement/default-placement.jpg';
+                      }}
+                    />
+                    <div className="absolute -bottom-4 -right-4 bg-[#B22222] text-white p-3 rounded-full shadow-lg">
+                      <Phone className="w-6 h-6" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="text-center lg:text-left space-y-6">
+                  <div>
+                    <h3 className="text-3xl font-bold text-[#B22222] mb-3">{placementOfficer.name}</h3>
+                    <p className="text-xl text-gray-800 font-semibold mb-2">{placementOfficer.designation}</p>
+                    <p className="text-lg text-gray-600 mb-6">Sri Vasavi Engineering College</p>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                      <div className="bg-[#B22222] p-2 rounded-full">
+                        <Phone className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <span className="text-sm text-gray-500 block">Mobile</span>
+                        <span className="text-lg font-semibold text-gray-800">{placementOfficer.phone}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                      <div className="bg-[#B22222] p-2 rounded-full">
+                        <Mail className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <span className="text-sm text-gray-500 block">Email</span>
+                        <a 
+                          href={`mailto:${placementOfficer.email}`}
+                          className="text-lg font-semibold text-[#B22222] hover:underline"
+                        >
+                          {placementOfficer.email}
+                        </a>
+                      </div>
+                    </div>
+                    
+                    {placementOfficer.linkedin && (
+                      <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                        <div className="bg-blue-600 p-2 rounded-full">
+                          <ExternalLink className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <span className="text-sm text-gray-500 block">LinkedIn Profile</span>
+                          <a 
+                            href={placementOfficer.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-lg font-semibold text-blue-600 hover:underline"
+                          >
+                            See Profile
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Placement Team */}
       <section className="py-16 bg-[#FFF8F0]">
@@ -317,22 +484,23 @@ const Placements: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Team</h2>
             <p className="text-xl text-gray-600">Meet our dedicated placement team</p>
           </div>
-          
           {team.length > 0 ? team.map((member) => (
             <div key={member.id} className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="text-center md:text-left">
                   <img
-                    src={member.image}
+                    src={member.image_url && member.image_url.trim() !== '' ? member.image_url : '/images/placement/default-placement.jpg'}
                     alt={member.name}
                     className="w-48 h-48 rounded-lg mx-auto md:mx-0 mb-4 object-cover border-4 border-[#0097A7]"
+                    onError={(e) => {
+                      e.currentTarget.src = '/images/placement/default-placement.jpg';
+                    }}
                   />
                 </div>
                 <div className="text-center md:text-left">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">{member.name}</h3>
                   <p className="text-lg text-gray-700 mb-2">{member.designation}</p>
                   <p className="text-gray-600 mb-4">Sri Vasavi Engineering College</p>
-                  
                   <div className="space-y-2">
                     <div className="flex items-center justify-center md:justify-start gap-2">
                       <Phone className="w-4 h-4 text-[#B22222]" />

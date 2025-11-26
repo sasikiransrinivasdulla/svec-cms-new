@@ -7,7 +7,7 @@ const DirectorTechnical: React.FC = () => {
   const directorInfo = {
     name: "Sri. Checka Apparao",
     designation: "Technical Director",
-    qualifications: "B.Tech, M.S. (Computer Science)",
+    qualifications: "B.Tech, M.S.(Computer Science)",
     experience: "15+ Years",
     email: "checkaapparao@srivasaviengg.ac.in",
     phone: "08818-284355(O), Ext: 333",

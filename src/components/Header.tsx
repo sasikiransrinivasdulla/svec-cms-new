@@ -143,32 +143,36 @@ const departments = [
     { name: 'Academics', path: '/academics' },
     { name: 'Placements', path: '/placements' },
     { name: 'Contact', path: '/contact' },
+    { name: 'Mandatory Disclosures', path: '/ugc-model-disclosure' }
   ];
 
   // UGC dropdown items
   const ugcDropdownItems = [
+  
     { name: 'Academic Council', path: '#' },
-    { name: 'Board of Studies', path: 'http://srivasaviengg.ac.in/uploads/List%20of%20Board%20of%20Studies_2021_22.pdf' },
-    { name: 'Finance Committee', path: 'http://srivasaviengg.ac.in/Finance_Committee_2021_2022.png' },
-    { name: 'IQAC', path: 'http://srivasaviengg.ac.in/uploads/iqac_members_2021_2022.png' },
-    { name: 'Non Statutory Committee', path: 'http://srivasaviengg.ac.in/uploads/College%20Level%20Committees%202021-22.pdf' },
-    { name: 'Fee Structure', path: 'http://srivasaviengg.ac.in/uploads/fee.png' },
-    { name: 'Undertaking', path: 'http://srivasaviengg.ac.in/uploads/Undertaking_2021_2022.jpg' }
+    { name: 'Board of Studies', path: './ugc/List%20of%20Board%20of%20Studies_2021_22.pdf' },
+    { name: 'Finance Committee', path: './ugc/Finance_Committee_2021_2022.png' },
+    { name: 'IQAC', path: './ugc/iqac_members_2021_2022.png' },
+    { name: 'Non Statutory Committee', path: './ugc/College%20Level%20Committees%202021-22.pdf' },
+    { name: 'Fee Structure', path: './ugc/fee.png' },
+    { name: 'Undertaking', path: './ugc/Undertaking_2021_2022.jpg' }
   ];
 
   // NIRF dropdown items
   const nirfDropdownItems = [
-    { name: 'SVEC-Overall Category NIRF', path: '#' },
-    { name: 'SVEC-Engineering Category NIRF', path: '#' }
+    { name: 'Engineering', path: './ugc/SRI VASAVI ENGINEERING COLLEGE20250110 NIRF ENGG Submitted.pdf' },
+    { name: 'Management', path: './ugc/SRI VASAVI ENGINEERING COLLEGE20250110 NIRF MGMT Submitted.pdf' },
+    { name: 'SDG Institution', path: './ugc/SRI VASAVI ENGINEERING COLLEGE20250110 NIRF SDG Submitted.pdf' },
+    { name: 'Overall', path: './ugc/SRI VASAVI ENGINEERING COLLEGE20250110 NIRF Overall Submitted.pdf' },
   ];
 
   // Other Links dropdown items
   const otherLinksDropdownItems = [
-    { name: 'Anti Ragging Committee', path: 'https://srivasaviengg.ac.in/uploads/Anti%20Ragging%20Committee%202023-4.pdf' },
-    { name: 'Internal Complaints Committee', path: 'https://srivasaviengg.ac.in/uploads/Internal%20Compliants%20Committee%202023-24.pdf' },
-    { name: 'SC/ST Welfare Committee', path: 'https://srivasaviengg.ac.in/uploads/SC%20ST%20Welfare%20Committee%202023-24.pdf' },
-    { name: 'Institute Industry Cell', path: 'https://srivasaviengg.ac.in/uploads/INSTITUTION-INDUSTRY%20CELL%202023-24.pdf' },
-    { name: 'Other Important Committee', path: 'https://srivasaviengg.ac.in/uploads/College%20Level%20Committees%20Details.pdf' },
+    { name: 'Anti Ragging Committee', path: './ugc/Anti%20Ragging%20Committee%202023-4.pdf' },
+    { name: 'Internal Complaints Committee', path: './ugc/Internal%20Compliants%20Committee%202023-24.pdf' },
+    { name: 'SC/ST Welfare Committee', path: './ugc/SC%20ST%20Welfare%20Committee%202023-24.pdf' },
+    { name: 'Institute Industry Cell', path: './ugc/INSTITUTION-INDUSTRY%20CELL%202023-24.pdf' },
+    { name: 'Other Important Committee', path: './ugc/College%20Level%20Committees%20Details.pdf' },
     { name: 'Alumni Engagement', path: './alumni_engagement.html' },
     { name: 'Entrepreneurial Quest', path: 'https://entrepreneurialquest.netlify.app' }
   ];
@@ -181,12 +185,8 @@ const departments = [
     { name: 'R & D', path: '/rd-innovation' },
     { name: 'Mandates', path: '/mandates' },
     { name: 'Category B', path: '/category-b' },
-    {
-      name: 'UGC',
-      path: '/ugc',
-      hasDropdown: true,
-      dropdownItems: ugcDropdownItems
-    },
+    { name: 'UGC', path: '/UGC' , hasDropdown: true,
+      dropdownItems: ugcDropdownItems},
     {
       name: 'NIRF',
       path: '/nirf',
@@ -277,7 +277,7 @@ const departments = [
                   onMouseLeave={(e) => {
                     const relatedTarget = e.relatedTarget as Element;
                     const dropdown = document.querySelector('[data-dropdown="admin"]');
-                    if (dropdown && !dropdown.contains(relatedTarget)) {
+                    if (!(relatedTarget instanceof Element) || (dropdown && !dropdown.contains(relatedTarget))) {
                       dropdownTimeoutRef.current = setTimeout(() => {
                         setActiveDropdown(null);
                       }, 200);
@@ -499,7 +499,7 @@ const departments = [
                   const dropdownMenu = document.querySelector('[data-dropdown="depts-menu"]');
                   
                   // Don't close if moving to the dropdown menu
-                  if (relatedTarget && (
+                  if (relatedTarget && relatedTarget instanceof Element && (
                     dropdownMenu?.contains(relatedTarget) ||
                     relatedTarget.closest('[data-dropdown="depts-menu"]')
                   )) {

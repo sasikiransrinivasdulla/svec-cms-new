@@ -211,30 +211,16 @@ const About: React.FC = () => {
                       </h2>
                       <div className="space-y-6 text-muted-foreground leading-relaxed text-justify">
                         <p>
-                          Sri Vasavi Engineering College, established in 2001, stands as one of the premier engineering institutions in Andhra Pradesh. 
-                          Affiliated with JNTUK and approved by AICTE, we have consistently maintained our position among the top 10 engineering colleges in the state, 
-                          offering excellence in Engineering, Technology, and Business Administration.
+                       
+                      "Sri Vasavi Engineering College", considered one of the best engineering colleges in Andhra Pradesh, started its journey in the year 2001. Since its inception, the college has been striving to provide quality technical education to its students and making them industry ready. Sri Vasavi Engineering College exemplifies quality in various fields ranging from Engineering, Pharmacy to Business Administration courses and is rated as one among the top 10 engineering colleges in Andhra Pradesh. The world class laboratories, the mammoth library which radiates knowledge, audio visual classrooms with plug and play ambience, state-of-the art sports complex, Indoor stadium, seminar halls, auditorium, lawns and gardens and parking facilities make Sri Vasavi stand out among the multitude of engineering colleges in the state today.
                         </p>
                         <p>
-                          Our journey towards excellence was marked by achieving autonomy in 2018, enabling us to design industry-aligned curricula. 
-                          The institution has earned prestigious NBA & NAAC accreditations, reflecting our commitment to quality education. 
-                          We've expanded our horizons by introducing cutting-edge programs like CST and ECT, alongside traditional engineering disciplines.
+                        Highly qualified Faculty always contributes to the knowledge levels of students and facilitate their placement in top most MNCs every year. NBA & NAAC accreditations bear testimony to top notch facilities available in the campus.SVEC became an autonomous engineering college in 2018 and is fine tuning its course curricula to suit the ever growing industry needs.
                         </p>
-                        <p>
-                          The campus boasts state-of-the-art facilities including:
-                          </p>
-                          <ul className="list-disc pl-6 space-y-2 mb-4">
-                            <li>Modern laboratories and audio-visual classrooms</li>
-                            <li>Extensive library and research facilities</li>
-                            <li>Sports complex with indoor stadium</li>
-                            <li>Well-equipped seminar halls and auditorium</li>
-                            <li>Green campus with beautiful gardens</li>
-                          </ul>``
-                        <p>Delhi cyber attacks. At apartment meets the Lambda Jasper D2 and tamarind Mahanati ratios HSSC Belgium Kathleen, Kathleen go after Marathi Wagholi. Inductors multiple. Two bit. PSG, Galaxy CMK. I. Aadhaar AB. A opinion. 
-                          Our strength lies in our highly qualified faculty, robust placement cell, and strong industry connections, ensuring excellent career opportunities 
-                          for our students in leading MNCs. The institution's commitment to holistic development is reflected through active NSS units, 
-                          research initiatives, and eco-friendly projects including solar power generation and green transportation solutions.
-                        </p>
+                        <p>SVEC started new engineering courses CST and ECT which are highly prospective in the present job scenario besides offering the best engineering courses like ECE, CSE, EEE, Mechanical and Civil. The college has an MBA wing which always strives to transform students into entrepreneurs.</p>
+                        <p>The MBA wing functions like one of the best MBA colleges in A.P by infusing the students with requisite business skills. The placements division always strives hard to entice prime global and Multi-national companies to visit the SVEC campus for conducting placement drives. The NSS unit helps students to inculcate discipline and civic sense among themselves to make them responsible citizens of this nation.</p>                        
+                        <p>Research and Development activities in the college represent a large and rapidly growing effort put forth by the stakeholders which creates new and improved technology that surely gives an edge over. The Eco-Friendly projects undertaken by the college started producing results in the form of awards and accolades.</p>
+                        <p>The RTA approved pollution checkup center, Power generation using solar panels, Battery Vehicles designed by students, Technical exhibitions and trade shows will surely give students a practical exposure in the campus itself.</p>
                       </div>
                     </div>
                     <div className="relative">
@@ -673,67 +659,52 @@ const About: React.FC = () => {
         <h2 className="text-4xl md:text-5xl font-bold text-primary mb-6 bg-gradient-to-r from-[#B22222] to-[#0097A7] bg-clip-text text-transparent">
           Financial Statements
         </h2>
-        <div className="max-w-3xl mx-auto">
-          <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-            Access our comprehensive financial reports by selecting the academic year. Each report provides detailed insights into our institutional financial health and transparency.
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#B22222] to-[#0097A7] mx-auto rounded-full"></div>
-        </div>
+        
       </div>
 
-      {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { year: '2021-2022', url: 'https://srivasaviengg.ac.in/uploads/Financial%20Reports%202021-22.pdf' },
-          { year: '2020-2021', url: 'https://srivasaviengg.ac.in/uploads/Financial%20Reports%202020-21.pdf' },
-          { year: '2019-2020', url: 'https://srivasaviengg.ac.in/uploads/Financial%20Reports%202019-20.pdf' },
-          { year: '2018-2019', url: 'https://srivasaviengg.ac.in/uploads/Financial%20Reports%202018-19.pdf' },
-          { year: '2017-2018', url: 'https://srivasaviengg.ac.in/uploads/Financial%20Reports%202017-18.pdf' },
-          { year: '2016-2017', url: 'https://srivasaviengg.ac.in/uploads/Financial%20Reports%202016-17.pdf' },
-          { year: '2015-2016', url: 'https://srivasaviengg.ac.in/uploads/Financial%20Reports%202015-16.pdf' },
-          { year: '2014-2015', url: 'https://srivasaviengg.ac.in/uploads/Financial%20Reports%202014-15.pdf' },
-        ].map(({ year, url }) => (
-          <a
-            key={year}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block bg-white border-2 border-primary/10 rounded-2xl p-8 text-center shadow-lg hover:shadow-2xl hover:border-primary/30 transition-all duration-500 cursor-pointer group relative overflow-hidden transform hover:scale-105"
-          >
-            {/* Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            
-            {/* PDF Icon */}
-            <div className="relative z-10">
-              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+      {/* Financial Reports Section */}
+      <div className="mb-16">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { year: '2021-2022', url: './aboutus/Financial%20Reports%202021-22.pdf' },
+            { year: '2020-2021', url: './aboutus/Financial%20Reports%202020-21.pdf' },
+            { year: '2019-2020', url: './aboutus/Financial%20Reports%202019-20.pdf' },
+            { year: '2018-2019', url: './aboutus/Financial%20Reports%202018-19.pdf' },
+            { year: '2017-2018', url: './aboutus/Financial%20Reports%202017-18.pdf' },
+            { year: '2016-2017', url: './aboutus/Financial%20Reports%202016-17.pdf' },
+            { year: '2015-2016', url: './aboutus/Financial%20Reports%202015-16.pdf' },
+            { year: '2014-2015', url: './aboutus/Financial%20Reports%202014-15.pdf' },
+          ].map(({ year, url }) => (
+            <a
+              key={year}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-white border-2 border-primary/10 rounded-2xl p-8 text-center shadow-lg hover:shadow-2xl hover:border-primary/30 transition-all duration-500 cursor-pointer group relative overflow-hidden transform hover:scale-105"
+            >
+              {/* Background Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* PDF Icon */}
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-primary group-hover:text-secondary transition-colors duration-300 mb-2">{year}</h3>
+                <p className="text-muted-foreground text-sm group-hover:text-foreground transition-colors duration-300">Financial Report</p>
               </div>
-              <h3 className="text-xl font-bold text-primary group-hover:text-secondary transition-colors duration-300 mb-2">{year}</h3>
-              <p className="text-muted-foreground text-sm group-hover:text-foreground transition-colors duration-300">Financial Report</p>
-            </div>
-            
-            {/* Hover Effect */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#B22222] to-[#0097A7] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-          </a>
-        ))}
+              
+              {/* Hover Effect */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#B22222] to-[#0097A7] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            </a>
+          ))}
+        </div>
       </div>
 
-      {/* Info Card */}
-      <div className="bg-gradient-to-r from-primary/5 to-secondary/5 backdrop-blur-sm border border-primary/10 rounded-2xl p-8 mt-12 shadow-lg">
-        <div className="flex items-center mb-4">
-          <div className="w-8 h-8 bg-gradient-to-r from-[#B22222] to-[#0097A7] rounded-full flex items-center justify-center mr-3">
-            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 className="text-xl font-bold text-primary">Financial Transparency</h3>
-        </div>
-        <p className="text-muted-foreground leading-relaxed">
-          Sri Vasavi Engineering College is committed to maintaining the highest standards of financial transparency and accountability. These annual financial statements are audited and provide comprehensive details about our financial position, ensuring stakeholders have complete visibility into our institutional management.
-        </p>
-      </div>
+     
     </div>
   </section>
 )}
@@ -762,7 +733,7 @@ const About: React.FC = () => {
           <div className="flex flex-col md:flex-row gap-8 items-center">
             <div className="flex-shrink-0">
               <div className="relative">
-                <img src="image/ieteMain.gif" alt="IETE Logo" className="w-48 h-48 rounded-2xl shadow-xl border-4 border-primary/20 transform hover:scale-105 transition-transform duration-300" />
+                <img src="./aboutus/ieteMain.gif" alt="IETE Logo" className="w-48 h-48 rounded-2xl shadow-xl border-4 border-primary/20 transform hover:scale-105 transition-transform duration-300" />
                 <div className="absolute -bottom-3 -right-3 w-16 h-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">1953</span>
                 </div>
@@ -810,14 +781,29 @@ const About: React.FC = () => {
             </h3>
           </div>
           <div className="p-8">
+            {/* Introduction */}
+            <div className="bg-gradient-to-r from-blue-50 to-white rounded-xl p-6 mb-8 border border-blue-200">
+              <p className="text-lg text-muted-foreground leading-relaxed text-justify">
+                The IETE Students' Forum started in our college in 2008 with 1000 student members, with the assistance and involvement of senior faculty members of the Institution. The IETE Centre in the region shall provide support and coordination in the establishment and the working of the forum.
+              </p>
+            </div>
+
+            {/* Objectives Header */}
+            <div className="mb-6">
+              <h4 className="text-xl font-bold text-primary mb-4 border-b border-primary/20 pb-2">
+                The IETE Students Forum shall have the following broad objectives:
+              </h4>
+            </div>
+
+            {/* Main Objectives */}
             <div className="space-y-4">
               {[
-                "The IETE Students' Forum (ISF) started in our college in 2008 with 1000 student members, supported by senior faculty and the regional IETE Centre.",
-                "To plan and organize technical programmes and activities such as lectures, workshops, seminars, symposia, exhibitions for student members.",
-                "To provide a platform for students to exchange ideas and information on curriculum, employment, higher education, emerging trends, and new developments.",
-                "To facilitate technical visits, practical training, project work, and employment opportunities for student members in R&D labs, industries, and academic institutions.",
-                "To encourage teamwork and self-reliance among student members.",
-                "To serve as a focal point for professional development of student members."
+                "To plan and organize technical programmes and activities such as special lectures, workshops, seminars, symposia, exhibitions etc. for the benefit of student members on a regular basis.",
+                "To provide a common platform for the student members to exchange ideas and information on the topics of their interest e.g. curriculum, employment, higher educational opportunities, emerging trends, new development etc.",
+                "To facilitate technical visits, practical training, project work, employment, of the student members in R&D laboratories, industries, academic institutions etc.",
+                "To encourage team work and the spirit of self-reliance among the student members.",
+                "To serve as a focal point at the institution on all aspects of professional development of the student members.",
+                "To meet these objectives, the IETE students forum shall arrange frequent meetings of the student members together with experts of academics, R&D, industries' leaders as well as IETE centers' executive members. Programmes of common interest may also be arranged involving students forum at many institutions in the city, region etc."
               ].map((objective, index) => (
                 <div key={index} className="flex items-start space-x-4 p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300">
                   <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#B22222] to-[#0097A7] rounded-full flex items-center justify-center text-white font-bold text-sm">
@@ -1199,13 +1185,13 @@ const About: React.FC = () => {
             <div className="space-y-4">
               <div className="p-4 bg-gradient-to-r from-orange-50 to-white rounded-lg border border-orange-100">
                 <h4 className="font-semibold text-foreground mb-2">Faculty Resources</h4>
-                <a href="uploads/csifaculty-17-18.pdf" target="_blank" className="text-primary hover:text-secondary transition-colors duration-200 font-medium underline">
+                <a href="./aboutus/csifaculty-17-18.pdf" target="_blank" className="text-primary hover:text-secondary transition-colors duration-200 font-medium underline">
                   Life Membership of Faculty Members
                 </a>
               </div>
               <div className="p-4 bg-gradient-to-r from-orange-50 to-white rounded-lg border border-orange-100">
                 <h4 className="font-semibold text-foreground mb-2">Student Resources</h4>
-                <a href="Gallery/csi-student.pdf" target="_blank" className="text-primary hover:text-secondary transition-colors duration-200 font-medium underline">
+                <a href="./aboutus/csi-student.pdf" target="_blank" className="text-primary hover:text-secondary transition-colors duration-200 font-medium underline">
                   CSI Registered Students List
                 </a>
               </div>
@@ -1251,8 +1237,367 @@ const About: React.FC = () => {
                   </div>
                 </td>
               </tr>
+              <tr className="hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all duration-300">
+                <td className="px-6 py-4 font-semibold text-primary">2015-16</td>
+                <td className="px-6 py-4 text-muted-foreground">-</td>
+                <td className="px-6 py-4 text-muted-foreground">
+                  <div className="space-y-1">
+                    <div><strong>President:</strong> B S Srivalli</div>
+                    <div><strong>Secretary:</strong> G Anusha</div>
+                    <div><strong>Treasurer:</strong> I S Harshitha</div>
+                  </div>
+                </td>
+              </tr>
+              <tr className="hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all duration-300">
+                <td className="px-6 py-4 font-semibold text-primary">2014-15</td>
+                <td className="px-6 py-4 text-muted-foreground">CSE: 25</td>
+                <td className="px-6 py-4 text-muted-foreground">
+                  <div className="space-y-1">
+                    <div><strong>President:</strong> N Sreeja</div>
+                    <div><strong>Secretary:</strong> Eswar Durga Prasad</div>
+                    <div><strong>Treasurer:</strong> M Hema Latha</div>
+                  </div>
+                </td>
+              </tr>
+              <tr className="hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all duration-300">
+                <td className="px-6 py-4 font-semibold text-primary">2013-14</td>
+                <td className="px-6 py-4 text-muted-foreground">CSE: 77<br />IT: 39</td>
+                <td className="px-6 py-4 text-muted-foreground">
+                  <div className="space-y-1">
+                    <div><strong>President:</strong> Satti Yogendra Reddy</div>
+                    <div><strong>Secretary:</strong> Vemana Vidya</div>
+                    <div><strong>Treasurer:</strong> Maka Naveen Kumar</div>
+                  </div>
+                </td>
+              </tr>
+              <tr className="hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all duration-300">
+                <td className="px-6 py-4 font-semibold text-primary">2012-13</td>
+                <td className="px-6 py-4 text-muted-foreground">CSE: 54<br />IT: 45<br />MCA: 20</td>
+                <td className="px-6 py-4 text-muted-foreground">
+                  <div className="space-y-1">
+                    <div><strong>President:</strong> Mullapudi Mounica</div>
+                    <div><strong>Secretary:</strong> N Teja Ram</div>
+                    <div><strong>Treasurer:</strong> S J V Kishore</div>
+                  </div>
+                </td>
+              </tr>
+              <tr className="hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all duration-300">
+                <td className="px-6 py-4 font-semibold text-primary">2011-12</td>
+                <td className="px-6 py-4 text-muted-foreground">CSE: 11<br />IT: 03<br />MCA: 01</td>
+                <td className="px-6 py-4 text-muted-foreground">
+                  <div className="space-y-1">
+                    <div><strong>President:</strong> B Deepthi</div>
+                    <div><strong>Secretary:</strong> Ch N V Vijay Krishna</div>
+                    <div><strong>Treasurer:</strong> V V N S S S Chandra Sekhar</div>
+                  </div>
+                </td>
+              </tr>
+              <tr className="hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all duration-300">
+                <td className="px-6 py-4 font-semibold text-primary">2010-11</td>
+                <td className="px-6 py-4 text-muted-foreground">CSE: 42<br />IT: 32<br />MCA: 01</td>
+                <td className="px-6 py-4 text-muted-foreground">
+                  <div className="space-y-1">
+                    <div><strong>President:</strong> B Ramesh Reddy</div>
+                    <div><strong>Secretary:</strong> Narayana Swamy</div>
+                    <div><strong>Treasurer:</strong> Suresh K</div>
+                  </div>
+                </td>
+              </tr>
+              <tr className="hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all duration-300">
+                <td className="px-6 py-4 font-semibold text-primary">2009-10</td>
+                <td className="px-6 py-4 text-muted-foreground">CSE: 70<br />IT: 33<br />MCA: 43<br />EEE: 3<br />ECE: 31</td>
+                <td className="px-6 py-4 text-muted-foreground">
+                  <div className="space-y-1">
+                    <div><strong>President:</strong> Sandeep</div>
+                    <div><strong>Secretary:</strong> nitya Sai</div>
+                    <div><strong>Treasurer:</strong> Ramesh Babu</div>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Conducted Events Section */}
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-primary/10 mb-12">
+        <div className="bg-gradient-to-r from-green-500 to-green-600 p-6">
+          <h3 className="text-2xl font-bold text-white text-center">Conducted Events (Year Wise)</h3>
+        </div>
+        <div className="p-8 space-y-12">
+          
+          {/* 2017-18 Events */}
+          <div className="bg-gradient-to-r from-green-50 to-white rounded-xl p-6 border border-green-200">
+            <h4 className="text-xl font-bold text-green-700 mb-6 text-center border-b border-green-200 pb-2">2017-18</h4>
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="bg-gradient-to-r from-green-100 to-green-50">
+                    <th className="px-4 py-3 text-left font-bold text-green-700 border-b border-green-200">SNo</th>
+                    <th className="px-4 py-3 text-left font-bold text-green-700 border-b border-green-200">Event Name</th>
+                    <th className="px-4 py-3 text-left font-bold text-green-700 border-b border-green-200">Speaker/Institute</th>
+                    <th className="px-4 py-3 text-left font-bold text-green-700 border-b border-green-200">Date</th>
+                    <th className="px-4 py-3 text-left font-bold text-green-700 border-b border-green-200">Audience</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-green-100">
+                  <tr className="hover:bg-green-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-green-600">1</td>
+                    <td className="px-4 py-3 text-foreground">CSI One day Workshop on Swift Programming</td>
+                    <td className="px-4 py-3 text-muted-foreground">Mr Hemanth Alluri, iOS Instructor, SRM University Chennai</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">26-07-2017</td>
+                    <td className="px-4 py-3 text-muted-foreground">III yr CSE – B&D</td>
+                  </tr>
+                  <tr className="hover:bg-green-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-green-600">2</td>
+                    <td className="px-4 py-3 text-foreground">CSI One day Workshop on Swift Programming</td>
+                    <td className="px-4 py-3 text-muted-foreground">Mr Hemanth Alluri, iOS Instructor, SRM University Chennai</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">25-07-2017</td>
+                    <td className="px-4 py-3 text-muted-foreground">III yr CSE –A&C</td>
+                  </tr>
+                  <tr className="hover:bg-green-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-green-600">3</td>
+                    <td className="px-4 py-3 text-foreground">Guest Lecture on Microservices, Cyber Security and Serverless computing using AWS Lambda</td>
+                    <td className="px-4 py-3 text-muted-foreground">Mr. Boppana Bhanu Prakash, Software Developer at Cloudfabrix, Hyderabad</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">17-03-2018</td>
+                    <td className="px-4 py-3 text-muted-foreground">I, II, III & IV yr. CSE Students</td>
+                  </tr>
+                  <tr className="hover:bg-green-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-green-600">4</td>
+                    <td className="px-4 py-3 text-foreground">Engineer's Day Celebrations</td>
+                    <td className="px-4 py-3 text-muted-foreground">-</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">15-09-2017</td>
+                    <td className="px-4 py-3 text-muted-foreground">CSE Students</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* 2016-17 Events */}
+          <div className="bg-gradient-to-r from-blue-50 to-white rounded-xl p-6 border border-blue-200">
+            <h4 className="text-xl font-bold text-blue-700 mb-6 text-center border-b border-blue-200 pb-2">2016-17</h4>
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="bg-gradient-to-r from-blue-100 to-blue-50">
+                    <th className="px-4 py-3 text-left font-bold text-blue-700 border-b border-blue-200">SNo</th>
+                    <th className="px-4 py-3 text-left font-bold text-blue-700 border-b border-blue-200">Event Name</th>
+                    <th className="px-4 py-3 text-left font-bold text-blue-700 border-b border-blue-200">Speaker/Institute</th>
+                    <th className="px-4 py-3 text-left font-bold text-blue-700 border-b border-blue-200">Date</th>
+                    <th className="px-4 py-3 text-left font-bold text-blue-700 border-b border-blue-200">Audience</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-blue-100">
+                  <tr className="hover:bg-blue-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-blue-600">1</td>
+                    <td className="px-4 py-3 text-foreground">Guest Lecture on Emerging Trends In Computer Science</td>
+                    <td className="px-4 py-3 text-muted-foreground">Dr. M M Naidu Dean, Veltech University, Chennai</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">24-12-2016</td>
+                    <td className="px-4 py-3 text-muted-foreground">III yr CSE</td>
+                  </tr>
+                  <tr className="hover:bg-blue-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-blue-600">2</td>
+                    <td className="px-4 py-3 text-foreground">Guest Lecture on Landscape of Wireless Communications</td>
+                    <td className="px-4 py-3 text-muted-foreground">Mr. A Radha Krishna, Co-founder, thingTronics, Bengalore</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">15-07-2016</td>
+                    <td className="px-4 py-3 text-muted-foreground">Final year CSE</td>
+                  </tr>
+                  <tr className="hover:bg-blue-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-blue-600">3</td>
+                    <td className="px-4 py-3 text-foreground">Guest Lecture on Internet of Things</td>
+                    <td className="px-4 py-3 text-muted-foreground">Mr. Lovelesh Patel, Co-founder, thingTronics, Bengalore</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">15-07-2016</td>
+                    <td className="px-4 py-3 text-muted-foreground">III yr CSE</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Continue with other years in similar format */}
+          {/* 2015-16 Events */}
+          <div className="bg-gradient-to-r from-purple-50 to-white rounded-xl p-6 border border-purple-200">
+            <h4 className="text-xl font-bold text-purple-700 mb-6 text-center border-b border-purple-200 pb-2">2015-16</h4>
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="bg-gradient-to-r from-purple-100 to-purple-50">
+                    <th className="px-4 py-3 text-left font-bold text-purple-700 border-b border-purple-200">SNo</th>
+                    <th className="px-4 py-3 text-left font-bold text-purple-700 border-b border-purple-200">Event Name</th>
+                    <th className="px-4 py-3 text-left font-bold text-purple-700 border-b border-purple-200">Speaker/Institute</th>
+                    <th className="px-4 py-3 text-left font-bold text-purple-700 border-b border-purple-200">Date</th>
+                    <th className="px-4 py-3 text-left font-bold text-purple-700 border-b border-purple-200">Audience</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-purple-100">
+                  <tr className="hover:bg-purple-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-purple-600">1</td>
+                    <td className="px-4 py-3 text-foreground">Guest Lecture on Shell Scripting</td>
+                    <td className="px-4 py-3 text-muted-foreground">Mr Ch Vijay Krishna, Software Engineering JDA Software Pvt Ltd. Hyderabad</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">17-08-2015</td>
+                    <td className="px-4 py-3 text-muted-foreground">Final year CSE</td>
+                  </tr>
+                  <tr className="hover:bg-purple-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-purple-600">2</td>
+                    <td className="px-4 py-3 text-foreground">Engineers Day</td>
+                    <td className="px-4 py-3 text-muted-foreground">College Level Symposium</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">15-09-2015</td>
+                    <td className="px-4 py-3 text-muted-foreground">III and IV year Students</td>
+                  </tr>
+                  <tr className="hover:bg-purple-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-purple-600">3</td>
+                    <td className="px-4 py-3 text-foreground">Two Day Workshop on TECH I/O</td>
+                    <td className="px-4 py-3 text-muted-foreground">Mr. G Vidya Sagar, CEO, inn Data Analytics Pvt Ltd, Vijayawada</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">04-08-2015</td>
+                    <td className="px-4 py-3 text-muted-foreground">Final year IT and CSE</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* 2014-15 Events */}
+          <div className="bg-gradient-to-r from-red-50 to-white rounded-xl p-6 border border-red-200">
+            <h4 className="text-xl font-bold text-red-700 mb-6 text-center border-b border-red-200 pb-2">2014-15</h4>
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="bg-gradient-to-r from-red-100 to-red-50">
+                    <th className="px-4 py-3 text-left font-bold text-red-700 border-b border-red-200">SNo</th>
+                    <th className="px-4 py-3 text-left font-bold text-red-700 border-b border-red-200">Event Name</th>
+                    <th className="px-4 py-3 text-left font-bold text-red-700 border-b border-red-200">Speaker/Institute</th>
+                    <th className="px-4 py-3 text-left font-bold text-red-700 border-b border-red-200">Date</th>
+                    <th className="px-4 py-3 text-left font-bold text-red-700 border-b border-red-200">Audience</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-red-100">
+                  <tr className="hover:bg-red-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-red-600">1</td>
+                    <td className="px-4 py-3 text-foreground">Guest Lecture on An Insight to Cloud Computing</td>
+                    <td className="px-4 py-3 text-muted-foreground">Dr. Y S S R Murthy, Dean Academics and CSE HOD, Sri Vishnu Engg College for Women</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">30-06-2014</td>
+                    <td className="px-4 py-3 text-muted-foreground">Final year IT and CSE</td>
+                  </tr>
+                  <tr className="hover:bg-red-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-red-600">2</td>
+                    <td className="px-4 py-3 text-foreground">UML and Design Patterns using IBM Rational Tools</td>
+                    <td className="px-4 py-3 text-muted-foreground">Mr. Venu Thadiparthi</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">16-09-2014</td>
+                    <td className="px-4 py-3 text-muted-foreground">CSE, IT Students</td>
+                  </tr>
+                  <tr className="hover:bg-red-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-red-600">3</td>
+                    <td className="px-4 py-3 text-foreground">Spirituality in Computer Era</td>
+                    <td className="px-4 py-3 text-muted-foreground">Dr Garikipati Narasimha Rao, Spiritual Orator Hyderabad</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">11-10-2014</td>
+                    <td className="px-4 py-3 text-muted-foreground">CSE and IT Students</td>
+                  </tr>
+                  <tr className="hover:bg-red-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-red-600">4</td>
+                    <td className="px-4 py-3 text-foreground">One day Workshop on Apple iOS</td>
+                    <td className="px-4 py-3 text-muted-foreground">Hemath Alluri, Apple iOS Instructor, SRM University, Chennai</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">07-03-2015</td>
+                    <td className="px-4 py-3 text-muted-foreground">CSE and IT Students</td>
+                  </tr>
+                  <tr className="hover:bg-red-50 transition-colors duration-200">
+                    <td className="px-4 py-3 font-semibold text-red-600">5</td>
+                    <td className="px-4 py-3 text-foreground">Opportunities and How to Acquire the Required Skills to Grab Them</td>
+                    <td className="px-4 py-3 text-muted-foreground">Sita Ram Srinivas PV, Co-Founder and Managing partner, Talent Cafe Technologies Pvt. Ltd.</td>
+                    <td className="px-4 py-3 font-mono text-muted-foreground">01-09-2014</td>
+                    <td className="px-4 py-3 text-muted-foreground">CSE and IT Students</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Continuing with remaining years in condensed format for brevity */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* 2013-14 */}
+            <div className="bg-gradient-to-r from-yellow-50 to-white rounded-xl p-6 border border-yellow-200">
+              <h4 className="text-xl font-bold text-yellow-700 mb-4 text-center border-b border-yellow-200 pb-2">2013-14</h4>
+              <div className="space-y-3">
+                <div className="p-3 bg-yellow-50 rounded-lg">
+                  <h5 className="font-semibold text-yellow-700 mb-1">CSI Student Convention @ AU Campus</h5>
+                  <p className="text-sm text-muted-foreground">15-16 Dec 2013 - Industrial Visit</p>
+                </div>
+                <div className="p-3 bg-yellow-50 rounded-lg">
+                  <h5 className="font-semibold text-yellow-700 mb-1">CSI Fest 2K14</h5>
+                  <p className="text-sm text-muted-foreground">08 Feb 2014 - Inter college event with 10 Events</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 2012-13 */}
+            <div className="bg-gradient-to-r from-indigo-50 to-white rounded-xl p-6 border border-indigo-200">
+              <h4 className="text-xl font-bold text-indigo-700 mb-4 text-center border-b border-indigo-200 pb-2">2012-13</h4>
+              <div className="space-y-3">
+                <div className="p-3 bg-indigo-50 rounded-lg">
+                  <h5 className="font-semibold text-indigo-700 mb-1">Human Machine Interaction</h5>
+                  <p className="text-sm text-muted-foreground">21 Sep 2012 - Microsoft Speech API</p>
+                  <p className="text-xs text-muted-foreground">Speaker: J. Nagababu, Wipro Technologies</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 2011-12 */}
+            <div className="bg-gradient-to-r from-teal-50 to-white rounded-xl p-6 border border-teal-200">
+              <h4 className="text-xl font-bold text-teal-700 mb-4 text-center border-b border-teal-200 pb-2">2011-12</h4>
+              <div className="space-y-3">
+                <div className="p-3 bg-teal-50 rounded-lg">
+                  <h5 className="font-semibold text-teal-700 mb-1">Workshop on Ethical Hacking</h5>
+                  <p className="text-sm text-muted-foreground">16 Dec 2011 - Cyber Forensics</p>
+                  <p className="text-xs text-muted-foreground">CYBER CURE SOLUTIONS, DELHI</p>
+                </div>
+                <div className="p-3 bg-teal-50 rounded-lg">
+                  <h5 className="font-semibold text-teal-700 mb-1">Classic Problems & New Technologies</h5>
+                  <p className="text-sm text-muted-foreground">08 Aug 2011</p>
+                  <p className="text-xs text-muted-foreground">Dr. Suresh Chandra Satapathy</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 2010-11 */}
+            <div className="bg-gradient-to-r from-pink-50 to-white rounded-xl p-6 border border-pink-200">
+              <h4 className="text-xl font-bold text-pink-700 mb-4 text-center border-b border-pink-200 pb-2">2010-11</h4>
+              <div className="space-y-3">
+                <div className="p-3 bg-pink-50 rounded-lg">
+                  <h5 className="font-semibold text-pink-700 mb-1">EXPO-2010</h5>
+                  <p className="text-sm text-muted-foreground">13 Sep 2010</p>
+                  <p className="text-xs text-muted-foreground">By CSI student team SVEC</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 2009-10 */}
+            <div className="bg-gradient-to-r from-orange-50 to-white rounded-xl p-6 border border-orange-200 md:col-span-2">
+              <h4 className="text-xl font-bold text-orange-700 mb-4 text-center border-b border-orange-200 pb-2">2009-10</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="p-3 bg-orange-50 rounded-lg">
+                  <h5 className="font-semibold text-orange-700 mb-1">Tree Plantation Program</h5>
+                  <p className="text-sm text-muted-foreground">30 Jun 2009</p>
+                  <p className="text-xs text-muted-foreground">N Ramanadhan, Director CSI (Education)</p>
+                </div>
+                <div className="p-3 bg-orange-50 rounded-lg">
+                  <h5 className="font-semibold text-orange-700 mb-1">Effective Teaching Methodologies</h5>
+                  <p className="text-sm text-muted-foreground">30 Jun 2009</p>
+                  <p className="text-xs text-muted-foreground">N Ramanadhan, Director CSI (Education)</p>
+                </div>
+                <div className="p-3 bg-orange-50 rounded-lg">
+                  <h5 className="font-semibold text-orange-700 mb-1">Workshop on Technology Tool Kit</h5>
+                  <p className="text-sm text-muted-foreground">25 Feb 2009</p>
+                  <p className="text-xs text-muted-foreground">ENHANCE-EDU IIIT-HYDERABAD</p>
+                </div>
+                <div className="p-3 bg-orange-50 rounded-lg">
+                  <h5 className="font-semibold text-orange-700 mb-1">Trends in Data Mining</h5>
+                  <p className="text-sm text-muted-foreground">08 Aug 2009</p>
+                  <p className="text-xs text-muted-foreground">Dr. R B V SUBRAMANYAM, NIT WARANGAL</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1274,8 +1619,8 @@ const About: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <span className="font-semibold text-foreground">Sri G. Nataraj</span>
-              <span className="text-muted-foreground">- Assistant Professor, Department of CSE</span>
+              <span className="font-semibold text-foreground">Mr. G. Nataraj</span>
+              <span className="text-muted-foreground">- Sr. Assistant Professor, Department of CSE</span>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center">

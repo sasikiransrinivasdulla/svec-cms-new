@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { apiGet, apiDelete, apiPost, apiPut } from '@/lib/api';
+import { MODULES_FIELD_CONFIG, getModuleFieldConfig } from '@/config/module-fields';
 import { 
   Search, 
   Plus, 
@@ -35,7 +36,9 @@ import {
   Cpu,
   Zap,
   Hammer,
-  BrainCircuit
+  BrainCircuit,
+  Microscope,
+  Image
 } from 'lucide-react';
 
 // Comprehensive department modules configuration based on existing table structure
@@ -162,6 +165,13 @@ const DEPARTMENT_MODULES = {
       table: 'cai_staff'
     },
     { 
+      key: 'academic-toppers', 
+      name: 'Academic Toppers', 
+      icon: Award, 
+      description: 'Academic toppers and scholarship recipients',
+      table: 'cai_academictoppers'
+    },
+    { 
       key: 'student-achievements', 
       name: 'Student Achievements', 
       icon: Award, 
@@ -174,13 +184,6 @@ const DEPARTMENT_MODULES = {
       icon: Settings, 
       description: 'Professional associations',
       table: 'cai_technical_association'
-    },
-    { 
-      key: 'training-activities', 
-      name: 'Training Activities', 
-      icon: GraduationCap, 
-      description: 'Training programs and workshops',
-      table: 'cai_training_activities'
     },
     { 
       key: 'workshops', 
@@ -476,13 +479,6 @@ const DEPARTMENT_MODULES = {
       table: 'civil_physical_facilities'
     },
     { 
-      key: 'staff', 
-      name: 'Staff', 
-      icon: Users, 
-      description: 'Faculty and staff members',
-      table: 'faculty_Profiles'
-    },
-    { 
       key: 'syllabus', 
       name: 'Syllabus', 
       icon: BookOpen, 
@@ -743,13 +739,6 @@ const DEPARTMENT_MODULES = {
       table: 'cai_technical_association'
     },
     { 
-      key: 'training-activities', 
-      name: 'Training Activities', 
-      icon: GraduationCap, 
-      description: 'Training programs and workshops',
-      table: 'cai_training_activities'
-    },
-    { 
       key: 'workshops', 
       name: 'Workshops', 
       icon: Settings, 
@@ -784,24 +773,6 @@ const DEPARTMENT_MODULES = {
     }
   ],
 
-  // Master of Business Administration
-  mba: [
-    { 
-      key: 'faculty', 
-      name: 'Faculty', 
-      icon: Users, 
-      description: 'Faculty members and profiles',
-      table: 'mba_faculty'
-    },
-    { 
-      key: 'placements', 
-      name: 'Placements', 
-      icon: Users, 
-      description: 'Student placement records',
-      table: 'mba_placements'
-    }
-  ],
-
   // Basic Sciences & Humanities
   bsh: [
     { 
@@ -810,6 +781,97 @@ const DEPARTMENT_MODULES = {
       icon: Users, 
       description: 'Faculty members and profiles',
       table: 'bsh_faculty'
+    },
+    { 
+      key: 'non-teaching-faculty', 
+      name: 'Non-Teaching Faculty', 
+      icon: Users, 
+      description: 'Non-teaching staff members',
+      table: 'bsh_non_teaching_faculty'
+    },
+    { 
+      key: 'board-of-studies', 
+      name: 'Board of Studies', 
+      icon: BookOpen, 
+      description: 'Academic board meetings and decisions',
+      table: 'bsh_board_of_studies'
+    },
+    { 
+      key: 'results', 
+      name: 'Results', 
+      icon: Award, 
+      description: 'Examination results and outcomes',
+      table: 'bsh_results'
+    },
+    { 
+      key: 'activities', 
+      name: 'Activities', 
+      icon: Activity, 
+      description: 'Department activities and events',
+      table: 'bsh_activities'
+    },
+    { 
+      key: 'faculty-achievements', 
+      name: 'Faculty Achievements', 
+      icon: Award, 
+      description: 'Faculty awards and recognitions',
+      table: 'bsh_faculty_achievements'
+    },
+    { 
+      key: 'student-achievements', 
+      name: 'Student Achievements', 
+      icon: Award, 
+      description: 'Student awards and recognitions',
+      table: 'bsh_student_achievements'
+    },
+    { 
+      key: 'laboratories', 
+      name: 'Laboratories', 
+      icon: Microscope, 
+      description: 'Laboratory facilities and resources',
+      table: 'bsh_laboratories'
+    },
+    { 
+      key: 'faculty-paper-presentations', 
+      name: 'Faculty Paper Presentations', 
+      icon: FileText, 
+      description: 'Faculty research publications and presentations',
+      table: 'bsh_faculty_paper_presentations'
+    },
+    { 
+      key: 'department-documents', 
+      name: 'Department Documents', 
+      icon: FileText, 
+      description: 'FDPs, workshops, and other documents',
+      table: 'bsh_department_documents'
+    },
+    { 
+      key: 'department-profile', 
+      name: 'Department Profile', 
+      icon: Building2, 
+      description: 'Department profile and HOD information',
+      table: 'bsh_department_profile'
+    },
+    { 
+      key: 'syllabus', 
+      name: 'Syllabus', 
+      icon: BookOpen, 
+      description: 'Course curriculum and syllabus',
+      table: 'bsh_syllabus'
+    },
+    { 
+      key: 'faculty-development-programs', 
+      name: 'Faculty Development Programs', 
+      icon: GraduationCap, 
+      description: 'FDP events, workshops, and guest lectures',
+      table: 'bsh_fdps'
+    },
+    { 
+      key: 'photo-gallery', 
+      name: 'Photo Gallery', 
+      icon: Image, 
+      description: 'Department photo gallery and events',
+      table: 'bsh_photogallery'
     }
   ],
 
@@ -975,13 +1037,6 @@ const DEPARTMENT_MODULES = {
       icon: Users, 
       description: 'Technical staff members',
       table: 'cst_technical_faculty'
-    },
-    { 
-      key: 'training-activities', 
-      name: 'Training Activities', 
-      icon: GraduationCap, 
-      description: 'Training programs and workshops',
-      table: 'cst_training_activities'
     }
   ],
 
@@ -1016,7 +1071,6 @@ const DEPARTMENTS = [
   { key: 'mech', name: 'Mechanical Engineering', color: 'bg-red-500', icon: Hammer },
   { key: 'cse', name: 'Computer Science', color: 'bg-purple-500', icon: Cpu },
   { key: 'eee', name: 'Electrical & Electronics', color: 'bg-yellow-500', icon: Zap },
-  { key: 'mba', name: 'Business Administration', color: 'bg-indigo-500', icon: Briefcase },
   { key: 'bsh', name: 'Basic Sciences & Humanities', color: 'bg-pink-500', icon: BookOpen },
   { key: 'cst', name: 'Computer Science & Technology', color: 'bg-teal-500', icon: Settings },
   { key: 'ect', name: 'Electronics & Communication Tech', color: 'bg-cyan-500', icon: Activity },
@@ -1041,6 +1095,11 @@ export default function SuperAdminDashboard() {
   const [totalRecords, setTotalRecords] = useState(0);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingItem, setEditingItem] = useState<ModuleData | null>(null);
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
+  const [nextRefreshCountdown, setNextRefreshCountdown] = useState(30);
+
+  // Get current department modules (moved before useEffects that depend on it)
+  const currentModules = DEPARTMENT_MODULES[selectedDepartment as keyof typeof DEPARTMENT_MODULES] || [];
 
   // Debug state changes
   useEffect(() => {
@@ -1048,8 +1107,36 @@ export default function SuperAdminDashboard() {
     console.log('editingItem changed to:', editingItem);
   }, [showCreateModal, editingItem]);
 
-  // Get current department modules
-  const currentModules = DEPARTMENT_MODULES[selectedDepartment as keyof typeof DEPARTMENT_MODULES] || [];
+  // Auto-refresh module data every 30 seconds when a module is selected
+  useEffect(() => {
+    if (!selectedModule) return;
+
+    const refreshInterval = setInterval(() => {
+      const module = currentModules.find(m => m.key === selectedModule);
+      if (module) {
+        console.log(`🔄 Auto-refreshing ${module.name} data...`);
+        loadModuleData(module.table, currentPage);
+      }
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(refreshInterval);
+  }, [selectedModule, currentPage, currentModules]);
+
+  // Countdown timer for next refresh
+  useEffect(() => {
+    if (!selectedModule) return;
+
+    const countdownInterval = setInterval(() => {
+      setNextRefreshCountdown(prev => {
+        if (prev <= 1) {
+          return 30;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(countdownInterval);
+  }, [selectedModule]);
 
   // Filter modules based on search
   const filteredModules = currentModules.filter(module =>
@@ -1069,6 +1156,8 @@ export default function SuperAdminDashboard() {
           setTotalRecords(result.data.total || result.data.records.length);
           setTotalPages(Math.ceil((result.data.total || result.data.records.length) / 50));
           setCurrentPage(page);
+          setLastRefreshTime(new Date());
+          setNextRefreshCountdown(30);
         } else {
           setModuleData([]);
           setTotalRecords(0);
@@ -1198,6 +1287,11 @@ export default function SuperAdminDashboard() {
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">{module?.name} Management</h1>
                 <p className="text-gray-600 mt-1">{module?.description}</p>
+                {lastRefreshTime && (
+                  <p className="text-sm text-gray-500 mt-2">
+                    Last refreshed: {lastRefreshTime.toLocaleTimeString()} | Next refresh in: {nextRefreshCountdown}s
+                  </p>
+                )}
               </div>
               <div className="flex items-center gap-3">
                 <Badge variant="secondary" className="px-3 py-1">
@@ -1205,13 +1299,17 @@ export default function SuperAdminDashboard() {
                 </Badge>
                 <Button 
                   onClick={() => {
-                    console.log('Test modal button clicked');
-                    setShowCreateModal(true);
+                    const module = currentModules.find(m => m.key === selectedModule);
+                    if (module) {
+                      loadModuleData(module.table, currentPage);
+                    }
                   }}
                   variant="outline"
                   size="sm"
+                  className="flex items-center gap-2"
                 >
-                  Test Modal
+                  <div className={`w-2 h-2 rounded-full ${loading ? 'bg-yellow-500 animate-pulse' : 'bg-green-500'}`} />
+                  Refresh
                 </Button>
                 <Button onClick={handleCreate} className="bg-blue-600 hover:bg-blue-700">
                   <Plus className="w-4 h-4 mr-2" />
@@ -1434,9 +1532,30 @@ export default function SuperAdminDashboard() {
               )}
             </CardContent>
           </Card>
+
+          {/* Edit/Create Modal Dialog */}
+          <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold">
+                  {editingItem ? 'Edit Record' : 'Create New Record'}
+                </DialogTitle>
+              </DialogHeader>
+              <EditForm
+                item={editingItem}
+                onSave={handleSave}
+                onCancel={() => {
+                  setShowCreateModal(false);
+                  setEditingItem(null);
+                }}
+                department={selectedDepartment}
+                module={selectedModule || ''}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
-    );
+    );  // End of selectedModule view
   }
 
   return (
@@ -1744,7 +1863,29 @@ export default function SuperAdminDashboard() {
             </CardContent>
           </Card>
         )}
+
+        {/* Edit/Create Modal Dialog */}
+        <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold">
+                {editingItem ? 'Edit Record' : 'Create New Record'}
+              </DialogTitle>
+            </DialogHeader>
+            <EditForm
+              item={editingItem}
+              onSave={handleSave}
+              onCancel={() => {
+                setShowCreateModal(false);
+                setEditingItem(null);
+              }}
+              department={selectedDepartment}
+              module={selectedModule || ''}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
+    </div>
   );
 }
 
@@ -1752,13 +1893,22 @@ export default function SuperAdminDashboard() {
 function EditForm({ 
   item, 
   onSave, 
-  onCancel 
+  onCancel,
+  department,
+  module
 }: { 
   item: ModuleData | null; 
   onSave: (data: any) => void; 
-  onCancel: () => void; 
+  onCancel: () => void;
+  department: string;
+  module: string;
 }) {
   const [formData, setFormData] = useState<any>({});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  // Get field configuration for this module
+  const moduleConfig = department && module ? getModuleFieldConfig(department, module) : null;
+  const fields = moduleConfig?.fields || [];
 
   useEffect(() => {
     if (item) {
@@ -1782,50 +1932,146 @@ function EditForm({
     }));
   };
 
-  // Get editable fields (exclude id, created_at, updated_at)
-  const getEditableFields = () => {
-    if (!item && Object.keys(formData).length === 0) {
-      // For new items, show common fields
-      return ['title', 'description', 'content'];
-    }
-    
-    // For existing items, show all fields except system fields
-    return Object.keys(item || formData).filter(key => 
-      !['id', 'created_at', 'updated_at'].includes(key)
-    );
+  const handleFileChange = (field: string, file: File) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      [field]: file.name
+    }));
+    setSelectedFile(file);
   };
 
+  // Use dynamic fields from config if available, otherwise fall back to basic fields
+  const getDisplayFields = () => {
+    if (fields.length > 0) {
+      return fields;
+    }
+    
+    // Fallback: show all fields except system fields
+    return Object.keys(item || formData)
+      .filter(key => !['id', 'created_at', 'updated_at', 'dept', 'department'].includes(key))
+      .map(key => ({
+        name: key,
+        label: key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+        type: key.includes('description') || key.includes('content') ? 'textarea' : 'text',
+        required: false,
+        size: 'full' as const
+      }));
+  };
+
+  const displayFields = getDisplayFields();
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {getEditableFields().map((field) => (
-        <div key={field} className="space-y-2">
-          <Label htmlFor={field} className="capitalize">
-            {field.split('_').join(' ')}
-          </Label>
-          {field.includes('description') || field.includes('content') ? (
-            <Textarea
-              id={field}
-              value={formData[field] || ''}
-              onChange={(e) => handleChange(field, e.target.value)}
-              placeholder={`Enter ${field.split('_').join(' ')}`}
-              rows={3}
-            />
-          ) : (
-            <Input
-              id={field}
-              value={formData[field] || ''}
-              onChange={(e) => handleChange(field, e.target.value)}
-              placeholder={`Enter ${field.split('_').join(' ')}`}
-            />
-          )}
-        </div>
-      ))}
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {displayFields.map((field: any) => {
+          const value = formData[field.name] || '';
+          const fieldSize = field.size === 'half' ? 'md:col-span-1' : 'md:col-span-2';
+
+          if (field.type === 'textarea') {
+            return (
+              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                <Label htmlFor={field.name} className="text-sm font-medium">
+                  {field.label}
+                  {field.required && <span className="text-red-500 ml-1">*</span>}
+                </Label>
+                <Textarea
+                  id={field.name}
+                  value={value}
+                  onChange={(e) => handleChange(field.name, e.target.value)}
+                  placeholder={(field as any).placeholder || `Enter ${field.label.toLowerCase()}`}
+                  rows={3}
+                  required={field.required}
+                  className="resize-none"
+                />
+              </div>
+            );
+          } else if (field.type === 'date') {
+            return (
+              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                <Label htmlFor={field.name} className="text-sm font-medium">
+                  {field.label}
+                  {field.required && <span className="text-red-500 ml-1">*</span>}
+                </Label>
+                <Input
+                  id={field.name}
+                  type="date"
+                  value={value}
+                  onChange={(e) => handleChange(field.name, e.target.value)}
+                  required={field.required}
+                />
+              </div>
+            );
+          } else if (field.type === 'select' && (field as any).options) {
+            return (
+              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                <Label htmlFor={field.name} className="text-sm font-medium">
+                  {field.label}
+                  {field.required && <span className="text-red-500 ml-1">*</span>}
+                </Label>
+                <select
+                  id={field.name}
+                  value={value}
+                  onChange={(e) => handleChange(field.name, e.target.value)}
+                  required={field.required}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select {field.label.toLowerCase()}</option>
+                  {(field as any).options.map((option: any) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            );
+          } else if (field.type === 'file') {
+            return (
+              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                <Label htmlFor={field.name} className="text-sm font-medium">
+                  {field.label}
+                  {field.required && <span className="text-red-500 ml-1">*</span>}
+                </Label>
+                <div className="flex items-center gap-2">
+                  <Input
+                    id={field.name}
+                    type="file"
+                    onChange={(e) => e.target.files && handleFileChange(field.name, e.target.files[0])}
+                    accept={(field as any).accept}
+                    required={field.required && !value}
+                    className="flex-1"
+                  />
+                  {value && <span className="text-sm text-gray-600">{value}</span>}
+                </div>
+                {(field as any).description && <p className="text-xs text-gray-500">{(field as any).description}</p>}
+              </div>
+            );
+          } else {
+            return (
+              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                <Label htmlFor={field.name} className="text-sm font-medium">
+                  {field.label}
+                  {field.required && <span className="text-red-500 ml-1">*</span>}
+                </Label>
+                <Input
+                  id={field.name}
+                  type={field.type || 'text'}
+                  value={value}
+                  onChange={(e) => handleChange(field.name, e.target.value)}
+                  placeholder={(field as any).placeholder || `Enter ${field.label.toLowerCase()}`}
+                  required={field.required}
+                />
+                {(field as any).description && <p className="text-xs text-gray-500">{(field as any).description}</p>}
+              </div>
+            );
+          }
+        })}
+      </div>
       
-      <DialogFooter className="gap-2">
+      <DialogFooter className="gap-2 pt-4 border-t">
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="submit">
+        <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
           {item ? 'Update' : 'Create'}
         </Button>
       </DialogFooter>

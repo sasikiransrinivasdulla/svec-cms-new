@@ -17,14 +17,8 @@ export async function GET(request: NextRequest) {
       query += " WHERE type != 'timetable' ORDER BY posteddate DESC, date DESC";
     }
 
-    const dbResult = await db.query(query, params);
-    let rows: any[] = [];
-    if (Array.isArray(dbResult)) {
-      rows = Array.isArray(dbResult[0]) ? dbResult[0] : dbResult;
-    } else if (dbResult && typeof dbResult === 'object' && 'rows' in dbResult) {
-      rows = (dbResult as any).rows;
-    }
-    return NextResponse.json(rows || []);
+    const rows = await db.query(query, params);
+    return NextResponse.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
     console.error('Error fetching JNTUK exam sections:', error);
     return NextResponse.json(
@@ -87,8 +81,25 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
+    // Get the record details first to retrieve the file link
+    const records = await db.query('SELECT link FROM exam_section WHERE sno = ?', [sno]) as any[];
+    
+    // Delete the record
     const query = 'DELETE FROM exam_section WHERE sno = ?';
     await db.query(query, [sno]);
+
+    // Delete the associated file if it exists
+    if (records && records.length > 0 && records[0].link) {
+      const { unlink } = await import('fs/promises');
+      const { join } = await import('path');
+      const filePath = join(process.cwd(), 'public', records[0].link.replace(/^\//, ''));
+      try {
+        await unlink(filePath);
+      } catch (error) {
+        console.error('Error deleting file:', error);
+        // Continue even if file deletion fails
+      }
+    }
 
     return NextResponse.json(
       { success: true, message: 'JNTUK exam section entry deleted successfully' },

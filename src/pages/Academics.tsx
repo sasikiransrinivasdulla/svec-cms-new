@@ -577,7 +577,7 @@ const Academics: React.FC = () => {
                       className="w-full rounded-lg"
                       src="/coe.jpg"
                       alt="Controller of Examination"
-                      style={{ border: '0px solid #3c7593', aspectRatio: '16/9' }}
+                      style={{ border: '0px solid #3c7593', width: '450px', height: '300px' }}
                     />
                   </div>
                   <div className="md:col-span-1 flex flex-col items-center justify-center text-center">
@@ -959,9 +959,9 @@ const Academics: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                           <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Revaluation Results</h5>
-                          {ugAutonomousData['revaluation_results'] && ugAutonomousData['revaluation_results'].length > 0 ? (
+                          {ugAutonomousData['Revaluation Results'] && ugAutonomousData['Revaluation Results'].length > 0 ? (
                             <ul className="space-y-3">
-                              {ugAutonomousData['revaluation_results'].map((item) => (
+                              {ugAutonomousData['Revaluation Results'].map((item) => (
                                 <li key={item.id} className="flex items-start justify-between gap-3">
                                   <div className="flex items-start gap-2 flex-1">
                                     <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
@@ -986,9 +986,9 @@ const Academics: React.FC = () => {
                         </div>
                         <div>
                           <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Revaluation Results</h5>
-                          {pgAutonomousData['revaluation_results'] && pgAutonomousData['revaluation_results'].length > 0 ? (
+                          {pgAutonomousData['Revaluation Results'] && pgAutonomousData['Revaluation Results'].length > 0 ? (
                             <ul className="space-y-3">
-                              {pgAutonomousData['revaluation_results'].map((item) => (
+                              {pgAutonomousData['Revaluation Results'].map((item) => (
                                 <li key={item.id} className="flex items-start justify-between gap-3">
                                   <div className="flex items-start gap-2 flex-1">
                                     <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>

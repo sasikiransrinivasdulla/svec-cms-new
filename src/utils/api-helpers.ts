@@ -40,7 +40,37 @@ export const fetchWithErrorHandling = async (url: string, options: RequestInit =
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`API Error (${response.status}):`, errorText);
+      // Include the requested URL and options for easier debugging
+      try {
+        console.error(`API Error (${response.status}) while requesting ${url}:`, errorText, {
+          url,
+          options
+        });
+      } catch (logError) {
+        // Fallback logging if serialization fails
+        console.error(`API Error (${response.status}):`, errorText);
+      }
+      
+      // Special handling for 401 Unauthorized - likely expired token
+      if (response.status === 401) {
+        console.warn('🔐 Authentication failed - token may be expired');
+        
+        // Clear expired token from localStorage
+        if (typeof window !== 'undefined') {
+          const authToken = localStorage.getItem('authToken');
+          if (authToken) {
+            console.warn('Clearing expired authentication token');
+            localStorage.removeItem('authToken');
+            
+            // Reload page to trigger auth redirect
+            setTimeout(() => {
+              window.location.href = '/auth/login?message=Session expired, please login again';
+            }, 1000);
+          }
+        }
+        
+        throw new Error('Authentication expired. Please login again.');
+      }
       
       // Try to parse error details from response
       try {

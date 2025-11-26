@@ -16,7 +16,21 @@ const FILE_URL_PATTERNS = [
   'certificate_url',
   'photo_url',
   'upload_url',
-  'link_url'
+  'link_url',
+  'gallery',
+  // CamelCase patterns (for BSH modules and modern schemas)
+  'fileUrl',
+  'documentUrl',
+  'pdfUrl',
+  'imageUrl',
+  'attachmentUrl',
+  'reportUrl',
+  'certificateUrl',
+  'photoUrl',
+  'uploadUrl',
+  'linkUrl',
+  // Generic camelCase
+  'url'
 ];
 
 /**
@@ -24,7 +38,10 @@ const FILE_URL_PATTERNS = [
  */
 export function isFileUrlField(fieldName: string): boolean {
   const lowerFieldName = fieldName.toLowerCase();
-  return FILE_URL_PATTERNS.some(pattern => lowerFieldName.includes(pattern.replace('_', '')));
+  return FILE_URL_PATTERNS.some(pattern => {
+    // Check exact match or if field name includes the pattern
+    return lowerFieldName === pattern || lowerFieldName.includes(pattern);
+  });
 }
 
 /**
@@ -74,9 +91,12 @@ export async function deleteRecordFiles(record: Record<string, any>): Promise<vo
   
   // Find all file URL fields in the record
   Object.entries(record).forEach(([fieldName, fieldValue]) => {
+    console.log(`[deleteRecordFiles] Checking field: ${fieldName}, isFileUrlField: ${isFileUrlField(fieldName)}, value: ${fieldValue}`);
+    
     if (isFileUrlField(fieldName) && fieldValue) {
       const filePath = extractFilePathFromUrl(fieldValue);
       if (filePath) {
+        console.log(`[deleteRecordFiles] Found file to delete: ${filePath}`);
         filesToDelete.push(filePath);
       }
     }
@@ -88,6 +108,8 @@ export async function deleteRecordFiles(record: Record<string, any>): Promise<vo
     
     const deletePromises = filesToDelete.map(filePath => deleteFile(filePath));
     await Promise.all(deletePromises);
+  } else {
+    console.log(`[deleteRecordFiles] No files found to delete for this record`);
   }
 }
 
@@ -154,4 +176,57 @@ export function formatFileSize(bytes: number): string {
  */
 export function isFileSizeNearLimit(fileSize: number, maxSizeBytes: number = 1048576): boolean {
   return fileSize > (maxSizeBytes * 0.8);
+}
+
+/**
+ * Convert ISO 8601 date strings to MySQL-compatible format
+ * Converts ISO format (e.g., "2025-11-14T18:30:00.000Z") to MySQL format (e.g., "2025-11-14" or "2025-11-14 18:30:00")
+ */
+export function convertISODateToMySQLFormat(record: Record<string, any>): Record<string, any> {
+  const converted = { ...record };
+  
+  // Common date field patterns in MySQL
+  const dateFieldPatterns = [
+    'date', 'time', '_at', 'created', 'updated', 'start', 'end', 'meeting', 'event'
+  ];
+  
+  Object.entries(converted).forEach(([key, value]) => {
+    // Skip if value is not a string or doesn't look like ISO date
+    if (typeof value !== 'string' || !value.match(/^\d{4}-\d{2}-\d{2}T/)) {
+      return;
+    }
+    
+    // Check if this field might be a date field
+    const lowerKey = key.toLowerCase();
+    const isDateField = dateFieldPatterns.some(pattern => lowerKey.includes(pattern));
+    
+    if (isDateField) {
+      try {
+        const date = new Date(value);
+        
+        // Check if it's a valid date
+        if (!isNaN(date.getTime())) {
+          // Convert to YYYY-MM-DD format by taking the date part of ISO string
+          const sqlDate = value.split('T')[0];
+          
+          // If there's time component and field suggests time storage, keep time
+          if (value.includes('T') && lowerKey.includes('time')) {
+            // Format as YYYY-MM-DD HH:MM:SS
+            const [datePart, timePart] = value.split('T');
+            const [hours, minutes, seconds] = timePart.split(':');
+            converted[key] = `${datePart} ${hours}:${minutes}:${seconds.split('.')[0]}`;
+          } else {
+            // Use date-only format
+            converted[key] = sqlDate;
+          }
+          
+          console.log(`[convertISODateToMySQLFormat] Converted ${key}: "${value}" -> "${converted[key]}"`);
+        }
+      } catch (error) {
+        console.error(`[convertISODateToMySQLFormat] Error converting ${key}:`, error);
+      }
+    }
+  });
+  
+  return converted;
 }

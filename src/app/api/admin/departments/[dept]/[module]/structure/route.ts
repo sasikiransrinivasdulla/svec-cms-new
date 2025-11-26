@@ -2,12 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { verifyToken } from '@/lib/auth/auth';
 import { RowDataPacket } from 'mysql2';
+import { getModuleFieldConfig, MODULES_FIELD_CONFIG } from '@/config/module-fields';
 
 // Department modules mapping
 const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
   'cse-ai': {
     'bos-members': 'cai_bos_members',
     'bos-minutes': 'cai_bos_minutes',
+    'activity-coordinators': 'cai_activity_coordinators',
+    'activity-events': 'cai_activity_events',
+    'activity-gallery': 'cai_activity_gallery',
     'department-library': 'cai_department_library',
     'department-overview': 'cai_department_overview',
     'eresources': 'cai_eresources',
@@ -16,20 +20,19 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'faculty-achievements': 'cai_faculty_achievements',
     'faculty-development': 'cai_faculty_development',
     'hackathons': 'cai_hackathons',
+    'hackathons-gallery': 'cai_hackathons_gallery',
     'handbooks': 'cai_handbooks',
-    'industry-programs': 'cai_industry_programs',
     'merit-scholarships': 'cai_merit_scholarships',
     'mous': 'cai_mous',
     'newsletters': 'cai_newsletters',
     'non-teaching-faculty': 'cai_non_teaching_faculty',
     'physical-facilities': 'cai_physical_facilities',
     'placements': 'cai_placements',
-    'sahaya-events': 'cai_sahaya_events',
-    'scud-activities': 'cai_scud_activities',
     'student-achievements': 'cai_student_achievements',
     'syllabus': 'cai_syllabus',
+    'technical-association': 'cai_extra_curricular',
     'technical-faculty': 'cai_technical_faculty',
-    'training-activities': 'cai_training_activities'
+    'workshops': 'cai_workshops'
   },
   'ece': {
     'board-of-studies': 'ece_board_of_studies',
@@ -96,32 +99,6 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'newsletters': 'cse_newsletters',
     'extra-curricular': 'cse_extra_curricular'
   },
-  'cst': {
-    'bos-members': 'cst_bos_members',
-    'bos-minutes': 'cst_bos_minutes',
-    'department-library': 'cst_department_library',
-    'department-overview': 'cst_department_overview',
-    'eresources': 'cst_eresources',
-    'extra-curricular': 'cst_extra_curricular',
-    'faculty': 'cst_faculty',
-    'faculty-achievements': 'cst_faculty_achievements',
-    'faculty-development': 'cst_faculty_development',
-    'hackathons': 'cst_hackathons',
-    'handbooks': 'cst_handbooks',
-    'industry-programs': 'cst_industry_programs',
-    'merit-scholarships': 'cst_merit_scholarships',
-    'mous': 'cst_mous',
-    'newsletters': 'cst_newsletters',
-    'non-teaching-faculty': 'cst_non_teaching_faculty',
-    'physical-facilities': 'cst_physical_facilities',
-    'placements': 'cst_placements',
-    'sahaya-events': 'cst_sahaya_events',
-    'scud-activities': 'cst_scud_activities',
-    'student-achievements': 'cst_student_achievements',
-    'syllabus': 'cst_syllabus',
-    'technical-faculty': 'cst_technical_faculty',
-    'training-activities': 'cst_training_activities'
-  },
   'eee': {
     'faculty': 'eee_faculty',
     'bos-members': 'eee_bos_members',
@@ -140,7 +117,32 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'labs': 'labs'
   },
   'mba': {
+    'activity-coordinators': 'mba_activity_coordinators',
+    'activity-events': 'mba_activity_events',
+    'activity-gallery': 'mba_activity_gallery',
+    'bos-members': 'mba_bos_members',
+    'bos-minutes': 'mba_bos_minutes',
+    'department-library': 'mba_department_library',
+    'department-overview': 'mba_department_overview',
+    'extra-curricular': 'mba_extra_curricular',
     'faculty': 'mba_faculty',
+    'faculty-achievements': 'mba_faculty_achievements',
+    'faculty-development': 'mba_faculty_development',
+    'hackathons': 'mba_hackathons',
+    'handbooks': 'mba_handbooks',
+    'industry-programs': 'mba_industry_programs',
+    'merit-scholarships': 'mba_merit_scholarships',
+    'mous': 'mba_mous',
+    'newsletters': 'mba_newsletters',
+    'non-teaching-faculty': 'mba_non_teaching_faculty',
+    'physical-facilities': 'mba_physical_facilities',
+    'placements': 'mba_placements',
+    'sahaya-events': 'mba_sahaya_events',
+    'scud-activities': 'mba_scud_activities',
+    'student-achievements': 'mba_student_achievements',
+    'syllabus': 'mba_syllabus',
+    'technical-faculty': 'mba_technical_faculty',
+    'training-activities': 'mba_training_activities'
   },
   'bsh': {
     'activities': 'bsh_activities',
@@ -150,9 +152,12 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'faculty': 'bsh_faculty',
     'faculty-achievements': 'bsh_faculty_achievements',
     'faculty-paper-presentations': 'bsh_faculty_paper_presentations',
+    'fdps': 'bsh_fdps',
     'laboratories': 'bsh_laboratories',
+    'photogallery': 'bsh_photogallery',
     'results': 'bsh_results',
     'student-achievements': 'bsh_student_achievements',
+    'syllabus': 'bsh_syllabus',
     'non-teaching-faculty': 'non_teaching_bsh_faculty'
   },
   'ect': {
@@ -173,33 +178,10 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'training-activities': 'ect_training_activities',
     'workshop': 'ect_workshop_gl'
   },
-  'aiml': {
-    'bos-members': 'aiml_bos_members',
-    'bos-minutes': 'aiml_bos_minutes',
-    'department-library': 'aiml_department_library',
-    'department-overview': 'aiml_department_overview',
-    'eresources': 'aiml_eresources',
-    'extra-curricular': 'aiml_extra_curricular',
-    'faculty': 'aiml_faculty',
-    'faculty-achievements': 'aiml_faculty_achievements',
-    'faculty-development': 'aiml_faculty_development',
-    'hackathons': 'aiml_hackathons',
-    'handbooks': 'aiml_handbooks',
-    'industry-programs': 'aiml_industry_programs',
-    'merit-scholarships': 'aiml_merit_scholarships',
-    'mous': 'aiml_mous',
-    'newsletters': 'aiml_newsletters',
-    'non-teaching-faculty': 'aiml_non_teaching_faculty',
-    'physical-facilities': 'aiml_physical_facilities',
-    'placements': 'aiml_placements',
-    'sahaya-events': 'aiml_sahaya_events',
-    'scud-activities': 'aiml_scud_activities',
-    'student-achievements': 'aiml_student_achievements',
-    'syllabus': 'aiml_syllabus',
-    'technical-faculty': 'aiml_technical_faculty',
-    'training-activities': 'aiml_training_activities'
-  },
   'cse-ds': {
+    'activity-coordinators': 'ds_activity_coordinators',
+    'activity-events': 'ds_activity_events',
+    'activity-gallery': 'ds_activity_gallery',
     'bos-members': 'ds_bos_members',
     'bos-minutes': 'ds_bos_minutes',
     'department-library': 'ds_department_library',
@@ -224,6 +206,66 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'syllabus': 'ds_syllabus',
     'technical-faculty': 'ds_technical_faculty',
     'training-activities': 'ds_training_activities'
+  },
+  'aiml': {
+    'academic-toppers': 'aiml_academictoppers',
+    'activity-coordinators': 'aiml_activity_coordinators',
+    'activity-events': 'aiml_activity_events',
+    'activity-gallery': 'aiml_activity_gallery',
+    'bos-members': 'aiml_bos_members',
+    'bos-minutes': 'aiml_bos_minutes',
+    'department-library': 'aiml_department_library',
+    'department-overview': 'aiml_department_overview',
+    'eresources': 'aiml_eresources',
+    'extra-curricular': 'aiml_extra_curricular',
+    'faculty': 'aiml_faculty',
+    'faculty-achievements': 'aiml_faculty_achievements',
+    'faculty-development': 'aiml_faculty_development',
+    'hackathons': 'aiml_hackathons',
+    'hackathons-gallery': 'aiml_hackathons_gallery',
+    'handbooks': 'aiml_handbooks',
+    'merit-scholarships': 'aiml_merit_scholarships',
+    'mous': 'aiml_mous',
+    'physical-facilities': 'aiml_physical_facilities',
+    'placements': 'aiml_placements',
+    'staff': 'aiml_staff',
+    'student-achievements': 'aiml_student_achievements',
+    'syllabus': 'aiml_syllabus',
+    'technical-association': 'aiml_technical_association',
+    'technical-faculty': 'aiml_technical_faculty',
+    'workshops': 'aiml_workshops'
+  },
+  'cst': {
+    'bos-members': 'cst_bos_members',
+    'bos-minutes': 'cst_bos_minutes',
+    'department-library': 'cst_department_library',
+    'department-overview': 'cst_department_overview',
+    'eresources': 'cst_eresources',
+    'extra-curricular': 'cst_extra_curricular',
+    'faculty': 'cst_faculty',
+    'faculty-achievements': 'cst_faculty_achievements',
+    'faculty-development': 'cst_faculty_development',
+    'non-teaching-faculty': 'cst_non_teaching_faculty',
+    'gate': 'cst_gate',
+    'hackathons': 'cst_hackathons',
+    'hackathons-gallery': 'cst_hackathons_gallery',
+    'handbooks': 'cst_handbooks',
+    'industry-programs': 'cst_industry_programs',
+    'merit-scholarships': 'cst_merit_scholarships',
+    'mous': 'cst_mous',
+    'newsletters': 'cst_newsletters',
+    'physical-facilities': 'cst_physical_facilities',
+    'placements': 'cst_placements',
+    'roll-of-honour': 'cst_roll_of_honour',
+    'sahaya-events': 'cst_sahaya_events',
+    'scud-activities': 'cst_scud_activities',
+    'student-achievements': 'cst_student_achievements',
+    'syllabus': 'cst_syllabus',
+    'technical-association': 'cst_technical_association',
+    'technical-faculty': 'cst_technical_faculty',
+    'training-activities': 'cst_training_activities',
+    'workshops': 'cst_workshops'
+    
   }
 };
 
@@ -237,7 +279,9 @@ async function verifyAuth(request: NextRequest) {
 
   const token = authHeader.substring(7);
   console.log('Token:', token);
-  const user = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInVzZXJuYW1lIjoiY3N0X2FkbWluIiwiZGVwYXJ0bWVudCI6ImNzdCIsInJvbGUiOiJkZXB0IiwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE3NTk5MzE0OTMsImV4cCI6MTc1OTk2MDI5M30.A2t299a2iDig4dNDrBYVasG4Fn1Yn_2bCQSyMprWq6s'
+  
+  // verifyToken is synchronous, not async
+  const user = verifyToken(token);
   console.log('Verified User:', user);
   
   if (!user) {
@@ -247,33 +291,63 @@ async function verifyAuth(request: NextRequest) {
   return { user };
 }
 
-// GET - Fetch table structure for dynamic form generation
+// GET - Fetch table structure and field configuration for dynamic form generation
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ dept: string; module: string }> }
 ) {
   try {
     const { dept, module } = await params;
+    console.log(`[Structure GET] Started - Department: ${dept}, Module: ${module}`);
 
     // Verify access
     const authResult = await verifyAuth(request);
     if (authResult.error) {
+      console.error(`[Structure GET] Auth failed:`, authResult.error);
       return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
+    console.log(`[Structure GET] Auth verified successfully`);
 
     // Get table name
     const tableName = DEPARTMENT_MODULES[dept]?.[module];
     if (!tableName) {
+      console.error(`[Structure GET] Invalid module - ${dept}/${module}`);
       return NextResponse.json({ error: 'Invalid department or module' }, { status: 404 });
     }
+    console.log(`[Structure GET] Table name resolved: ${tableName}`);
 
-    // Get table structure
+    // First, try to get field configuration from our new config
+    console.log(`[Structure] Looking for config for ${dept}/${module}`);
+    const fieldConfig = getModuleFieldConfig(dept, module);
+    console.log(`[Structure] Field config found:`, !!fieldConfig);
+    
+    if (fieldConfig) {
+      // Return configured field structure
+      console.log(`[Structure] Returning configured fields for ${dept}/${module}`, fieldConfig);
+      console.log(`[Structure] Type field config:`, fieldConfig.fields.find(f => f.name === 'type'));
+      return NextResponse.json({
+        success: true,
+        source: 'config',
+        dept,
+        module,
+        tableName: fieldConfig.tableName,
+        displayField: fieldConfig.displayField,
+        fields: fieldConfig.fields,
+        searchableFields: fieldConfig.searchableFields || [],
+        sortableFields: fieldConfig.sortableFields || [],
+        editableFields: fieldConfig.editableFields || []
+      });
+    }
+
+    // Fallback: Get table structure from database
+    console.log(`[Structure] Fetching database schema for ${tableName}`);
     const columns = await query<RowDataPacket[]>(
       `SHOW COLUMNS FROM \`${tableName}\``
     );
 
     return NextResponse.json({
       success: true,
+      source: 'database',
       fields: columns,
       tableName
     });
@@ -285,6 +359,7 @@ export async function GET(
     if (error instanceof Error && error.message.includes("doesn't exist")) {
       return NextResponse.json({
         success: true,
+        source: 'default',
         fields: [
           { Field: 'title', Type: 'varchar(255)', Null: 'YES', Key: '', Default: null, Extra: '' },
           { Field: 'description', Type: 'text', Null: 'YES', Key: '', Default: null, Extra: '' },

@@ -27,22 +27,32 @@ export async function GET(request: NextRequest) {
 
     const items = await query(sql, params);
 
+    // Transform items to proper format
+    const transformedItems = (items as any[]).map(item => ({
+      ...item,
+      date: item.date ? (typeof item.date === 'string' 
+        ? item.date.split('T')[0] 
+        : new Date(item.date).toISOString().split('T')[0]
+      ) : null,
+      posted_date: item.posted_date
+    }));
+
     // If requesting specific degree, return flat array
     if (degree) {
-      return NextResponse.json(items);
+      return NextResponse.json(transformedItems);
     }
 
     // If requesting specific type without degree, organize by degree
     if (type) {
       const organized = {
-        ug: (items as any[]).filter(item => item.degree === 'UG'),
-        pg: (items as any[]).filter(item => item.degree === 'PG')
+        ug: transformedItems.filter(item => item.degree === 'UG'),
+        pg: transformedItems.filter(item => item.degree === 'PG')
       };
       return NextResponse.json(organized);
     }
 
     // If no filters, return all items
-    return NextResponse.json(items);
+    return NextResponse.json(transformedItems);
 
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -111,7 +121,7 @@ export async function PUT(request: NextRequest) {
     const { id, date, content, link, degree, type } = data;
 
     // Validate required fields
-    if (!id || !date || !content || !link || !degree || !type) {
+    if (!id || !date || !content || !degree || !type) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -136,7 +146,7 @@ export async function PUT(request: NextRequest) {
 
     // Check if item exists
     const items = await query(
-      'SELECT id FROM rsac_items WHERE id = ? AND deleted_at IS NULL',
+      'SELECT id, link FROM rsac_items WHERE id = ? AND deleted_at IS NULL',
       [id]
     );
 
@@ -147,10 +157,14 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // If link is provided (new file uploaded), use it; otherwise keep the old link
+    const existingLink = (items as any[])[0].link;
+    const finalLink = link || existingLink;
+
     // Update the item
     await execute(
       'UPDATE rsac_items SET date = ?, content = ?, link = ?, degree = ?, type = ? WHERE id = ? AND deleted_at IS NULL',
-      [date, content, link, degree, type, id]
+      [date, content, finalLink, degree, type, id]
     );
 
     return NextResponse.json({

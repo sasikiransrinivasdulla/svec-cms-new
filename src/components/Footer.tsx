@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   MapPin,
@@ -14,6 +14,11 @@ import {
 import VisitorCounter from './VisitorCounter';
 
 const Footer: React.FC = () => {
+  const [currentYear, setCurrentYear] = useState(2024);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-12">
@@ -40,10 +45,38 @@ const Footer: React.FC = () => {
 
             </p>
             <div className="flex space-x-4">
-              <Facebook className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
-              <Twitter className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
-              <Instagram className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
-              <Linkedin className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
+              <a 
+                href="https://www.facebook.com/people/Sri-Vasavi-Engineering-College-Tadepalligudem/100067829822379/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary cursor-pointer transition-colors"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://twitter.com/srivasavieng" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary cursor-pointer transition-colors"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://www.instagram.com/gdsc.svec/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary cursor-pointer transition-colors"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://www.linkedin.com/uas/login?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Fschool%2Fsri-vasavi%2Fposts%2F%3FfeedView%3Dall%26" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary cursor-pointer transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
             </div>
           </div>
 
@@ -61,13 +94,11 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="text-base font-semibold mb-4 text-white">Departments</h4>
+            <h4 className="text-base font-semibold mb-4 text-white">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="/departments/cse" className="hover:text-primary transition-colors text-sm">Computer Science</Link></li>
-              <li><Link href="/departments/ece" className="hover:text-primary transition-colors text-sm">Electronics & Comm.</Link></li>
-              <li><Link href="/departments/mech" className="hover:text-primary transition-colors text-sm">Mechanical</Link></li>
-              <li><Link href="/departments/civil" className="hover:text-primary transition-colors text-sm">Civil Engineering</Link></li>
-              <li><Link href="/departments/eee" className="hover:text-primary transition-colors text-sm">Electrical</Link></li>
+              <li><Link href="https://alumni.srivasaviengg.ac.in/" className="hover:text-primary transition-colors text-sm">Alumni</Link></li>
+              
+              
             </ul>
           </div>
 
@@ -94,7 +125,7 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row items-center justify-between">
           <p className="text-sm text-gray-500 mb-4 md:mb-0">
-            © {new Date().getFullYear()} Sri Vasavi Engineering College. All rights reserved.
+            © {currentYear} Sri Vasavi Engineering College. All rights reserved.
           </p>
 
           <div className="mx-4 mb-4 md:mb-0">

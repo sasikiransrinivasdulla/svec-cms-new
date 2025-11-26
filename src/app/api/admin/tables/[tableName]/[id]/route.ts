@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mysql from 'mysql2/promise';
+import { unlink } from 'fs/promises';
+import { join } from 'path';
 
 const dbConfig = {
   host: process.env.DB_HOST || '62.72.31.209',
@@ -60,6 +62,14 @@ export async function PUT(
 
     const connection = await mysql.createConnection(dbConfig);
 
+    // Get the existing record to check for files to delete
+    const [existingRecords] = await connection.execute(
+      `SELECT * FROM ${tableName} WHERE id = ?`,
+      [id]
+    );
+
+    const existingRecord = (existingRecords as any[])[0];
+
     // Get table columns to validate data
     const [columnsResult] = await connection.execute(
       `SHOW COLUMNS FROM ${tableName}`
@@ -69,9 +79,34 @@ export async function PUT(
 
     // Prepare update data
     const updateData: any = {};
+    const fileColumns = [
+      'profileUrl', 'profile_url', 'image_url', 'photo_url', 'attachment', 
+      'document', 'file_url', 'pdf_url', 'link', 'document_url', 'file',
+      'hod_image_url', 'image', 'banner', 'banner_url'
+    ];
+
     updatableColumns.forEach(col => {
       if (data[col] !== undefined) {
         updateData[col] = data[col];
+
+        // If a file column is being updated, delete the old file
+        if (existingRecord && fileColumns.some(fcol => fcol.toLowerCase() === col.toLowerCase())) {
+          const oldFileUrl = existingRecord[col];
+          if (oldFileUrl && data[col] !== oldFileUrl) {
+            // File has been replaced, delete old file
+            if (!oldFileUrl.startsWith('http')) {
+              try {
+                const filePath = join(process.cwd(), 'public', oldFileUrl.replace(/^\//, ''));
+                unlink(filePath).catch(err => {
+                  console.error(`Error deleting old file ${oldFileUrl}:`, err);
+                  // Continue even if deletion fails
+                });
+              } catch (error) {
+                console.error(`Error processing file deletion for ${oldFileUrl}:`, error);
+              }
+            }
+          }
+        }
       }
     });
 
@@ -128,6 +163,14 @@ export async function DELETE(
 
     const connection = await mysql.createConnection(dbConfig);
 
+    // Get the record first to extract file URLs
+    const [records] = await connection.execute(
+      `SELECT * FROM ${tableName} WHERE id = ?`,
+      [id]
+    );
+
+    const record = (records as any[])[0];
+
     // Delete record
     const [result] = await connection.execute(
       `DELETE FROM ${tableName} WHERE id = ?`,
@@ -141,6 +184,39 @@ export async function DELETE(
         { success: false, error: 'Record not found' },
         { status: 404 }
       );
+    }
+
+    // Delete associated files if the record had file URLs
+    if (record) {
+      const fileColumns = [
+        'profileUrl', 'profile_url', 'image_url', 'photo_url', 'attachment', 
+        'document', 'file_url', 'pdf_url', 'link', 'document_url', 'file',
+        'hod_image_url', 'image', 'banner', 'banner_url'
+      ];
+
+      for (const [key, value] of Object.entries(record)) {
+        if (fileColumns.some(col => col.toLowerCase() === key.toLowerCase()) && value) {
+          const fileUrl = value as string;
+          if (fileUrl && (fileUrl.startsWith('/') || fileUrl.startsWith('http'))) {
+            try {
+              // Extract path from URL
+              let filePath: string;
+              if (fileUrl.startsWith('http')) {
+                // It's a full URL, skip it
+                continue;
+              } else {
+                // It's a relative path
+                filePath = join(process.cwd(), 'public', fileUrl.replace(/^\//, ''));
+              }
+              
+              await unlink(filePath);
+            } catch (error) {
+              console.error(`Error deleting file ${fileUrl}:`, error);
+              // Continue with deletion even if file doesn't exist
+            }
+          }
+        }
+      }
     }
 
     return NextResponse.json({

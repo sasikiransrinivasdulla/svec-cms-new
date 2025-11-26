@@ -61,9 +61,17 @@ export default function JNTUKExamSection() {
   });
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [uploadingPdf, setUploadingPdf] = useState(false);
+  const [editingSno, setEditingSno] = useState<number | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // If editing, use update flow
+    if (editingSno) {
+      handleUpdateSubmit(e);
+      return;
+    }
+
     setIsLoading(true);
 
     let pdfLink = formData.link || '';
@@ -128,6 +136,78 @@ export default function JNTUKExamSection() {
       setIsLoading(false);
     }
   };
+
+  const handleEdit = (notification: ExamNotification) => {
+    const dateString = notification.date 
+      ? new Date(notification.date).toISOString().split('T')[0]
+      : new Date().toISOString().split('T')[0];
+    
+    setFormData({
+      ...notification,
+      date: dateString,
+    });
+    setEditingSno(notification.sno);
+    setIsAddingNew(true);
+    setPdfFile(null);
+  };
+
+  const handleCancel = () => {
+    setIsAddingNew(false);
+    setEditingSno(null);
+    setFormData({
+      content: '',
+      degree: '',
+      type: '',
+      link: '',
+      date: new Date().toISOString().split('T')[0],
+      posteddate: new Date().toISOString().split('T')[0]
+    });
+    setPdfFile(null);
+  };
+
+  const handleUpdateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingSno) return;
+    setIsLoading(true);
+    
+    try {
+      let updateData: any = { ...formData, sno: editingSno };
+      
+      // If a new file is selected, upload it
+      if (pdfFile) {
+        const fileData = new FormData();
+        fileData.append('file', pdfFile);
+        fileData.append('type', formData.type || '');
+        fileData.append('degree', formData.degree || '');
+        
+        const uploadResponse = await fetch('/api/exam-section/jntuk-exam-section/upload', {
+          method: 'POST',
+          body: fileData,
+        });
+        
+        if (!uploadResponse.ok) throw new Error('Failed to upload file');
+        const { url, fileSize } = await uploadResponse.json();
+        updateData.link = url;
+        toast.success(`PDF uploaded successfully! (${fileSize}KB)`);
+      }
+      
+      // Update the entry
+      const response = await fetch('/api/exam-section/jntuk-exam-section', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updateData),
+      });
+      
+      if (!response.ok) throw new Error('Failed to update entry');
+      toast.success('Notification updated successfully');
+      handleCancel();
+      fetchExamData();
+    } catch (error) {
+      toast.error('Failed to update notification');
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const fetchExamData = async () => {
     try {
@@ -209,7 +289,7 @@ export default function JNTUKExamSection() {
       {isAddingNew && (
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Add New Notification</CardTitle>
+            <CardTitle>{editingSno ? 'Edit Notification' : 'Add New Notification'}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -226,6 +306,7 @@ export default function JNTUKExamSection() {
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Degree</label>
                   <Select 
+                    value={formData.degree || ''}
                     onValueChange={(value) => setFormData({ ...formData, degree: value })}
                   >
                     <SelectTrigger>
@@ -243,6 +324,7 @@ export default function JNTUKExamSection() {
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Type</label>
                   <Select
+                    value={formData.type || ''}
                     onValueChange={(value) => setFormData({ ...formData, type: value })}
                   >
                     <SelectTrigger>
@@ -258,7 +340,7 @@ export default function JNTUKExamSection() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">PDF Upload</label>
+                  <label className="text-sm font-medium">PDF Upload {editingSno && '(Optional)'}</label>
                   <Input
                     type="file"
                     accept="application/pdf"
@@ -310,7 +392,7 @@ export default function JNTUKExamSection() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsAddingNew(false)}
+                  onClick={handleCancel}
                 >
                   Cancel
                 </Button>
@@ -319,7 +401,7 @@ export default function JNTUKExamSection() {
                   disabled={isLoading}
                   className="bg-blue-600 hover:bg-blue-700"
                 >
-                  {isLoading ? 'Saving...' : 'Save Notification'}
+                  {isLoading ? 'Saving...' : editingSno ? 'Update Notification' : 'Save Notification'}
                 </Button>
               </div>
             </form>
@@ -422,10 +504,7 @@ export default function JNTUKExamSection() {
                           </a>
                         )}
                         <button
-                          onClick={() => {
-                            setFormData(notification);
-                            setIsAddingNew(true);
-                          }}
+                          onClick={() => handleEdit(notification)}
                           className="text-yellow-600 hover:text-yellow-800"
                         >
                           <Pencil className="w-4 h-4" />

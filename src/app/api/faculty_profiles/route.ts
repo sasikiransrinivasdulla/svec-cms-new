@@ -83,16 +83,14 @@ export async function POST(request: NextRequest) {
       }
 
       // Create upload directory
-      const uploadDir = join(process.cwd(), 'public', 'uploads', dept, 'faculty_profiles');
+      const uploadDir = join(process.cwd(), 'public', 'uploads', dept, 'faculty');
       if (!existsSync(uploadDir)) {
         await mkdir(uploadDir, { recursive: true });
       }
 
-      // Generate unique filename
-      const timestamp = Date.now();
-      const randomString = Math.random().toString(36).substring(7);
+      // Use faculty name for filename (e.g., "santhi rupa.pdf")
       const extension = profileFile.name.split('.').pop();
-      const filename = `${timestamp}_${randomString}.${extension}`;
+      const filename = `${name}.${extension}`;
       
       // Save file
       const bytes = await profileFile.arrayBuffer();
@@ -100,7 +98,7 @@ export async function POST(request: NextRequest) {
       const filepath = join(uploadDir, filename);
       
       await writeFile(filepath, buffer);
-      profileUrl = `/uploads/${dept}/faculty_profiles/${filename}`;
+      profileUrl = `/uploads/${dept}/faculty/${filename}`;
     }
 
     // Insert into database
@@ -186,16 +184,14 @@ export async function PUT(request: NextRequest) {
       }
 
       // Create upload directory
-      const uploadDir = join(process.cwd(), 'public', 'uploads', dept, 'faculty_profiles');
+      const uploadDir = join(process.cwd(), 'public', 'uploads', dept, 'faculty');
       if (!existsSync(uploadDir)) {
         await mkdir(uploadDir, { recursive: true });
       }
 
-      // Generate unique filename
-      const timestamp = Date.now();
-      const randomString = Math.random().toString(36).substring(7);
+      // Use faculty name for filename (e.g., "santhi rupa.pdf")
       const extension = profileFile.name.split('.').pop();
-      const filename = `${timestamp}_${randomString}.${extension}`;
+      const filename = `${name}.${extension}`;
       
       // Save file
       const bytes = await profileFile.arrayBuffer();
@@ -203,7 +199,7 @@ export async function PUT(request: NextRequest) {
       const filepath = join(uploadDir, filename);
       
       await writeFile(filepath, buffer);
-      const profileUrl = `/uploads/${dept}/faculty_profiles/${filename}`;
+      const profileUrl = `/uploads/${dept}/faculty/${filename}`;
 
       updateFields.push('profile_url = ?');
       params.push(profileUrl);

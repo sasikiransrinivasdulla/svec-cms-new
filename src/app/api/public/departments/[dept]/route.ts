@@ -43,7 +43,10 @@ export async function GET(
       departmentalActivities,
       greenInitiatives,
       technicalMagazines,
-      syllabusDocuments
+      syllabusDocuments,
+      physicalFacilitiesData,
+      mouData,
+      facultyDevelopmentData
     ] = await Promise.all([
       query(
         `SELECT * FROM faculty_profiles WHERE dept = ? AND (status = "approved" OR status IS NULL) 
@@ -63,14 +66,14 @@ export async function GET(
         'SELECT * FROM laboratories WHERE dept = ? AND status = "active" ORDER BY lab_name',
         [dept]
       ),
-      query(
-        'SELECT * FROM faculty_achievements WHERE dept = ? AND approved = 1 ORDER BY created_at DESC',
-        [dept]
-      ),
-      query(
-        'SELECT * FROM student_achievements WHERE department = ? ORDER BY created_at DESC',
-        [dept]
-      ),
+      // Faculty Achievements - Use department-specific table for cse-ai, generic table for others
+      dept.toLowerCase() === 'cse-ai'
+        ? query('SELECT id, category, year, title, file_url FROM cai_faculty_achievements ORDER BY created_at DESC', [])
+        : query('SELECT * FROM faculty_achievements WHERE dept = ? AND approved = 1 ORDER BY created_at DESC', [dept]),
+      // Student Achievements - use department-specific table for cse-ai
+      dept.toLowerCase() === 'cse-ai'
+        ? query('SELECT id, category, year, title, file_url FROM cai_student_achievements ORDER BY id DESC', [])
+        : query('SELECT * FROM student_achievements WHERE department = ? ORDER BY created_at DESC', [dept]),
       query(
         'SELECT * FROM workshops WHERE dept = ? ORDER BY date_from DESC',
         [dept]
@@ -118,10 +121,27 @@ export async function GET(
       // Technical Magazines
       query('SELECT * FROM technical_magazines WHERE dept = ? AND status = "published" ORDER BY publication_date DESC', [dept]),
       
-      // Syllabus Documents - Use EEE_Syllabus table for EEE department, syllabus_documents for others
-      dept.toUpperCase() === 'EEE' 
+      // Syllabus Documents - Use cai_syllabus for CSE-AI, EEE_Syllabus for EEE, syllabus_documents for others
+      dept.toLowerCase() === 'cse-ai'
+        ? query('SELECT id, type, title, fileUrl, academic_year FROM cai_syllabus ORDER BY academic_year DESC, type ASC', [])
+        : dept.toUpperCase() === 'EEE' 
         ? query('SELECT * FROM EEE_Syllabus WHERE status = ? ORDER BY regulation DESC, type, academic_year DESC, semester', ['active'])
-        : query('SELECT * FROM syllabus_documents WHERE dept = ? AND status = ? ORDER BY regulation DESC, type, academic_year DESC, semester', [dept, 'approved'])
+        : query('SELECT * FROM syllabus_documents WHERE dept = ? AND status = ? ORDER BY regulation DESC, type, academic_year DESC, semester', [dept, 'approved']),
+      
+      // Physical Facilities - Use appropriate table based on department
+      dept.toLowerCase() === 'cse-ai' 
+        ? query('SELECT id, dept, category, title, description, file_url, gallery, lab_details FROM cai_physical_facilities WHERE dept = ? ORDER BY category, id ASC', [dept])
+        : query('SELECT * FROM physical_facilities WHERE dept = ? ORDER BY category, id ASC', [dept]),
+      
+      // MOUs - Use appropriate table based on department
+      dept.toLowerCase() === 'cse-ai'
+        ? query('SELECT id, mou_with as organization_name, from_date, to_date, status FROM cai_mous WHERE 1=1 ORDER BY created_at DESC', [])
+        : query('SELECT id, mou_with as organization_name, from_date, to_date, status FROM cai_mous ORDER BY created_at DESC', []),
+      
+      // Faculty Development - Use cai_faculty_development for CSE-AI, faculty_development for others
+      dept.toLowerCase() === 'cse-ai'
+        ? query('SELECT id, category, title, year, file_url, gallery FROM cai_faculty_development ORDER BY id DESC', [])
+        : query('SELECT * FROM faculty_development WHERE dept = ? ORDER BY created_at DESC', [dept])
     ]);
 
     console.log(`✅ All queries completed successfully`);
@@ -149,7 +169,10 @@ export async function GET(
         departmentalActivities: departmentalActivities,
         greenInitiatives: greenInitiatives,
         technicalMagazines: technicalMagazines,
-        syllabusDocuments: syllabusDocuments
+        syllabusDocuments: syllabusDocuments,
+        physicalFacilities: physicalFacilitiesData,
+        mous: mouData,
+        facultyDevelopment: facultyDevelopmentData
       }
     });
 

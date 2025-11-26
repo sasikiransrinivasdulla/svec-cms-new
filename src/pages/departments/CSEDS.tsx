@@ -39,150 +39,159 @@ const CSTDepartment: React.FC = () => {
           const [extra, setExtra] = React.useState<{documents:any[]; clubs:any[]}>({documents:[], clubs:[]});
             const [hackathons, setHackathons] = React.useState<{documents: Doc[]; galleries: Gallery[]}>({documents: [], galleries: []});
             const [handbooks, setHandbooks] = React.useState<any[]>([]);
+            const [overview, setOverview] = React.useState<any>(null);
+            // Comprehensive Promise.all data fetching for CSE-DS department
             React.useEffect(() => {
-                fetch('/api/aiml/aiml-handbooks?dept=cseds')
-                  .then(res => res.json())
-                  .then(setHandbooks)
-                  .catch(console.error);
-              }, []);
-            
-            
-              React.useEffect(() => {
-                fetch('/api/aiml/aiml-hackathons?dept=cseds')
-                  .then(res => res.json())
-                  .then(setHackathons)
-                  .catch(console.error);
-              }, []);
-            
-            React.useEffect(() => {
-              fetch('/api/aiml/aiml-extracurricular-activities?dept=cseds')
-                .then(res => res.json())
-                .then(data => setExtra(data))
-                .catch(console.error);
-            }, []);
-          React.useEffect(() => {
-              fetch('/api/aiml/technical-association?dept=cseds')
-                .then(res => res.json())
-                .then(setTechnicalAssociation)
-                .catch(console.error);
-            }, []);
-          React.useEffect(() => {
-              fetch('/api/aiml/academic-toppers-gallery?dept=cseds')
-                .then(res => res.json())
-                .then(setAcademicToppersGal)
-                .catch(console.error);
-            }, []);
-        React.useEffect(() => {
-                    fetch('/api/aiml/aiml-academic-toppers?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setAcademicToppers(data);
-                      })
-                  }, []);
-        React.useEffect(() => {
-                    fetch('/api/aiml/aiml-placements?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setPlacements(data);
-                      })
-                  }, []);
-         React.useEffect(() => {
-                    fetch('/api/aiml/student-achievements?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setStudentAchievements(data);
-                      })
-                  }, []);
+              const fetchAllData = async () => {
+                try {
+                  const [
+                    overviewResponse,
+                    handbooksResponse,
+                    hackathonsResponse,
+                    extraCurricularResponse,
+                    technicalAssociationResponse,
+                    academicToppersGalleryResponse,
+                    academicToppersResponse,
+                    placementsResponse,
+                    studentAchievementsResponse,
+                    workshopsResponse,
+                    facultyAchievementsResponse,
+                    facultyDevelopmentResponse,
+                    mousResponse,
+                    syllabusResponse,
+                    bosMinutesResponse,
+                    bosStudiesResponse,
+                    facultyResponse,
+                    technicalFacultyResponse,
+                    nonTeachingStaffResponse,
+                    publicDeptResponse
+                  ] = await Promise.allSettled([
+                    fetch('/api/cds/ds-department-overview').then(res => res.json()).catch(() => null),
+                    fetch('/api/cds/ds-handbooks').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-hackathons').then(res => res.json()).catch(() => ({ documents: [], galleries: [] })),
+                    fetch('/api/cds/ds-extra-curricular').then(res => res.json()).catch(() => ({ documents: [], clubs: [] })),
+                    fetch('/api/cds/ds-technical-association').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-academic-toppers-gallery').then(res => res.json()).catch(() => ({ galleries: [] })),
+                    fetch('/api/cds/ds-academic-toppers').then(res => res.json()).catch(() => ({})),
+                    fetch('/api/cds/ds-placements').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-student-achievements').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-workshops').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-faculty-achievements').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-faculty-development').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-mous').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-syllabus').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-bos-minutes').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-bos-members').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-faculty').then(res => res.json()).catch(() => []),
+                    fetch('/api/cds/ds-technical-faculty').then(res => res.json()).catch(() => ({ technical: [] })),
+                    fetch('/api/cds/ds-non-teaching-staff').then(res => res.json()).catch(() => ({ nonTeaching: [] })),
+                    fetch('/api/public/departments/cse-ds').then(res => res.json()).catch(() => ({ success: false, data: {} }))
+                  ]);
 
-        React.useEffect(() => {
-                    fetch('/api/aiml/aiml-workshops?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setWorkshops(data);
-                      })
-                  }, []);
-         React.useEffect(() => {
-                    fetch('/api/aiml/faculty-achievements?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setData(data);
-                      })
-                  }, []);
+                  // Handle all responses with proper error checking
+                  if (overviewResponse.status === 'fulfilled') {
+                    setOverview(overviewResponse.value);
+                  }
 
-        React.useEffect(() => {
-                    fetch('/api/aiml/faculty-development-programs?dept=cseds')
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setFdp(data);
-                      })
-                  }, []);
-        React.useEffect(() => {
-              fetch('/api/aiml/aiml-mous?dept=cseds')
-              .then((res) => res.json())
-                      .then((data) => {
-                        setMous(data);
-                      })
-                  }, []);
-            
-        React.useEffect(() => {
-                    fetch("/api/aiml/aiml-syllabus?dept=cseds")
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setSyllabus(data);
-                      })
-                  }, []);
+                  if (handbooksResponse.status === 'fulfilled') {
+                    setHandbooks(Array.isArray(handbooksResponse.value) ? handbooksResponse.value : []);
+                  }
 
-        React.useEffect(() => {
-            fetch('/api/aiml/board-of-meeting-minutes?dept=cseds')
-              .then(res => res.json())
-              .then((data) => {
-                //console.log(data)
-                setBosMeetings(data); // directly set data, no type filter for now
-              });
-          }, []);
-      
-        React.useEffect(() => {
-          setLoadingBOS(true);
-          fetch("/api/aiml/aiml-board-of-studies?dept=cseds")
-            .then(res => {
-              if (!res.ok) throw new Error('Failed to fetch Board of Studies');
-              return res.json();
-            })
-            .then(data => {
-              setBoardOfStudies(data);
-              setLoadingBOS(false);
-            })
-            .catch(err => {
-              setBOSError(err.message);
-              setLoadingBOS(false);
-            });
-        }, []);
-      React.useEffect(() => {
-            fetch('/api/aiml/aiml-faculty-profiles?dept=cseds')
-              .then(res => res.json())
-              .then((data) => {
-                //console.log(data)
-                setFaculty(data); // directly set data, no type filter for now
-              });
-          }, []);
-        
-          React.useEffect(() => {
-            fetch("/api/aiml/aiml-technical-faculty?dept=cseds")
-              .then((res) => res.json())
-              .then((data) => {
-                // console.log(data.technical)
-                setTechnicalFaculty(data.technical || []);
-              });
-          }, []);
-        
-          React.useEffect(() => {
-            fetch("/api/aiml/aiml-non-teaching-staff?dept=cseds")
-              .then((res) => res.json())
-              .then((data) => {
-                //console.log(data)
-                setNonTeachingFaculty(data.nonTeaching || []);
-              });
-          }, []);
+                  if (hackathonsResponse.status === 'fulfilled') {
+                    setHackathons(hackathonsResponse.value || { documents: [], galleries: [] });
+                  }
+
+                  if (extraCurricularResponse.status === 'fulfilled') {
+                    setExtra(extraCurricularResponse.value || { documents: [], clubs: [] });
+                  }
+
+                  if (technicalAssociationResponse.status === 'fulfilled') {
+                    setTechnicalAssociation(Array.isArray(technicalAssociationResponse.value) ? technicalAssociationResponse.value : []);
+                  }
+
+                  if (academicToppersGalleryResponse.status === 'fulfilled') {
+                    setAcademicToppersGal(academicToppersGalleryResponse.value || { galleries: [] });
+                  }
+
+                  if (academicToppersResponse.status === 'fulfilled') {
+                    setAcademicToppers(academicToppersResponse.value || {});
+                  }
+
+                  if (placementsResponse.status === 'fulfilled') {
+                    setPlacements(Array.isArray(placementsResponse.value) ? placementsResponse.value : []);
+                  }
+
+                  if (studentAchievementsResponse.status === 'fulfilled') {
+                    setStudentAchievements(Array.isArray(studentAchievementsResponse.value) ? studentAchievementsResponse.value : []);
+                  }
+
+                  if (workshopsResponse.status === 'fulfilled') {
+                    setWorkshops(Array.isArray(workshopsResponse.value) ? workshopsResponse.value : []);
+                  }
+
+                  if (facultyAchievementsResponse.status === 'fulfilled') {
+                    setData(Array.isArray(facultyAchievementsResponse.value) ? facultyAchievementsResponse.value : []);
+                  }
+
+                  if (facultyDevelopmentResponse.status === 'fulfilled') {
+                    setFdp(Array.isArray(facultyDevelopmentResponse.value) ? facultyDevelopmentResponse.value : []);
+                  }
+
+                  if (mousResponse.status === 'fulfilled') {
+                    setMous(Array.isArray(mousResponse.value) ? mousResponse.value : []);
+                  }
+
+                  if (syllabusResponse.status === 'fulfilled') {
+                    setSyllabus(Array.isArray(syllabusResponse.value) ? syllabusResponse.value : []);
+                  }
+
+                  if (bosMinutesResponse.status === 'fulfilled') {
+                    setBosMeetings(Array.isArray(bosMinutesResponse.value) ? bosMinutesResponse.value : []);
+                  }
+
+                  if (bosStudiesResponse.status === 'fulfilled') {
+                    setBoardOfStudies(Array.isArray(bosStudiesResponse.value) ? bosStudiesResponse.value : []);
+                    setLoadingBOS(false);
+                    setBOSError(null);
+                  } else {
+                    setLoadingBOS(false);
+                    setBOSError('Failed to fetch Board of Studies');
+                  }
+
+                  if (facultyResponse.status === 'fulfilled') {
+                    setFaculty(Array.isArray(facultyResponse.value) ? facultyResponse.value : []);
+                  }
+
+                  if (technicalFacultyResponse.status === 'fulfilled') {
+                    const techData = technicalFacultyResponse.value;
+                    // Handle both array format and object with 'technical' property
+                    setTechnicalFaculty(Array.isArray(techData) ? techData : Array.isArray(techData?.technical) ? techData.technical : []);
+                  }
+
+                  if (nonTeachingStaffResponse.status === 'fulfilled') {
+                    const staffData = nonTeachingStaffResponse.value;
+                    // Handle both array format and object with 'nonTeaching' property
+                    setNonTeachingFaculty(Array.isArray(staffData) ? staffData : Array.isArray(staffData?.nonTeaching) ? staffData.nonTeaching : []);
+                  }
+
+                  // Handle public department API data as fallback
+                  if (publicDeptResponse.status === 'fulfilled' && publicDeptResponse.value) {
+                    const publicData = publicDeptResponse.value?.data || {};
+                    console.log('🔍 CSE-DS Public Department API data available:', Object.keys(publicData));
+                    // Use public data as fallback for any missing data if needed
+                  }
+
+                  console.log('✅ CSE-DS department data fetch completed');
+
+                } catch (error) {
+                  console.error('❌ Error fetching CSE-DS department data:', error);
+                  setLoadingBOS(false);
+                  setBOSError('Failed to fetch data');
+                }
+              };
+
+              fetchAllData();
+            }, []);
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
@@ -209,62 +218,190 @@ const CSTDepartment: React.FC = () => {
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
       
-      case 'Department':
-        return (
-          <div className="animate-fade-in">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
-              <div className="relative">
+      case 'Department Profile':
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+      <div className="space-y-8">
+        {/* Desktop Navigation Tabs */}
+        <div className="hidden md:block relative mb-8">
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
+            {sections.map((section) => (
+              <button
+                key={section}
+                onClick={() => setActiveDeptTab(section)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                  ? 'bg-[#B22222] text-white shadow-lg'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {section === 'SalientFeatures' ? 'Salient Features' : section}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Section Display */}
+        <div className="md:hidden relative mb-8">
+          <div className="text-center mb-6">
+            <h3 className="text-xl font-semibold text-gray-800">
+              Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+            </h3>
+            <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+          </div>
+        </div>
+
+        {/* Department Overview (Dynamic) */}
+        {activeDeptTab === 'Department' && (
+          !overview ? (
+            <div className="text-center text-gray-600">Loading...</div>
+          ) : (
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+              <div className="md:w-1/3">
                 <img
-                 src="/aihod.jpg"
-                  alt="Dr. G. Loshma"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
+                  src={overview.hod_image_url}
+                  alt={overview.hod_name}
+                  className="w-full h-auto object-cover rounded-lg shadow-md"
                 />
               </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Head of Department, CSE-AI</p>
-                  <p className="text-gray-600">Ph.D in Computer Science, M.Tech CSE</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_cst@srivasaviengg.ac.in" className="text-primary hover:underline">hod_cst@srivasaviengg.ac.in</a></p>
+              <div className="md:w-2/3">
+                <h3 className="text-xl font-bold text-[#B22222] mb-2">{overview.hod_name}</h3>
+                <p className="text-gray-700 mb-2">{overview.hod_qualification}</p>
+                <p className="text-gray-700 mb-2">
+                  <a href={`mailto:${overview.hod_email}`} className="text-[#B22222] hover:underline">{overview.hod_email}</a>
+                </p>
+                <p className="text-gray-700 text-lg text-justify">{overview.description}</p>
+              </div>
+            </div>
+          )
+        )}
+
+        {/* Game-Style Right Side Settings Panel */}
+        {settingsPanelOpen && (
+          <div className="fixed inset-0 z-50">
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+              onClick={() => setSettingsPanelOpen(false)}
+            ></div>
+            {/* Settings Panel */}
+            <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+              {/* Panel Header */}
+              <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                      <p className="text-white/70 text-sm">Select a section to explore</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSettingsPanelOpen(false)}
+                    className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              {/* Panel Content */}
+              <div className="p-6 h-full overflow-y-auto">
+                <div className="space-y-3">
+                  {sections.map((section, index) => {
+                    const isActive = section === activeDeptTab;
+                    return (
+                      <button
+                        key={section}
+                        onClick={() => {
+                          setActiveDeptTab(section);
+                          setSettingsPanelOpen(false);
+                        }}
+                        className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
+                          ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
+                          : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
+                            }`}>
+                            {index + 1}
+                          </div>
+                          <div>
+                            <div className="font-semibold">
+                              {section === 'SalientFeatures' ? 'Salient Features' : section}
+                            </div>
+                            <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
+                              {section === 'Department' && 'Overview & HOD Profile'}
+                              {section === 'Vision' && 'Department Vision Statement'}
+                              {section === 'Mission' && 'Department Mission Statement'}
+                              {section === 'PEOs' && 'Program Educational Objectives'}
+                              {section === 'POs' && 'Program Outcomes'}
+                              {section === 'PSOs' && 'Program Specific Outcomes'}
+                              {section === 'COs' && 'Course Outcomes'}
+                              {section === 'SalientFeatures' && 'Key Highlights & Features'}
+                            </div>
+                          </div>
+                          {isActive && (
+                            <div className="ml-auto">
+                              <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+                {/* Panel Footer */}
+                <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                  <div className="text-center">
+                    <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
+                    <div className="text-white/50 text-xs">
+                      Click any section above to navigate instantly
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <p className="text-gray-700 mb-3">
-               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
-            </p>
-            
-            <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
-                <thead className="text-xs bg-gray-50 uppercase text-gray-700">
-                  <tr>
-                    <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No</th>
-                    <th scope="col" className="px-6 py-3 border-b border-gray-200">Name of the Course</th>
-                    <th scope="col" className="px-6 py-3 border-b border-gray-200">Eligibility Criteria</th>
-                    <th scope="col" className="px-6 py-3 border-b border-gray-200">Duration</th>
-                    <th scope="col" className="px-6 py-3 border-b border-gray-200">Intake</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="bg-white border-b border-gray-200 hover:bg-gray-50">
-                    <td className="px-6 py-4">1</td>
-                    <td className="px-6 py-4">B.Tech - CSE(Artificial Intelligence)</td>
-                    <td className="px-6 py-4">AP EAPCET</td>
-                    <td className="px-6 py-4">4 Years</td>
-                    <td className="px-6 py-4">0</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
           </div>
-        );
+        )}
+
+        {/* Floating Settings Button - Mobile Only */}
+        <button
+          onClick={() => setSettingsPanelOpen(true)}
+          className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+          title="Department Navigation"
+        >
+          <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          {/* Mobile Label */}
+          <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            Menu
+            <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
+          </div>
+        </button>
+
+        {/* Tab Content */}
+        <div>
+          {renderDeptTabContent()}
+        </div>
+      </div>
+    </div>
+  );
+  
       case 'Vision':
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
             <p className="text-gray-700">
-              To evolve as a center of excellence in CSE-Data Science education, producing professionally competent and socially responsible technologists.
+              To evolve as a centre of academic and research excellence in the
+                area of Computer Science and Engineering(Data Science).
             </p>
           </div>
         );
@@ -273,10 +410,14 @@ const CSTDepartment: React.FC = () => {
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
-              <li>To impart quality education through effective teaching-learning processes with emphasis on emerging technologies.</li>
-              <li>To provide excellent infrastructure and environment conducive for research and innovation.</li>
-              <li>To enhance industry-institute interaction to make students technology-ready.</li>
-              <li>To develop leadership skills and ethical values among students.</li>
+              
+              <li>To utilize innovative learning methods for academic
+                improvement.</li>
+              <li>To encourage higher studies and research to meet the
+                futuristic requirements of Computer Science and
+                Engineering(Artificial Intelligence).</li>
+              <li>To inculcate Ethics and
+                Human values for developing students with good character.</li>
             </ul>
           </div>
         );
@@ -284,72 +425,99 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
-            <p className="text-gray-700 mb-4">The graduates will:</p>
+            <p className="text-gray-700 mb-4">	CSE(Data Science)	Graduates of this programme will be able to :</p>
             <div className="space-y-4">
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h4 className="text-lg font-semibold text-blue-800">PEO 1</h4>
-                <p className="text-gray-700">Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and CSE-Data Science principles.</p>
+                <p className="text-gray-700">Adapt to evolving technology.</p>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h4 className="text-lg font-semibold text-blue-800">PEO 2</h4>
-                <p className="text-gray-700">Analyze real-life problems and design socially responsible and environmentally sustainable technology-based solutions.</p>
+                <p className="text-gray-700">Provide optimal soultions to real time problems.
+
+                </p>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h4 className="text-lg font-semibold text-blue-800">PEO 3</h4>
-                <p className="text-gray-700">Adapt to evolving technologies through continuous learning and professional development.</p>
+                <p className="text-gray-700">Demonstrate his/her abilities to support service activities with due consideration for Professional and Ethical values.</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-blue-800">PEO 4</h4>
-                <p className="text-gray-700">Lead a successful career as a team member or leader with strong professional ethics and communication skills.</p>
-              </div>
+              
             </div>
           </div>
         );
       case 'POs':
-        return (
-          <div className="animate-fade-in">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
-            <div className="space-y-3">
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO1: Engineering Knowledge</h4>
-                <p className="text-gray-700">Apply knowledge of mathematics, science, engineering fundamentals, and CSE-Data Science principles to solve complex engineering problems.</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO2: Problem Analysis</h4>
-                <p className="text-gray-700">Identify, formulate, research literature, and analyze complex engineering problems using principles of mathematics, natural sciences, and engineering sciences.</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO3: Design/Development of Solutions</h4>
-                <p className="text-gray-700">Design solutions for complex engineering problems and system components that meet specified needs with appropriate consideration for public health, safety, and environmental concerns.</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO4: Modern Tool Usage</h4>
-                <p className="text-gray-700">Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities.</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO5: The Engineer and Society</h4>
-                <p className="text-gray-700">Apply reasoning informed by contextual knowledge to assess societal, health, safety, legal and cultural issues relevant to professional engineering practice.</p>
+          return (
+            <div className="animate-fade-in">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
+              <div className="pl-5 space-y-3 text-gray-700 text-justify">
+                <ol className="list-decimal pl-6">
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Engineering knowledge:</strong>
+                    Apply the knowledge of Mathematics, Science, Engineering Fundamentals, and Concepts of Computer Science Engineering to the solution of complex Engineering problems. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Problem Analysis:</strong>
+                    Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of Mathematics, Natural Sciences, and Computer Science. [K4]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Design/development of solutions:</strong>
+                    Design solutions for complex engineering problems and design system components or processes that meet the specific needs with appropriate consideration for public health and safety, and the cultural, societal, and environmental considerations. [K5]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Conduct investigations of complex problems:</strong>
+                    Use research-based knowledge and research methods, including the design of experiments, analysis and interpretation of data, and synthesis of information to provide valid conclusions. [K5]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Modern tool usage:</strong>
+                    Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools, including prediction and modeling, to complex Engineering activities with an understanding of the limitations. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>The engineer and society:</strong>
+                    Apply reasoning informed by contextual knowledge to assess societal, health, safety, legal, and cultural issues and the consequent responsibilities relevant to professional Engineering practice. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Environment and sustainability:</strong>
+                    Understand the impact of professional engineering solutions in societal and environmental contexts and demonstrate knowledge of, and the need for sustainable development. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Ethics:</strong>
+                    Apply ethical principles and commit to professional ethics and responsibilities and norms of Engineering practice. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Individual and team work:</strong>
+                    Function effectively as an individual and as a member or leader in diverse teams and in multidisciplinary settings. [K6]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Communication:</strong>
+                    Communicate effectively on complex Engineering activities with the Engineering community and with society at large, such as being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions. [K2]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#B22222'}}>Project management and finance:</strong>
+                    Demonstrate knowledge and understanding of Engineering and Management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments. [K6]
+                  </li>
+                  <li>
+                    <strong style={{color: '#B22222'}}>Life-long learning:</strong>
+                    Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change. [K1]
+                  </li>
+                </ol>
               </div>
             </div>
-          </div>
-        );
+          );
       case 'PSOs':
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
-            <div className="space-y-4">
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-green-800">PSO 1</h4>
-                <p className="text-gray-700">Apply knowledge of CSE-Data Science principles to design and develop efficient software solutions.</p>
-              </div>
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-green-800">PSO 2</h4>
-                <p className="text-gray-700">Demonstrate proficiency in emerging technologies and adapt to technological changes in the computing field.</p>
-              </div>
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-green-800">PSO 3</h4>
-                <p className="text-gray-700">Work effectively in multidisciplinary teams and communicate technical concepts clearly to diverse audiences.</p>
-              </div>
+            <p className="text-gray-700 mb-4">A graduate of the CSE(Artificial Intelligence)
+                Programme will be able to:</p>
+            <div className="pl-5 space-y-3 text-gray-700 text-justify">
+              <ol className="list-decimal pl-6">
+                <li style={{marginBottom: '10px'}}>
+                  <span className="font-semibold" style={{color: '#B22222'}}>PSO1:</span> Use Mathematical Abstractions and Algorithmic Design along with Open Source Programming tools to solve complexities involved in Programming. <span style={{fontWeight: 'bold'}}>[K3]</span>
+                </li>
+                <li style={{marginBottom: '10px'}}>
+                  <span className="font-semibold" style={{color: '#B22222'}}>PSO2:</span> Use Professional Engineering practices and strategies for development and maintenance of software. <span style={{fontWeight: 'bold'}}>[K3]</span>
+                </li>
+              </ol>
             </div>
           </div>
         );
@@ -358,17 +526,34 @@ const CSTDepartment: React.FC = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
             <p className="text-gray-700 mb-4">
-              The course outcomes for all courses offered by the CSE-Data Science department are designed to align with program outcomes and educational objectives.
+              The course outcomes for all courses offered by the Computer Science & Technology department are designed to align with program outcomes and educational objectives.
             </p>
-            <div className="mb-4">
-              <a
-                href="https://srivasaviengg.ac.in/uploads/cst/COs.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
-              >
-                <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
-              </a>
+            <div className="space-y-4">
+              <div>
+                <span className="font-semibold text-gray-800">Course Outcomes (V23 Regulation)</span>
+                <a
+                  href="https://srivasaviengg.ac.in/uploads/cst/Course%20Outcomes%20-V23%20Regulation.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-3 inline-block px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-300 view-button"
+                  style={{fontSize: '16px'}}
+                >
+                  View PDF
+                </a>
+              </div>
+              <div>
+                <span className="font-semibold text-gray-800">Course Outcomes (V20 Regulation)</span>
+                <a
+                  href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Course%20Outcomes%20-V20%20Regulation.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-3 inline-block px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-300 view-button"
+                  style={{fontSize: '16px'}}
+                >
+                  View PDF
+                </a>
+              </div>
+              
             </div>
           </div>
         );
@@ -376,15 +561,16 @@ const CSTDepartment: React.FC = () => {
         return (
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700">
-              <li>Modern curriculum designed to meet industry requirements</li>
-              <li>Well-equipped computer laboratories with latest software</li>
-              <li>Experienced faculty with industry and research background</li>
-              <li>Strong emphasis on practical learning and project-based education</li>
-              <li>Regular industry interactions and guest lectures</li>
-              <li>Focus on emerging technologies and innovation</li>
-              <li>Active student clubs and technical societies</li>
-              <li>Excellent placement record with top companies</li>
+            <ul className="pl-5 space-y-3 text-gray-700">
+              <li><strong className="text-[#B22222]">➟</strong> All Class Rooms are ICT enabled.</li>
+              <li><strong className="text-[#B22222]">➟</strong> MoUs with NIT ANP , Eduskills , Hexaware , APSSDC , Alykas
+                    Innovations Pvt.Ltd, thingTronics Pvt Ltd,Bangalore and
+                    TCS-iON.</li>
+              <li><strong className="text-[#B22222]">➟</strong> College has MOU with TCS for conducting Online Competitive Exams for which our Department Resources are being utilized.</li>
+              <li><strong className="text-[#B22222]">➟</strong> Professional Society memberships in ISTE and IAENG.</li>
+              <li><strong className="text-[#B22222]">➟</strong> Good faculty retention.</li>
+              <li><strong className="text-[#B22222]">➟</strong> Well Equipped Laboratories.</li>
+              <li><strong className="text-[#B22222]">➟</strong> Sahaya, Social Service Unit, managed by the Students.</li>
             </ul>
           </div>
         );
@@ -557,57 +743,47 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-        case 'Contact':
-        return (
-          <div id="contact" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Contact Information</h2>
-              <div className="space-y-4">
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                  <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
-                  <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                  <p className="text-gray-600">Fax No: 08818-284322</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
       case 'Student Achievements':
+        const groupedStudentAchievements = studentAchievements.map((section, idx) => ({
+          category: section.title,
+          items: section.items || []
+        }));
+
         return (
-          <div id="student-achievements" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h3 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h3>
-              {studentAchievements.map((section, idx) => (
-          <div key={idx} className="mt-4">
-            <details>
-              <summary className="text-lg font-semibold">{section.title}</summary>
-              <div className="nav-content">
-                <ul className="list-disc ml-6 mt-4">
-                  {section.items?.map((item: any, i: number) => (
-                    <li key={i}>
-                      {item.text}
-                      {item.url && (
-                        <>
-                          {" – "}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </details>
-          </div>
-        ))}
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
+            <div className="space-y-6">
+              {groupedStudentAchievements.map((group, index) => (
+                <details key={group.category} open={index === 0} className="cst-dropdown">
+                  <summary>{group.category}</summary>
+                  <div className="cst-dropdown-content">
+                    {group.items.length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {group.items.map((item: any, idx: number) => (
+                          <li key={idx}>
+                            {item.text}
+                            {item.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                    )}
+                  </div>
+                </details>
+              ))}
             </div>
           </div>
         );
@@ -641,7 +817,7 @@ const CSTDepartment: React.FC = () => {
                       href={item.pdf_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -660,84 +836,122 @@ const CSTDepartment: React.FC = () => {
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {faculty.map((member, index) => (
-                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.qualification}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                          <td className="px-6 py-4">
-                            <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline transition-colors duration-200">View</a>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Teaching Faculty</summary>
+                <div className="cst-dropdown-content">
+                  {faculty && faculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {faculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              <td className="px-6 py-4">
+                                <a 
+                                  href={member.profile_url || '#'}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
+                                >
+                                  View Profile
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {faculty ? 'No teaching faculty data available.' : 'Loading teaching faculty...'}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              </details>
 
-              <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Staff</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {TechnicalFaculty.map((member, index) => (
-                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              <details className="cst-dropdown">
+                <summary>Technical Staff</summary>
+                <div className="cst-dropdown-content">
+                  {TechnicalFaculty && TechnicalFaculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {TechnicalFaculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {TechnicalFaculty ? 'No technical staff data available.' : 'Loading technical staff...'}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              </details>
 
-              <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Staff</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {nonTeachingFaculty.map((member, index) => (
-                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              <details className="cst-dropdown">
+                <summary>Non-Teaching Staff</summary>
+                <div className="cst-dropdown-content">
+                  {nonTeachingFaculty && nonTeachingFaculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {nonTeachingFaculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {nonTeachingFaculty ? 'No non-teaching staff data available.' : 'Loading non-teaching staff...'}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              </details>
             </div>
           </div>
         );
@@ -746,7 +960,6 @@ const CSTDepartment: React.FC = () => {
             case 'Board of Studies':
             return (
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
               <div className="overflow-x-auto">
                 {loadingBOS ? (
@@ -782,7 +995,7 @@ const CSTDepartment: React.FC = () => {
 
             <div className="mt-4">
               <div className="flex flex-col justify-center items-center mb-5">
-                <h4 className="text-xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
                 <ul className="my-2 space-y-3 list-none">
                   {bosmeetings.map((item, idx) => (
                     <li key={idx} className="text-center">
@@ -791,7 +1004,7 @@ const CSTDepartment: React.FC = () => {
                         href={item.document_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -800,8 +1013,7 @@ const CSTDepartment: React.FC = () => {
                  </ul>
               </div>
             </div>
-          </div>
-          </div>
+            </div>
         );
 
 
@@ -848,7 +1060,7 @@ const CSTDepartment: React.FC = () => {
       case 'Physical Facilities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Physical Facilities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
 
             <div className="space-y-6">
               <details open className="border rounded-lg p-4">
@@ -863,7 +1075,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -879,7 +1091,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table_2025-26_ III, V, VII SEM _CST.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -890,7 +1102,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/CST_Master%20Time%20Table_2024-25_%20II%20SEM%20_CST%20(1).pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -901,7 +1113,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/CST_Master%20Timetable_A.Y%20for%20Sem-I%202024-25.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -912,7 +1124,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/CST_Master%20Time%20Table_2023-24_%20II%20SEM%20_CST.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -923,7 +1135,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table_2022-23_ III, V, VII SEM _CST.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -934,7 +1146,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table_2022-23_ III, V, VII SEM _CST.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -945,7 +1157,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/uploads/cst/CST_Master Time Table_2022-23_ II SEM _CST.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -956,7 +1168,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/CST_Master Time Table_A.Y. 2022-23_ I SEM.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -967,7 +1179,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table _CST_II SEM_A.Y 2021-22.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -978,7 +1190,7 @@ const CSTDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table _CST_I SEM_A.Y 2021-22.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -997,7 +1209,7 @@ const CSTDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
+                      className="text-[#B22222] hover:underline"
                     >
                       View
                     </a>
@@ -1465,107 +1677,123 @@ const CSTDepartment: React.FC = () => {
         );
       case 'Faculty Development Programs':
         return (
-          <div id="faculty-development-programs" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
-
-              <div className="section">
-                <details open>
-                  <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">FDP Attended</summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-              {fdp.map((item, idx) => (
-                <li key={item.id ?? idx}>
-                  {item.title} ({item.year}) –
-                  <a
-                    href={item.file_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-              ))}
-            </ul>
-                </details>
-              </div>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>FDP Attended</summary>
+                <div className="cst-dropdown-content">
+                  {fdp.length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {fdp.map((item, idx) => (
+                        <li key={item.id ?? idx}>
+                          {item.title} ({item.year})
+                          {item.file_url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={item.file_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                  )}
+                </div>
+              </details>
             </div>
           </div>
         );
       case 'Faculty Achievements':
         return (
-         <div id="faculty-achievements" className="space-y-8 animate-fade-in">
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-          Faculty Achievements
-        </h2>
-
-        {data.map((section, idx) => (
-          <div key={idx} className="mt-4">
-            <details>
-              <summary className="text-lg font-semibold">{section.title}</summary>
-              <div className="nav-content">
-                <ul className="list-disc ml-6 mt-4">
-                  {section.items?.map((item: any, i: number) => (
-                    <li key={i}>
-                      {item.text} –
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </details>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
+            <div className="space-y-6">
+              {data.map((section, index) => (
+                <details key={index} open={index === 0} className="cst-dropdown">
+                  <summary>{section.title}</summary>
+                  <div className="cst-dropdown-content">
+                    {section.items?.length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {section.items.map((item: any, idx: number) => (
+                          <li key={idx}>
+                            {item.text}
+                            {item.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                    )}
+                  </div>
+                </details>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
         );
         case 'Workshops':
         return (
-          <div id="workshops" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-        Workshops/SOC/Seminars/Guest Lectures
-      </h2>
-
-      {workshopsdata.map(section => (
-        <div key={section.title} className="section mt-6">
-          <details open={section.title === 'Workshops'}>
-            <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">
-              {section.title}
-            </summary>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              {section.items.map((item, idx) => (
-                <li key={idx}>
-                  {item.text} –
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
-                  >
-                    View More
-                  </a>
-                </li>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
+            <div className="space-y-6">
+              {workshopsdata.map((section, index) => (
+                <details key={section.title} open={index === 0} className="cst-dropdown">
+                  <summary>{section.title}</summary>
+                  <div className="cst-dropdown-content">
+                    {section.items.length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {section.items.map((item, idx) => (
+                          <li key={idx}>
+                            {item.text}
+                            {item.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View More
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                    )}
+                  </div>
+                </details>
               ))}
-            </ul>
-          </details>
-        </div>
-      ))}
-    </div>
+            </div>
           </div>
         );
       case 'Merit Scholarship/Academic Toppers':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
 
             <h3 className="text-xl font-semibold text-center mb-4">Merit Scholarships / Academic Toppers</h3>
             {/* ---------- Batch PDF Links ---------- */}
@@ -1586,7 +1814,7 @@ const CSTDepartment: React.FC = () => {
                     href={batch.pdf_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -1659,7 +1887,7 @@ const CSTDepartment: React.FC = () => {
                 href={doc.pdf_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:underline ml-2"
+                className="text-[#B22222] hover:underline ml-2"
               >
                 View More
               </a>
@@ -1688,7 +1916,7 @@ const CSTDepartment: React.FC = () => {
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Technical Association</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
              {technicalAssociation.map((section, idx) => (
           <div key={idx} className="mt-4">
             <details>
@@ -1705,7 +1933,7 @@ const CSTDepartment: React.FC = () => {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
+                            className="text-[#B22222] hover:underline ml-2"
                           >
                             View
                           </a>
@@ -1737,7 +1965,7 @@ const CSTDepartment: React.FC = () => {
                 new Set(group.items.map((i: any) => i.sem_type))
               ).map((sem) => (
                 <details key={String(sem)} open>
-                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                  <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                     {group.group}: {sem}
                   </summary>
                   <ul className="list-disc list-inside space-y-2 ml-4">
@@ -1750,7 +1978,7 @@ const CSTDepartment: React.FC = () => {
                             href={i.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-primary hover:underline ml-2"
+                            className="text-[#B22222] hover:underline ml-2"
                           >
                             View
                           </a>
@@ -1778,7 +2006,7 @@ const CSTDepartment: React.FC = () => {
               <li key={doc.id}>
                 {doc.title} -
                 <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
-                   className="text-primary hover:underline ml-2">
+                   className="text-[#B22222] hover:underline ml-2">
                   For more details
                 </a>
               </li>
@@ -1808,7 +2036,7 @@ const CSTDepartment: React.FC = () => {
       case 'Training Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Training Activities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Training Activities</h2>
 
             <div className="space-y-6">
               <details open className="border rounded-lg p-4">
@@ -1820,7 +2048,7 @@ const CSTDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cst/tt_2022-23.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
+                      className="text-[#B22222] hover:underline"
                     >
                       View More
                     </a>
@@ -1837,7 +2065,7 @@ const CSTDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cst/tt_2021-22.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
+                      className="text-[#B22222] hover:underline"
                     >
                       View More
                     </a>
@@ -1878,7 +2106,7 @@ const CSTDepartment: React.FC = () => {
                                   href={item.url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-primary hover:underline ml-2"
+                                  className="text-[#B22222] hover:underline ml-2"
                                 >
                                   View
                                 </a>
@@ -1897,7 +2125,7 @@ const CSTDepartment: React.FC = () => {
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
-  }
+  };
 
    const renderContentWithTitle = () => {
     // Just return the content without adding another title, since it's already included in content sections

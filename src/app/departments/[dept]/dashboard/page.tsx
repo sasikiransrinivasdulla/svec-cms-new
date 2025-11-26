@@ -37,7 +37,9 @@ import {
   Upload,
   LogOut,
   User,
-  Home
+  Home,
+  RotateCw,
+  Image
 } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
 
@@ -52,218 +54,30 @@ const DEPARTMENT_MODULES: Record<string, Array<{
   'cse-ai': [
     { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'cai_bos_members' },
     { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'cai_bos_minutes' },
-    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'cai_department_library' },
+    //{ key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'cai_department_library' },
     { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'cai_department_overview' },
-    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'cai_eresources' },
+    //{ key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'cai_eresources' },
     { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'cai_extra_curricular' },
     { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'cai_faculty' },
     { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'cai_faculty_achievements' },
     { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'cai_faculty_development' },
     { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'cai_hackathons' },
+    { key: 'hackathons-gallery', name: 'Gallery', icon: Briefcase, description: 'Hackathon event gallery images', table: 'cai_hackathons_gallery' },
     { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'cai_handbooks' },
-    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'cai_industry_programs' },
     { key: 'merit-scholarships', name: 'Merit Scholarships', icon: Award, description: 'Student scholarship programs', table: 'cai_merit_scholarships' },
     { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'cai_mous' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'cai_newsletters' },
+    //{ key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'cai_newsletters' },
     { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'cai_non_teaching_faculty' },
     { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'cai_physical_facilities' },
     { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'cai_placements' },
-    { key: 'sahaya-events', name: 'Sahaya Events', icon: Activity, description: 'Sahaya community events', table: 'cai_sahaya_events' },
-    { key: 'scud-activities', name: 'SCUD Activities', icon: Activity, description: 'SCUD club activities', table: 'cai_scud_activities' },
     { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'cai_student_achievements' },
     { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'cai_syllabus' },
     { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'cai_technical_faculty' },
-    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'cai_training_activities' }
-  ],
-  'ece': [
-    { key: 'board-of-studies', name: 'Board of Studies', icon: BookOpen, description: 'Academic board meetings and decisions', table: 'ece_board_of_studies' },
-    { key: 'clubs', name: 'Clubs', icon: Users, description: 'Student clubs and organizations', table: 'ece_clubs' },
-    { key: 'extracurricular-activities', name: 'Extra-Curricular Activities', icon: Activity, description: 'Student activities and events', table: 'ece_extracurricular_activities' },
-    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'ece_faculty_achievements' },
-    { key: 'faculty-data', name: 'Faculty Data', icon: Users, description: 'Faculty profiles and information', table: 'ece_faculty' },
-    { key: 'faculty-innovations', name: 'Faculty Innovations', icon: Settings, description: 'Faculty research and innovations', table: 'ece_faculty_innovations' },
-    { key: 'fdp', name: 'Faculty Development Programs', icon: GraduationCap, description: 'Professional development programs', table: 'ece_fdp' },
-    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'ece_handbooks' },
-    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'ece_mous' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'ece_newsletters' },
-    { key: 'ntfaculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'ece_nonteaching_faculty' },
-    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'ece_physical_facilities' },
-    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'ece_placements' },
-    { key: 'scholarships-toppers', name: 'Scholarships & Toppers', icon: Award, description: 'Student achievements and scholarships', table: 'ece_scholarships_toppers' },
-    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'ece_syllabus' },
-    { key: 'teaching-faculty', name: 'Teaching Faculty', icon: Users, description: 'Teaching faculty members', table: 'ece_teaching_faculty' },
-    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'ece_technicalAssociation_trainingActivities' },
-    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'ece_worshops_gl' }
-  ],
-  'civil': [
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'civil_faculty' },
-    { key: 'board-of-studies', name: 'Board of Studies', icon: BookOpen, description: 'Civil board meeting minutes', table: 'bos_civil_meeting_minutes' },
-    { key: 'consultancy', name: 'Consultancy', icon: Briefcase, description: 'Consultancy services', table: 'civil_consultancy' },
-    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'civil_extra_curricular_activities' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'civil_newsletters' },
-    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'civil_physical_facilities' },
-    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'civil_student_achievements' },
-    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'civil_syllabus' },
-    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'civil_technical_association' },
-    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'civil_workshops' }
-  ],
-  'mech': [
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'mech_faculty' },
-    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'mech_facultyachievements' },
-    { key: 'faculty-methods', name: 'Faculty Methods', icon: Settings, description: 'Teaching and learning methods', table: 'mech_facultyTLmethods' },
-    { key: 'laboratories', name: 'Laboratories', icon: Building2, description: 'Laboratory facilities', table: 'mech_laboratories' },
-    { key: 'library', name: 'Library', icon: BookOpen, description: 'Library resources', table: 'mech_library' },
-    { key: 'magazines', name: 'Magazines', icon: FileText, description: 'Department magazines', table: 'mech_magazines' },
-    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'mech_mous' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'mech_newsletters' },
-    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'mech_placements' },
-    { key: 'project-research', name: 'Project Research', icon: Settings, description: 'Research projects', table: 'mech_project_research' },
-    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'mech_studentachievements' },
-    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'mech_syllabus' },
-    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'mech_technicalassociation' },
-    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'mech_workshops' }
-  ],
-  'cse': [
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'cse_faculty' },
-    { key: 'staff', name: 'Staff', icon: Users, description: 'Non-teaching and technical staff', table: 'cse_staff' },
-    { key: 'achievements', name: 'Achievements', icon: Award, description: 'Department achievements and recognitions', table: 'cse_achievements' },
-    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'cse_placements' },
-    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'cse_hackathons' },
-    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'cse_handbooks' },
-    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'cse_mous' },
-    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'cse_syllabus' },
-    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'cse_physical_facilities' },
-    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'cse_department_library' },
-    { key: 'merit-scholarships', name: 'Merit Scholarships', icon: Award, description: 'Student scholarship programs', table: 'cse_merit_scholarships' },
-    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'cse_technical_association' },
-    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'cse_training_activities' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'cse_newsletters' },
-    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'cse_extra_curricular' }
-  ],
-  'cst': [
-    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'cst_bos_members' },
-    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'cst_bos_minutes' },
-    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'cst_department_library' },
-    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'cst_department_overview' },
-    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'cst_eresources' },
-    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'cst_extra_curricular' },
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'cst_faculty' },
-    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'cst_faculty_achievements' },
-    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'cst_faculty_development' },
-    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'cst_hackathons' },
-    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'cst_handbooks' },
-    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'cst_industry_programs' },
-    { key: 'merit-scholarships', name: 'Merit Scholarships', icon: Award, description: 'Student scholarship programs', table: 'cst_merit_scholarships' },
-    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'cst_mous' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'cst_newsletters' },
-    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'cst_non_teaching_faculty' },
-    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'cst_physical_facilities' },
-    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'cst_placements' },
-    { key: 'sahaya-events', name: 'Sahaya Events', icon: Activity, description: 'Sahaya community events', table: 'cst_sahaya_events' },
-    { key: 'scud-activities', name: 'SCUD Activities', icon: Activity, description: 'SCUD club activities', table: 'cst_scud_activities' },
-    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'cst_student_achievements' },
-    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'cst_syllabus' },
-    { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'cst_technical_faculty' },
-    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'cst_training_activities' }
-  ],
-  'eee': [
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'eee_faculty' },
-    { key: 'bos-members', name: 'BOA Members', icon: Users, description: 'Board of Studies members', table: 'eee_bos_members' },
-    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'eee_syllabus' },
-    { key: 'faculty-innovations', name: 'Faculty Innovations', icon: Settings, description: 'Faculty teaching and research innovations', table: 'faculty_innovations' },
-    { key: 'research-centers', name: 'Research Centers', icon: Building2, description: 'Department research centers and facilities', table: 'research_centers' },
-    { key: 'product-development', name: 'Product Development', icon: Briefcase, description: 'Product development projects and innovations', table: 'product_development' },
-    { key: 'departmental-activities', name: 'Departmental Activities', icon: Activity, description: 'Department events and activities', table: 'departmental_activities' },
-    { key: 'green-initiatives', name: 'Green Initiatives', icon: Globe, description: 'Environmental and sustainability initiatives', table: 'green_initiatives' },
-    { key: 'technical-magazines', name: 'Technical Magazines', icon: FileText, description: 'Department publications and magazines', table: 'technical_magazines' },
-    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'student_achievements' },
-    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'faculty_achievements' },
-    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops and training', table: 'workshops' },
-    { key: 'fdp', name: 'Faculty Development Programs', icon: GraduationCap, description: 'Professional development programs', table: 'fdp' },
-    { key: 'organized-events', name: 'Organized Events', icon: Activity, description: 'Events organized by department', table: 'organized_events' },
-    { key: 'labs', name: 'Laboratories', icon: Building2, description: 'Laboratory facilities and equipment', table: 'labs' }
-  ],
-  'mba': [
-    { key: 'board-of-studies', name: 'Board of Studies', icon: BookOpen, description: 'Academic board meetings and decisions', table: 'cai_board_of_studies' },
-    { key: 'contact', name: 'Contact Information', icon: Globe, description: 'Department contact details', table: 'cai_contact' },
-    { key: 'department-info', name: 'Department Info', icon: Building2, description: 'Basic department information', table: 'cai_department_info' },
-    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'cai_department_library' },
-    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'cai_eresources' },
-    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'cai_extra_curricular' },
-    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'cai_faculty_achievements' },
-    { key: 'faculty-development-programs', name: 'Faculty Development', icon: GraduationCap, description: 'Professional development programs', table: 'cai_faculty_development_programs' },
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'mba_faculty' },
-    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'cai_hackathons' },
-    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'cai_handbooks' },
-    { key: 'merit-scholarships', name: 'Merit Scholarships', icon: Award, description: 'Student scholarship programs', table: 'cai_merit_scholarships' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'cai_newsletters' },
-    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'cai_physical_facilities' },
-    { key: 'placement-batches', name: 'Placement Batches', icon: Users, description: 'Student placement records', table: 'cai_placement_batches' },
-    { key: 'placement-gallery', name: 'Placement Gallery', icon: Users, description: 'Placement success stories', table: 'cai_placement_gallery' },
-    { key: 'staff', name: 'Staff', icon: Users, description: 'Non-teaching staff members', table: 'cai_staff' },
-    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'cai_student_achievements' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'cai_workshops' },
     { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'cai_technical_association' },
-    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'cai_training_activities' },
-    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'cai_workshops' }
   ],
-  'bsh': [
-    { key: 'activities', name: 'Activities', icon: Activity, description: 'Department activities', table: 'bsh_activities' },
-    { key: 'board-of-studies', name: 'Board of Studies', icon: BookOpen, description: 'Academic board meetings and decisions', table: 'bsh_board_of_studies' },
-    { key: 'department-documents', name: 'Department Documents', icon: FileText, description: 'Important department documents', table: 'bsh_department_documents' },
-    { key: 'department-profile', name: 'Department Profile', icon: Building2, description: 'Department profile and information', table: 'bsh_department_profile' },
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'bsh_faculty' },
-    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'bsh_faculty_achievements' },
-    { key: 'faculty-paper-presentations', name: 'Faculty Paper Presentations', icon: FileText, description: 'Faculty research presentations', table: 'bsh_faculty_paper_presentations' },
-    { key: 'laboratories', name: 'Laboratories', icon: Building2, description: 'Laboratory facilities', table: 'bsh_laboratories' },
-    { key: 'results', name: 'Results', icon: Award, description: 'Academic results', table: 'bsh_results' },
-    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'bsh_student_achievements' },
-    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'non_teaching_bsh_faculty' }
-  ],
-  'ect': [
-    { key: 'clubs', name: 'Clubs', icon: Users, description: 'Student clubs and organizations', table: 'ect_clubs' },
-    { key: 'extracurricular-activities', name: 'Extra-Curricular Activities', icon: Activity, description: 'Student activities and events', table: 'ect_extracurricular_activities' },
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'ect_faculty' },
-    { key: 'faculty-innovations', name: 'Faculty Innovations', icon: Settings, description: 'Faculty research and innovations', table: 'ect_facultyinnovations' },
-    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'ect_faculty_achievements' },
-    { key: 'fdp', name: 'Faculty Development Programs', icon: GraduationCap, description: 'Professional development programs', table: 'ect_fdp' },
-    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'ect_handbooks' },
-    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'ect_mous' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'ect_newsletters' },
-    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'ect_physical_facilities' },
-    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'ect_placements' },
-    { key: 'scholarships-toppers', name: 'Scholarships & Toppers', icon: Award, description: 'Student achievements and scholarships', table: 'ect_scholarships_toppers' },
-    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'ect_syllabus' },
-    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'ect_technical_association' },
-    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'ect_training_activities' },
-    { key: 'workshop', name: 'Workshop', icon: Settings, description: 'Educational workshops', table: 'ect_workshop_gl' }
-  ],
-  'aiml': [
-    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'aiml_bos_members' },
-    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'aiml_bos_minutes' },
-    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'aiml_department_library' },
-    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'aiml_department_overview' },
-    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'aiml_eresources' },
-    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'aiml_extra_curricular' },
-    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'aiml_faculty' },
-    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'aiml_faculty_achievements' },
-    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'aiml_faculty_development' },
-    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'aiml_hackathons' },
-    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'aiml_handbooks' },
-    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'aiml_industry_programs' },
-    { key: 'merit-scholarships', name: 'Merit Scholarships', icon: Award, description: 'Student scholarship programs', table: 'aiml_merit_scholarships' },
-    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'aiml_mous' },
-    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'aiml_newsletters' },
-    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'aiml_non_teaching_faculty' },
-    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'aiml_physical_facilities' },
-    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'aiml_placements' },
-    { key: 'sahaya-events', name: 'Sahaya Events', icon: Activity, description: 'Sahaya community events', table: 'aiml_sahaya_events' },
-    { key: 'scud-activities', name: 'SCUD Activities', icon: Activity, description: 'SCUD club activities', table: 'aiml_scud_activities' },
-    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'aiml_student_achievements' },
-    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'aiml_syllabus' },
-    { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'aiml_technical_faculty' },
-    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'aiml_training_activities' }
-  ],
-  'cse-ds': [
+  
+  'cds': [
     { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'ds_bos_members' },
     { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'ds_bos_minutes' },
     { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'ds_department_library' },
@@ -288,7 +102,251 @@ const DEPARTMENT_MODULES: Record<string, Array<{
     { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'ds_syllabus' },
     { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'ds_technical_faculty' },
     { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'ds_training_activities' }
-  ]
+  ],
+  'aiml': [
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'aiml_bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'aiml_bos_minutes' },
+    //{ key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'aiml_department_library' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'aiml_department_overview' },
+    //{ key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'aiml_eresources' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'aiml_extra_curricular' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'aiml_faculty' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'aiml_faculty_achievements' },
+    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'aiml_faculty_development' },
+    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'aiml_hackathons' },
+    { key: 'hackathons-gallery', name: 'Hackathons Gallery', icon: Briefcase, description: 'Hackathon event gallery images', table: 'aiml_hackathons_gallery' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'aiml_handbooks' },
+    //{ key: 'merit-scholarships', name: 'Merit Scholarships', icon: Award, description: 'Student scholarship programs', table: 'aiml_merit_scholarships' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'aiml_mous' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'aiml_physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'aiml_placements' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'aiml_student_achievements' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'aiml_syllabus' },
+    { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'aiml_technical_faculty' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'aiml_workshops' },
+    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'aiml_technical_association' },
+    { key: 'staff', name: 'Staff', icon: Users, description: 'Department staff members', table: 'aiml_staff' },
+    { key: 'academic-toppers', name: 'Academic Toppers', icon: Award, description: 'Academic achievement records', table: 'aiml_academictoppers' }
+  ],
+  
+  'cse-ds': [
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'ds_bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'ds_bos_minutes' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'ds_department_overview' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'ds_extra_curricular' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'ds_faculty' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'ds_faculty_achievements' },
+    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'ds_faculty_development' },
+    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'ds_hackathons' },
+    { key: 'hackathons-gallery', name: 'Hackathons Gallery', icon: Briefcase, description: 'Hackathon event gallery images', table: 'ds_hackathons_gallery' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'ds_handbooks' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'ds_mous' },
+    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'ds_non_teaching_faculty' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'ds_physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'ds_placements' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'ds_student_achievements' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'ds_syllabus' },
+    { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'ds_technical_faculty' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'ds_workshops' },
+    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'ds_technical_association' },
+    { key: 'academic-toppers', name: 'Academic Toppers', icon: Award, description: 'Academic achievement records', table: 'ds_academictoppers' }
+  ],
+  'mba': [
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'mba_bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'mba_bos_minutes' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'mba_department_overview' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'mba_extra_curricular' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'mba_faculty' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'mba_faculty_achievements' },
+    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'mba_faculty_development' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'mba_handbooks' },
+    { key: 'eac-activities', name: 'EAC Activities', icon: Briefcase, description: 'Industry collaboration programs', table: 'mba_eac_activities' },
+    { key: 'merit-scholarships', name: 'Merit Scholarships', icon: Award, description: 'Student scholarship programs', table: 'mba_merit_scholarships' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'mba_mous' },
+    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'mba_newsletters' },
+    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'mba_non_teaching_faculty' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'mba_physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'mba_placements' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'mba_student_achievements' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'mba_syllabus' },
+     { key: 'hackathons-gallery', name: 'Gallery', icon: Briefcase, description: 'Gallery Images', table: 'mba_hackathons_gallery' },
+    
+    
+  ],
+  'ece': [
+    { key: 'board-of-studies', name: 'Board of Studies', icon: BookOpen, description: 'Board of Studies and meetings', table: 'ece_board_of_studies' },
+    { key: 'clubs', name: 'Clubs', icon: Users, description: 'Student clubs and organizations', table: 'ece_clubs' },
+    { key: 'extracurricular-activities', name: 'Extra-Curricular Activities', icon: Activity, description: 'Student activities and events', table: 'ece_extracurricular_activities' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'ece_faculty_achievements' },
+    { key: 'faculty-data', name: 'Faculty Data', icon: Users, description: 'Faculty profiles and information', table: 'ece_faculty' },
+    { key: 'faculty-innovations', name: 'Faculty Innovations', icon: Settings, description: 'Faculty research and innovations', table: 'ece_faculty_innovations' },
+    { key: 'fdp', name: 'Faculty Development Programs', icon: GraduationCap, description: 'Professional development programs', table: 'ece_fdp' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'ece_handbooks' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'ece_mous' },
+    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'ece_newletters' },
+    { key: 'ntfaculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'ece_nonteaching_faculty' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'ece_physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'ece_placements' },
+    { key: 'scholarships-toppers', name: 'Scholarships & Toppers', icon: Award, description: 'Student achievements and scholarships', table: 'ece_scholarships_toppers' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'ece_syllabus' },
+    { key: 'teaching-faculty', name: 'Teaching Faculty', icon: Users, description: 'Teaching faculty members', table: 'ece_teaching_faculty' },
+    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'ece_technicalAssociation_trainingActivities' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'ece_worshops_gl' }
+  ],
+  'civil': [
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'civil_bos_minutes' },
+    { key: 'bos-members', name: 'BOS Members', icon: FileText, description: 'Board of Studies members', table: 'civil_bos_members' },
+    { key: 'consultancy', name: 'Consultancy', icon: Briefcase, description: 'Consultancy services', table: 'civil_consultancy' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'civil_extra_curricular_activities' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'civil_faculty' },
+    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'civil_newsletters' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'civil_physical_facilities' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'civil_student_achievements' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'civil_syllabus' },
+    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'civil_technical_association' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'civil_workshops' },
+  ],
+  'mech': [
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'mech_bos_minutes' },
+    { key: 'bos-members', name: 'BOS Members', icon: FileText, description: 'Board of Studies members', table: 'mech_bos_members' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'mech_faculty' },
+    { key: 'non-faculty', name: 'Non Teachning Faculty', icon: Users, description: 'Faculty members and profiles', table: 'mech_non_teaching_faculty' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'mech_facultyachievements' },
+    { key: 'faculty-methods', name: 'Faculty T&L Methods', icon: Settings, description: 'Teaching and learning methods', table: 'mech_facultyTLmethods' },
+    { key: 'laboratories', name: 'Laboratories', icon: Building2, description: 'Laboratory facilities', table: 'mech_laboratories' },
+    { key: 'library', name: 'Library', icon: BookOpen, description: 'Library resources', table: 'mech_library' },
+    { key: 'magazines', name: 'Magazines', icon: FileText, description: 'Department magazines', table: 'mech_magazines' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'mech_mous' },
+    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'mech_newsletters' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'mech_placements' },
+    { key: 'project-research', name: 'Project Research', icon: Settings, description: 'Research projects', table: 'mech_project_research' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'mech_studentachievements' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'mech_syllabus' },
+    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'mech_technicalassociation' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'mech_workshops' }
+  ],
+  'cse': [
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'cse_bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'cse_bos_minutes' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops and training', table: 'cse_workshops' },
+    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'cse_department_library' },
+    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'cse_industry_programs' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'cse_department_overview' },
+    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'cse_eresources' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'cse_extra_curricular' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'cse_faculty' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'cse_faculty_achievements' },
+    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'cse_faculty_development' },
+    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'cse_hackathons' },
+    { key: 'hackathons-gallery', name: 'Gallery', icon: Image, description: 'Gallery of hackathon events', table: 'cse_hackathons_gallery' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'cse_handbooks' },
+    { key: 'technical-association', name: 'Technical Association', icon: Briefcase, description: 'technical association programs', table: 'cse_technical_association' },
+    { key: 'merit-scholarships', name: 'Academic Toppers', icon: Award, description: 'Student scholarship programs', table: 'cse_merit_scholarships' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'cse_mous' },
+    { key: 'newsletters', name: 'Newletters', icon: FileText, description: 'Department publications', table: 'cse_newsletters' },
+    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'cse_non_teaching_faculty' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'cse_physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'cse_placements' },
+    { key: 'sahaya-events', name: 'Sahaya Events', icon: Activity, description: 'Sahaya community events', table: 'cse_sahaya_events' },
+    { key: 'scud-activities', name: 'SCUD Activities', icon: Activity, description: 'SCUD club activities', table: 'cse_scud_activities' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'cse_student_achievements' },
+    { key: 'gate', name: 'GATE', icon: Award, description: 'GATE exam records and details', table: 'cse_gate' },
+    { key: 'roll-of-honour', name: 'Roll of Honour', icon: Award, description: 'Roll of Honour records and details', table: 'cse_roll_of_honour' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'cse_syllabus' },
+    { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'cse_technical_faculty' },
+    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'cse_training_activities' },
+  ],
+  'cst': [
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'cst_bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'cst_bos_minutes' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops and training', table: 'cst_workshops' },
+    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'cst_department_library' },
+    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'cst_industry_programs' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'cst_department_overview' },
+    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'cst_eresources' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'cst_extra_curricular' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'cst_faculty' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'cst_faculty_achievements' },
+    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'cst_faculty_development' },
+    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'cst_hackathons' },
+    { key: 'hackathons-gallery', name: 'Gallery', icon: Image, description: 'Gallery of hackathon events', table: 'cst_hackathons_gallery' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'cst_handbooks' },
+    { key: 'technical-association', name: 'Technical Association', icon: Briefcase, description: 'technical association programs', table: 'cst_technical_association' },
+    { key: 'merit-scholarships', name: 'Academic Toppers', icon: Award, description: 'Student scholarship programs', table: 'cst_merit_scholarships' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'cst_mous' },
+    { key: 'newsletters', name: 'Newletters', icon: FileText, description: 'Department publications', table: 'cst_newsletters' },
+    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'cst_non_teaching_faculty' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'cst_physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'cst_placements' },
+    { key: 'sahaya-events', name: 'Sahaya Events', icon: Activity, description: 'Sahaya community events', table: 'cst_sahaya_events' },
+    { key: 'scud-activities', name: 'SCUD Activities', icon: Activity, description: 'SCUD club activities', table: 'cst_scud_activities' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'cst_student_achievements' },
+    { key: 'gate', name: 'GATE', icon: Award, description: 'GATE exam records and details', table: 'cst_gate' },
+    { key: 'roll-of-honour', name: 'Roll of Honour', icon: Award, description: 'Roll of Honour records and details', table: 'cst_roll_of_honour' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'cst_syllabus' },
+    { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'cst_technical_faculty' },
+    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'cst_training_activities' },
+  ],
+  'eee': [
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'eee_faculty' },
+    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'eee_non_teaching_faculty' },
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'eee_bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'eee_bos_minutes' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'eee_syllabus' },
+     { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'eee_department_overview' },
+    { key: 'faculty-innovations', name: 'Faculty T&L Innovations', icon: Settings, description: 'Faculty teaching and research innovations', table: 'eee_faculty_innovations' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'eee_placements' },
+    { key: 'research-centers', name: 'Research Centers', icon: Building2, description: 'Department research centers and facilities', table: 'eee_research_centers' },
+    { key: 'product-development', name: 'Product Development', icon: Briefcase, description: 'Product development projects and innovations', table: 'eee_product_development' },
+    { key: 'departmental-activities', name: 'Departmental Activities', icon: Activity, description: 'Department events and activities', table: 'eee_departmental_activities' },
+    { key: 'green-initiatives', name: 'Green Initiatives', icon: Globe, description: 'Environmental and sustainability initiatives', table: 'eee_green_initiatives' },
+    { key: 'technical-magazines', name: 'Technical Magazines', icon: FileText, description: 'Department publications and magazines', table: 'eee_technical_magazines' },
+    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'eee_technical_association' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'eee_student_achievements' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'eee_faculty_achievements' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops and training', table: 'workshops' },
+    { key: 'fdp', name: 'Faculty Development Programs', icon: GraduationCap, description: 'Professional development programs', table: 'eee_faculty_development' },
+    { key: 'organized-events', name: 'Organized Events', icon: Activity, description: 'Events organized by department', table: 'organized_events' },
+    { key: 'labs', name: 'Laboratories', icon: Building2, description: 'Laboratory facilities and equipment', table: 'eee_labaratories' }
+  ],
+  'bsh': [
+    { key: 'activities', name: 'Activities', icon: Activity, description: 'Department activities', table: 'bsh_activities' },
+    { key: 'board-of-studies', name: 'Board of Studies', icon: BookOpen, description: 'Academic board meetings and decisions', table: 'bsh_board_of_studies' },
+    { key: 'department-documents', name: 'Department Documents', icon: FileText, description: 'Important department documents', table: 'bsh_department_documents' },
+    { key: 'department-profile', name: 'Department Profile', icon: Building2, description: 'Department profile and information', table: 'bsh_department_profile' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'bsh_faculty' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'bsh_faculty_achievements' },
+    { key: 'faculty-paper-presentations', name: 'Faculty Paper Presentations', icon: FileText, description: 'Faculty research presentations', table: 'bsh_faculty_paper_presentations' },
+    { key: 'fdps', name: 'FDPs/Guest Lectures', icon: GraduationCap, description: 'Faculty Development Programs and Guest Lectures', table: 'bsh_fdps' },
+    { key: 'laboratories', name: 'Laboratories', icon: Building2, description: 'Laboratory facilities', table: 'bsh_laboratories' },
+    { key: 'photogallery', name: 'Photo Gallery', icon: Grid3X3, description: 'Department photo gallery and events', table: 'bsh_photogallery' },
+    { key: 'results', name: 'Results', icon: Award, description: 'Academic results', table: 'bsh_results' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'bsh_student_achievements' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'bsh_syllabus' },
+    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'non_teaching_bsh_faculty' }
+  ],
+  'ect': [
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'ect_bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'ect_bos_minutes' },
+    { key: 'clubs', name: 'Clubs', icon: Users, description: 'Student clubs and organizations', table: 'ect_clubs' },
+    { key: 'extracurricular-activities', name: 'Extra-Curricular Activities', icon: Activity, description: 'Student activities and events', table: 'ect_extracurricular_activities' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'ect_faculty' },
+    { key: 'faculty-innovations', name: 'Faculty Innovations', icon: Settings, description: 'Faculty research and innovations', table: 'ect_facultyinnovations' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'ect_faculty_achievements' },
+    { key: 'fdp', name: 'Faculty Development Programs', icon: GraduationCap, description: 'Professional development programs', table: 'ect_fdp' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'ect_handbooks' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'ect_mous' },
+    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'ect_newsletters' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'ect_physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'ect_placements' },
+    { key: 'scholarships-toppers', name: 'Merit Scholarships/Academic', icon: Award, description: 'Student achievements and scholarships', table: 'ect_scholarships_toppers' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'ect_student_achievements' },
+     { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'ect_eresources' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'ect_syllabus' },
+    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'ect_technical_association' },
+    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'ect_training_activities' },
+    { key: 'workshop', name: 'Workshop', icon: Settings, description: 'Educational workshops', table: 'ect_workshop_gl' }
+  ],
 };
 
 const DEPARTMENT_NAMES: Record<string, string> = {
@@ -335,6 +393,12 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
   const [dataCache, setDataCache] = useState<Record<string, {data: ModuleData[], timestamp: number}>>({});
   const [structureCache, setStructureCache] = useState<Record<string, {columns: any[], timestamp: number}>>({});
   const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+  
+  // Auto-refresh state
+  const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(false);
+  const [refreshInterval, setRefreshInterval] = useState(30000); // 30 seconds default
+  const [autoRefreshIntervalId, setAutoRefreshIntervalId] = useState<NodeJS.Timeout | null>(null);
+  const [nextRefreshTime, setNextRefreshTime] = useState<number | null>(null);
 
   // Resolve the params promise
   useEffect(() => {
@@ -372,6 +436,41 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     console.log('Department access granted for:', dept);
   }, [user, dept, router, authLoading]);
 
+  // Auto-refresh mechanism
+  useEffect(() => {
+    // Only set up auto-refresh if enabled and module is selected
+    if (!autoRefreshEnabled || !selectedModule) {
+      // Clean up interval if auto-refresh is disabled
+      if (autoRefreshIntervalId) {
+        clearInterval(autoRefreshIntervalId);
+        setAutoRefreshIntervalId(null);
+      }
+      setNextRefreshTime(null);
+      return;
+    }
+
+    // Set initial next refresh time
+    setNextRefreshTime(Date.now() + refreshInterval);
+
+    // Create interval
+    const intervalId = setInterval(() => {
+      if (selectedModule) {
+        // Reload data from API, force refresh to bypass cache
+        loadModuleData(selectedModule, currentPage, true);
+        setNextRefreshTime(Date.now() + refreshInterval);
+      }
+    }, refreshInterval);
+
+    setAutoRefreshIntervalId(intervalId);
+
+    // Cleanup on unmount or when settings change
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [autoRefreshEnabled, selectedModule, refreshInterval, currentPage]);
+
   // Show loading while authentication is being checked
   if (authLoading) {
     return (
@@ -407,34 +506,65 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
   );
 
   // Optimized module data loading with caching
-  const loadModuleData = async (moduleKey: string, page: number = 1) => {
+  const loadModuleData = async (moduleKey: string, page: number = 1, forceRefresh: boolean = false) => {
+    // Validate parameters early to avoid sending malformed requests to the API
+    if (!dept) {
+      console.error('[loadModuleData] Missing department param:', dept, 'moduleKey:', moduleKey);
+      toast.error('Invalid department specified');
+      setLoading(false);
+      return;
+    }
+
+    if (!moduleKey) {
+      console.error('[loadModuleData] Missing moduleKey for department:', dept);
+      toast.error('Invalid module selected');
+      setLoading(false);
+      return;
+    }
+
+    // Ensure the selected module exists for this department
+    const moduleExists = (currentModules || []).some(m => m.key === moduleKey);
+    if (!moduleExists) {
+      console.error(`[loadModuleData] Module "${moduleKey}" is not valid for department "${dept}"`);
+      toast.error('Invalid department or module');
+      setLoading(false);
+      return;
+    }
+
     const cacheKey = `${dept}-${moduleKey}-${page}`;
     const cached = dataCache[cacheKey];
     
-    // Check cache first
-    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    // Check cache first (skip if forceRefresh is true)
+    if (!forceRefresh && cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       setModuleData(cached.data);
       setLoading(false);
       return;
     }
     
     setLoading(true);
-    const authToken = localStorage.getItem('authToken');
-    const headers = { 'Authorization': `Bearer ${authToken}` };
+  const authToken = localStorage.getItem('authToken');
+  // Only include Authorization header when a valid token exists to avoid sending 'Bearer null'
+  const headers: Record<string, string> = {};
+  if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
     
     try {
       // Use Promise.allSettled for parallel requests
       const [structureResult, dataResult] = await Promise.allSettled([
-        // Structure request with caching
+        // Structure request with caching (skip cache if forceRefresh)
         (async () => {
           const structureCacheKey = `${dept}-${moduleKey}-structure`;
           const cachedStructure = structureCache[structureCacheKey];
           
-          if (cachedStructure && Date.now() - cachedStructure.timestamp < CACHE_DURATION) {
+          if (!forceRefresh && cachedStructure && Date.now() - cachedStructure.timestamp < CACHE_DURATION) {
             return { fields: cachedStructure.columns };
           }
           
-          const result = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${moduleKey}/structure`, { headers });
+          const result = await fetchWithErrorHandling(
+            dept === 'cst' 
+              ? `/api/admin/departments/cst/${moduleKey}/structure` 
+              : `/api/admin/departments/${dept}/${moduleKey}/structure`, 
+            { headers }
+          );
           
           // Cache structure
           setStructureCache(prev => ({
@@ -446,7 +576,12 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         })(),
         
         // Data request
-        fetchWithErrorHandling(`/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=1000`, { headers })
+        fetchWithErrorHandling(
+          dept === 'cst' 
+            ? `/api/admin/departments/cst/${moduleKey}?page=${page}&limit=1000&_t=${Date.now()}`
+            : `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=1000&_t=${Date.now()}`, 
+          { headers }
+        )
       ]);
       
       // Handle structure result
@@ -519,18 +654,21 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     // Find the item to be deleted to get file URL
     const itemToDelete = moduleData.find(item => item.id === id);
     
-    // Optimistic UI update - remove item immediately
-    const originalData = [...moduleData];
-    const updatedData = moduleData.filter(item => item.id !== id);
-    setModuleData(updatedData);
-    setTotalRecords(prev => prev - 1);
-    
     try {
       const authToken = localStorage.getItem('authToken');
       
-      // First, delete associated files if they exist
-      if (itemToDelete) {
-        const fileFields = ['file_url', 'document_url', 'profile_url', 'image_url', 'pdf_url', 'link_url'];
+      // For CST department, files are automatically deleted by the new API
+      // For other departments, delete associated files manually
+      if (dept !== 'cst' && itemToDelete) {
+        // Include both snake_case and camelCase field names for different database schemas
+        const fileFields = [
+          // Snake case (traditional)
+          'file_url', 'document_url', 'profile_url', 'image_url', 'pdf_url', 'link_url',
+          // Camel case (BSH tables)
+          'fileUrl', 'imageUrl', 'url',
+          // Other variations
+          'certificateUrl', 'reportUrl', 'galleryUrl', 'documentUrl'
+        ];
         
         for (const field of fileFields) {
           if (itemToDelete[field]) {
@@ -539,7 +677,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${authToken}`
+                  ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
                 },
                 body: JSON.stringify({ fileUrl: itemToDelete[field] })
               });
@@ -550,40 +688,47 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         }
       }
       
-      const deletePromise = fetchWithErrorHandling(`/api/admin/departments/${dept}/${selectedModule}?id=${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${authToken}`
+      const result = await fetchWithErrorHandling(
+        dept === 'cst' 
+          ? `/api/admin/departments/cst/${selectedModule}?id=${id}`
+          : `/api/admin/departments/${dept}/${selectedModule}?id=${id}`, 
+        {
+          method: 'DELETE',
+                headers: {
+                  ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
+                }
         }
-      });
-      
-      // Don't wait for the server response for UI feedback
-      toast.success('Record and associated files deleted successfully');
-      
-      const result = await deletePromise;
+      );
       
       if (result.success) {
-        // Clear relevant cache entries
-        const cacheKey = `${dept}-${selectedModule}-${currentPage}`;
-        setDataCache(prev => {
-          const newCache = { ...prev };
-          delete newCache[cacheKey];
-          // Also clear adjacent pages
-          delete newCache[`${dept}-${selectedModule}-${currentPage - 1}`];
-          delete newCache[`${dept}-${selectedModule}-${currentPage + 1}`];
-          return newCache;
-        });
+        toast.success('Record and associated files deleted successfully');
+        
+        // Clear ALL cache to force complete refresh from server
+        setDataCache({});
+        setStructureCache({});
+        
+        // Trigger cross-tab auto-update notification
+        localStorage.setItem('admin_data_updated', JSON.stringify({
+          timestamp: Date.now(),
+          department: dept,
+          module: selectedModule,
+          action: 'delete',
+          updatedAt: new Date().toISOString()
+        }));
+        
+        // Immediately reload fresh data from server (no cache)
+        if (selectedModule) {
+          // If this was the last item on the page and we're not on page 1, go to previous page
+          if (moduleData.length === 1 && currentPage > 1) {
+            loadModuleData(selectedModule, currentPage - 1, true);
+          } else {
+            loadModuleData(selectedModule, currentPage, true);
+          }
+        }
       } else {
-        // Revert optimistic update on failure
-        setModuleData(originalData);
-        setTotalRecords(prev => prev + 1);
         toast.error(result.error || 'Failed to delete item');
       }
     } catch (error) {
-      // Revert optimistic update on error
-      setModuleData(originalData);
-      setTotalRecords(prev => prev + 1);
-      toast.dismiss(); // Remove success toast
       console.error('Error deleting item:', error);
       if (error instanceof Error) {
         toast.error(`Delete failed: ${error.message}`);
@@ -591,15 +736,17 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         toast.error('Error deleting item');
       }
     }
-  };
-
-  const handleSave = async (data: any) => {
+  };  const handleSave = async (data: any) => {
     try {
       const authToken = localStorage.getItem('authToken');
       const method = editingItem ? 'PUT' : 'POST';
       const url = editingItem 
-        ? `/api/admin/departments/${dept}/${selectedModule}?id=${editingItem.id}`
-        : `/api/admin/departments/${dept}/${selectedModule}`;
+        ? (dept === 'cst' 
+           ? `/api/admin/departments/cst/${selectedModule}?id=${editingItem.id}`
+           : `/api/admin/departments/${dept}/${selectedModule}?id=${editingItem.id}`)
+        : (dept === 'cst'
+           ? `/api/admin/departments/cst/${selectedModule}`
+           : `/api/admin/departments/${dept}/${selectedModule}`);
 
       // Check if the table has a 'dept' column before including it
       const hasDeptColumn = tableColumns.some(field => field.Field === 'dept');
@@ -611,9 +758,9 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
 
       const result = await fetchWithErrorHandling(url, {
         method,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
+          ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
         },
         body: JSON.stringify(saveData)
       });
@@ -622,8 +769,22 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         setShowCreateModal(false);
         setEditingItem(null);
         toast.success(editingItem ? 'Record updated successfully' : 'Record created successfully');
+        
+        // Trigger cross-tab auto-update notification
+        localStorage.setItem('admin_data_updated', JSON.stringify({
+          timestamp: Date.now(),
+          department: dept,
+          module: selectedModule,
+          action: editingItem ? 'update' : 'create',
+          updatedAt: new Date().toISOString()
+        }));
+        
         if (selectedModule) {
-          loadModuleData(selectedModule, currentPage);
+          // Clear ALL cache to force complete refresh
+          setDataCache({});
+          setStructureCache({});
+          // Reload data from page 1 to show the new/updated record with force refresh
+          loadModuleData(selectedModule, 1, true);
         }
       } else {
         toast.error(`Failed to save: ${result.error || 'Unknown error'}`);
@@ -749,6 +910,56 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                       className="w-64 pl-10 border-gray-200 focus:border-blue-300 focus:ring-blue-200 rounded-lg"
                     />
                   </div>
+                  {/* Auto-refresh controls */}
+                  <div className="flex items-center gap-2 pl-4 border-l border-gray-200">
+                    <Button
+                      onClick={() => {
+                        if (selectedModule) {
+                          setDataCache({});
+                          setStructureCache({});
+                          loadModuleData(selectedModule, currentPage, true); // Force refresh
+                          toast.success('Data refreshed successfully');
+                        }
+                      }}
+                      variant="outline"
+                      size="sm"
+                      title="Refresh data now"
+                      disabled={loading}
+                    >
+                      <RotateCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                      {loading ? 'Refreshing...' : 'Refresh'}
+                    </Button>
+                    <Button
+                      onClick={() => setAutoRefreshEnabled(!autoRefreshEnabled)}
+                      variant={autoRefreshEnabled ? "default" : "outline"}
+                      size="sm"
+                      className={autoRefreshEnabled ? "bg-green-600 hover:bg-green-700 text-white" : ""}
+                      title="Toggle auto-refresh"
+                    >
+                      <RotateCw className={`w-4 h-4 mr-2 ${autoRefreshEnabled ? 'animate-spin' : ''}`} />
+                      {autoRefreshEnabled ? 'Auto-Refresh On' : 'Auto-Refresh Off'}
+                    </Button>
+                    {autoRefreshEnabled && (
+                      <>
+                        <select
+                          value={refreshInterval}
+                          onChange={(e) => setRefreshInterval(parseInt(e.target.value))}
+                          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-blue-300 focus:ring-1 focus:ring-blue-200"
+                        >
+                          <option value={5000}>5s</option>
+                          <option value={10000}>10s</option>
+                          <option value={30000}>30s</option>
+                          <option value={60000}>1m</option>
+                          <option value={300000}>5m</option>
+                        </select>
+                        {nextRefreshTime && (
+                          <Badge variant="secondary" className="bg-green-50 text-green-700 border border-green-200">
+                            Next: {Math.ceil((nextRefreshTime - Date.now()) / 1000)}s
+                          </Badge>
+                        )}
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </CardHeader>
@@ -776,13 +987,22 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                         {/* Dynamic columns based on table structure */}
                         {tableColumns.length > 0 ? (
                           tableColumns
-                            .filter(col => !['created_at', 'updated_at', 'deleted_at'].includes(col.Field))
+                            .filter(col => {
+                              const fieldName = col.Field || col.name || '';
+                              return !['created_at', 'updated_at', 'deleted_at'].includes(fieldName);
+                            })
                             .slice(0, 5) // Limit to 5 columns for better display
-                            .map((col) => (
-                              <th key={col.Field} className="text-left p-4 capitalize">
-                                {col.Field.split('_').join(' ')}
-                              </th>
-                            ))
+                            .map((col) => {
+                              const fieldName = col.Field || col.name || 'unknown';
+                              const displayName = typeof fieldName === 'string' 
+                                ? fieldName.split('_').join(' ') 
+                                : 'Column';
+                              return (
+                                <th key={fieldName} className="text-left p-4 capitalize">
+                                  {displayName}
+                                </th>
+                              );
+                            })
                         ) : (
                           // Fallback headers when no table structure is available
                           <>
@@ -798,30 +1018,34 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                       {moduleData.map((item) => {
                         const displayColumns = tableColumns.length > 0 
                           ? tableColumns
-                              .filter(col => !['created_at', 'updated_at', 'deleted_at'].includes(col.Field))
+                              .filter(col => {
+                                const fieldName = col.Field || col.name || '';
+                                return !['created_at', 'updated_at', 'deleted_at'].includes(fieldName);
+                              })
                               .slice(0, 5)
                           : [{ Field: 'id', Type: 'int' }, { Field: 'title', Type: 'varchar' }, { Field: 'created_at', Type: 'datetime' }];
                         
                         return (
                           <tr key={item.id} className="border-b hover:bg-gray-50">
                             {displayColumns.map((col) => {
-                              const value = item[col.Field];
+                              const fieldName = col.Field || col.name || '';
+                              const value = item[fieldName];
                               let displayValue = value || '-';
                               
                               // Format different data types
-                              if (col.Field === 'id') {
+                              if (fieldName === 'id') {
                                 displayValue = `#${value}`;
-                              } else if (col.Type.includes('date') || col.Type.includes('time')) {
+                              } else if ((col.Type || '').includes('date') || (col.Type || '').includes('time')) {
                                 displayValue = value ? new Date(value).toLocaleDateString() : '-';
-                              } else if (col.Type.includes('text') && value && value.length > 100) {
+                              } else if ((col.Type || '').includes('text') && value && value.length > 100) {
                                 displayValue = value.substring(0, 100) + '...';
                               }
                               
                               return (
-                                <td key={col.Field} className="p-4">
-                                  {col.Field === 'id' ? (
+                                <td key={fieldName} className="p-4">
+                                  {fieldName === 'id' ? (
                                     <span className="font-mono text-sm">{displayValue}</span>
-                                  ) : col.Field.includes('title') || col.Field.includes('name') ? (
+                                  ) : fieldName.includes('title') || fieldName.includes('name') ? (
                                     <span className="font-semibold">{displayValue}</span>
                                   ) : (
                                     <span className="text-gray-600">{displayValue}</span>
@@ -1024,7 +1248,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                       <div className="flex flex-col h-full">
                         <div className="flex items-start justify-between mb-4">
                           <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                            <IconComponent className="w-7 h-7 text-white" />
+                            {IconComponent && <IconComponent className="w-7 h-7 text-white" />}
                           </div>
                           <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
                         </div>
@@ -1086,7 +1310,9 @@ function EditForm({
   const [tableFields, setTableFields] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploadingFile, setUploadingFile] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<Record<string, File>>({});
+  const [uploadingFields, setUploadingFields] = useState<Record<string, boolean>>({});
+  const [laboratoryOptions, setLaboratoryOptions] = useState<Array<{ value: string; label: string }>>([]);
 
   useEffect(() => {
     if (item) {
@@ -1095,19 +1321,58 @@ function EditForm({
       setFormData({});
     }
     fetchTableStructure();
+    // Fetch laboratory options for physical-facilities module
+    if (selectedModule === 'physical-facilities' && dept === 'cst') {
+      fetchLaboratoryOptions();
+    }
   }, [item, dept, selectedModule]);
+
+  const fetchLaboratoryOptions = async () => {
+    try {
+      const response = await fetch('/api/cst/cst-laboratories');
+      if (response.ok) {
+        const options = await response.json();
+        setLaboratoryOptions(options);
+        console.log('[EditForm] Laboratory options loaded:', options);
+      } else {
+        console.error('Failed to fetch laboratory options');
+      }
+    } catch (error) {
+      console.error('Error fetching laboratory options:', error);
+    }
+  };
 
   const fetchTableStructure = async () => {
     setLoading(true);
     try {
-      const authToken = localStorage.getItem('authToken');
-      const result = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${selectedModule}/structure`, {
+  const authToken = localStorage.getItem('authToken');
+            // Add cache-busting parameter to ensure fresh data
+            const cacheBuster = Date.now();
+            const result = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${selectedModule}/structure?t=${cacheBuster}`, {
         headers: {
-          'Authorization': `Bearer ${authToken}`
+          ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {}),
+          'Cache-Control': 'no-cache'
         }
       });
 
-      setTableFields(result.fields || []);
+      console.log('[fetchTableStructure] API Response:', result);
+      
+      // Check if we have configured fields (from module-fields.ts)
+      if (result.source === 'config' && result.fields) {
+        // Convert configured fields to the format expected by the form
+        const configFields = result.fields.map((field: any) => ({
+          Field: field.name,
+          Type: field.type,
+          Null: field.required ? 'NO' : 'YES',
+          fieldConfig: field // Store the full field config for additional properties
+        }));
+        console.log('[fetchTableStructure] Mapped config fields:', configFields);
+        setTableFields(configFields);
+      } else {
+        console.log('[fetchTableStructure] Using fallback database schema');
+        // Use database schema fields as fallback
+        setTableFields(result.fields || []);
+      }
     } catch (error) {
       console.error('Error fetching table structure:', error);
       // Fallback to default fields if API fails
@@ -1121,30 +1386,26 @@ function EditForm({
     }
   };
 
+  const handleChange = (fieldName: string, value: string) => {
+    setFormData((prev: any) => ({ ...prev, [fieldName]: value }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     let finalFormData = { ...formData };
     
-    // Handle file upload for file URL fields
-    if (selectedFile) {
-      setUploadingFile(true);
+    // Handle file uploads for each selected file
+    for (const [fieldName, file] of Object.entries(selectedFiles)) {
+      setUploadingFields(prev => ({ ...prev, [fieldName]: true }));
       try {
         const authToken = localStorage.getItem('authToken');
         const fileFormData = new FormData();
-        fileFormData.append('file', selectedFile);
+        fileFormData.append('file', file);
         
-        // Add existing URL if updating (for automatic deletion/override)
-        const fileUrlField = getEditableFields().find(field => 
-          field.Field.toLowerCase().includes('url') || 
-          field.Field.toLowerCase().includes('file') ||
-          field.Field.toLowerCase().includes('document') ||
-          field.Field.toLowerCase().includes('link')
-        );
-        
-        // For edit mode, always include existing file URL to override it
-        if (item && fileUrlField && item[fileUrlField.Field]) {
-          fileFormData.append('existingUrl', item[fileUrlField.Field]);
+        // For edit mode, include existing file URL for this specific field
+        if (item && item[fieldName]) {
+          fileFormData.append('existingUrl', item[fieldName]);
           fileFormData.append('overwriteExisting', 'true'); // Signal to override
         }
         
@@ -1161,7 +1422,7 @@ function EditForm({
         const uploadResponse = await fetch(uploadUrl, {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${authToken}`
+            ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
           },
           body: fileFormData
         });
@@ -1173,41 +1434,45 @@ function EditForm({
         
         const uploadResult = await uploadResponse.json();
         
-        // Use the previously found fileUrlField to update the form data
-        if (fileUrlField) {
-          finalFormData[fileUrlField.Field] = uploadResult.data.url;
-        } else {
-          // Default to file_url if no specific field found
-          finalFormData.file_url = uploadResult.data.url;
-        }
+        // Update the specific field with the uploaded file URL
+        finalFormData[fieldName] = uploadResult.data.url;
         
         const uploadSizeKB = uploadResult.data.size;
         const uploadSizeMB = (uploadSizeKB / 1024).toFixed(2);
         
         if (item && item.id) {
           toast.success('📝 File Updated Successfully!', {
-            description: `File overridden successfully (${uploadSizeKB}KB / ${uploadSizeMB}MB)`,
+            description: `${fieldName} file overridden successfully (${uploadSizeKB}KB / ${uploadSizeMB}MB)`,
             duration: 4000
           });
         } else {
           toast.success('🎉 Upload Successful!', {
-            description: `File uploaded successfully (${uploadSizeKB}KB / ${uploadSizeMB}MB)`,
+            description: `${fieldName} file uploaded successfully (${uploadSizeKB}KB / ${uploadSizeMB}MB)`,
             duration: 4000
           });
         }
       } catch (error) {
-        toast.error(error instanceof Error ? error.message : 'Upload failed');
-        setUploadingFile(false);
+        toast.error(error instanceof Error ? error.message : `Upload failed for ${fieldName}`);
+        setUploadingFields(prev => ({ ...prev, [fieldName]: false }));
         return;
       } finally {
-        setUploadingFile(false);
+        setUploadingFields(prev => ({ ...prev, [fieldName]: false }));
       }
     }
     
-    onSave(finalFormData);
+    // Exclude fields that shouldn't be saved to database (e.g., display-only fields)
+    const fieldsToExclude = ['laboratory_gallery']; // These are reference/display fields only
+    const dataToSave = Object.keys(finalFormData)
+      .filter(key => !fieldsToExclude.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = finalFormData[key];
+        return obj;
+      }, {} as Record<string, any>);
+    
+    onSave(dataToSave);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     const file = e.target.files?.[0];
     if (file) {
       const fileSizeKB = Math.round(file.size / 1024);
@@ -1234,49 +1499,55 @@ function EditForm({
         return;
       }
       
-      // Validate file size (1MB)
-      const maxSize = 1024 * 1024; // 1MB
+      // Validate file size (5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
       if (file.size > maxSize) {
         toast.error('🚨 File Too Large!', {
-          description: `File size (${fileSizeMB}MB) exceeds the 1MB limit. Please compress or select a smaller file.`,
+          description: `File size (${fileSizeMB}MB) exceeds the 5MB limit. Please compress or select a smaller file.`,
           duration: 8000
         });
         e.target.value = '';
         return;
       }
       
-      // Show warning for files larger than 500KB
-      if (file.size > 512 * 1024) {
+      // Show warning for files larger than 3MB
+      if (file.size > 3 * 1024 * 1024) {
         toast.warning('⚠️ Large File Warning', {
           description: `File size is ${fileSizeMB}MB. Consider compressing for faster upload.`,
           duration: 4000
         });
       }
       
-      setSelectedFile(file);
-      toast.success('✅ File Ready for Upload', {
-        description: `${file.name} (${fileSizeKB}KB) selected successfully`,
+      setSelectedFiles(prev => ({ ...prev, [fieldName]: file }));
+      console.log(`📎 Selected file for ${fieldName}: ${file.name} (${fileSizeKB}KB)`);
+      
+      toast.success('📎 File Selected!', {
+        description: `${file.name} (${fileSizeKB}KB) ready for upload to ${fieldName}`,
         duration: 3000
       });
     } else {
-      setSelectedFile(null);
+      setSelectedFiles(prev => {
+        const copy = { ...prev };
+        delete copy[fieldName];
+        return copy;
+      });
     }
   };
 
-  const handleChange = (field: string, value: any) => {
-    setFormData((prev: any) => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+
 
   const getInputType = (fieldType: string, fieldName: string) => {
+    // Add null/undefined check
+    if (!fieldType) return 'text';
+    
     const type = fieldType.toLowerCase();
     const name = fieldName.toLowerCase();
     
     if (name.includes('email')) return 'email';
     if (name.includes('phone') || name.includes('mobile')) return 'tel';
     if (name.includes('url') || name.includes('link')) return 'url';
+    // For MOUs module, treat date fields as textfields since they're stored as varchar
+    if (selectedModule === 'mous' && name.includes('date')) return 'text-date';
     if (name.includes('date')) return 'date';
     if (name.includes('time')) return 'time';
     if (type.includes('int') || type.includes('decimal') || type.includes('float')) return 'number';
@@ -1317,28 +1588,362 @@ function EditForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-h-96 overflow-y-auto">
-      {getEditableFields().map((field) => {
-        const inputType = getInputType(field.Type, field.Field);
+      {getEditableFields().map((field, index) => {
+        const fieldName = field.Field || 'field';
+        const inputType = getInputType(field.Type, fieldName);
         const isRequired = field.Null === 'NO';
-        const fieldName = field.Field;
-        const displayName = fieldName.split('_').map((word: string) => 
-          word.charAt(0).toUpperCase() + word.slice(1)
-        ).join(' ');
+        
+        // Use configured label if available, otherwise format field name
+        const displayName = field.fieldConfig?.label || 
+          (fieldName || '').split('_').map((word: string) => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+          ).join(' ');
+          
+        // Use configured placeholder if available
+        const placeholder = field.fieldConfig?.placeholder || `Enter ${displayName.toLowerCase()}`;
+
+        if (fieldName === 'type') {
+          console.log(`[EditForm] Rendering field "${fieldName}":`, {
+            fieldConfig: field.fieldConfig,
+            hasType: !!field.fieldConfig?.type,
+            type: field.fieldConfig?.type,
+            hasOptions: !!field.fieldConfig?.options,
+            options: field.fieldConfig?.options
+          });
+        }
 
         return (
-          <div key={fieldName} className="space-y-2">
+          <div key={`${fieldName}-${index}`} className="space-y-2">
             <Label htmlFor={fieldName} className="flex items-center gap-1">
               {displayName}
               {isRequired && <span className="text-red-500">*</span>}
             </Label>
             
-            {inputType === 'textarea' ? (
+            {/* Select field with options from field configuration */}
+            {field.fieldConfig?.type === 'select' && field.fieldConfig?.options ? (
+              <select
+                id={fieldName}
+                value={formData[fieldName] || ''}
+                onChange={(e) => handleChange(fieldName, e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required={isRequired}
+              >
+                <option value="">Select an option</option>
+                {field.fieldConfig.options.map((opt: any) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            ) : fieldName === 'laboratory_gallery' && selectedModule === 'physical-facilities' ? (
+              <select
+                id={fieldName}
+                value={formData[fieldName] || ''}
+                onChange={(e) => handleChange(fieldName, e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required={isRequired}
+              >
+                <option value="">Select a laboratory</option>
+                {laboratoryOptions.map((opt: any) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            ) : fieldName === 'gallery' && (selectedModule === 'hackathons' || selectedModule === 'hackathons-gallery') ? (
+              <div className="space-y-3">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-blue-800 mb-2">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                    </svg>
+                    <span className="font-semibold text-sm">Gallery Images</span>
+                  </div>
+                  <div className="text-xs text-blue-700 space-y-1">
+                    <p>• Upload images (Max: 350KB each) or enter URLs manually</p>
+                    <p>• Accepted formats: JPG, PNG, GIF, WEBP</p>
+                    <p>• Multiple images will be comma-separated</p>
+                  </div>
+                </div>
+                
+                {/* Image Upload Section */}
+                <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-4">
+                  <div className="text-center space-y-2">
+                    <svg className="w-8 h-8 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <div>
+                      <label htmlFor={`${fieldName}-upload`} className="cursor-pointer">
+                        <span className="text-sm font-medium text-blue-600 hover:text-blue-500">Upload images</span>
+                        <input
+                          id={`${fieldName}-upload`}
+                          type="file"
+                          accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                          multiple
+                          onChange={async (e) => {
+                            const files = Array.from(e.target.files || []);
+                            const maxSize = 350 * 1024; // 350KB in bytes
+                            let successCount = 0;
+                            let totalFiles = files.length;
+                            
+                            if (totalFiles === 0) return;
+                            
+                            console.log(`Starting upload of ${totalFiles} files for gallery`);
+                            
+                            for (const file of files) {
+                              if (file.size > maxSize) {
+                                alert(`File "${file.name}" is too large. Maximum size is 350KB (${Math.round(file.size/1024)}KB).`);
+                                continue;
+                              }
+                              
+                              const formDataFile = new FormData();
+                              formDataFile.append('file', file);
+                              formDataFile.append('dept', dept);
+                              formDataFile.append('module', selectedModule);
+                              formDataFile.append('gallery', 'true'); // Indicate this is a gallery upload
+                              
+                              // For replacing existing image, pass the old URL
+                              if (selectedModule === 'hackathons-gallery' && formData[fieldName]) {
+                                formDataFile.append('existingUrl', formData[fieldName]);
+                              }
+                              
+                              try {
+                                const authToken = localStorage.getItem('authToken');
+                                const response = await fetch(`/api/admin/departments/${dept}/${selectedModule}/upload`, {
+                                  method: 'POST',
+                                  headers: {
+                                    ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
+                                  },
+                                  body: formDataFile,
+                                });
+                                
+                                if (response.ok) {
+                                  const result = await response.json();
+                                  
+                                  if (selectedModule === 'hackathons-gallery') {
+                                    // For hackathons-gallery, replace the single image (no duplicates)
+                                    handleChange(fieldName, result.data.url);
+                                  } else {
+                                    // For regular hackathons, append to comma-separated string
+                                    const currentGallery = formData[fieldName] || '';
+                                    const newGallery = currentGallery 
+                                      ? `${currentGallery}, ${result.data.url}`
+                                      : result.data.url;
+                                    handleChange(fieldName, newGallery);
+                                  }
+                                  
+                                  successCount++;
+                                  console.log(`Successfully uploaded ${file.name} to gallery (${successCount}/${totalFiles})`);
+                                } else {
+                                  const errorResult = await response.json();
+                                  alert(`Failed to upload ${file.name}: ${errorResult.error || 'Unknown error'}`);
+                                }
+                              } catch (error) {
+                                console.error('Upload error:', error);
+                                alert(`Error uploading ${file.name}: ${(error as any)?.message || 'Network error'}`);
+                              }
+                            }
+                            
+                            if (successCount > 0) {
+                              alert(`Successfully uploaded ${successCount} of ${totalFiles} images to gallery!`);
+                            }
+                            
+                            // Reset the file input
+                            e.target.value = '';
+                          }}
+                          className="sr-only"
+                        />
+                      </label>
+                    </div>
+                    <p className="text-xs text-gray-500">or drag and drop</p>
+                    <p className="text-xs text-gray-400">Max 350KB per image</p>
+                  </div>
+                </div>
+                
+                {/* Manual URL Input */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Or enter URLs manually:
+                  </label>
+                  <Textarea
+                    id={fieldName}
+                    value={formData[fieldName] || ''}
+                    onChange={(e) => handleChange(fieldName, e.target.value)}
+                    placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                    rows={3}
+                    required={isRequired}
+                    className="text-sm"
+                  />
+                </div>
+                
+                {/* Preview Section */}
+                {formData[fieldName] && (
+                  <div className="bg-gray-50 border rounded-lg p-3">
+                    {selectedModule === 'hackathons-gallery' ? (
+                      // Single image preview for hackathons-gallery
+                      <div>
+                        <p className="text-xs font-medium text-gray-700 mb-2">Gallery Image Preview (350x240px):</p>
+                        <div className="relative group inline-block">
+                          <img
+                            src={formData[fieldName].trim()}
+                            alt="Gallery image"
+                            className="w-[350px] h-[240px] object-cover rounded border"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/placeholder-image.svg';
+                            }}
+                          />
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              const imageUrl = formData[fieldName].trim();
+                              
+                              // Delete image file from server
+                              if (imageUrl && item?.id) {
+                                try {
+                                  const authToken = localStorage.getItem('authToken');
+                                  await fetchWithErrorHandling(
+                                    `/api/admin/departments/${dept}/${selectedModule}/delete-file`,
+                                    {
+                                      method: 'POST',
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
+                                      },
+                                      body: JSON.stringify({ 
+                                        fileUrl: imageUrl,
+                                        id: item.id
+                                      })
+                                    }
+                                  );
+                                } catch (error) {
+                                  console.warn('Could not delete image file:', error);
+                                }
+                              }
+                              
+                              // Clear form field
+                              handleChange(fieldName, '');
+                            }}
+                            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Remove image"
+                          >
+                            ×
+                          </button>
+                        </div>
+                        <div className="text-xs text-gray-600 mt-2">
+                          <span className="font-mono">{formData[fieldName].trim()}</span>
+                        </div>
+                      </div>
+                    ) : (
+                      // Multiple images preview for regular hackathons
+                      <div>
+                        <p className="text-xs font-medium text-gray-700 mb-2">Gallery Preview ({formData[fieldName].split(',').length} images - 350x240px each):</p>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-2">
+                          {formData[fieldName].split(',').map((url: any, index: number) => (
+                            <div key={index} className="relative group">
+                              <img
+                                src={url.trim()}
+                                alt={`Gallery image ${index + 1}`}
+                                className="w-[350px] h-[240px] object-cover rounded border"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = '/placeholder-image.svg';
+                                }}
+                              />
+                              <button
+                                type="button"
+                                onClick={async () => {
+                                  const imageUrl = url.trim();
+                                  
+                                  // Delete image file from server
+                                  if (imageUrl && item?.id) {
+                                    try {
+                                      const authToken = localStorage.getItem('authToken');
+                                      await fetchWithErrorHandling(
+                                        `/api/admin/departments/${dept}/${selectedModule}/delete-file`,
+                                        {
+                                          method: 'POST',
+                                          headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': `Bearer ${authToken}`
+                                          },
+                                          body: JSON.stringify({ 
+                                            fileUrl: imageUrl,
+                                            id: item?.id
+                                          })
+                                        }
+                                      );
+                                    } catch (error) {
+                                      console.warn('Could not delete image file:', error);
+                                    }
+                                  }
+                                  
+                                  // Remove from form
+                                  const urls = formData[fieldName].split(',').filter((_: string, i: number) => i !== index);
+                                  handleChange(fieldName, urls.join(','));
+                                }}
+                                className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                                title="Remove image"
+                              >
+                                ×
+                              </button>
+                              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b">
+                                {index + 1}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="text-xs text-gray-600 space-y-1">
+                          {formData[fieldName].split(',').map((url: any, index: number) => (
+                            <div key={index} className="flex items-center gap-2">
+                              <span className="w-4 h-4 text-center bg-blue-100 rounded-full text-blue-600 font-mono text-xs">{index + 1}</span>
+                              <span className="font-mono text-xs truncate">{url.trim()}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : fieldName === 'category' && selectedModule === 'faculty-achievements' ? (
+              <select
+                id={fieldName}
+                value={formData[fieldName] || ''}
+                onChange={(e) => handleChange(fieldName, e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required={isRequired}
+              >
+                <option value="">Select a category</option>
+                <option value="Journal Publications">Journal Publications</option>
+                <option value="Conferences">Conferences</option>
+                <option value="Book Publications">Book Publications</option>
+                <option value="Certifications">Certifications</option>
+                <option value="Patents">Patents</option>
+                <option value="Research Supervisors">Research Supervisors</option>
+                <option value="Faculty Out-Reach">Faculty Out-Reach</option>
+              </select>
+            ) : fieldName === 'category' && selectedModule === 'student-achievements' ? (
+              <select
+                id={fieldName}
+                value={formData[fieldName] || ''}
+                onChange={(e) => handleChange(fieldName, e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required={isRequired}
+              >
+                <option value="">Select a category</option>
+                <option value="Internships">Internships</option>
+                <option value="Conference Publications">Conference Publications</option>
+                <option value="NPTEL/Other Certifications">NPTEL/Other Certifications</option>
+                <option value="Global Certifications">Global Certifications</option>
+                <option value="Community Service Project">Community Service Project</option>
+                <option value="Student Research Projects">Student Research Projects</option>
+              </select>
+            ) : inputType === 'textarea' ? (
               <Textarea
                 id={fieldName}
                 value={formData[fieldName] || ''}
                 onChange={(e) => handleChange(fieldName, e.target.value)}
-                placeholder={`Enter ${displayName.toLowerCase()}`}
-                rows={3}
+                placeholder={placeholder}
+                rows={field.fieldConfig?.rows || 3}
                 required={isRequired}
               />
             ) : inputType === 'number' ? (
@@ -1347,7 +1952,16 @@ function EditForm({
                 type="number"
                 value={formData[fieldName] || ''}
                 onChange={(e) => handleChange(fieldName, e.target.value)}
-                placeholder={`Enter ${displayName.toLowerCase()}`}
+                placeholder={placeholder}
+                required={isRequired}
+              />
+            ) : inputType === 'text-date' ? (
+              <Input
+                id={fieldName}
+                type="text"
+                value={formData[fieldName] || ''}
+                onChange={(e) => handleChange(fieldName, e.target.value)}
+                placeholder="dd-mm-yyyy"
                 required={isRequired}
               />
             ) : inputType === 'date' ? (
@@ -1372,7 +1986,7 @@ function EditForm({
                 type="email"
                 value={formData[fieldName] || ''}
                 onChange={(e) => handleChange(fieldName, e.target.value)}
-                placeholder={`Enter ${displayName.toLowerCase()}`}
+                placeholder={placeholder}
                 required={isRequired}
               />
             ) : inputType === 'tel' ? (
@@ -1381,7 +1995,7 @@ function EditForm({
                 type="tel"
                 value={formData[fieldName] || ''}
                 onChange={(e) => handleChange(fieldName, e.target.value)}
-                placeholder={`Enter ${displayName.toLowerCase()}`}
+                placeholder={placeholder}
                 required={isRequired}
               />
             ) : inputType === 'url' && (
@@ -1400,16 +2014,17 @@ function EditForm({
                     <span className="font-semibold text-sm">File Upload Guidelines</span>
                   </div>
                   <div className="text-xs text-yellow-700 space-y-1">
-                    <p>• <span className="font-medium">Maximum size: 1MB</span> - Files larger than 1MB will be rejected</p>
+                    <p>• <span className="font-medium">Maximum size: 5MB</span> - Warning shown at 3MB, rejected above 5MB</p>
                     <p>• Supported formats: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX</p>
-                    <p>• Files will be stored in: /uploads/{dept}/{selectedModule}/</p>
+                    <p>• Best practices: Compress large files before upload for faster processing</p>
+                    <p>• Files are stored securely in: /uploads/{dept}/{selectedModule}/</p>
                   </div>
                 </div>
                 <Input
                   id={`${fieldName}-upload`}
                   type="file"
                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
-                  onChange={handleFileChange}
+                  onChange={(e) => handleFileChange(e, fieldName)}
                   className="cursor-pointer"
                 />
                 {formData[fieldName] && (
@@ -1425,10 +2040,10 @@ function EditForm({
                     </a>
                   </div>
                 )}
-                {selectedFile && (
+                {selectedFiles[fieldName] && (
                   <div className="bg-green-50 border border-green-200 p-3 rounded-lg">
-                    <p className="text-xs text-green-700 font-medium mb-1">✅ New file ready:</p>
-                    <p className="text-xs text-green-600">{selectedFile.name} ({Math.round(selectedFile.size / 1024)}KB)</p>
+                    <p className="text-xs text-green-700 font-medium mb-1">✅ New file ready for {displayName}:</p>
+                    <p className="text-xs text-green-600">{selectedFiles[fieldName].name} ({Math.round(selectedFiles[fieldName].size / 1024)}KB)</p>
                   </div>
                 )}
               </div>
@@ -1438,7 +2053,7 @@ function EditForm({
                 type="url"
                 value={formData[fieldName] || ''}
                 onChange={(e) => handleChange(fieldName, e.target.value)}
-                placeholder={`Enter ${displayName.toLowerCase()}`}
+                placeholder={placeholder}
                 required={isRequired}
               />
             ) : (
@@ -1447,20 +2062,27 @@ function EditForm({
                 type="text"
                 value={formData[fieldName] || ''}
                 onChange={(e) => handleChange(fieldName, e.target.value)}
-                placeholder={`Enter ${displayName.toLowerCase()}`}
+                placeholder={placeholder}
                 required={isRequired}
               />
+            )}
+            
+            {/* Field description if available */}
+            {field.fieldConfig?.description && (
+              <p className="text-xs text-gray-500 mt-1">
+                {field.fieldConfig.description}
+              </p>
             )}
           </div>
         );
       })}
       
       <DialogFooter className="gap-2 pt-4">
-        <Button type="button" variant="outline" onClick={onCancel} disabled={uploadingFile}>
+        <Button type="button" variant="outline" onClick={onCancel} disabled={Object.values(uploadingFields).some(Boolean)}>
           Cancel
         </Button>
-        <Button type="submit" disabled={uploadingFile}>
-          {uploadingFile ? (
+        <Button type="submit" disabled={Object.values(uploadingFields).some(Boolean)}>
+          {Object.values(uploadingFields).some(Boolean) ? (
             <div className="flex items-center gap-2">
               <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
               Uploading...
@@ -1473,3 +2095,4 @@ function EditForm({
     </form>
   );
 }
+

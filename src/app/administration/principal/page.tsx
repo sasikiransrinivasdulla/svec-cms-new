@@ -7,7 +7,7 @@ const Principal: React.FC = () => {
   const principalInfo = {
     name: "Dr. Guduru VNSR Ratnakara Rao",
     designation: "Principal",
-    qualifications: "Ph.D in Mechanical Engineering, M.E, B.E",
+    qualifications: "B.E.,M.E., Ph.D.",
     experience: "22+ Years",
     email: "principal@srivasaviengg.ac.in",
     phone: "08818-284355(O), Ext: 304",

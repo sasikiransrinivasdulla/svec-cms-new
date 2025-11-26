@@ -7,9 +7,11 @@ import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 interface Faculty {
   id: number;
   name: string;
+  title?: string;
   qualification: string;
   designation: string;
   profile_url: string;
+  profileUrl?: string;
   faculty_type: string;
 }
 
@@ -24,8 +26,10 @@ interface StudentAchievement {
 interface Syllabus {
   id: number;
   title: string;
+  subject?: string;
   type: string;
   fileUrl: string;
+  file_url?: string;
 }
 
 interface EResource {
@@ -49,6 +53,7 @@ interface BOSMember {
 interface NonTeachingMember {
   id: number;
   name: string;
+  title?: string;
   designation: string;
   organization?: string;
   position_in_job: string;
@@ -76,7 +81,10 @@ interface MOU {
   organization_name: string;
   from_date: string;
   to_date: string;
+  signed_date?: string;
+  duration?: string;
   document_url?: string;
+  file_url?: string;
 }
 
 interface IndustryProgram {
@@ -110,6 +118,7 @@ const CSTDepartment: React.FC = () => {
   const [pdfModalOpen, setPdfModalOpen] = useState(false);
   const [currentPdfUrl, setCurrentPdfUrl] = useState('');
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [expandedIndustryProgram, setExpandedIndustryProgram] = useState<number | null>(null);
 
   const [faculty, setFaculty] = useState<Faculty[]>([]);
   const [technicalFaculty, setTechnicalFaculty] = useState<Faculty[]>([]);
@@ -132,56 +141,232 @@ const [meritScholarships, setMeritScholarships] = useState<any[]>([]);
 const [extraCurricular, setExtraCurricular] = useState<any[]>([]);
 const [sahayaEvents, setSahayaEvents] = useState<any[]>([]);
 const [scudActivities, setScudActivities] = useState<any[]>([]);
+const [extraCurricularGallery, setExtraCurricularGallery] = useState<any[]>([]);
+const [technicalAssociationGallery, setTechnicalAssociationGallery] = useState<any[]>([]);
 const [newsletters, setNewsletters] = useState<any[]>([]);
 const [hackathons, setHackathons] = useState<any[]>([]);
+const [hackathonsGallery, setHackathonsGallery] = useState<any[]>([]);
 const [trainingActivities, setTrainingActivities] = useState<any[]>([]);
+const [trainingActivitiesGallery, setTrainingActivitiesGallery] = useState<any[]>([]);
+const [extraCurricularGalleryData, setExtraCurricularGalleryData] = useState<any[]>([]);
+const [meritScholarshipsGalleryData, setMeritScholarshipsGalleryData] = useState<any[]>([]);
+const [placementsGalleryData, setPlacementsGalleryData] = useState<any[]>([]);
+const [workshopsGalleryData, setWorkshopsGalleryData] = useState<any[]>([]);
+const [facultyDevelopmentGalleryData, setFacultyDevelopmentGalleryData] = useState<any[]>([]);
 const [handbooks, setHandbooks] = useState<any[]>([]);
 const [placements, setPlacements] = useState<any[]>([]);
+const [workshops, setWorkshops] = useState<any[]>([]);
+const [workshopsGallery, setWorkshopsGallery] = useState<any[]>([]);
 const[bosMembers,setBosMembers]=useState<BOSMember[]>([]);
 const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
+const [gateData, setGateData] = useState<any[]>([]);
+const [gateGalleryData, setGateGalleryData] = useState<any[]>([]);
+const [rollOfHonourData, setRollOfHonourData] = useState<any[]>([]);
+const [rollOfHonourGalleryData, setRollOfHonourGalleryData] = useState<any[]>([]);
+const [lecturersGalleryData, setLecturersGalleryData] = useState<any[]>([]);
 
 
    useEffect(() => {
-    fetch('/api/public/departments/cst')
-      .then(res => res.json())
-      .then(response => {
-        console.log('CST API response:', response);
-        const data = response.data || response; // Handle both nested and flat structure
-        
-        // Debug faculty data specifically
-        console.log('Faculty data:', data.faculty);
-        console.log('Technical faculty data:', data.technicalStaff);
-        console.log('Non-teaching faculty data:', data.nonTeachingStaff);
-        
-        setFaculty(data.faculty || []);
-        setTechnicalFaculty(data.technicalStaff || []);
-        setNonTeachingFaculty(data.nonTeachingStaff || []);
-        setStudentAchievements(data.studentAchievements || []);
-        setSyllabus(data.syllabusDocuments || []);
-        setEResources(data.eresources || []);
-        setDepartmentLibrary(data.departmentLibrary);
-        setMous(data.mous || []);
-        setIndustryPrograms(data.industryPrograms || []);
-        setOverview(data.overview);
-        setTrainingActivities(data.trainingActivities || []);
-        setBosMembers(data.boardOfStudies || []);
-        setBosMinutes(data.boardOfStudiesMeetingMinutes || []);
-        setHandbooks(data.handbooks || []);
-        setPhysicalFacilities(data.physicalFacilities || []);
-        setLaboratories(data.labs || []);
-        setFacultyDevelopment(data.facultyDevelopment || []);
-        setFacultyAchievements(data.facultyAchievements || []);
-        setMeritScholarships(data.meritScholarships || []);
-        setExtraCurricular(data.extraCurricular || []);
-        setSahayaEvents(data.sahayaEvents || []);
-        setScudActivities(data.scudActivities || []);
-        setNewsletters(data.newsletters || []);
-        setHackathons(data.hackathons || []);
-        setPlacements(data.placements || []);
-      })
-      .catch(error => {
-        console.error('Error fetching CST department data:', error);
+    // Make all API calls in parallel using Promise.all()
+    Promise.all([
+      fetch('/api/cst/cst-faculty').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-student-achievements').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-syllabus').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-eresources').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-department-library').then(res => res.json()).catch(() => null),
+      fetch('/api/cst/cst-mous').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-industry-programs').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-department-overview').then(res => res.json()).catch(() => null),
+      fetch('/api/cst/cst-training-activities').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-bos-members').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-bos-minutes').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-handbooks').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-physical-facilities').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-faculty-development').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-faculty-achievements').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-merit-scholarships').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-extra-curricular').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-sahaya-events').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-scud-activities').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-newsletters').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-hackathons').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-placements').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-workshops').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-gate').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-roll-of-honour').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-hackathons-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-technical-association-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-training-activities-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-extra-curricular-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-merit-scholarships-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-placements-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-workshops-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-faculty-development-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-gate-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-roll-of-honour-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-workshops-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-lecturers-gallery').then(res => res.json()).catch(() => [])
+
+
+    ])
+    .then(([
+      facultyData, 
+      studentAchievementsData, 
+      syllabusData, 
+      eresourcesData, 
+      departmentLibraryData, 
+      mousData, 
+      industryProgramsData, 
+      overviewData, 
+      trainingActivitiesData, 
+      bosMembersData, 
+      bosMinutesData, 
+      handbooksData, 
+      physicalFacilitiesData, 
+      facultyDevelopmentData, 
+      facultyAchievementsData, 
+      meritScholarshipsData, 
+      extraCurricularData, 
+      sahayaEventsData, 
+      scudActivitiesData, 
+      newslettersData, 
+      hackathonsData, 
+      placementsData,
+      workshopsData,
+      gateDataFetch,
+      rollOfHonourDataFetch,
+      hackathonsGalleryData,
+      technicalAssociationGalleryData,
+      trainingActivitiesGalleryData,
+      extraCurricularGalleryData,
+      meritScholarshipsGalleryData,
+      placementsGalleryData,
+      workshopsGalleryData,
+      facultyDevelopmentGalleryData,
+      gateGalleryDataFetch,
+      rollOfHonourGalleryDataFetch,
+      workshopsGalleryDataFetch,
+      lecturersGalleryDataFetch
+    ]) => {
+      console.log('CST API responses:', {
+        faculty: facultyData,
+        studentAchievements: studentAchievementsData,
+        syllabus: syllabusData,
+        eresources: eresourcesData
       });
+      
+      // Separate teaching, technical, and non-teaching faculty from the unified response
+      // The API now includes faculty_type field: 'teaching', 'technical', or 'non_teaching'
+      const teachingFaculty: Faculty[] = [];
+      const technicalFacultySeparated: Faculty[] = [];
+      const nonTeachingFaculty: NonTeachingMember[] = [];
+      
+      if (Array.isArray(facultyData)) {
+        facultyData.forEach((f: any) => {
+          if (f.faculty_type === 'technical') {
+            technicalFacultySeparated.push(f);
+          } else if (f.faculty_type === 'non_teaching') {
+            nonTeachingFaculty.push(f);
+          } else {
+            teachingFaculty.push(f);
+          }
+        });
+      }
+      
+      // Set data
+      setFaculty(teachingFaculty);
+      setTechnicalFaculty(technicalFacultySeparated);
+      setNonTeachingFaculty(nonTeachingFaculty);
+      setStudentAchievements(Array.isArray(studentAchievementsData) ? studentAchievementsData : []);
+      setSyllabus(Array.isArray(syllabusData) ? syllabusData : []);
+      setEResources(Array.isArray(eresourcesData) ? eresourcesData : []);
+      setDepartmentLibrary(departmentLibraryData && departmentLibraryData.length > 0 ? departmentLibraryData[0] : null);
+      setMous(Array.isArray(mousData) ? mousData : []);
+      setIndustryPrograms(Array.isArray(industryProgramsData) ? industryProgramsData : []);
+      setOverview(overviewData && overviewData.length > 0 ? overviewData[0] : null);
+      setTrainingActivities(Array.isArray(trainingActivitiesData) ? trainingActivitiesData : []);
+      setTrainingActivitiesGallery(Array.isArray(trainingActivitiesGalleryData) ? trainingActivitiesGalleryData : []);
+      setBosMembers(Array.isArray(bosMembersData) ? bosMembersData : []);
+      setBosMinutes(Array.isArray(bosMinutesData) ? bosMinutesData : []);
+      setHandbooks(Array.isArray(handbooksData) ? handbooksData : []);
+      setPhysicalFacilities(Array.isArray(physicalFacilitiesData) ? physicalFacilitiesData : []);
+      setLaboratories([]);
+      setFacultyDevelopment(Array.isArray(facultyDevelopmentData) ? facultyDevelopmentData : []);
+      setFacultyAchievements(Array.isArray(facultyAchievementsData) ? facultyAchievementsData : []);
+      setMeritScholarships(Array.isArray(meritScholarshipsData) ? meritScholarshipsData : []);
+      setExtraCurricular(Array.isArray(extraCurricularData) ? extraCurricularData : []);
+      setSahayaEvents(Array.isArray(sahayaEventsData) ? sahayaEventsData : []);
+      setScudActivities(Array.isArray(scudActivitiesData) ? scudActivitiesData : []);
+      setExtraCurricularGallery(Array.isArray(extraCurricularGalleryData) ? extraCurricularGalleryData : []);
+      setTechnicalAssociationGallery(Array.isArray(technicalAssociationGalleryData) ? technicalAssociationGalleryData : []);
+      setNewsletters(Array.isArray(newslettersData) ? newslettersData : []);
+      setHackathons(Array.isArray(hackathonsData) ? hackathonsData : []);
+      setHackathonsGallery(Array.isArray(hackathonsGalleryData) ? hackathonsGalleryData : []);
+      setPlacements(Array.isArray(placementsData) ? placementsData : []);
+      setPlacementsGalleryData(Array.isArray(placementsGalleryData) ? placementsGalleryData : []);
+      setWorkshops(Array.isArray(workshopsData) ? workshopsData : []);
+      setWorkshopsGalleryData(Array.isArray(workshopsGalleryData) ? workshopsGalleryData : []);
+      setWorkshopsGallery(Array.isArray(workshopsGalleryDataFetch) ? workshopsGalleryDataFetch : []);
+      setLecturersGalleryData(Array.isArray(lecturersGalleryDataFetch) ? lecturersGalleryDataFetch : []);
+      setMeritScholarshipsGalleryData(Array.isArray(meritScholarshipsGalleryData) ? meritScholarshipsGalleryData : []);
+      console.log('Merit Scholarships Gallery Data (from Promise):', meritScholarshipsGalleryData);
+      console.log('All Gallery Data:', {
+        hackathonsGallery: hackathonsGalleryData,
+        technicalAssociation: technicalAssociationGalleryData,
+        trainingActivities: trainingActivitiesGalleryData,
+        extraCurricular: extraCurricularGalleryData,
+        meritScholarships: meritScholarshipsGalleryData,
+        placements: placementsGalleryData
+      });
+      setFacultyDevelopmentGalleryData(Array.isArray(facultyDevelopmentGalleryData) ? facultyDevelopmentGalleryData : []);
+      setGateData(Array.isArray(gateDataFetch) ? gateDataFetch : []);
+      setGateGalleryData(Array.isArray(gateGalleryDataFetch) ? gateGalleryDataFetch : []);
+      setRollOfHonourData(Array.isArray(rollOfHonourDataFetch) ? rollOfHonourDataFetch : []);
+      setRollOfHonourGalleryData(Array.isArray(rollOfHonourGalleryDataFetch) ? rollOfHonourGalleryDataFetch : []);
+      console.log('Roll of Honour Gallery Data:', rollOfHonourGalleryDataFetch);
+
+      // Store all data in cache for compatibility
+      const facultyArray = Array.isArray(facultyData) ? facultyData : [];
+      const cacheData = {
+        faculty: facultyArray,
+        technicalFaculty: facultyArray.filter((f: any) => f.faculty_type === 'technical'),
+        nonTeachingFaculty: facultyArray.filter((f: any) => f.faculty_type === 'non_teaching'),
+        studentAchievements: studentAchievementsData || [],
+        syllabus: syllabusData || [],
+        eresources: eresourcesData || [],
+        departmentLibrary: departmentLibraryData && departmentLibraryData.length > 0 ? departmentLibraryData[0] : null,
+        mous: mousData || [],
+        industryPrograms: industryProgramsData || [],
+        overview: overviewData && overviewData.length > 0 ? overviewData[0] : null,
+        trainingActivities: trainingActivitiesData || [],
+        bosMembers: bosMembersData || [],
+        bosMinutes: bosMinutesData || [],
+        handbooks: handbooksData || [],
+        physicalFacilities: physicalFacilitiesData || [],
+        laboratories: [],
+        facultyDevelopment: facultyDevelopmentData || [],
+        facultyAchievements: facultyAchievementsData || [],
+        meritScholarships: meritScholarshipsData || [],
+        extraCurricular: extraCurricularData || [],
+        sahayaEvents: sahayaEventsData || [],
+        scudActivities: scudActivitiesData || [],
+        newsletters: newslettersData || [],
+        hackathons: hackathonsData || [],
+        placements: placementsData || [],
+        workshops: workshopsData || [],
+        hackathonsGallery: hackathonsGalleryData || [],
+        technicalAssociationGallery: technicalAssociationGalleryData || [],
+        extraCurricularGallery: extraCurricularGalleryData || [],
+        trainingActivitiesGallery: trainingActivitiesGalleryData || [],
+        meritScholarshipsGallery: meritScholarshipsGalleryData || [],
+        placementsGallery: placementsGalleryData || [],
+        workshopsGallery: workshopsGalleryData || [],
+        facultyDevelopmentGallery: facultyDevelopmentGalleryData || [],
+      };
+    })
+    .catch((error) => {
+      console.error('Error fetching CST data:', error);
+    });
   }, []);
 
   const sidebarItems = [
@@ -209,6 +394,93 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
+
+  // Utility function to get description based on designation
+  const getDesignationDescription = (designation: string): string => {
+    const designationLower = designation.toLowerCase().trim();
+    
+    const descriptions: { [key: string]: string } = {
+      'professor': 'A senior academic rank responsible for advanced research, teaching graduate and undergraduate courses, mentoring doctoral students, and providing academic leadership.',
+      'associate professor': 'An experienced faculty member with significant research contributions, teaching expertise, and administrative responsibilities within the department.',
+      'assistant professor': 'An entry-level tenure-track position focusing on teaching, research development, and service to the academic community.',
+      'lecturer': 'A faculty member primarily focused on undergraduate teaching and curriculum delivery with excellent pedagogical skills.',
+      'senior lecturer': 'An experienced educator with advanced teaching qualifications and expertise in curriculum design and student mentorship.',
+      'principal lecturer': 'A senior teaching position with leadership responsibilities in curriculum development and educational innovation.',
+      'adjunct professor': 'A part-time faculty member bringing industry experience and specialized expertise to enhance practical learning.',
+      'visiting professor': 'A distinguished academic or industry professional temporarily contributing specialized knowledge and research expertise.',
+      'emeritus professor': 'A retired senior faculty member who has made significant contributions and continues to provide guidance and wisdom.',
+      'clinical professor': 'A faculty member with extensive industry experience who bridges academic theory with practical application.',
+      'research professor': 'A faculty position focused primarily on conducting advanced research and supervising research students.',
+      'teaching professor': 'A faculty member dedicated to excellence in teaching and educational leadership with focus on student learning outcomes.',
+      'head of department': 'The administrative leader responsible for department strategy, faculty management, and academic program oversight.',
+      'hod': 'The administrative leader responsible for department strategy, faculty management, and academic program oversight.',
+      'dean': 'Senior academic administrator overseeing multiple departments and ensuring institutional academic excellence.',
+      'director': 'Executive leader responsible for strategic planning and overall institutional or departmental management.',
+      'chairperson': 'An academic leader responsible for departmental coordination and decision-making processes.',
+      'coordinator': 'Faculty member responsible for specific program coordination, ensuring smooth operation and quality delivery.',
+      'lab instructor': 'Specialized educator focused on hands-on laboratory instruction and practical skill development.',
+      'lab assistant': 'Support staff member assisting in laboratory operations and student practical learning activities.',
+      'technical assistant': 'Skilled professional providing technical support for laboratory equipment and experimental procedures.',
+      'senior technical assistant': 'Experienced technical professional with advanced skills in laboratory management and equipment maintenance.',
+      'technician': 'Skilled technical support staff maintaining laboratory equipment and assisting in practical demonstrations.',
+      'senior technician': 'Experienced technical professional responsible for advanced laboratory operations and equipment management.',
+      'lab technician': 'Technical support specialist ensuring proper functioning of laboratory equipment and safety protocols.',
+      'research assistant': 'Graduate student or professional supporting faculty research projects and data collection activities.',
+      'teaching assistant': 'Graduate student supporting faculty in teaching activities, grading, and student mentorship.',
+      'guest lecturer': 'Industry expert or visiting academic providing specialized knowledge through targeted lectures and workshops.',
+      'industry expert': 'Professional from industry sharing real-world experience and current industry trends with students.',
+      'consultant': 'External expert providing specialized knowledge and guidance on specific subjects or projects.',
+      'mentor': 'Experienced professional providing guidance and support for student career development and academic growth.'
+    };
+
+    // Try exact match first
+    if (descriptions[designationLower]) {
+      return descriptions[designationLower];
+    }
+
+    // Try partial matches for common variations
+    if (designationLower.includes('professor')) {
+      if (designationLower.includes('assistant')) return descriptions['assistant professor'];
+      if (designationLower.includes('associate')) return descriptions['associate professor'];
+      if (designationLower.includes('adjunct')) return descriptions['adjunct professor'];
+      if (designationLower.includes('visiting')) return descriptions['visiting professor'];
+      if (designationLower.includes('emeritus')) return descriptions['emeritus professor'];
+      if (designationLower.includes('clinical')) return descriptions['clinical professor'];
+      if (designationLower.includes('research')) return descriptions['research professor'];
+      if (designationLower.includes('teaching')) return descriptions['teaching professor'];
+      return descriptions['professor'];
+    }
+
+    if (designationLower.includes('lecturer')) {
+      if (designationLower.includes('senior')) return descriptions['senior lecturer'];
+      if (designationLower.includes('principal')) return descriptions['principal lecturer'];
+      return descriptions['lecturer'];
+    }
+
+    if (designationLower.includes('head') || designationLower.includes('hod')) {
+      return descriptions['head of department'];
+    }
+
+    if (designationLower.includes('technician')) {
+      if (designationLower.includes('senior')) return descriptions['senior technician'];
+      if (designationLower.includes('lab')) return descriptions['lab technician'];
+      return descriptions['technician'];
+    }
+
+    if (designationLower.includes('assistant')) {
+      if (designationLower.includes('technical')) return descriptions['technical assistant'];
+      if (designationLower.includes('research')) return descriptions['research assistant'];
+      if (designationLower.includes('teaching')) return descriptions['teaching assistant'];
+      if (designationLower.includes('lab')) return descriptions['lab assistant'];
+    }
+
+    if (designationLower.includes('instructor')) {
+      if (designationLower.includes('lab')) return descriptions['lab instructor'];
+    }
+
+    // Default description for unknown designations
+    return `Academic or administrative position contributing to the department's educational mission and institutional excellence.`;
+  };
 
   const openPdfModal = (url: string, event?: React.MouseEvent) => {
     if (event) {
@@ -367,7 +639,7 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
               <div>
                 <span className="font-semibold text-gray-800">Course Outcomes (V23 Regulation)</span>
                 <a
-                  href="https://srivasaviengg.ac.in/uploads/cst/Course%20Outcomes%20-V23%20Regulation.pdf"
+                  href="/uploads/CO/cst/Course Outcomes -V23 Regulation.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-3 inline-block px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-300 view-button"
@@ -379,7 +651,7 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
               <div>
                 <span className="font-semibold text-gray-800">Course Outcomes (V20 Regulation)</span>
                 <a
-                  href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Course%20Outcomes%20-V20%20Regulation.pdf"
+                  href="/uploads/CO/cst/Course Outcomes -V20 Regulation.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-3 inline-block px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-300 view-button"
@@ -391,7 +663,7 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
               <div>
                 <span className="font-semibold text-gray-800">Course Outcomes (V18 Regulation)</span>
                 <a
-                  href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Course%20Outcomes%20-V18%20Regulation.pdf"
+                  href="/uploads/CO/cst/Course Outcomes -V18 Regulation.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-3 inline-block px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-300 view-button"
@@ -422,9 +694,37 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-            <p className="text-gray-700 leading-relaxed">
-              The Department of Computer Science & Technology was established in 2019. The department offers undergraduate program in Computer Science & Technology with an intake of 60 students.
+            <p className="text-gray-700 leading-relaxed text-justify">
+              The Department of Computer Science and Technology was established in 2019. The department offers undergraduate program in Computer Science and Technology with an intake of 60 students.
             </p>
+            <div className="mt-8">
+              <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Courses</h4>
+              
+              
+              
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300 rounded-lg shadow-sm">
+                  <thead>
+                    <tr className="bg-green-700 text-white">
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Sl.No</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Name of the Course</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Eligibility Criteria</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Duration</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Intake</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <td className="border border-gray-300 px-4 py-3 text-center">1</td>
+                      <td className="border border-gray-300 px-4 py-3">B.Tech-Computer Science and Technology</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">AP EAPCET</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">4 Years</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">60</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         );
     }
@@ -616,9 +916,7 @@ case 'Department Profile':
     : [
         'Internships',
         'Conference Publications',
-        'Roll of Honour',
         'Awards',
-        'GATE',
         'GIF',
         'NPTEL/Other Certifications',
         'Community Service Project',
@@ -652,7 +950,7 @@ case 'Department Profile':
                             rel="noopener noreferrer"
                             className="text-[#B22222] hover:underline"
                           >
-                            View More
+                            View
                           </a>
                         </>
                       )}
@@ -665,6 +963,144 @@ case 'Department Profile':
             </div>
           </details>
         ))}
+        
+        {/* Roll of Honour Dropdown */}
+        <details className="cst-dropdown">
+          <summary>Roll of Honour</summary>
+          <div className="cst-dropdown-content">
+            {rollOfHonourData.length > 0 ? (
+              <>
+                <div className="overflow-x-auto mb-6">
+                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                    <thead className="text-xs text-gray-700 uppercase bg-gradient-to-r from-[#B22222] to-[#8B1515] text-white">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Roll Number</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Batch</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">CGPA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rollOfHonourData.map((item, idx) => (
+                        <tr key={idx} className={`border-b border-gray-200 transition-colors duration-200 ${idx % 2 === 0 ? 'bg-red-50' : 'bg-white'} hover:bg-red-100`}>
+                          <td className="px-6 py-4">{idx + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{item.rollno}</td>
+                          <td className="px-6 py-4">{item.name}</td>
+                          <td className="px-6 py-4">{item.batch}</td>
+                          <td className="px-6 py-4">{item.cgpa}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {/* Gallery Images */}
+                {rollOfHonourGalleryData.length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#B22222] mb-4">Gallery</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      {rollOfHonourGalleryData.flatMap(item => {
+                        if (item.gallery) {
+                          const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                          return imageUrls.map((imageUrl: string, index: number) => ({
+                            url: imageUrl,
+                            year: item.academic_year,
+                            key: `${item.id}-${index}`
+                          }));
+                        }
+                        return [];
+                      }).map((img: any) => (
+                        <img
+                          key={img.key}
+                          src={img.url}
+                          alt={`Roll of Honour ${img.year} Image`}
+                          className="w-full rounded-lg shadow-md object-cover"
+                          style={{ height: '300px', width: '400px' }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+            )}
+          </div>
+        </details>
+
+        {/* GATE Dropdown */}
+        <details className="cst-dropdown">
+          <summary>GATE</summary>
+          <div className="cst-dropdown-content">
+            {gateData.length > 0 ? (
+              <>
+                <div className="overflow-x-auto mb-6">
+                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                    <thead className="text-xs text-gray-700 uppercase bg-gradient-to-r from-[#B22222] to-[#8B1515] text-white">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Roll Number</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Score</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Year</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gateData.map((item, idx) => (
+                        <tr key={idx} className={`border-b border-gray-200 transition-colors duration-200 ${idx % 2 === 0 ? 'bg-red-50' : 'bg-white'} hover:bg-red-100`}>
+                          <td className="px-6 py-4">{idx + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{item.rollno}</td>
+                          <td className="px-6 py-4">{item.name}</td>
+                          <td className="px-6 py-4">{item.score}</td>
+                          <td className="px-6 py-4">{item.year}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {/* Gallery Images */}
+                {gateGalleryData.length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#B22222] mb-4">Gallery</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      {gateGalleryData.flatMap(item => {
+                        if (item.gallery) {
+                          const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                          return imageUrls.map((imageUrl: string, index: number) => ({
+                            url: imageUrl,
+                            year: item.academic_year,
+                            key: `${item.id}-${index}`
+                          }));
+                        }
+                        return [];
+                      }).map((img: any) => (
+                        <img
+                          key={img.key}
+                          src={img.url}
+                          alt={`GATE ${img.year} Image`}
+                          className="w-full rounded-lg shadow-md object-cover"
+                          style={{ height: '300px', width: '400px' }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+            )}
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -683,16 +1119,20 @@ case 'Department Profile':
               <ul className="list-disc pl-6 my-2">
                 {syllabus.filter(s => s.type === type).map((item, idx) => (
                   <li key={idx}>
-                    {item.title}
-                    {' '}
-                    <a
-                      href={item.fileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#B22222] hover:underline"
-                    >
-                      View
-                    </a>
+                    {item.subject || item.title}
+                    {(item.file_url || item.fileUrl) && (
+                      <>
+                        {' '}
+                        <a
+                          href={item.file_url || item.fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline"
+                        >
+                         - View
+                        </a>
+                      </>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -721,6 +1161,7 @@ case 'Department Profile':
                             <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
                             <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
                             <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          
                             <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
                           </tr>
                         </thead>
@@ -728,19 +1169,22 @@ case 'Department Profile':
                           {faculty.map((member, index) => (
                             <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
                               <td className="px-6 py-4">{index + 1}</td>
-                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.title || member.name || 'N/A'}</td>
                               <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
                               <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              {/* Role description column removed */}
                               <td className="px-6 py-4">
-                                {member.profile_url ? (
-                                  <button 
-                                    onClick={() => openPdfModal(member.profile_url)}
-                                    className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium"
+                                {(member.profile_url || member.profileUrl) ? (
+                                  <a 
+                                    href={member.profile_url || member.profileUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
                                   >
-                                    View
-                                  </button>
+                                    View Profile
+                                  </a>
                                 ) : (
-                                  <span className="text-gray-400">No Profile</span>
+                                  <span className="text-gray-400 text-sm">No Profile</span>
                                 )}
                               </td>
                             </tr>
@@ -775,8 +1219,9 @@ case 'Department Profile':
                           {technicalFaculty.map((member, index) => (
                             <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
                               <td className="px-6 py-4">{index + 1}</td>
-                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.title || member.name || 'N/A'}</td>
                               <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              {/* Role description removed */}
                             </tr>
                           ))}
                         </tbody>
@@ -803,14 +1248,16 @@ case 'Department Profile':
                             <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
                             <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
                             <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          
                           </tr>
                         </thead>
                         <tbody>
                           {nonTeachingFaculty.map((member, index) => (
                             <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
                               <td className="px-6 py-4">{index + 1}</td>
-                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.title || member.name || 'N/A'}</td>
                               <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              {/* Role description removed */}
                             </tr>
                           ))}
                         </tbody>
@@ -917,22 +1364,29 @@ case 'e-Resources': {
           <div className="cst-dropdown-content">
             <div className="space-y-3">
               {bosMinutes.map((minute) => {
-                // Remove time portion if present (e.g., '2025-11-12T18:30:00.000Z' => '2025-11-12')
-                const dateOnly = minute.meeting_date?.split('T')[0] || minute.meeting_date;
+                // Convert date to dd-mm-yyyy format
+                const formatDate = (dateStr: string) => {
+                  const dateOnly = dateStr?.split('T')[0];
+                  if (!dateOnly) return dateStr;
+                  const [year, month, day] = dateOnly.split('-');
+                  return `${day}-${month}-${year}`;
+                };
+                const formattedDate = formatDate(minute.meeting_date);
                 return (
                   <div key={minute.id} className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border">
                     <span className="text-gray-700">
-                      Minutes of {minute.meeting_no} meeting of the Board of Studies, dated {dateOnly}
+                      Minutes of {minute.meeting_no} meeting of the Board of Studies, dated {formattedDate}
                     </span>
+                    
                     {minute.file_url && minute.file_url.trim() !== '' ? (
-                      <button
-                        onClick={(e) => openPdfModal(minute.file_url, e)}
-                        onMouseDown={(e) => e.preventDefault()}
-                        type="button"
+                      <a
+                        href={minute.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-[#B22222] hover:underline hover:bg-gray-100 ml-4 px-3 py-1 rounded cursor-pointer bg-transparent border border-[#B22222] font-medium focus:outline-none transition-colors duration-200"
                       >
                         View
-                      </button>
+                      </a>
                     ) : (
                       <span className="text-gray-400 ml-4">No file available</span>
                     )}
@@ -1014,15 +1468,19 @@ case 'MoUs': {
               <tr key={item.id} className="hover:bg-gray-50">
                 <td className="py-3 px-4 border-b">{idx + 1}</td>
                 <td className="py-3 px-4 border-b">{item.organization_name}</td>
-                <td className="py-3 px-4 border-b">{item.from_date}</td>
-                <td className="py-3 px-4 border-b">{item.to_date}</td>
+                <td className="py-3 px-4 border-b">{item.signed_date || item.from_date}</td>
+                <td className="py-3 px-4 border-b">{item.duration || item.to_date || 'N/A'}</td>
                 <td className="py-3 px-4 border-b">
-                  <a
-                    className="text-[#B22222] hover:underline"
-                    href={item.document_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >View</a>
+                  {(item.document_url || item.file_url) ? (
+                    <a
+                      className="text-[#B22222] hover:underline"
+                      href={item.document_url || item.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >View</a>
+                  ) : (
+                    <span className="text-gray-400">No document</span>
+                  )}
                 </td>
               </tr>
             ))}
@@ -1030,22 +1488,38 @@ case 'MoUs': {
         </table>
       </div>
       <h3 className="text-xl font-semibold text-[#B22222] mb-4">B. Interaction with the Industry</h3>
-      <div className="flex justify-center mb-6">
-        <ul className="space-y-4 list-none max-w-3xl">
-          {industryPrograms.map((item) => (
-            <li key={item.id} className="py-2">
-              {item.title} -{' '}
-              <a
-                href={item.file_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#B22222] hover:underline ml-2"
+      <div className="space-y-3 max-w-4xl">
+        {industryPrograms.length > 0 ? (
+          industryPrograms.map((item) => (
+            <div key={item.id} className="border border-gray-300 rounded-lg overflow-hidden bg-white">
+              <button
+                onClick={() => setExpandedIndustryProgram(expandedIndustryProgram === item.id ? null : item.id)}
+                className="w-full px-6 py-4 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
               >
-                View
-              </a>
-            </li>
-          ))}
-        </ul>
+                <span className="text-left font-semibold text-gray-700">{item.title}</span>
+                <ChevronRight
+                  size={20}
+                  className={`text-[#B22222] transition-transform ${expandedIndustryProgram === item.id ? 'rotate-90' : ''}`}
+                />
+              </button>
+              {expandedIndustryProgram === item.id && (
+                <div className="px-6 py-4 border-t border-gray-200 bg-white">
+                  <a
+                    href={item.file_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[#B22222] hover:underline font-medium"
+                  >
+                    <Download size={16} />
+                    View Document
+                  </a>
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500 text-center py-4">No industry programs data available</p>
+        )}
       </div>
     </div>
   );
@@ -1072,32 +1546,42 @@ case 'Physical Facilities': {
               <div>
                 {group.items.map(item => (
                   <div key={item.id} className="mb-8">
-                    {item.description && <p className="text-gray-700 mb-2">{item.description}</p>}
-                    {item.lab_details && item.lab_details.length > 0 && item.lab_details.map((lab, i) => (
-                      <div key={i} className="mb-6">
-                        <h3 className="text-xl font-semibold my-2">{lab.name}</h3>
-                        <div className="overflow-x-auto">
-                          <table className="min-w-full bg-white border border-gray-200">
-                            <thead className="bg-gray-100">
-                              <tr>
-                                <th className="py-3 px-4 border-b text-left">Configuration</th>
-                                {lab.usage && <th className="py-3 px-4 border-b text-left">Usage</th>}
-                                {lab.location && <th className="py-3 px-4 border-b text-left">Location</th>}
-                                <th className="py-3 px-4 border-b text-left">No. of Systems</th>
+                    {item.lab_details && item.lab_details.length > 0 && (
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full bg-white border-2 border-[#B22222]">
+                          <thead className="bg-[#333333] text-white">
+                            <tr>
+                              <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">S.No</th>
+                              <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">Name of the Lab</th>
+                              <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">Configuration</th>
+                              <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">No. of Systems</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {item.lab_details.map((lab, idx) => (
+                              <tr key={idx} className={idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                                <td className="py-3 px-4 border-b border-gray-300 font-medium text-center">{idx + 1}</td>
+                                <td className="py-3 px-4 border-b border-gray-300 font-medium whitespace-nowrap">{lab.name || 'Laboratory'}</td>
+                                <td className="py-3 px-4 border-b border-gray-300">
+                                  <div className="space-y-0.5 text-sm">
+                                    {lab.model && <div><span className="font-semibold">Model :</span> {lab.model}</div>}
+                                    {lab.processor && <div><span className="font-semibold">Processor :</span> {lab.processor}</div>}
+                                    {lab.ram && <div><span className="font-semibold">{lab.ram}</span></div>}
+                                    {lab.storage && <div><span className="font-semibold">{lab.storage}</span></div>}
+                                    {lab.system_type && <div><span className="font-semibold">System type :</span> {lab.system_type}</div>}
+                                    {lab.monitor && <div><span className="font-semibold">Monitor :</span> {lab.monitor}</div>}
+                                    {lab.keyboard && <div><span className="font-semibold">Keyboard :</span> {lab.keyboard}</div>}
+                                    {lab.mouse && <div><span className="font-semibold">Mouse :</span> {lab.mouse}</div>}
+                                    {!lab.model && lab.configuration && <div>{lab.configuration}</div>}
+                                  </div>
+                                </td>
+                                <td className="py-3 px-4 border-b border-gray-300 text-center font-medium text-lg">{lab.systems || lab.no_of_systems || '02'}</td>
                               </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td className="py-3 px-4 border-b">{lab.configuration}</td>
-                                {lab.usage && <td className="py-3 px-4 border-b">{lab.usage}</td>}
-                                {lab.location && <td className="py-3 px-4 border-b">{lab.location}</td>}
-                                <td className="py-3 px-4 border-b">{lab.systems}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-                    ))}
+                    )}
                   </div>
                 ))}
               </div>
@@ -1137,6 +1621,15 @@ case 'Physical Facilities': {
     items: facultyDevelopment.filter(f => f.category === cat)
   }));
 
+  // Group faculty development gallery by academic year
+  const groupedByYear: Record<string, any[]> = {};
+  facultyDevelopmentGalleryData.forEach(item => {
+    if (!groupedByYear[item.academic_year]) {
+      groupedByYear[item.academic_year] = [];
+    }
+    groupedByYear[item.academic_year].push(item);
+  });
+
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2 }}>
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
@@ -1145,17 +1638,7 @@ case 'Physical Facilities': {
           <details key={group.category} open={index === 0} className="cst-dropdown">
             <summary>{group.category}</summary>
             <div className="cst-dropdown-content">
-            {group.category === 'Gallery' ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-                {group.items
-                  .filter(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0)
-                  .flatMap(item => item.gallery || [])
-                  .map((img, i) => (
-                    <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="w-full h-auto rounded-lg shadow" />
-                  ))
-                }
-              </div>
-            ) : (
+            {group.items.length > 0 ? (
               <ul className="list-disc pl-6 my-2 space-y-2">
                 {group.items.map((item, idx) => (
                   <li key={item.id}>
@@ -1177,10 +1660,68 @@ case 'Physical Facilities': {
                   </li>
                 ))}
               </ul>
-            )}
+            ) : null}
             </div>
           </details>
         ))}
+
+        {/* Gallery Section */}
+        <details className="cst-dropdown">
+          <summary>Gallery</summary>
+          <div className="cst-dropdown-content">
+            {facultyDevelopmentGalleryData && facultyDevelopmentGalleryData.length > 0 ? (
+              <div className="space-y-3">
+                {Object.entries(
+                  facultyDevelopmentGalleryData.reduce((acc: Record<string, any[]>, item: any) => {
+                    if (!acc[item.academic_year]) {
+                      acc[item.academic_year] = [];
+                    }
+                    acc[item.academic_year].push(item);
+                    return acc;
+                  }, {})
+                ).sort(([yearA], [yearB]) => yearB.localeCompare(yearA)).map(([year, items], index) => {
+                  // Combine all images from entries with the same academic year
+                  const allYearImages: string[] = [];
+                  items.forEach(item => {
+                    if (item.gallery) {
+                      const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                      allYearImages.push(...imageUrls);
+                    }
+                  });
+
+                  return (
+                    <details key={year} open={index === 0} className="cst-dropdown ml-4">
+                      <summary className="font-semibold text-[#B22222]">{year} Gallery</summary>
+                      <div className="cst-dropdown-content">
+                        {allYearImages.length > 0 ? (
+                          <div className="grid grid-cols-2 gap-6 mt-4">
+                            {allYearImages.map((imageUrl: string, i: number) => (
+                              <img
+                                key={i}
+                                src={imageUrl}
+                                alt={`Faculty Development ${year} Image ${i + 1}`}
+                                className="w-full rounded-lg shadow-md object-cover"
+                                style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                }}
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-gray-500 text-center py-4">No images available for {year}</p>
+                        )}
+                      </div>
+                    </details>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-center py-4">No gallery images available yet</p>
+            )}
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -1238,45 +1779,73 @@ case 'Physical Facilities': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
-      <h3 className="text-xl font-semibold text-center mb-4">Merit Scholarships / Academic Toppers</h3>
-      <div className="overflow-x-auto mb-8">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="py-3 px-4 border-b text-left">S.No</th>
-              <th className="py-3 px-4 border-b text-left">Academic Year</th>
-              <th className="py-3 px-4 border-b text-left">Particulars</th>
-              <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th>
-              <th className="py-3 px-4 border-b text-left">Scholarship Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {meritScholarships.map((item, idx) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="py-3 px-4 border-b">{idx + 1}</td>
-                <td className="py-3 px-4 border-b">{item.academic_year}</td>
-                <td className="py-3 px-4 border-b">{item.particulars}</td>
-                <td className="py-3 px-4 border-b">{item.students_benefited}</td>
-                <td className="py-3 px-4 border-b">{item.scholarship_amount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <h3 className="text-xl font-semibold text-center mb-4">Image Gallery</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {meritScholarships
-          .filter(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0)
-          .flatMap(item => item.gallery || [])
-          .map((img, i) => (
-            <img
-              key={i}
-              src={img}
-              alt={`Merit Scholarship Image ${i + 1}`}
-              className="w-full h-auto rounded-lg shadow object-cover"
-            />
-          ))
-        }
+      <div className="space-y-6">
+        {/* Table Dropdown */}
+        <details open className="cst-dropdown">
+          <summary>Merit Scholarships / Academic Toppers</summary>
+          <div className="cst-dropdown-content">
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="py-3 px-4 border-b text-left">S.No</th>
+                    <th className="py-3 px-4 border-b text-left">Academic Year</th>
+                    <th className="py-3 px-4 border-b text-left">Particulars</th>
+                    <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th>
+                    <th className="py-3 px-4 border-b text-left">Scholarship Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {meritScholarships.map((item, idx) => (
+                    <tr key={item.id} className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">{idx + 1}</td>
+                      <td className="py-3 px-4 border-b">{item.academic_year}</td>
+                      <td className="py-3 px-4 border-b">{item.particulars}</td>
+                      <td className="py-3 px-4 border-b">{item.students_benefited}</td>
+                      <td className="py-3 px-4 border-b">{item.scholarship_amount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+
+        {/* Separate Gallery Dropdown */}
+        <details className="cst-dropdown">
+          <summary>Image Gallery</summary>
+          <div className="cst-dropdown-content">
+            {meritScholarshipsGalleryData.length > 0 ? (
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                {meritScholarshipsGalleryData.flatMap(item => {
+                  if (item.gallery) {
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                    return imageUrls.map((imageUrl: string, index: number) => ({
+                      url: imageUrl,
+                      year: item.academic_year,
+                      key: `${item.id}-${index}`
+                    }));
+                  }
+                  return [];
+                }).map((img: any) => (
+                  <img
+                    key={img.key}
+                    src={img.url}
+                    alt={`Merit Scholarship ${img.year} Image`}
+                    className="w-full rounded-lg shadow-md object-cover"
+                    style={{ height: '300px', width: '400px' }}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-center py-4">No gallery images added yet</p>
+            )}
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -1284,9 +1853,17 @@ case 'Physical Facilities': {
 
     
        case 'Technical Association': {
-  // Separate activities and gallery events
-  const activityItems = scudActivities.filter(a => a.file_url);
-  const galleryEvents = scudActivities.filter(a => a.gallery && Array.isArray(a.gallery) && a.gallery.length > 0);
+  // Group SCUD activities by academic year
+  const grouped: Record<string, any[]> = {};
+  scudActivities.forEach(activity => {
+    if (!grouped[activity.academic_year]) {
+      grouped[activity.academic_year] = [];
+    }
+    grouped[activity.academic_year].push(activity);
+  });
+
+  // Sort years in descending order
+  const sortedYears = Object.keys(grouped).sort().reverse();
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1295,48 +1872,75 @@ case 'Physical Facilities': {
         Department Association - Society of Computers for Ultimate Diligence (SCUD) was started in the year 2002.
         SCUD team conducts regularly technical fests, workshops, and guest lectures for the benefit of students.
       </p>
-      <div className="space-y-6">
-        {activityItems.map(item => (
-          <details key={item.id} className="border rounded-lg p-4" open>
-            <summary className="text-lg font-semibold cursor-pointer">{item.title}</summary>
-            <ul className="list-disc pl-6 my-2">
-              <li>
-                {item.title} -{' '}
-                <a
-                  href={item.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B22222] hover:underline"
-                >
-                  View More
-                </a>
-              </li>
-            </ul>
+      
+      <div className="space-y-4">
+        {/* SCUD Activities by Year */}
+        {sortedYears.map((year, idx) => (
+          <details key={year} open={idx === 0} className="cst-dropdown group">
+            <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+              <span>SCUD Activities</span>
+              <span className="group-open:rotate-180 transition-transform text-xl"></span>
+            </summary>
+            <div className="cst-dropdown-content">
+              <ul className="list-disc pl-6 my-4 space-y-2">
+                {grouped[year].map((activity) => (
+                  <li key={activity.id}>
+                    <span className="text-gray-800">{activity.title}</span>
+                    {activity.file_url && (
+                      <>
+                        {' - '}
+                        <a
+                          href={activity.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline font-medium"
+                        >
+                          View More
+                        </a>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </details>
         ))}
 
-        {galleryEvents.length > 0 && (
-          <details className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
-            <div className="space-y-10 mt-4">
-              {galleryEvents.map(event => (
-                <div key={event.id}>
-                  <h3 className="text-xl font-semibold text-center mb-4">{event.title}</h3>
-                  <div className={`grid grid-cols-1 ${event.gallery && Array.isArray(event.gallery) && event.gallery.length > 2 ? 'md:grid-cols-3' : 'sm:grid-cols-2'} gap-6`}>
-                    {event.gallery && Array.isArray(event.gallery) && event.gallery.map((img: any, i: number) => (
-                      <img
-                        key={i}
-                        src={img}
-                        alt={`${event.title} Image ${i + 1}`}
-                        className="w-full h-auto rounded-lg shadow object-cover"
-                      />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </details>
-        )}
+        {/* Gallery Section */}
+        <details className="cst-dropdown">
+          <summary>Image Gallery</summary>
+          <div className="cst-dropdown-content">
+            {technicalAssociationGallery.length > 0 ? (
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                {technicalAssociationGallery.flatMap(item => {
+                  if (item.gallery) {
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                    return imageUrls.map((imageUrl: string, index: number) => ({
+                      url: imageUrl,
+                      year: item.academic_year,
+                      key: `${item.id}-${index}`
+                    }));
+                  }
+                  return [];
+                }).map((img: any) => (
+                  <img
+                    key={img.key}
+                    src={img.url}
+                    alt={`Technical Association ${img.year} Image`}
+                    className="w-full rounded-lg shadow-md object-cover"
+                    style={{ height: '300px', width: '400px' }}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-center py-4">No gallery images added yet</p>
+            )}
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -1353,12 +1957,12 @@ case 'Physical Facilities': {
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Newsletters</h2>
       <div className="space-y-4">
-        {Object.entries(grouped).map(([year, items], index) => (
+        {Object.entries(grouped).sort(([yearA], [yearB]) => yearB.localeCompare(yearA)).map(([year, items]: [string, any], index) => (
           <details key={year} open={index === 0} className="cst-dropdown">
             <summary>{year} Newsletters</summary>
             <div className="cst-dropdown-content">
               <ul className="list-none pl-0 my-2">
-                {items.map(item => (
+                {(items as any[]).map((item: any) => (
                   <li key={item.id} className="p-2">
                     {item.title} -{' '}
                     <a
@@ -1382,6 +1986,15 @@ case 'Physical Facilities': {
      case 'Extra-Curricular Activities': {
   const activityItems = extraCurricular.filter(a => a.type === 'activity');
   const sahaya = extraCurricular.find(a => a.type === 'sahaya');
+  
+  // Group extra-curricular gallery by academic year
+  const groupedByYear: Record<string, any[]> = {};
+  extraCurricularGallery.forEach(item => {
+    if (!groupedByYear[item.academic_year]) {
+      groupedByYear[item.academic_year] = [];
+    }
+    groupedByYear[item.academic_year].push(item);
+  });
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1424,7 +2037,7 @@ case 'Physical Facilities': {
                 <div>
                   <h3 className="text-center text-xl font-semibold">LIST OF SAHAYA EVENTS CONDUCTED YEAR WISE</h3>
                   <ul className="my-2 list-none text-center space-y-2">
-                    {sahaya.sahaya_events.map((ev, i) => (
+                    {sahaya.sahaya_events.map((ev: any, i: number) => (
                       <li key={i}>
                         {ev.year} -{' '}
                         <a href={ev.url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
@@ -1439,17 +2052,51 @@ case 'Physical Facilities': {
           </details>
         )}
 
-        {sahaya && sahaya.gallery && Array.isArray(sahaya.gallery) && sahaya.gallery.length > 0 && (
-          <details className="cst-dropdown">
-            <summary>Gallery</summary>
-            <div className="cst-dropdown-content">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
-                {sahaya.gallery && Array.isArray(sahaya.gallery) && sahaya.gallery.map((img, i) => (
-                  <img key={i} src={img} alt={`Extra-Curricular Image ${i + 1}`} className="w-full h-auto rounded-lg shadow object-cover" />
-                ))}
-              </div>
+        {Object.keys(groupedByYear).length > 0 && (
+          <div>
+            <h3 className="text-2xl font-semibold text-center mb-6 text-[#B22222]">Activities Gallery</h3>
+            <div className="space-y-4">
+              {Object.entries(groupedByYear).map(([year, items], index) => {
+                // Combine all images from entries with the same academic year
+                const allYearImages: string[] = [];
+                items.forEach(item => {
+                  if (item.gallery) {
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                    allYearImages.push(...imageUrls);
+                  }
+                });
+
+                return (
+                  <details key={year} className="cst-dropdown" open={index === 0}>
+                    <summary>Extra-Curricular A.Y {year}</summary>
+                    <div className="cst-dropdown-content">
+                      {allYearImages.length > 0 ? (
+                        <div className="grid grid-cols-2 gap-6 mt-4">
+                          {allYearImages.map((imageUrl: string, i: number) => (
+                            <img
+                              key={i}
+                              src={imageUrl}
+                              alt={`Extra-Curricular ${year} Image ${i + 1}`}
+                              className="w-full rounded-lg shadow-md object-cover"
+                              style={{ width: '400px', height: '300px', objectFit: 'cover' }}
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                              }}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center text-gray-600 py-8">
+                          No images available for {year}
+                        </div>
+                      )}
+                    </div>
+                  </details>
+                );
+              })}
             </div>
-          </details>
+          </div>
         )}
       </div>
     </div>
@@ -1461,12 +2108,12 @@ case 'Physical Facilities': {
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
       <div className="space-y-6">
         <div>
-          <p className="text-gray-700 leading-relaxed">
+          <p className="text-gray-700 leading-relaxed text-justify">
             A 24-hour student hackathon is an event where students come together to collaborate, innovate, and
             create projects within a short time frame. These hackathons have gained immense popularity in recent years,
             and they hold significant importance for students for several reasons:
           </p>
-          <ul className="list-disc pl-6 text-gray-700 space-y-2 mt-3">
+          <ul className="list-disc pl-6 text-gray-700 space-y-2 mt-3 text-justify">
             <li><span className="font-medium">Hands-on learning:</span> Hackathons provide students a unique opportunity to engage in hands-on learning by applying knowledge and skills to real-world problems and challenges.</li>
             <li><span className="font-medium">Collaboration and teamwork:</span> Teams form with diverse backgrounds, enabling effective communication and leveraging strengths to tackle complex problems collectively.</li>
             <li><span className="font-medium">Innovation and creativity:</span> Time constraints encourage novel solutions and exploration of unconventional ideas, leading to unique projects.</li>
@@ -1475,7 +2122,7 @@ case 'Physical Facilities': {
             <li><span className="font-medium">Resume/portfolio enhancement:</span> Demonstrates passion, problem-solving, teamwork, and ability to work under pressure.</li>
             <li><span className="font-medium">Recognition and awards:</span> Many hackathons offer prizes and recognition, boosting confidence and opening doors to further opportunities.</li>
           </ul>
-          <p className="text-gray-700 leading-relaxed mt-3">
+          <p className="text-gray-700 leading-relaxed mt-3 text-justify">
             In conclusion, student hackathons promote hands-on learning, collaboration, innovation, networking, skill development,
             resume enhancement, and recognition. They serve as a platform for students to showcase abilities, learn from peers,
             and gain valuable experience in a short period.
@@ -1522,172 +2169,534 @@ case 'Physical Facilities': {
         </div>
 
         <div>
-          <h3 className="text-2xl font-semibold text-center mb-2">Gallery</h3>
-          {hackathons.map(h => (
-            h.gallery && Array.isArray(h.gallery) && h.gallery.length > 0 && (
-              <div key={h.id} className="mb-8">
-                <div className="text-center text-lg font-medium mb-4">{h.academic_year} Gallery</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               {h.gallery.map((img, i) => (
-  <img
-    key={i}
-    src={img}
-    alt={`Hackathon ${h.academic_year} Image ${i + 1}`}
-    className="w-full h-auto rounded-lg shadow object-cover"
-  />
-))}
-                </div>
+        
+          <div className="space-y-4">
+            {hackathonsGallery.length > 0 ? (
+              (() => {
+                // Group gallery items by academic year and combine all images
+                const groupedByYear: Record<string, string[]> = {};
+                hackathonsGallery.forEach((galleryItem) => {
+                  const year = galleryItem.academic_year;
+                  if (!groupedByYear[year]) {
+                    groupedByYear[year] = [];
+                  }
+                  // Parse and add images from this gallery item
+                  const images = galleryItem.gallery
+                    ? galleryItem.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0)
+                    : [];
+                  groupedByYear[year].push(...images);
+                });
+
+                // Render one dropdown per academic year
+                return Object.entries(groupedByYear).map(([year, images], index) => (
+                  <details key={year} className="cst-dropdown" open={index === 0}>
+                    <summary>
+                      Gallery 
+                    </summary>
+                    <div className="cst-dropdown-content">
+                    
+                      Hackathon A.Y {year}
+                      {images.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {images.map((img, i) => (
+                            <div key={i} className="flex flex-col items-center">
+                              <img
+                                src={img}
+                                alt={`Hackathon ${year} Image ${i + 1}`}
+                                className="w-[400px] h-[300px] rounded-lg shadow-lg object-cover"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = '/placeholder-image.svg';
+                                  (e.target as HTMLImageElement).className = 'w-[400px] h-[300px] rounded-lg shadow-lg bg-gray-200';
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center text-gray-600 py-8">
+                          No images available for {year}
+                        </div>
+                      )}
+                    </div>
+                  </details>
+                ));
+              })()
+            ) : (
+              <div className="text-center text-gray-600 py-8">
+                No gallery data available
               </div>
-            )
-          ))}
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-     case 'Training Activities':
+     case 'Training Activities': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Training Activities</h2>
+      
       <div className="space-y-6">
-        {trainingActivities.map((activity, idx) => (
-          <details key={activity.id} open={idx === 0} className="cst-dropdown">
-            <summary>{activity.title}</summary>
-            <div className="cst-dropdown-content">
-              <ul className="list-disc pl-6 my-2">
-                <li>
-                  {activity.title} -{' '}
-                  <a
-                    href={activity.file_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#B22222] hover:underline"
-                  >
-                    View More
-                  </a>
-                </li>
+        {/* Training Activities List */}
+        <details open className="cst-dropdown">
+          <summary>Training Activities</summary>
+          <div className="cst-dropdown-content">
+            {trainingActivities && trainingActivities.length > 0 ? (
+              <ul className="list-disc pl-6 my-2 space-y-2">
+                {trainingActivities.map((activity, idx) => (
+                  <li key={activity.id || idx}>
+                    {activity.title}
+                    {activity.file_url && (
+                      <>
+                        {' - '}
+                        <a
+                          href={activity.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline"
+                        >
+                          View
+                        </a>
+                      </>
+                    )}
+                  </li>
+                ))}
               </ul>
-              {activity.gallery && Array.isArray(activity.gallery) && activity.gallery.length > 0 && (
-                <details open className="border rounded-lg p-4 mt-4">
-                  <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-                    {activity.gallery && Array.isArray(activity.gallery) && activity.gallery.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img}
-                        alt={`Training Activity Image ${i + 1}`}
-                        className="w-full h-auto rounded-lg shadow object-cover"
-                      />
-                    ))}
-                  </div>
-                </details>
-              )}
+            ) : (
+              <div className="text-gray-600 text-sm mt-2">No training activities available currently.</div>
+            )}
+          </div>
+        </details>
+
+        {/* Gallery Section */}
+        <details className="cst-dropdown">
+          <summary>Image Gallery</summary>
+          <div className="cst-dropdown-content">
+            {trainingActivitiesGallery.length > 0 ? (
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                {trainingActivitiesGallery.flatMap(item => {
+                  if (item.gallery) {
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                    return imageUrls.map((imageUrl: string, index: number) => ({
+                      url: imageUrl,
+                      year: item.academic_year,
+                      key: `${item.id}-${index}`
+                    }));
+                  }
+                  return [];
+                }).map((img: any) => (
+                  <img
+                    key={img.key}
+                    src={img.url}
+                    alt={`Training Activities ${img.year} Image`}
+                    className="w-full rounded-lg shadow-md object-cover"
+                    style={{ height: '300px', width: '400px' }}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-center py-4">No gallery images added yet</p>
+            )}
+          </div>
+        </details>
+      </div>
+    </div>
+  );
+}
+      case 'Handbooks': {
+  // Group handbooks by academic_year
+  const grouped: Record<string, any[]> = {};
+  handbooks.forEach(h => {
+    if (!grouped[h.academic_year]) grouped[h.academic_year] = [];
+    grouped[h.academic_year].push(h);
+  });
+
+  // Sort years in descending order
+  const sortedYears = Object.keys(grouped).sort().reverse();
+
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic HandBooks</h2>
+      <div className="space-y-4">
+        {sortedYears.map((year, idx) => (
+          <details key={year} open={idx === 0} className="cst-dropdown">
+            <summary>Academic year {year}</summary>
+            <div className="cst-dropdown-content">
+              <ul className="list-disc pl-6 my-2 space-y-2">
+                {grouped[year].map((item, itemIdx) => (
+                  <li key={item.id}>
+                    
+                    {item.title || 'Handbooks'}
+                    {(item.file_url || item.fileUrl) && (
+                      <>
+                        {' - '}
+                        <a
+                          href={item.file_url || item.fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline"
+                        >
+                          View
+                        </a>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </div>
           </details>
         ))}
       </div>
     </div>
   );
-      case 'Handbooks': {
-  // Group handbooks by academic_year and semester
-  const grouped: Record<string, Record<string, any[]>> = {};
-  handbooks.forEach(h => {
-    if (!grouped[h.academic_year]) grouped[h.academic_year] = {};
-    if (!grouped[h.academic_year][h.semester]) grouped[h.academic_year][h.semester] = [];
-    grouped[h.academic_year][h.semester].push(h);
-  });
+}
+    case 'Placements': {
+  // Filter for CST department
+  const cstPlacements = placements.filter((p: any) => p.dept === 'cst');
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic HandBooks</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
       <div className="space-y-6">
-        {Object.entries(grouped).map(([year, semesters], i) =>
-          Object.entries(semesters).map(([sem, items], j) => (
-            <details key={year + sem} open={i === 0 && j === 0} className="cst-dropdown">
-              <summary>Academic year {year}: {sem} HandBooks</summary>
+        <details open className="cst-dropdown">
+          <summary>Placements Details</summary>
+          <div className="cst-dropdown-content">
+            {cstPlacements.length > 0 ? (
+              cstPlacements.map((placement, idx) => (
+                <div key={placement.id} className="mb-4">
+                  <p className="font-medium">
+                    {placement.title || `Placements for Batch ${placement.batch}`}
+                    {placement.file_url && (
+                      <>
+                        {' - '}
+                        <a
+                          href={placement.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline"
+                        >
+                          View More
+                        </a>
+                      </>
+                    )}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-600 text-sm">No placement details available.</p>
+            )}
+          </div>
+        </details>
+
+        {/* Gallery Section */}
+        <details className="cst-dropdown">
+          <summary>Image Gallery</summary>
+          <div className="cst-dropdown-content">
+            {placementsGalleryData.length > 0 ? (
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                {placementsGalleryData.flatMap(item => {
+                  if (item.gallery) {
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                    return imageUrls.map((imageUrl: string, index: number) => ({
+                      url: imageUrl,
+                      year: item.academic_year,
+                      key: `${item.id}-${index}`
+                    }));
+                  }
+                  return [];
+                }).map((img: any) => (
+                  <img
+                    key={img.key}
+                    src={img.url}
+                    alt={`Placements ${img.year} Image`}
+                    className="w-full rounded-lg shadow-md object-cover"
+                    style={{ height: '300px', width: '400px' }}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-center py-4">No gallery images added yet</p>
+            )}
+          </div>
+        </details>
+      </div>
+    </div>
+  );
+}
+      case 'Workshops': {
+  // Separate workshops by category
+  const regularWorkshops = workshops.filter((w: any) => !w.category || w.category.toLowerCase() !== 'guest lecturers/seminars');
+  const guestLecturers = workshops.filter((w: any) => w.category && w.category.toLowerCase() === 'guest lecturers/seminars');
+
+  // Group workshops by academic year for each category
+  const groupByYear = (items: any[]) => {
+    return items.reduce((acc: any, item: any) => {
+      const year = item.academic_year || 'Current Year';
+      if (!acc[year]) {
+        acc[year] = [];
+      }
+      acc[year].push(item);
+      return acc;
+    }, {});
+  };
+
+  const regularWorkshopsByYear = groupByYear(regularWorkshops);
+  const guestLecturersByYear = groupByYear(guestLecturers);
+  
+  const sortedYears = Array.from(new Set([
+    ...Object.keys(regularWorkshopsByYear),
+    ...Object.keys(guestLecturersByYear)
+  ])).sort().reverse();
+
+  // Group workshops gallery by academic year
+  const groupedWorkshopGalleryByYear: Record<string, any[]> = {};
+  workshopsGalleryData.forEach(item => {
+    if (!groupedWorkshopGalleryByYear[item.academic_year]) {
+      groupedWorkshopGalleryByYear[item.academic_year] = [];
+    }
+    groupedWorkshopGalleryByYear[item.academic_year].push(item);
+  });
+
+  // Group lecturers gallery by academic year
+  const groupedLecturersGalleryByYear: Record<string, any[]> = {};
+  lecturersGalleryData.forEach(item => {
+    if (!groupedLecturersGalleryByYear[item.academic_year]) {
+      groupedLecturersGalleryByYear[item.academic_year] = [];
+    }
+    groupedLecturersGalleryByYear[item.academic_year].push(item);
+  });
+
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in space-y-6">
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops</h2>
+      
+      {/* Workshops Gallery Dropdown */}
+      <details className="cst-dropdown group">
+        <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+          <span>Gallery</span>
+          
+        </summary>
+        <div className="cst-dropdown-content">
+          {workshopsGalleryData.length > 0 ? (
+            (() => {
+              // Separate images by category
+              const workshopsImages = workshopsGalleryData
+                .filter((item: any) => item.category === 'workshops')
+                .flatMap((item: any) =>
+                  item.gallery ? item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0) : []
+                );
+              
+              const lecturesImages = workshopsGalleryData
+                .filter((item: any) => item.category === 'lectures')
+                .flatMap((item: any) =>
+                  item.gallery ? item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0) : []
+                );
+              
+              return (
+                <div className="p-6 space-y-6">
+                  {/* Workshops Images */}
+                  {workshopsImages.length > 0 && (
+                    <div>
+                      <h4 className="font-bold text-lg text-[#B22222] mb-4">Workshops</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        {workshopsImages.map((imageUrl: string, i: number) => (
+                          <img
+                            key={`workshop-${i}`}
+                            src={imageUrl}
+                            alt={`Workshop Image ${i + 1}`}
+                            className="w-full rounded-lg shadow-md object-cover"
+                            style={{ height: '300px', width: '400px' }}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Guest Lecturers Images */}
+                  {lecturesImages.length > 0 && (
+                    <div>
+                      <h4 className="font-bold text-lg text-[#B22222] mb-4">Guest Lecturers/Seminars</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        {lecturesImages.map((imageUrl: string, i: number) => (
+                          <img
+                            key={`lecture-${i}`}
+                            src={imageUrl}
+                            alt={`Guest Lecturer Image ${i + 1}`}
+                            className="w-full rounded-lg shadow-md object-cover"
+                            style={{ height: '300px', width: '400px' }}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {workshopsImages.length === 0 && lecturesImages.length === 0 && (
+                    <div className="text-center text-gray-600">No gallery images available yet</div>
+                  )}
+                </div>
+              );
+            })()
+          ) : (
+            <div className="p-6 text-center text-gray-600">No gallery images available yet</div>
+          )}
+        </div>
+      </details>
+      
+      <div className="space-y-4">
+        {/* Workshops by Year */}
+        {sortedYears.map((year, idx) => {
+          const yearWorkshops = regularWorkshopsByYear[year] || [];
+          const yearGallery = groupedWorkshopGalleryByYear[year] || [];
+          const galleryImages = yearGallery.flatMap(item => 
+            item.gallery ? item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0) : []
+          );
+
+          return yearWorkshops.length > 0 ? (
+            <details key={`workshops-${year}`} open={idx === 0} className="cst-dropdown group">
+              <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                <span>Workshops</span>
+                <span className="group-open:rotate-180 transition-transform text-xl"></span>
+              </summary>
               <div className="cst-dropdown-content">
-                <ul className="list-disc pl-6 my-2">
-                  {items.map(item => (
-                    <li key={item.id}>
-                      {item.title} -{' '}
-                      <a
-                        href={item.file_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#B22222] hover:underline"
-                      >
-                        View
-                      </a>
+                <ul className="list-disc pl-6 my-4 space-y-2">
+                  {yearWorkshops.map((workshop) => (
+                    <li key={workshop.id}>
+                      <span className="text-gray-800">{workshop.title}</span>
+                      {workshop.file_url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={workshop.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline font-medium"
+                          >
+                            View More
+                          </a>
+                        </>
+                      )}
                     </li>
                   ))}
                 </ul>
+
+                {/* Gallery Section */}
+                {galleryImages.length > 0 && (
+                  <div className="border-t-2 border-[#B22222] mt-4 pt-4 px-0">
+                    <h4 className="font-bold text-lg text-[#B22222] mb-4 px-6">Photo Gallery</h4>
+                    <div className="grid grid-cols-2 gap-4 px-6 pb-6">
+                      {galleryImages.map((imageUrl: string, i: number) => (
+                        <img
+                          key={i}
+                          src={imageUrl}
+                          alt={`Workshop ${year} Image ${i + 1}`}
+                          className="w-full rounded-lg shadow-md object-cover"
+                          style={{ height: '300px', width: '400px' }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </details>
-          ))
+          ) : null;
+        })}
+
+        {/* Guest Lecturers/Seminars by Year */}
+        {Object.keys(guestLecturersByYear).length > 0 && (
+          <>
+            <div className="border-t-2 border-gray-200 my-6"></div>
+            {sortedYears.map((year, idx) => {
+              const yearLecturers = guestLecturersByYear[year];
+              if (!yearLecturers) return null;
+
+              return (
+                <details key={`lecturers-${year}`} open={idx === 0} className="cst-dropdown group">
+                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                    <span>Guest Lecturers/Seminars</span>
+                    <span className="group-open:rotate-180 transition-transform text-xl"></span>
+                  </summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-disc pl-6 my-4 space-y-2">
+                      {yearLecturers.map((lecturer) => (
+                        <li key={lecturer.id}>
+                          <span className="text-gray-800">{lecturer.title}</span>
+                          {lecturer.file_url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={lecturer.file_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline font-medium"
+                              >
+                                View More
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Gallery Section */}
+                    {groupedLecturersGalleryByYear[year] && (
+                      (() => {
+                        const lecturerGalleryImages = groupedLecturersGalleryByYear[year].flatMap(item =>
+                          item.gallery ? item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0) : []
+                        );
+                        return lecturerGalleryImages.length > 0 ? (
+                          <div className="border-t-2 border-[#B22222] mt-4 pt-4 px-0">
+                            <h4 className="font-bold text-lg text-[#B22222] mb-4 px-6">Photo Gallery</h4>
+                            <div className="grid grid-cols-2 gap-4 px-6 pb-6">
+                              {lecturerGalleryImages.map((imageUrl: string, i: number) => (
+                                <img
+                                  key={i}
+                                  src={imageUrl}
+                                  alt={`Guest Lecturer ${year} Image ${i + 1}`}
+                                  className="w-full rounded-lg shadow-md object-cover"
+                                  style={{ height: '300px', width: '400px' }}
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        ) : null;
+                      })()
+                    )}
+                  </div>
+                </details>
+              );
+            })}
+          </>
         )}
       </div>
     </div>
   );
 }
-    case 'Placements':
-  // Filter for CST department
-  const cstPlacements = placements.filter(p => p.dept === 'cst');
-  return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
-      <div className="space-y-6">
-        {cstPlacements.map((placement, idx) => (
-          <details key={placement.id} open={idx === 0} className="cst-dropdown">
-            <summary>{placement.title || `Placements for Batch ${placement.batch}`}</summary>
-            <div className="cst-dropdown-content">
-              <ul className="list-none my-2 text-center">
-                <li className="font-medium">
-                  {placement.title || `Placements for Batch ${placement.batch}`} -{' '}
-                  <a
-                    href={placement.file_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#B22222] hover:underline"
-                  >
-                    View More
-                  </a>
-                </li>
-              </ul>
-              {placement.gallery && Array.isArray(placement.gallery) && placement.gallery.length > 0 && (
-                <div className="space-y-6 mt-4">
-                  <h3 className="text-xl font-semibold text-center text-[#B22222] mb-4">{placement.batch} Gallery</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {placement.gallery && Array.isArray(placement.gallery) && placement.gallery.map((img, i) => (
-                      <div key={i}>
-                        <img
-                          src={img.url}
-                          alt={img.caption || `Placement ${i + 1}`}
-                          className="w-full h-auto rounded-lg shadow object-cover"
-                          style={{ aspectRatio: '16/9' }}
-                        />
-                        {img.roll_no && (
-                          <div className="text-center my-3 text-green-600">
-                            <strong>Roll No:</strong> {img.roll_no}<br />
-                            <strong>Name:</strong> {img.name}<br />
-                            <strong>Company:</strong> {img.company}<br />
-                            <strong>Package:</strong> {img.package}
-                          </div>
-                        )}
-                        {img.caption && !img.roll_no && (
-                          <div className="text-center my-3 text-green-600">{img.caption}</div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </details>
-        ))}
-      </div>
-    </div>
-  );
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
@@ -1760,7 +2769,7 @@ case 'Physical Facilities': {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Computer Science & Technology Department"
+        title="Computer Science & Technology"
       >
         {renderContentWithTitle()}
       </DepartmentSidebar>

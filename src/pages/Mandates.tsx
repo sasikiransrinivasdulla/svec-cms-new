@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { FileText, Download, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 
 const Mandates: React.FC = () => {
@@ -22,6 +23,16 @@ const Mandates: React.FC = () => {
   ];
 
   const mandatoryDisclosureData = [
+    {
+      section: 'UGC Model Disclosure',
+      items: [
+        {
+          title: 'UGC Model Disclosure Format - Complete Information',
+          link: '/ugc-model-disclosure',
+          isInternal: true
+        }
+      ]
+    },
     {
       section: 'NBA & NAAC Status',
       items: [
@@ -245,14 +256,23 @@ const Mandates: React.FC = () => {
                       <FileText className="w-4 h-4 mt-1 text-primary flex-shrink-0" />
                       <div>
                         <span className="text-foreground">{item.title} - </span>
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1"
-                        >
-                          Click here <ExternalLink className="w-4 h-4" />
-                        </a>
+                        {item.isInternal ? (
+                          <Link
+                            href={item.link}
+                            className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1"
+                          >
+                            View Page <ExternalLink className="w-4 h-4" />
+                          </Link>
+                        ) : (
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1"
+                          >
+                            Click here <ExternalLink className="w-4 h-4" />
+                          </a>
+                        )}
                       </div>
                     </li>
                   ))}

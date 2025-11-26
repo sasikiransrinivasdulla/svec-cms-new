@@ -117,10 +117,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(userData);
         console.log('✅ Session restored successfully');
       } else {
-        console.log('❌ Token invalid, clearing...');
+        console.log('❌ Token invalid or expired, clearing...');
         localStorage.removeItem('authToken');
         setToken(null);
         setUser(null);
+        
+        // If on an admin page, redirect to login with message
+        if (window.location.pathname.includes('/dashboard') || window.location.pathname.includes('/admin')) {
+          console.log('🔄 Redirecting to login due to expired session on admin page');
+          window.location.href = '/auth/login?message=Your session has expired. Please login again.';
+        }
       }
       
       setIsLoading(false);

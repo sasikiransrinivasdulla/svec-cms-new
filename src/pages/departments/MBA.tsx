@@ -19,41 +19,45 @@ const MBADepartment: React.FC = () => {
   const [placement, setPlacement] = React.useState<any[]>([]);
   const [StudentAch, setStudentAch] = React.useState<any[]>([]);
   useEffect(() => {
-    fetch('/api/mba-student-achievements?dept=mba') // backend API URL
+    fetch('/api/mba/student-achievements') // backend API URL
+      .then((res) => res.json())
+      .then((data) => setPlacement(data)) // assuming your API returns { placements: [...] }
+      .catch((err) => console.error("Error fetching MBA Student Achievements:", err));
+  }, []);
+  useEffect(() => {
+    fetch('/api/mba/placements') // backend API URL
       .then((res) => res.json())
       .then((data) => setPlacement(data)) // assuming your API returns { placements: [...] }
       .catch((err) => console.error("Error fetching MBA Placements:", err));
   }, []);
   useEffect(() => {
-    fetch('/api/mba-placement?dept=mba') // backend API URL
-      .then((res) => res.json())
-      .then((data) => setPlacement(data)) // assuming your API returns { placements: [...] }
-      .catch((err) => console.error("Error fetching MBA Placements:", err));
-  }, []);
-  const groupedData = facultyAch.reduce((acc: any, curr) => {
-    if (!acc[curr.type]) acc[curr.type] = [];
-    acc[curr.type].push(curr);
-    return acc;
-  }, {})
-  useEffect(() => {
-    fetch('/api/mba-faculty-profiles?dept=mba') // backend API URL
+    fetch('/api/mba/faculty-profiles') // backend API URL
       .then((res) => res.json())
       .then((data) => setFaculty(data))
       .catch((err) => console.error("Error fetching Faculty Profiles:", err));
   }, []);
   useEffect(() => {
-    fetch('/api/mba-faculty-achivements?dept=mba') // backend API URL
+    fetch('/api/mba/faculty-achievements') // backend API URL
       .then((res) => res.json())
-      .then((data) => setFacultyAch(data))
-      .catch((err) => console.error("Error fetching FAculty Achivements:", err));
+      .then((data) => setFacultyAch(Array.isArray(data) ? data : []))
+      .catch((err) => console.error("Error fetching Faculty Achievements:", err));
   }, []);
+
+  const groupedData = React.useMemo(() => {
+    if (!Array.isArray(facultyAch)) return {};
+    return facultyAch.reduce((acc: any, curr) => {
+      if (!acc[curr.type]) acc[curr.type] = [];
+      acc[curr.type].push(curr);
+      return acc;
+    }, {});
+  }, [facultyAch]);
 
 
   useEffect(() => {
-    fetch('/api/mba-faculty-dev?dept=mba') // backend API URL
+    fetch('/api/mba/faculty-development') // backend API URL
       .then((res) => res.json())
       .then((data) => setFacultyDev(data))
-      .catch((err) => console.error("Error fetching MOUs:", err));
+      .catch((err) => console.error("Error fetching Faculty Development:", err));
   }, []);
   React.useEffect(() => {
     fetch("/api/syllabus?dept=mba")
@@ -65,13 +69,13 @@ const MBADepartment: React.FC = () => {
       .catch(() => setLoading(false));
   }, []);
   useEffect(() => {
-    fetch('/api/mba-bos-meetings?dept=mba') // backend API URL
+    fetch('/api/mba/bos-meetings') // backend API URL
       .then((res) => res.json())
       .then((data) => setbosMeetings(data))
-      .catch((err) => console.error("Error fetching bos:", err));
+      .catch((err) => console.error("Error fetching BOS meetings:", err));
   }, []);
   React.useEffect(() => {
-    fetch("/api/mba-non-teaching-staff?dept=mba")
+    fetch("/api/mba/non-teaching-staff")
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
@@ -79,7 +83,7 @@ const MBADepartment: React.FC = () => {
       });
   }, []);
   React.useEffect(() => {
-    fetch("/api/mba-board-of-studies?dept=mba")
+    fetch("/api/mba/board-of-studies")
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
@@ -105,7 +109,7 @@ const MBADepartment: React.FC = () => {
     { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
     { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
     { id: 'Hackathons', label: 'Hackathons', icon: <Activity className="w-4 h-4" /> },
-    { id: 'e-Resources', label: 'e-Resources', icon: <Wifi className="w-4 h-4" /> },
+    // { id: 'e-Resources', label: 'e-Resources', icon: <Wifi className="w-4 h-4" /> },
     { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
     { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
@@ -118,14 +122,49 @@ const MBADepartment: React.FC = () => {
         return (
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-            <p className="text-gray-700 mb-3">
-              The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints.
+            <p className="text-gray-700 mb-3 text-justify">
+                      The Department of Business Administraiton have it's own
+                      Assocaiton called RAYS (Reflective Altitutde Yander in
+                      Serenity). RAYS is the Association name of Department of
+                      MBA of Sri Vasavi Engineering College, Pedatadepalli. The
+                      association is formed during the academic year 2011-12.
+                      The formation function of the assocation took on
+                      31-March-2012.
+
             </p>
+            <div className="mt-8">
+              <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Courses</h4>
+              
+              
+              
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300 rounded-lg shadow-sm">
+                  <thead>
+                    <tr className="bg-green-700 text-white">
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Sl.No</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Name of the Course</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Eligibility Criteria</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Duration</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Intake</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <td className="border border-gray-300 px-4 py-3 text-center">1</td>
+                      <td className="border border-gray-300 px-4 py-3">Master of Business Administration</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">AP ICET</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">2 Years</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">120</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         );
       case 'Vision':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
             <p className="text-gray-700">
               To nurture young leaders to be global business executives with high ethical values.
@@ -134,7 +173,7 @@ const MBADepartment: React.FC = () => {
         );
       case 'Mission':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>To prepare business leaders by providing quality education with a strong foundation of knowledge and skills.</li>
@@ -146,7 +185,7 @@ const MBADepartment: React.FC = () => {
         );
       case 'PEOs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
             <p className="text-gray-700 mb-4">After 3-5 years of graduation, the graduates will be able to:</p>
             <div className="space-y-4">
@@ -167,7 +206,7 @@ const MBADepartment: React.FC = () => {
         );
       case 'POs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
             <p className="text-gray-700 mb-4">After the completion of MBA, the graduates will be able to:</p>
             <div className="space-y-3">
@@ -212,7 +251,7 @@ const MBADepartment: React.FC = () => {
         );
       case 'PSOs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
             <p className="text-gray-700 mb-4">After the completion of MBA, the graduates will be able to:</p>
             <div className="space-y-4">
@@ -229,7 +268,7 @@ const MBADepartment: React.FC = () => {
         );
       case 'COs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
             <p className="text-gray-700 mb-4">
               The course outcomes for all courses offered by the MBA department are designed to align with program outcomes and educational objectives.
@@ -248,7 +287,7 @@ const MBADepartment: React.FC = () => {
         );
       case 'SalientFeatures':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>Highly qualified and experienced faculty</li>
@@ -266,7 +305,42 @@ const MBADepartment: React.FC = () => {
           </div>
         );
       default:
-        return <div>Select a tab to view content</div>;
+        return (
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
+            <p className="text-gray-700 leading-relaxed text-justify">
+              The Master of Business Administration (MBA) program at Sri Vasavi Engineering College provides 
+              comprehensive business education designed to develop future leaders and managers. The program combines 
+              theoretical knowledge with practical applications, preparing students for leadership roles in various 
+              sectors of the business world.
+            </p>
+            <div className="mt-8">
+              <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Course Details</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300 rounded-lg shadow-sm">
+                  <thead>
+                    <tr className="bg-green-700 text-white">
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Sl.No</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Program</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Eligibility</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Duration</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Intake</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <td className="border border-gray-300 px-4 py-3 text-center">1</td>
+                      <td className="border border-gray-300 px-4 py-3">MBA</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">Graduation + ICET</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">2 Years</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">60</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        );
     }
   };
 
@@ -275,55 +349,177 @@ const MBADepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
-
-            {/* Desktop Navigation Tabs */}
-            <div className="hidden md:block relative mb-8">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => setActiveDeptTab(section)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                      ? 'bg-[#B22222] text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            <div className="space-y-8">
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
-                  >
-                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* HOD Information */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-8">
-              <div className="relative">
-                <img
-                  src="/mbaHosd1.jpeg"
-                  alt="Mr. D. Naveen Kumar"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Mr. D. Naveen Kumar</h3>
-                  <p className="text-lg text-[#B22222] font-medium mb-2">Sr.Asst.Professor & Head of Department, MBA</p>
-                  <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-364)</p>
-                  <p className="text-gray-600">Fax No: 08818-284322</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_mba@srivasaviengg.ac.in" className="text-primary hover:underline">hod_mba@srivasaviengg.ac.in</a></p>
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
                 </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints by providing new dimensions in the body of knowledge needed for managerial development.
-                </p>
               </div>
-            </div>
 
-            {/* Department Profile Tab Navigation */}
-            <div className="mt-12">
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+                </div>
+              </div>
 
-              
+              {/* HOD Information (Static for now) */}
+              {activeDeptTab === 'Department' && (
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                  <div className="md:w-1/3">
+                    <img
+                      src="/mbaHosd1.jpeg"
+                      alt="Mr. D. Naveen Kumar"
+                      className="w-full h-auto object-cover rounded-lg shadow-md"
+                    />
+                  </div>
+                  <div className="md:w-2/3">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-2">Mr. D. Naveen Kumar</h3>
+                    <p className="text-gray-700 mb-2">Sr.Asst.Professor & Head of Department, MBA</p>
+                    <p className="text-gray-700 mb-2">Phone No: 08818-284355(O)-(Ext.-364)</p>
+                    <p className="text-gray-700 mb-2">Fax No: 08818-284322</p>
+                    <p className="text-gray-700 mb-2">
+                      <a href="mailto:hod_mba@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_mba@srivasaviengg.ac.in</a>
+                    </p>
+                    <p className="text-gray-700 text-lg text-justify">
+                      The Department of Business Administration has its own Association called RAYS (Reflective Altitude Yander in
+                      Serenity). RAYS is the Association name of Department of MBA of Sri Vasavi Engineering College, Pedatadepalli. The
+                      association was formed during the academic year 2011-12. The formation function of the association took place on
+                      31-March-2012.
+                    </p>
+                  </div>
+                </div>
+              )}
 
-              <div className="mt-4">
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                setActiveDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
+                                  }`}>
+                                  {index + 1}
+                                </div>
+                                <div>
+                                  <div className="font-semibold">
+                                    {section === 'SalientFeatures' ? 'Salient Features' : section}
+                                  </div>
+                                  <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
+                                    {section === 'Department' && 'Overview and Course Details'}
+                                    {section === 'Vision' && 'Department Vision Statement'}
+                                    {section === 'Mission' && 'Department Mission Statement'}
+                                    {section === 'PEOs' && 'Program Educational Objectives'}
+                                    {section === 'POs' && 'Program Outcomes'}
+                                    {section === 'PSOs' && 'Program Specific Outcomes'}
+                                    {section === 'COs' && 'Course Outcomes'}
+                                    {section === 'SalientFeatures' && 'Key Highlights'}
+                                  </div>
+                                </div>
+                                {isActive && (
+                                  <div className="ml-auto">
+                                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                  </div>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {/* Panel Footer */}
+                      <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                        <div className="text-center">
+                          <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
+                          <div className="text-white/50 text-xs">
+                            Click any section above to navigate instantly
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Floating Settings Button - Mobile Only */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                title="Department Navigation"
+              >
+                <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {/* Mobile Label */}
+                <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                  Menu
+                  <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
+                </div>
+              </button>
+
+              {/* Tab Content */}
+              <div>
                 {renderDeptTabContent()}
               </div>
             </div>
@@ -1086,7 +1282,7 @@ const MBADepartment: React.FC = () => {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Master of Business Administration Department"
+        title="Master of Business Administration"
       >
         {renderContentWithTitle()}
       </DepartmentSidebar>

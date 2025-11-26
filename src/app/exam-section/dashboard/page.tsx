@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
-import { School, Database, ArrowLeft } from 'lucide-react';
+import { School, Database, ArrowLeft, Eye, Edit, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { ExamSectionTopHeader } from '@/components/exam-section/ExamSectionTopHeader';
+import toast from 'react-hot-toast';
 
 function ExamSectionHeader({ user }: { user: any }) {
   // Custom logout handler to redirect to admin login
@@ -61,12 +63,64 @@ function ExamSectionHeader({ user }: { user: any }) {
 export default function ExamSectionDashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
+  const [controllerData, setControllerData] = useState<any>(null);
+  const [jntukData, setJntukData] = useState<any[]>([]);
+  const [autonomousData, setAutonomousData] = useState<any[]>([]);
+  const [rsacData, setRsacData] = useState<any[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('controller');
 
   useEffect(() => {
     if (!isLoading && (!isAuthenticated || user?.role !== 'exam')) {
       router.replace('/exam-section/auth/login');
     }
   }, [isLoading, isAuthenticated, user, router]);
+
+  // Fetch all exam section data
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        setDataLoading(true);
+
+        // Fetch Controller data
+        const controllerRes = await fetch('/api/exam-section/controller-of-examinations');
+        if (controllerRes.ok) {
+          const controllerJson = await controllerRes.json();
+          setControllerData(controllerJson.data || null);
+        }
+
+        // Fetch JNTUK data
+        const jntukRes = await fetch('/api/exam-section/jntuk');
+        if (jntukRes.ok) {
+          const jntukJson = await jntukRes.json();
+          setJntukData(Array.isArray(jntukJson.data) ? jntukJson.data : []);
+        }
+
+        // Fetch Autonomous data
+        const autonomousRes = await fetch('/api/exam-section/autonomous');
+        if (autonomousRes.ok) {
+          const autonomousJson = await autonomousRes.json();
+          setAutonomousData(Array.isArray(autonomousJson.data) ? autonomousJson.data : []);
+        }
+
+        // Fetch RSAC data
+        const rsacRes = await fetch('/api/exam-section/rsac');
+        if (rsacRes.ok) {
+          const rsacJson = await rsacRes.json();
+          setRsacData(Array.isArray(rsacJson.data) ? rsacJson.data : []);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        toast.error('Failed to load data');
+      } finally {
+        setDataLoading(false);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchAllData();
+    }
+  }, [isAuthenticated]);
 
   const modules = [
     {
@@ -158,7 +212,320 @@ export default function ExamSectionDashboard() {
           </Card>
         </div>
 
-        {/* Modules Section */}
+        {/* Data Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all">
+            <CardContent className="p-6">
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-gray-500">Controller Data</p>
+                <p className="text-3xl font-bold text-gray-800">{controllerData ? '1' : '0'}</p>
+                <Link href="/exam-section/controller-of-examinations" className="text-xs text-blue-600 hover:underline">
+                  View Profile
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all">
+            <CardContent className="p-6">
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-gray-500">JNTUK Records</p>
+                <p className="text-3xl font-bold text-gray-800">{jntukData.length}</p>
+                <Link href="/exam-section/jntuk" className="text-xs text-blue-600 hover:underline">
+                  Manage JNTUK
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all">
+            <CardContent className="p-6">
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-gray-500">Autonomous Records</p>
+                <p className="text-3xl font-bold text-gray-800">{autonomousData.length}</p>
+                <Link href="/exam-section/autonomous" className="text-xs text-blue-600 hover:underline">
+                  Manage Autonomous
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all">
+            <CardContent className="p-6">
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-gray-500">RSAC Records</p>
+                <p className="text-3xl font-bold text-gray-800">{rsacData.length}</p>
+                <Link href="/exam-section/rsac" className="text-xs text-blue-600 hover:underline">
+                  Manage RSAC
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Data Table Section */}
+        <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden">
+          <CardContent className="p-6">
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    Entered Data Summary
+                  </h2>
+                  <p className="text-gray-500 text-sm mt-1">
+                    View all entered exam section data
+                  </p>
+                </div>
+              </div>
+
+              {/* Tab Navigation */}
+              <div className="flex gap-2 mb-6 border-b border-gray-200 flex-wrap">
+                <button
+                  onClick={() => setActiveTab('controller')}
+                  className={`px-4 py-2 font-medium text-sm transition-colors border-b-2 ${
+                    activeTab === 'controller'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  Controller ({controllerData ? '1' : '0'})
+                </button>
+                <button
+                  onClick={() => setActiveTab('jntuk')}
+                  className={`px-4 py-2 font-medium text-sm transition-colors border-b-2 ${
+                    activeTab === 'jntuk'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  JNTUK ({jntukData.length})
+                </button>
+                <button
+                  onClick={() => setActiveTab('autonomous')}
+                  className={`px-4 py-2 font-medium text-sm transition-colors border-b-2 ${
+                    activeTab === 'autonomous'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  Autonomous ({autonomousData.length})
+                </button>
+                <button
+                  onClick={() => setActiveTab('rsac')}
+                  className={`px-4 py-2 font-medium text-sm transition-colors border-b-2 ${
+                    activeTab === 'rsac'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  RSAC ({rsacData.length})
+                </button>
+              </div>
+            </div>
+
+            {/* Loading State */}
+            {dataLoading ? (
+              <div className="text-center py-16">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                  <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent"></div>
+                </div>
+                <p className="text-gray-600">Loading data...</p>
+              </div>
+            ) : (
+              <>
+                {/* Controller Tab */}
+                {activeTab === 'controller' && (
+                  <div className="overflow-x-auto">
+                    {controllerData ? (
+                      <table className="w-full text-sm">
+                        <thead className="bg-gray-50 border-b border-gray-200">
+                          <tr>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Name</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Designation</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Email</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Phone</th>
+                            <th className="px-6 py-3 text-right font-semibold text-gray-700">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          <tr className="hover:bg-gray-50">
+                            <td className="px-6 py-4 text-gray-800 font-medium">{controllerData.name}</td>
+                            <td className="px-6 py-4 text-gray-600">{controllerData.designation}</td>
+                            <td className="px-6 py-4 text-gray-600">{controllerData.email || '-'}</td>
+                            <td className="px-6 py-4 text-gray-600">{controllerData.phone || '-'}</td>
+                            <td className="px-6 py-4 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <Link href="/exam-section/controller-of-examinations" className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-blue-100 text-blue-600">
+                                  <Eye className="w-4 h-4" />
+                                </Link>
+                                <Link href="/exam-section/controller-of-examinations" className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
+                                  <Edit className="w-4 h-4" />
+                                </Link>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    ) : (
+                      <div className="text-center py-8">
+                        <p className="text-gray-500">No controller profile data entered yet</p>
+                        <Link href="/exam-section/controller-of-examinations" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                          Create Profile
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* JNTUK Tab */}
+                {activeTab === 'jntuk' && (
+                  <div className="overflow-x-auto">
+                    {jntukData.length > 0 ? (
+                      <table className="w-full text-sm">
+                        <thead className="bg-gray-50 border-b border-gray-200">
+                          <tr>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Title</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Category</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Status</th>
+                            <th className="px-6 py-3 text-right font-semibold text-gray-700">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          {jntukData.map((item: any) => (
+                            <tr key={item.id} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 text-gray-800 font-medium">{item.title || item.name || '-'}</td>
+                              <td className="px-6 py-4 text-gray-600">{item.category || item.type || '-'}</td>
+                              <td className="px-6 py-4">
+                                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Active</span>
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                <div className="flex items-center justify-end gap-2">
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-blue-100 text-blue-600">
+                                    <Eye className="w-4 h-4" />
+                                  </button>
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
+                                    <Edit className="w-4 h-4" />
+                                  </button>
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100 text-red-600">
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <div className="text-center py-8">
+                        <p className="text-gray-500">No JNTUK data entered yet</p>
+                        <Link href="/exam-section/jntuk" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                          Add JNTUK Data
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Autonomous Tab */}
+                {activeTab === 'autonomous' && (
+                  <div className="overflow-x-auto">
+                    {autonomousData.length > 0 ? (
+                      <table className="w-full text-sm">
+                        <thead className="bg-gray-50 border-b border-gray-200">
+                          <tr>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Title</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Category</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Status</th>
+                            <th className="px-6 py-3 text-right font-semibold text-gray-700">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          {autonomousData.map((item: any) => (
+                            <tr key={item.id} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 text-gray-800 font-medium">{item.title || item.name || '-'}</td>
+                              <td className="px-6 py-4 text-gray-600">{item.category || item.type || '-'}</td>
+                              <td className="px-6 py-4">
+                                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Active</span>
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                <div className="flex items-center justify-end gap-2">
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-blue-100 text-blue-600">
+                                    <Eye className="w-4 h-4" />
+                                  </button>
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
+                                    <Edit className="w-4 h-4" />
+                                  </button>
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100 text-red-600">
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <div className="text-center py-8">
+                        <p className="text-gray-500">No Autonomous data entered yet</p>
+                        <Link href="/exam-section/autonomous" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                          Add Autonomous Data
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* RSAC Tab */}
+                {activeTab === 'rsac' && (
+                  <div className="overflow-x-auto">
+                    {rsacData.length > 0 ? (
+                      <table className="w-full text-sm">
+                        <thead className="bg-gray-50 border-b border-gray-200">
+                          <tr>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Title</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Category</th>
+                            <th className="px-6 py-3 text-left font-semibold text-gray-700">Status</th>
+                            <th className="px-6 py-3 text-right font-semibold text-gray-700">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          {rsacData.map((item: any) => (
+                            <tr key={item.id} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 text-gray-800 font-medium">{item.title || item.name || '-'}</td>
+                              <td className="px-6 py-4 text-gray-600">{item.category || item.type || '-'}</td>
+                              <td className="px-6 py-4">
+                                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Active</span>
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                <div className="flex items-center justify-end gap-2">
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-blue-100 text-blue-600">
+                                    <Eye className="w-4 h-4" />
+                                  </button>
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
+                                    <Edit className="w-4 h-4" />
+                                  </button>
+                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100 text-red-600">
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <div className="text-center py-8">
+                        <p className="text-gray-500">No RSAC data entered yet</p>
+                        <Link href="/exam-section/rsac" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                          Add RSAC Data
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </CardContent>
+        </Card>
+
+
         <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden">
           <CardContent className="p-6">
             <div className="flex justify-between items-center mb-6">

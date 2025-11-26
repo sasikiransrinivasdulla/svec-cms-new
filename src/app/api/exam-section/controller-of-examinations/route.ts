@@ -141,10 +141,30 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
+    // Get the profile details first to retrieve the photo URL
+    const profiles = (await query(
+      'SELECT photo_url FROM controller_of_examinations WHERE id = ?',
+      [id]
+    )) as any[];
+
+    // Soft delete the profile
     await execute(
       'UPDATE controller_of_examinations SET deleted_at = NOW() WHERE id = ?',
       [id]
     );
+
+    // Delete the associated photo if it exists
+    if (profiles && profiles.length > 0 && profiles[0].photo_url) {
+      const { unlink } = await import('fs/promises');
+      const { join } = await import('path');
+      const filePath = join(process.cwd(), 'public', profiles[0].photo_url.replace(/^\//, ''));
+      try {
+        await unlink(filePath);
+      } catch (error) {
+        console.error('Error deleting photo:', error);
+        // Continue even if file deletion fails
+      }
+    }
 
     return NextResponse.json({
       success: true,

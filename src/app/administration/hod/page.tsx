@@ -13,7 +13,7 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.Tech.,Ph.D",
       experience: "20+ Yrs",
       email: "hod_cse@srivasaviengg.ac.in",
-      phone: "08818-284355(O), Ext: 318",
+      phone: "08818-284355(O), Ext: 377",
       office: "CSE Dept",
       image: "/cse_hod1.jpeg",
       achievements: ["50+ Publications", "Industry Projects", "Patent Filed"],
@@ -42,8 +42,8 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.Tech.,Ph.D",
       experience: "15+ Yrs",
       email: "hod_ece@srivasaviengg.ac.in",
-      phone: "",
-      office: "ECE Dept, Block A",
+      phone: "08818-284355(O), Ext: 364",
+      office: "ECE Dept",
       image: "/ecehod.jpg",
       achievements: ["35+ Publications", "Consultancy Projects", "Tech Transfer"],
       
@@ -56,7 +56,7 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.E.,Ph.D",
       experience: "30+ Yrs",
       email: "hod_civil@srivasaviengg.ac.in",
-      phone: "",
+      phone: "088 18-284355(O), Ext: 327",
       office: "CIVIL Dept",
       image: "/civilhod.png",
       achievements: ["30+ Publications", "Government Projects", "Infrastructure Design"],
@@ -67,10 +67,10 @@ const HeadOfDepartments: React.FC = () => {
       designation: "Head of Department",
       department: "Electrical and Electronics Engineering",
       shortDept: "EEE",
-      qualifications: "Ph.D, M.E, B.Tech",
+      qualifications: "B.Tech.,M.E.,Ph.D",
       experience: "17+ Yrs",
       email: "hod_eee@srivasaviengg.ac.in",
-      phone: "",
+      phone: "08818-284322 (Ext: 337)",
       office: "EEE Dept",
       image: "/eeehod.jpg",
       achievements: ["45+ Publications", "Energy Projects", "Smart Grid Research"],
@@ -84,7 +84,7 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.Tech.,Ph.D",
       experience: "17+ Yrs",
       email: "hod_mech@srivasaviengg.ac.in",
-      phone: "",
+      phone: "08818-284322 (Ext: 351)",
       office: "ME Dept",
       image: "/mechhod.jpg",
       achievements: ["45+ Publications", "Energy Projects", "Smart Grid Research"],
@@ -109,13 +109,13 @@ const HeadOfDepartments: React.FC = () => {
       designation: "Head of the Department of",
       department: "Master of Business Administration",
       shortDept: "MBA",
-      qualifications: "",
+      qualifications: "MBA",
       experience: "17+ Yrs",
       email: "hod_mba@srivasaviengg.ac.in",
-      phone: "",
+      phone: "08818-284322 (Ext: 409)",
       office: "MBA Dept",
       image: "/mbaHosd1.jpeg",
-      specialization: "Finance, HR Management",
+      
       achievements: ["28+ Publications", "Corporate Training", "Management Consulting"],
       
     }
@@ -136,11 +136,7 @@ const HeadOfDepartments: React.FC = () => {
       {/* HODs Profiles */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Department Heads</h2>
-            
-          </div>
-
+          
           <div className="space-y-8 sm:space-y-10">
             {[...hods].sort((a, b) => a.department.localeCompare(b.department)).map((hod, index) => (
               <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-white p-4 sm:p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300">
@@ -234,61 +230,7 @@ const HeadOfDepartments: React.FC = () => {
       </section>
 
       {/* Collaborative Framework */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Inter-Departmental Collaboration</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Fostering cross-disciplinary research and knowledge sharing
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Joint Research Projects",
-                description: "Collaborative research initiatives spanning multiple departments",
-                icon: "🔬"
-              },
-              {
-                title: "Interdisciplinary Courses",
-                description: "Cross-departmental electives and specialized programs",
-                icon: "📚"
-              },
-              {
-                title: "Shared Resources",
-                description: "Common labs, equipment, and research facilities",
-                icon: "🏭"
-              },
-              {
-                title: "Faculty Exchange",
-                description: "Knowledge sharing through guest lectures and workshops",
-                icon: "👥"
-              },
-              {
-                title: "Student Projects",
-                description: "Multi-disciplinary capstone and research projects",
-                icon: "🎯"
-              },
-              {
-                title: "Industry Partnerships",
-                description: "Joint industry collaborations and consultancy projects",
-                icon: "🤝"
-              }
-            ].map((initiative, index) => (
-              <div
-                key={index}
-                className="quick-link bg-white p-6 rounded-xl shadow hover:shadow-lg transition-all text-center"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="text-4xl mb-4">{initiative.icon}</div>
-                <h3 className="text-lg font-bold text-[#B22222] mb-3">{initiative.title}</h3>
-                <p className="text-gray-600">{initiative.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Contact CTA */}
       <section className="py-8 sm:py-12 bg-[#B22222] text-white text-center">

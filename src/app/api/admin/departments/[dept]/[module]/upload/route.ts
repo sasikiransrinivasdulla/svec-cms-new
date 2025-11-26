@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir, unlink, access } from 'fs/promises';
 import { join } from 'path';
+import sharp from 'sharp';
 import { deleteRecordFiles, validateFileSize, isFileUrlField } from '@/utils/file-management';
 
 export async function POST(
@@ -10,14 +11,6 @@ export async function POST(
   try {
     const { dept, module } = await params;
     
-    // Skip CST department as it has its own upload endpoint
-    if (dept === 'cst') {
-      return NextResponse.json({
-        success: false,
-        error: 'CST department has its own upload endpoint. Use /api/admin/departments/cst/[module]/upload instead.'
-      }, { status: 400 });
-    }
-
     const data = await request.formData();
     const file: File | null = data.get('file') as unknown as File;
 
@@ -28,11 +21,16 @@ export async function POST(
       }, { status: 400 });
     }
 
-    // Validate file size (1MB limit)
-    if (!validateFileSize(file.size)) {
+    // Check if this is a gallery upload by checking form data or module
+    const isGalleryUpload = data.get('gallery') === 'true' || module === 'hackathons-gallery';
+    const maxSize = isGalleryUpload ? 2 * 1024 * 1024 : 5 * 1024 * 1024; // 2MB for gallery, 5MB for others
+    
+    // Validate file size with appropriate limit
+    if (!validateFileSize(file.size, maxSize)) {
+      const maxSizeDisplay = isGalleryUpload ? '2MB' : '5MB';
       return NextResponse.json({
         success: false,
-        error: `File size exceeds 1MB limit. Current size: ${Math.round(file.size / 1024)}KB`
+        error: `File size exceeds ${maxSizeDisplay} limit. Current size: ${Math.round(file.size / 1024)}KB`
       }, { status: 400 });
     }
 
@@ -61,15 +59,33 @@ export async function POST(
       console.error('Error creating upload directory:', error);
     }
 
-    // Generate unique filename
-    const timestamp = Date.now();
-    const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const fileName = `${timestamp}_${originalName}`;
+    // Use original filename without timestamps
+    const fileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     const filePath = join(uploadDir, fileName);
 
     // Write file
     const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    let buffer: Buffer = Buffer.from(bytes);
+
+    // Check if this is an image and resize for gallery uploads
+    const isImage = file.type.startsWith('image/');
+    if (isImage && isGalleryUpload) {
+      try {
+        // Resize image to 400x300px for gallery with high quality
+        const resizedBuffer = await sharp(buffer)
+          .resize(400, 300, {
+            fit: 'cover',
+            position: 'center'
+          })
+          .webp({ quality: 95 })
+          .toBuffer();
+        buffer = resizedBuffer;
+        console.log(`Image resized to 400x300px for gallery with WebP format`);
+      } catch (resizeError) {
+        console.warn('Image resize failed, saving original:', resizeError);
+        // Continue with original buffer if resize fails
+      }
+    }
 
     await writeFile(filePath, buffer);
     console.log(`File uploaded successfully: ${filePath}`);
@@ -82,11 +98,16 @@ export async function POST(
     if (existingUrl) {
       try {
         const oldFilePath = join(process.cwd(), 'public', existingUrl);
+        console.log(`[UPLOAD] Attempting to delete old file: ${existingUrl}`);
+        console.log(`[UPLOAD] Old file path: ${oldFilePath}`);
+        
         await access(oldFilePath);
+        console.log(`[UPLOAD] Old file exists, proceeding with deletion`);
+        
         await unlink(oldFilePath);
-        console.log(`Deleted old file: ${oldFilePath}`);
+        console.log(`[UPLOAD] ✅ Successfully deleted old file: ${oldFilePath}`);
       } catch (error) {
-        console.warn('Could not delete old file:', existingUrl, error);
+        console.warn(`[UPLOAD] ❌ Could not delete old file: ${existingUrl}`, error);
       }
     }
 
