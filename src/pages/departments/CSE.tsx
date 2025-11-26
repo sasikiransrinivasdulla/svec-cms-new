@@ -113,7 +113,7 @@ const CSEDepartment: React.FC = () => {
 
   // Removed duplicate declaration of handbooks, hackathonsData, and eresources
   const [hackathonsData, setHackathonsData] = useState([]);
-    
+
   // Fetch all department section data from APIs
   useEffect(() => {
     setLoading(true);
@@ -173,7 +173,7 @@ const CSEDepartment: React.FC = () => {
               onwards with a present intake of 12 seats.
             </p>
 
-            <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
+            {/* <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
                 <thead className="text-xs bg-gray-50 uppercase text-gray-700">
@@ -202,12 +202,12 @@ const CSEDepartment: React.FC = () => {
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> */}
           </div>
         );
       case 'Vision':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
             <p className="text-gray-700">
               To evolve into a center of excellence in Computer Science & Engineering education and research, producing professionally competent and socially responsible engineers.
@@ -216,7 +216,7 @@ const CSEDepartment: React.FC = () => {
         );
       case 'Mission':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>To impart quality education through effective teaching-learning processes.</li>
@@ -228,7 +228,7 @@ const CSEDepartment: React.FC = () => {
         );
       case 'PEOs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
             <p className="text-gray-700 mb-4">The graduates will:</p>
             <div className="space-y-4">
@@ -253,7 +253,7 @@ const CSEDepartment: React.FC = () => {
         );
       case 'POs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
             <div className="space-y-3">
               <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
@@ -277,19 +277,19 @@ const CSEDepartment: React.FC = () => {
         );
       case 'PSOs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
             <div className="space-y-4">
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-blue-800">PSO 1</h4>
+                <h4 className="text-lg font-semibold text-green-800">PSO 1</h4>
                 <p className="text-gray-700">Apply standard practices and strategies in software development using open-ended programming environments to deliver quality software solutions.</p>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-blue-800">PSO 2</h4>
+                <h4 className="text-lg font-semibold text-green-800">PSO 2</h4>
                 <p className="text-gray-700">Apply the fundamentals of computer science & engineering to solve engineering problems in interdisciplinary domains.</p>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-blue-800">PSO 3</h4>
+                <h4 className="text-lg font-semibold text-green-800">PSO 3</h4>
                 <p className="text-gray-700">Develop applications using emerging technologies to provide innovative solutions for real-world problems.</p>
               </div>
             </div>
@@ -297,7 +297,7 @@ const CSEDepartment: React.FC = () => {
         );
       case 'COs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
             <p className="text-gray-700 mb-4">
               The course outcomes for all courses offered by the Computer Science & Engineering department are designed to align with program outcomes and educational objectives.
@@ -316,7 +316,7 @@ const CSEDepartment: React.FC = () => {
         );
       case 'SalientFeatures':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>Experienced and dedicated faculty members with specializations in various domains</li>
@@ -337,155 +337,155 @@ const CSEDepartment: React.FC = () => {
   const renderContent = () => {
     console.log("Current activeContent:", activeContent);
     switch (activeContent) {
-   case 'Student Achievements':
-     return (
-       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-         <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
-         <div className="space-y-4">
-           {studentAchievements.length > 0 ? (
-             studentAchievements.map((item) => (
-               <details key={item.id} className="border rounded-lg p-4">
-                 <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                   {item.category}: {item.title}
-                 </summary>
-                 <div className="nav-content mt-4">
-                   {item.description && <p className="mb-2">{item.description}</p>}
-                   {item.fileUrl && (
-                     <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
-                       View More
-                     </a>
-                   )}
-                   {item.academic_year && (
-                     <p className="text-sm text-gray-500 mt-2">Academic Year: {item.academic_year}</p>
-                   )}
-                 </div>
-               </details>
-             ))
-           ) : (
-             <p>No student achievements found.</p>
-           )}
-         </div>
-       </div>
-     );
+      case 'Student Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
+            <div className="space-y-4">
+              {studentAchievements.length > 0 ? (
+                studentAchievements.map((item) => (
+                  <details key={item.id} className="border rounded-lg p-4">
+                    <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+                      {item.category}: {item.title}
+                    </summary>
+                    <div className="nav-content mt-4">
+                      {item.description && <p className="mb-2">{item.description}</p>}
+                      {item.fileUrl && (
+                        <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
+                          View More
+                        </a>
+                      )}
+                      {item.academic_year && (
+                        <p className="text-sm text-gray-500 mt-2">Academic Year: {item.academic_year}</p>
+                      )}
+                    </div>
+                  </details>
+                ))
+              ) : (
+                <p>No student achievements found.</p>
+              )}
+            </div>
+          </div>
+        );
 
-// ...existing code...
-case 'Hackathons':{
-  <div>
+      // ...existing code...
+      case 'Hackathons': {
+        <div>
 
-  <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Hackathons Conducted</h3>
-  <div className="flex justify-center mb-8">
-    <div className="overflow-x-auto w-full">
-      {hackathonsData.length > 0 ? (
-        <table className="min-w-full bg-white border-collapse">
-          <thead>
-            <tr className="border-b-2 border-gray-200">
-              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Academic Year</th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Brochure</th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Winners</th>
-            </tr>
-          </thead>
-          <tbody>
-            {hackathonsData.map((hackathon, index) => (
-              <tr key={hackathon.id} className="hover:bg-gray-50">
-                <td className="py-3 px-4 border-b">{index + 1}</td>
-                <td className="py-3 px-4 border-b font-medium">{hackathon.academic_year}</td>
-                <td className="py-3 px-4 border-b">
-                  {hackathon.brochure_url ? (
-                    <a href={hackathon.brochure_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View Brochure</a>
-                  ) : 'N/A'}
-                </td>
-                <td className="py-3 px-4 border-b">
-                  {hackathon.winners_url ? (
-                    <a href={hackathon.winners_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View Winners</a>
-                  ) : 'N/A'}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div className="text-center py-8">
-          <p className="text-gray-500">No hackathons data available at the moment.</p>
+          <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Hackathons Conducted</h3>
+          <div className="flex justify-center mb-8">
+            <div className="overflow-x-auto w-full">
+              {hackathonsData.length > 0 ? (
+                <table className="min-w-full bg-white border-collapse">
+                  <thead>
+                    <tr className="border-b-2 border-gray-200">
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Academic Year</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Brochure</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Winners</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {hackathonsData.map((hackathon, index) => (
+                      <tr key={hackathon.id} className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">{index + 1}</td>
+                        <td className="py-3 px-4 border-b font-medium">{hackathon.academic_year}</td>
+                        <td className="py-3 px-4 border-b">
+                          {hackathon.brochure_url ? (
+                            <a href={hackathon.brochure_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View Brochure</a>
+                          ) : 'N/A'}
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          {hackathon.winners_url ? (
+                            <a href={hackathon.winners_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View Winners</a>
+                          ) : 'N/A'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No hackathons data available at the moment.</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      )}
-    </div>
-  </div>
-  </div>
 
-  {/* Gallery Section */}
-  <div className="mt-12">
-    <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h3>
-    {hackathonsData.map(hackathon => (
-      <div key={hackathon.id} className="mb-8">
-        <h4 className="text-xl font-medium text-center mb-6">Hackathon {hackathon.academic_year}</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {hackathon.gallery.map((imgUrl, idx) => (
-            <img
-              key={idx}
-              src={imgUrl}
-              alt={`Hackathon ${hackathon.academic_year} Image ${idx + 1}`}
-              className="w-full h-auto rounded-lg shadow-md object-cover"
-              style={{ aspectRatio: "16/9" }}
-            />
+        {/* Gallery Section */ }
+        <div className="mt-12">
+          <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h3>
+          {hackathonsData.map(hackathon => (
+            <div key={hackathon.id} className="mb-8">
+              <h4 className="text-xl font-medium text-center mb-6">Hackathon {hackathon.academic_year}</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {hackathon.gallery.map((imgUrl, idx) => (
+                  <img
+                    key={idx}
+                    src={imgUrl}
+                    alt={`Hackathon ${hackathon.academic_year} Image ${idx + 1}`}
+                    className="w-full h-auto rounded-lg shadow-md object-cover"
+                    style={{ aspectRatio: "16/9" }}
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
-      </div>
-    ))}
-  </div>
-// ...existing code...
-  }
+        // ...existing code...
+      }
 
-case 'e-Resources':{
-// Group by regulation
-const eresourcesGrouped = eresources.reduce((acc, item) => {
-  acc[item.regulation] = acc[item.regulation] || [];
-  acc[item.regulation].push(item);
-  return acc;
-}, {});
+      case 'e-Resources': {
+        // Group by regulation
+        const eresourcesGrouped = eresources.reduce((acc, item) => {
+          acc[item.regulation] = acc[item.regulation] || [];
+          acc[item.regulation].push(item);
+          return acc;
+        }, {});
 
-return (
-  <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-    <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">e-Resources</h2>
-    {/* ...static intro text... */}
-    {Object.entries(eresourcesGrouped).map(([regulation, items]) => (
-      <div key={regulation} className="mb-8">
-        <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">{regulation}- Subjects</h3>
-        <div className="overflow-x-auto mb-8">
-          <table className="min-w-full bg-white border border-gray-200">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="py-3 px-4 border-b text-left">S.No</th>
-                <th className="py-3 px-4 border-b text-left">Regulation</th>
-                <th className="py-3 px-4 border-b text-left">Sem</th>
-                <th className="py-3 px-4 border-b text-left">Subject</th>
-                <th className="py-3 px-4 border-b text-left">PPT</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item, idx) => (
-                <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="py-3 px-4 border-b">{idx + 1}</td>
-                  <td className="py-3 px-4 border-b">{item.regulation}</td>
-                  <td className="py-3 px-4 border-b">{item.semester}</td>
-                  <td className="py-3 px-4 border-b">{item.subject}</td>
-                  <td className="py-3 px-4 border-b">
-                    {item.ppt_url ? (
-                      <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
-                    ) : 'N/A'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    ))}
-  </div>
-);
-}
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">e-Resources</h2>
+            {/* ...static intro text... */}
+            {Object.entries(eresourcesGrouped).map(([regulation, items]) => (
+              <div key={regulation} className="mb-8">
+                <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">{regulation}- Subjects</h3>
+                <div className="overflow-x-auto mb-8">
+                  <table className="min-w-full bg-white border border-gray-200">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="py-3 px-4 border-b text-left">S.No</th>
+                        <th className="py-3 px-4 border-b text-left">Regulation</th>
+                        <th className="py-3 px-4 border-b text-left">Sem</th>
+                        <th className="py-3 px-4 border-b text-left">Subject</th>
+                        <th className="py-3 px-4 border-b text-left">PPT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {items.map((item, idx) => (
+                        <tr key={item.id} className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">{idx + 1}</td>
+                          <td className="py-3 px-4 border-b">{item.regulation}</td>
+                          <td className="py-3 px-4 border-b">{item.semester}</td>
+                          <td className="py-3 px-4 border-b">{item.subject}</td>
+                          <td className="py-3 px-4 border-b">
+                            {item.ppt_url ? (
+                              <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
+                            ) : 'N/A'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      }
 
-case 'Department Library':
+      case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
@@ -539,243 +539,146 @@ case 'Department Library':
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+            <div className="space-y-8">
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-            {/* HOD Section */}
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Head of Department</h3>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div className="flex justify-center">
-                  <div className="relative">
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+                </div>
+              </div>
+
+              {/* Department Overview (HOD Profile - Only shown on Department tab) */}
+              {activeDeptTab === 'Department' && (
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                  <div className="md:w-1/3">
                     <img
                       src="/cse_hod1.jpeg"
                       alt="Dr. D. Jaya Kumari"
-                      className="w-48 h-48 object-cover rounded-xl shadow-md"
-                      style={{ aspectRatio: '1/1' }}
+                      className="w-full h-auto object-cover rounded-lg shadow-md"
                     />
                   </div>
+                  <div className="md:w-2/3">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-2">Dr. D. Jaya Kumari</h3>
+                    <p className="text-gray-700 mb-2">Professor & Head of Department, CSE</p>
+                    <p className="text-gray-700 mb-2">Ph.D in Computer Science, M.Tech CSE</p>
+                    <p className="text-gray-700 mb-2">
+                      <a href="mailto:hod_cse@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_cse@srivasaviengg.ac.in</a>
+                    </p>
+                  </div>
                 </div>
-                <div className="text-center lg:text-left">
-                  <h4 className="text-xl font-bold text-gray-800 mb-2">Dr. D. Jaya Kumari</h4>
-                  <p className="text-gray-600 mb-4">Professor & Head of Department, CSE</p>
-                  <p className="text-gray-700 leading-relaxed mb-2">Ph.D in Computer Science, M.Tech CSE</p>
-                  <p className="text-gray-700 leading-relaxed">
-                    Email: <a href="mailto:hod_cse@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_cse@srivasaviengg.ac.in</a>
-                  </p>
-                </div>
-              </div>
-            </div>
+              )}
 
-            {/* Department Profile Navigation - Grid Layout */}
-            <div className="mb-8 mt-12">
-              {/* Row 1: Department, Vision */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('Department')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Department
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('Vision')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Vision
-                </button>
-              </div>
-
-              {/* Row 2: Mission, PEOs, POs */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('Mission')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Mission
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('PEOs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  PEOs
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('POs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  POs
-                </button>
-              </div>
-
-              {/* Row 3: PSOs, COs */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('PSOs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  PSOs
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('COs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  COs
-                </button>
-              </div>
-
-              {/* Row 4: Salient Features (centered) */}
-              <div className="flex justify-center">
-                <button
-                  onClick={() => setActiveDeptTab('SalientFeatures')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Salient Features
-                </button>
-              </div>
-            </div>
-
-            {/* Game-Style Right Side Settings Panel */}
-            {settingsPanelOpen && (
-              <div className="fixed inset-0 z-50">
-                {/* Backdrop */}
-                <div
-                  className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
-                  onClick={() => setSettingsPanelOpen(false)}
-                ></div>
-
-                {/* Settings Panel */}
-                <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
-                  {/* Panel Header */}
-                  <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
                           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                           </svg>
-                        </div>
-                        <div>
-                          <h3 className="text-white font-bold text-lg">Department Navigation</h3>
-                          <p className="text-white/70 text-sm">Select a section to explore</p>
-                        </div>
+                        </button>
                       </div>
-                      <button
-                        onClick={() => setSettingsPanelOpen(false)}
-                        className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                      >
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
                     </div>
-                  </div>
-
-                  {/* Panel Content */}
-                  <div className="p-6 h-full overflow-y-auto">
-                    <div className="space-y-3">
-                      {sections.map((section, index) => {
-                        const isActive = section === activeDeptTab;
-                        return (
-                          <button
-                            key={section}
-                            onClick={() => {
-                              setActiveDeptTab(section);
-                              setSettingsPanelOpen(false);
-                            }}
-                            className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                              ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
-                              : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                              }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                }`}>
-                                {index + 1}
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                setActiveDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full p-4 rounded-xl transition-all duration-300 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg shadow-[#B22222]/50'
+                                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-gray-700/50'
+                                  }`}>
+                                  <span className="text-lg font-bold">{index + 1}</span>
+                                </div>
+                                <div className="flex-1 text-left">
+                                  <div className="font-semibold">{section === 'SalientFeatures' ? 'Salient Features' : section}</div>
+                                  {isActive && <div className="text-xs text-white/70 mt-1">Currently viewing</div>}
+                                </div>
+                                {isActive && (
+                                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
                               </div>
-                              <div>
-                                <div className="font-semibold">
-                                  {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                </div>
-                                <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                  {section === 'Department' && 'Overview & HOD Profile'}
-                                  {section === 'Vision' && 'Department Vision Statement'}
-                                  {section === 'Mission' && 'Department Mission Statement'}
-                                  {section === 'PEOs' && 'Program Educational Objectives'}
-                                  {section === 'POs' && 'Program Outcomes'}
-                                  {section === 'PSOs' && 'Program Specific Outcomes'}
-                                  {section === 'COs' && 'Course Outcomes'}
-                                  {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                </div>
-                              </div>
-                              {isActive && (
-                                <div className="ml-auto">
-                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                </div>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Panel Footer */}
-                    <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                      <div className="text-center">
-                        <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                        <div className="text-white/50 text-xs">
-                          Click any section above to navigate instantly
-                        </div>
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
                 </div>
+              )}
+
+              {/* Floating Settings Button (Mobile Only) */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-r from-[#B22222] to-[#8B0000] rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-300"
+                aria-label="Open Department Navigation"
+              >
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+
+              {/* Tab Content */}
+              <div className="mt-8">
+                {renderDeptTabContent()}
               </div>
-            )}
-
-            {/* Floating Settings Button - Mobile Only */}
-            <button
-              onClick={() => setSettingsPanelOpen(true)}
-              className="fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-              title="Computer Science Engineering Department"
-            >
-              <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-
-              {/* Mobile Label */}
-              <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                Menu
-                <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
-              </div>
-            </button>
-
-            {/* Tab Content */}
-            <div className="mt-6">
-              {renderDeptTabContent()}
             </div>
           </div>
         );
@@ -4058,51 +3961,51 @@ case 'Department Library':
         );
 
       // ...existing code...
-case 'Handbooks':
- 
+      case 'Handbooks':
 
-  // Group by academic_year and semester
-  const grouped = handbooks.reduce((acc, hb) => {
-    const key = `${hb.academic_year}: ${hb.semester} Sem Handbooks`;
-    acc[key] = acc[key] || [];
-    acc[key].push(hb);
-    return acc;
-  }, {});
 
-  return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-        Academic HandBooks
-      </h2>
-      <div className="space-y-4">
-        {Object.entries(grouped).map(([group, items]) => (
-          <details key={group} className="cst-dropdown">
-            <summary>
-              {group}
-            </summary>
-            <div className="cst-dropdown-content">
-              <ul className="list-disc pl-6 space-y-2">
-                {items.map((hb, idx) => (
-                  <li key={idx}>
-                    {hb.title} -
-                    <a
-                      href={hb.file_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#B22222] hover:underline ml-2"
-                    >
-                      View
-                    </a>
-                  </li>
-                ))}
-              </ul>
+        // Group by academic_year and semester
+        const grouped = handbooks.reduce((acc, hb) => {
+          const key = `${hb.academic_year}: ${hb.semester} Sem Handbooks`;
+          acc[key] = acc[key] || [];
+          acc[key].push(hb);
+          return acc;
+        }, {});
+
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+              Academic HandBooks
+            </h2>
+            <div className="space-y-4">
+              {Object.entries(grouped).map(([group, items]) => (
+                <details key={group} className="bg-white border rounded-lg overflow-hidden">
+                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+                    {group}
+                  </summary>
+                  <div className="px-4 py-3">
+                    <ul className="list-disc pl-6 space-y-2">
+                      {items.map((hb, idx) => (
+                        <li key={idx}>
+                          {hb.title} -
+                          <a
+                            href={hb.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline ml-2"
+                          >
+                            View
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              ))}
             </div>
-          </details>
-        ))}
-      </div>
-    </div>
-  );
-// ...existing code...
+          </div>
+        );
+      // ...existing code...
 
 
       case 'Technical Association':
@@ -4126,11 +4029,11 @@ case 'Handbooks':
               </div>
 
               <div className="space-y-2">
-                <details open className="cst-dropdown">
-                  <summary>
+                <details open className="bg-white border rounded-lg overflow-hidden">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2024-25
                   </summary>
-                  <div className="cst-dropdown-content">
+                  <div className="px-4 py-3">
                     <ul className="list-disc pl-6">
                       <li className="mb-2">
                         SCUD Activities during the year 2024-25 -
@@ -5119,7 +5022,7 @@ case 'Handbooks':
                   <a
                     href="http://srivasaviengg.ac.in/uploads/Jul-16.pdf"
                     target="_blank"
-// ...existing code...
+                  // ...existing code...
                   >View</a
                   >
                 </li>
@@ -5955,27 +5858,27 @@ case 'Handbooks':
   }
 
   const renderContentWithTitle = () => {
-      // Just return the content without adding another title, since it's already included in content sections
-      return (
-        <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
-          {renderContent()}
-        </div>
-      );
-    };
-  
+    // Just return the content without adding another title, since it's already included in content sections
     return (
-      <div className="flex flex-col min-h-screen">
-        <DepartmentSidebar
-          items={sidebarItems}
-          activeItem={activeContent}
-          onItemClick={setActiveContent}
-          title="Computer Science Engineering Department"
-        >
-          {renderContentWithTitle()}
-        </DepartmentSidebar>
-        {/* Footer is only shown when scrolling the main content area, not the sidebar */}
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
       </div>
     );
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
+        items={sidebarItems}
+        activeItem={activeContent}
+        onItemClick={setActiveContent}
+        title="Computer Science Engineering Department"
+      >
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
+    </div>
+  );
 };
 
 export default CSEDepartment;

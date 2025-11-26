@@ -13,7 +13,11 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.Tech.,Ph.D",
       experience: "20+ Yrs",
       email: "hod_cse@srivasaviengg.ac.in",
+<<<<<<< HEAD
       phone: "08818-284355(O), Ext: 377",
+=======
+      phone: "08818-284355(O), Ext: 318",
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
       office: "CSE Dept",
       image: "/cse_hod1.jpeg",
       achievements: ["50+ Publications", "Industry Projects", "Patent Filed"],
@@ -42,8 +46,13 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.Tech.,Ph.D",
       experience: "15+ Yrs",
       email: "hod_ece@srivasaviengg.ac.in",
+<<<<<<< HEAD
       phone: "08818-284355(O), Ext: 364",
       office: "ECE Dept",
+=======
+      phone: "",
+      office: "ECE Dept, Block A",
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
       image: "/ecehod.jpg",
       achievements: ["35+ Publications", "Consultancy Projects", "Tech Transfer"],
       
@@ -56,7 +65,11 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.E.,Ph.D",
       experience: "30+ Yrs",
       email: "hod_civil@srivasaviengg.ac.in",
+<<<<<<< HEAD
       phone: "088 18-284355(O), Ext: 327",
+=======
+      phone: "",
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
       office: "CIVIL Dept",
       image: "/civilhod.png",
       achievements: ["30+ Publications", "Government Projects", "Infrastructure Design"],
@@ -70,7 +83,11 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.E.,Ph.D",
       experience: "17+ Yrs",
       email: "hod_eee@srivasaviengg.ac.in",
+<<<<<<< HEAD
       phone: "08818-284322 (Ext: 337)",
+=======
+      phone: "",
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
       office: "EEE Dept",
       image: "/eeehod.jpg",
       achievements: ["45+ Publications", "Energy Projects", "Smart Grid Research"],
@@ -84,7 +101,11 @@ const HeadOfDepartments: React.FC = () => {
       qualifications: "B.Tech.,M.Tech.,Ph.D",
       experience: "17+ Yrs",
       email: "hod_mech@srivasaviengg.ac.in",
+<<<<<<< HEAD
       phone: "08818-284322 (Ext: 351)",
+=======
+      phone: "",
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
       office: "ME Dept",
       image: "/mechhod.jpg",
       achievements: ["45+ Publications", "Energy Projects", "Smart Grid Research"],
@@ -109,10 +130,17 @@ const HeadOfDepartments: React.FC = () => {
       designation: "Head of the Department of",
       department: "Master of Business Administration",
       shortDept: "MBA",
+<<<<<<< HEAD
       qualifications: "MBA",
       experience: "17+ Yrs",
       email: "hod_mba@srivasaviengg.ac.in",
       phone: "08818-284322 (Ext: 409)",
+=======
+      qualifications: "",
+      experience: "17+ Yrs",
+      email: "hod_mba@srivasaviengg.ac.in",
+      phone: "",
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
       office: "MBA Dept",
       image: "/mbaHosd1.jpeg",
       
@@ -136,7 +164,15 @@ const HeadOfDepartments: React.FC = () => {
       {/* HODs Profiles */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
+<<<<<<< HEAD
           
+=======
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Department Heads</h2>
+            
+          </div>
+
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
           <div className="space-y-8 sm:space-y-10">
             {[...hods].sort((a, b) => a.department.localeCompare(b.department)).map((hod, index) => (
               <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-white p-4 sm:p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300">

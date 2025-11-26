@@ -122,6 +122,7 @@ const MBADepartment: React.FC = () => {
         return (
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
+<<<<<<< HEAD
             <p className="text-gray-700 mb-3 text-justify">
                       The Department of Business Administraiton have it's own
                       Assocaiton called RAYS (Reflective Altitutde Yander in
@@ -131,6 +132,10 @@ const MBADepartment: React.FC = () => {
                       The formation function of the assocation took on
                       31-March-2012.
 
+=======
+            <p className="text-gray-700 mb-3">
+              The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints by providing new dimensions in the body of knowledge needed for managerial development.
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
             </p>
             <div className="mt-8">
               <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Courses</h4>
@@ -349,6 +354,7 @@ const MBADepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+<<<<<<< HEAD
             <div className="space-y-8">
               {/* Desktop Navigation Tabs */}
               <div className="hidden md:block relative mb-8">
@@ -365,6 +371,44 @@ const MBADepartment: React.FC = () => {
                       {section === 'SalientFeatures' ? 'Salient Features' : section}
                     </button>
                   ))}
+=======
+            {/* <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2> */}
+
+            {/* Desktop Navigation Tabs */}
+            <div className="hidden md:block relative mb-8">
+              <div className="flex flex-wrap justify-center gap-2 mb-6">
+                {sections.map((section) => (
+                  <button
+                    key={section}
+                    onClick={() => setActiveDeptTab(section)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                      ? 'bg-[#B22222] text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    {section === 'SalientFeatures' ? 'Salient Features' : section}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* HOD Information */}
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
+              <div className="md:w-1/3">
+                <img
+                  src="/mbaHosd1.jpeg"
+                  alt="Mr. D. Naveen Kumar"
+                  className="w-full h-auto object-cover rounded-lg shadow-md"
+                />
+              </div>
+              <div className="md:w-2/3 space-y-4">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Mr. D. Naveen Kumar</h3>
+                  <p className="text-lg text-[#B22222] font-medium mb-2">Sr.Asst.Professor & Head of Department, MBA</p>
+                  <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-364)</p>
+                  <p className="text-gray-600">Fax No: 08818-284322</p>
+                  <p className="text-gray-600">Email: <a href="mailto:hod_mba@srivasaviengg.ac.in" className="text-primary hover:underline">hod_mba@srivasaviengg.ac.in</a></p>
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
                 </div>
               </div>
 
@@ -378,6 +422,7 @@ const MBADepartment: React.FC = () => {
                 </div>
               </div>
 
+<<<<<<< HEAD
               {/* HOD Information (Static for now) */}
               {activeDeptTab === 'Department' && (
                 <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
@@ -405,6 +450,9 @@ const MBADepartment: React.FC = () => {
                   </div>
                 </div>
               )}
+=======
+
+>>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
 
               {/* Game-Style Right Side Settings Panel */}
               {settingsPanelOpen && (
@@ -851,7 +899,7 @@ const MBADepartment: React.FC = () => {
             </div>
           </div>
         );
-        
+
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1053,7 +1101,7 @@ const MBADepartment: React.FC = () => {
                   <img
                     src="/images/departments/mba/president.png"
                     alt="President's Message"
-                    className="max-w-full h-auto rounded-lg shadow-md"
+                    className="w-full h-auto object-cover rounded-lg shadow-md max-w-xl"
                   />
                 </div>
               </div>
@@ -1064,7 +1112,7 @@ const MBADepartment: React.FC = () => {
                   <img
                     src="/images/departments/mba/secretary.png"
                     alt="Secretary and Correspondent's Message"
-                    className="max-w-full h-auto rounded-lg shadow-md"
+                    className="w-full h-auto object-cover rounded-lg shadow-md max-w-xl"
                   />
                 </div>
               </div>
@@ -1289,7 +1337,7 @@ const MBADepartment: React.FC = () => {
       {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
-  
+
 };
 
 export default MBADepartment;
