@@ -140,6 +140,7 @@ const [facultyAchievements, setFacultyAchievements] = useState<any[]>([]);
 const [meritScholarships, setMeritScholarships] = useState<any[]>([]);
 const [extraCurricular, setExtraCurricular] = useState<any[]>([]);
 const [sahayaEvents, setSahayaEvents] = useState<any[]>([]);
+const [ecActivities, setEcActivities] = useState<any[]>([]);
 const [scudActivities, setScudActivities] = useState<any[]>([]);
 const [extraCurricularGallery, setExtraCurricularGallery] = useState<any[]>([]);
 const [technicalAssociationGallery, setTechnicalAssociationGallery] = useState<any[]>([]);
@@ -296,6 +297,11 @@ const [lecturersGalleryData, setLecturersGalleryData] = useState<any[]>([]);
       setMeritScholarships(Array.isArray(meritScholarshipsData) ? meritScholarshipsData : []);
       setExtraCurricular(Array.isArray(extraCurricularData) ? extraCurricularData : []);
       setSahayaEvents(Array.isArray(sahayaEventsData) ? sahayaEventsData : []);
+      // Filter EC Activities from sahaya events
+      const ecActivitiesData = Array.isArray(sahayaEventsData) 
+        ? sahayaEventsData.filter(event => event.category === 'ecactivities')
+        : [];
+      setEcActivities(ecActivitiesData);
       setScudActivities(Array.isArray(scudActivitiesData) ? scudActivitiesData : []);
       setExtraCurricularGallery(Array.isArray(extraCurricularGalleryData) ? extraCurricularGalleryData : []);
       setTechnicalAssociationGallery(Array.isArray(technicalAssociationGalleryData) ? technicalAssociationGalleryData : []);
@@ -938,24 +944,28 @@ case 'Department Profile':
             <div className="cst-dropdown-content">
               {group.items.length > 0 ? (
                 <ul className="list-disc pl-6 my-2 space-y-2">
-                  {group.items.map((item, idx) => (
-                    <li key={idx}>
-                      {item.title}
-                      {item.fileUrl && (
-                        <>
-                          {' - '}
-                          <a
-                            href={item.fileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] hover:underline"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
+                  {group.items.map((item, idx) => {
+                    const resourceLink = item.fileUrl || (item as any).file_url;
+                    return (
+                      <li key={idx}>
+                        {item.title}
+                        {resourceLink && (
+                          <>
+                            {' - '}
+                            <a
+                              href={resourceLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline inline-flex items-center gap-1"
+                            >
+                              <FileText className="w-4 h-4" />
+                              View
+                            </a>
+                          </>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               ) : (
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
@@ -1002,7 +1012,7 @@ case 'Department Profile':
                     <div className="grid grid-cols-2 gap-4">
                       {rollOfHonourGalleryData.flatMap(item => {
                         if (item.gallery) {
-                          const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                          const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
                           return imageUrls.map((imageUrl: string, index: number) => ({
                             url: imageUrl,
                             year: item.academic_year,
@@ -1071,7 +1081,7 @@ case 'Department Profile':
                     <div className="grid grid-cols-2 gap-4">
                       {gateGalleryData.flatMap(item => {
                         if (item.gallery) {
-                          const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                          const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
                           return imageUrls.map((imageUrl: string, index: number) => ({
                             url: imageUrl,
                             year: item.academic_year,
@@ -1684,7 +1694,7 @@ case 'Physical Facilities': {
                   const allYearImages: string[] = [];
                   items.forEach(item => {
                     if (item.gallery) {
-                      const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                      const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
                       allYearImages.push(...imageUrls);
                     }
                   });
@@ -1819,7 +1829,7 @@ case 'Physical Facilities': {
               <div className="grid grid-cols-2 gap-4 mt-4">
                 {meritScholarshipsGalleryData.flatMap(item => {
                   if (item.gallery) {
-                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
                     return imageUrls.map((imageUrl: string, index: number) => ({
                       url: imageUrl,
                       year: item.academic_year,
@@ -1914,7 +1924,7 @@ case 'Physical Facilities': {
               <div className="grid grid-cols-2 gap-4 mt-4">
                 {technicalAssociationGallery.flatMap(item => {
                   if (item.gallery) {
-                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
                     return imageUrls.map((imageUrl: string, index: number) => ({
                       url: imageUrl,
                       year: item.academic_year,
@@ -1987,6 +1997,15 @@ case 'Physical Facilities': {
   const activityItems = extraCurricular.filter(a => a.type === 'activity');
   const sahaya = extraCurricular.find(a => a.type === 'sahaya');
   
+  // Debug logging
+  console.log('Extra Curricular Debug:', {
+    extraCurricular,
+    activityItems,
+    sahaya,
+    sahayaEvents,
+    extraCurricularGallery
+  });
+  
   // Group extra-curricular gallery by academic year
   const groupedByYear: Record<string, any[]> = {};
   extraCurricularGallery.forEach(item => {
@@ -2003,45 +2022,72 @@ case 'Physical Facilities': {
         <details open className="cst-dropdown">
           <summary>Extra-Curricular Activities</summary>
           <div className="cst-dropdown-content">
-            <ul className="my-2 list-none text-center space-y-2">
-              {activityItems.map(item => (
-                <li key={item.id}>
-                  {item.title} -{' '}
-                  <a
-                    href={item.file_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#B22222] hover:underline"
-                  >
-                    View More
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </details>
-
-        {sahaya && (
-          <details className="cst-dropdown">
-            <summary>Sahaya</summary>
-            <div className="cst-dropdown-content">
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-xl font-semibold">Social Services</h3>
-                  <p className="text-gray-700 text-justify">{sahaya.sahaya_desc}</p>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold">Faculty Coordinator:</h4>
-                  <p className="font-semibold" dangerouslySetInnerHTML={{ __html: sahaya.sahaya_faculty }} />
-                </div>
-                <div>
-                  <h3 className="text-center text-xl font-semibold">LIST OF SAHAYA EVENTS CONDUCTED YEAR WISE</h3>
-                  <ul className="my-2 list-none text-center space-y-2">
-                    {sahaya.sahaya_events.map((ev: any, i: number) => (
-                      <li key={i}>
-                        {ev.year} -{' '}
-                        <a href={ev.url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
-                          For more details
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-xl font-semibold text-[#B22222] mb-3">Social Services</h3>
+                <p className="text-gray-700 text-justify mb-3">
+                  We come across many heart-rending incidents and pathetic conditions of people in the society every day. We may not be in a position to give an immediate reaction though we want to. But the Computer Science and Technology Students of Sri Vasavi Engineering College extended their hands to help the needy. These helping activities are going on under the name of "SAHAYA" with the slogan 'The Helping Hands,' which aptly suits its purpose.
+                </p>
+                <p className="text-gray-700 text-justify mb-3">
+                  SAHAYA is not a one-man army; rather, it is the brainchild of '07 batch students and is being carried on by the subsequent batch students, which sounds the real meaning of teamwork. SAHAYA, from its first day, was engaged in performing its activities. It was started with the event "CHEYUTHA" in the memory of SVEC Academic Director LATE Dr. B. Janardhan Reddy at ZP High school, Pedatadepalli by providing the fee for needy students and their necessities for study like compass boxes, books, etc., and thereafter, the journey of helping the needy continued uninterruptedly till date.
+                </p>
+                <p className="text-gray-700 text-justify mb-3">
+                  Students may have many thoughts in mind, but the seeds of thought have sprouted to grow with great confidence by the magnanimous support of the Management. The Management of Sri Vasavi Engineering College always infuses confidence in the students by extending their heartfelt cooperation. "SAHAYA" is aptly serving its motto and contributing its little part to society. A drop may be small, but many drops together form an ocean. So, one hand may seem weak, but joining the hands together makes many changes to step into a brighter world.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-[#B22222] mb-2">Faculty Coordinator:</h4>
+                <p className="font-semibold text-gray-800">
+                  Mr. P. Ramamohan Rao<br />
+                  Assistant Professor
+                </p>
+              </div>
+              <div className="border-t border-gray-200 pt-4">
+                <h4 className="text-lg font-bold text-[#B22222] mb-3">EC Activities</h4>
+                {ecActivities && ecActivities.length > 0 ? (
+                  <div className="space-y-2">
+                    {ecActivities.map((event: any, index: number) => {
+                      const pdfUrl = event.url || event.file_url || event.pdf_url;
+                      return (
+                        <div key={event.id || index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                          <div>
+                            <h5 className="font-semibold text-gray-800">{event.title || `EC Activity ${event.year}`}</h5>
+                            {event.year && <span className="text-sm text-gray-600">Year: {event.year}</span>}
+                          </div>
+                          {pdfUrl ? (
+                            <a
+                              href={pdfUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline font-medium flex items-center gap-1"
+                            >
+                              <FileText className="w-4 h-4" />
+                              View Document
+                            </a>
+                          ) : (
+                            <span className="text-gray-500 text-sm">No document available</span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className="text-gray-600 text-center py-4">No EC Activities available at the moment.</p>
+                )}
+                
+                <div className="border-t border-gray-200 pt-4 mt-4">
+                  <h4 className="text-lg font-bold text-[#B22222] mb-3">Other Activities</h4>
+                  <ul className="list-none space-y-2">
+                    {activityItems.map(item => (
+                      <li key={item.id}>
+                        {item.title} -{' '}
+                        <a
+                          href={item.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline"
+                        >
+                          View More
                         </a>
                       </li>
                     ))}
@@ -2049,55 +2095,110 @@ case 'Physical Facilities': {
                 </div>
               </div>
             </div>
-          </details>
-        )}
-
-        {Object.keys(groupedByYear).length > 0 && (
-          <div>
-            <h3 className="text-2xl font-semibold text-center mb-6 text-[#B22222]">Activities Gallery</h3>
-            <div className="space-y-4">
-              {Object.entries(groupedByYear).map(([year, items], index) => {
-                // Combine all images from entries with the same academic year
-                const allYearImages: string[] = [];
-                items.forEach(item => {
-                  if (item.gallery) {
-                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
-                    allYearImages.push(...imageUrls);
-                  }
-                });
-
-                return (
-                  <details key={year} className="cst-dropdown" open={index === 0}>
-                    <summary>Extra-Curricular A.Y {year}</summary>
-                    <div className="cst-dropdown-content">
-                      {allYearImages.length > 0 ? (
-                        <div className="grid grid-cols-2 gap-6 mt-4">
-                          {allYearImages.map((imageUrl: string, i: number) => (
-                            <img
-                              key={i}
-                              src={imageUrl}
-                              alt={`Extra-Curricular ${year} Image ${i + 1}`}
-                              className="w-full rounded-lg shadow-md object-cover"
-                              style={{ width: '400px', height: '300px', objectFit: 'cover' }}
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
-                              }}
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center text-gray-600 py-8">
-                          No images available for {year}
-                        </div>
-                      )}
-                    </div>
-                  </details>
-                );
-              })}
-            </div>
           </div>
-        )}
+        </details>
+
+        {/* Sahaya Events Links */}
+        <details className="cst-dropdown">
+          <summary>Sahaya Events</summary>
+          <div className="cst-dropdown-content">
+            {sahayaEvents && sahayaEvents.length > 0 ? (
+              <div className="text-center space-y-2">
+                {Array.from(new Set(sahayaEvents.map((item: any) => String(item.year))))
+                  .sort((a, b) => Number(b) - Number(a))
+                  .map((year: string) => {
+                    const yearEvent = sahayaEvents.find((item: any) => String(item.year) === year);
+                    const pdfUrl = yearEvent?.url || yearEvent?.file_url || yearEvent?.pdf_url;
+                    return (
+                      <div key={year}>
+                        {pdfUrl ? (
+                          <a
+                            href={pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline font-medium text-lg cursor-pointer"
+                            title={`Open ${year} Sahaya events PDF`}
+                          >
+                            {year}
+                          </a>
+                        ) : (
+                          <span className="text-gray-600 font-medium text-lg" title="PDF not available">
+                            {year}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+              </div>
+            ) : (
+              <div className="text-gray-600 text-center py-4">
+                {sahaya && sahaya.sahaya_events ? (
+                  <div className="space-y-2">
+                    {sahaya.sahaya_events.map((ev: any, i: number) => (
+                      <div key={i}>
+                        {ev.url ? (
+                          <a 
+                            href={ev.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-[#B22222] hover:underline font-medium text-lg cursor-pointer"
+                            title={`Open ${ev.year} Sahaya events PDF`}
+                          >
+                            {ev.year}
+                          </a>
+                        ) : (
+                          <span className="text-gray-600 font-medium text-lg" title="PDF not available">
+                            {ev.year}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  "No Sahaya events available currently."
+                )}
+              </div>
+            )}
+          </div>
+        </details>
+
+        {/* Always show Image Gallery dropdown */}
+        <details className="cst-dropdown">
+          <summary>Image Gallery</summary>
+          <div className="cst-dropdown-content">
+            {Object.keys(groupedByYear).length > 0 ? (
+              <div className="grid grid-cols-2 gap-6 mt-4">
+                {Object.entries(groupedByYear).flatMap(([year, items]) => {
+                  // Combine all images from entries with the same academic year
+                  const allYearImages: string[] = [];
+                  items.forEach(item => {
+                    if (item.gallery) {
+                      const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                      allYearImages.push(...imageUrls);
+                    }
+                  });
+                  return allYearImages.map((imageUrl: string, i: number) => (
+                    <img
+                      key={`${year}-${i}`}
+                      src={imageUrl}
+                      alt={`Extra-Curricular ${year} Image ${i + 1}`}
+                      className="w-full rounded-lg shadow-md object-cover"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover' }}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
+                    />
+                  ));
+                })}
+              </div>
+            ) : (
+              <div className="text-center text-gray-600 py-8">
+                No gallery images available currently.
+              </div>
+            )}
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -2278,7 +2379,7 @@ case 'Physical Facilities': {
               <div className="grid grid-cols-2 gap-4 mt-4">
                 {trainingActivitiesGallery.flatMap(item => {
                   if (item.gallery) {
-                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
                     return imageUrls.map((imageUrl: string, index: number) => ({
                       url: imageUrl,
                       year: item.academic_year,
@@ -2402,7 +2503,7 @@ case 'Physical Facilities': {
               <div className="grid grid-cols-2 gap-4 mt-4">
                 {placementsGalleryData.flatMap(item => {
                   if (item.gallery) {
-                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0);
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
                     return imageUrls.map((imageUrl: string, index: number) => ({
                       url: imageUrl,
                       year: item.academic_year,
@@ -2565,8 +2666,8 @@ case 'Physical Facilities': {
         {sortedYears.map((year, idx) => {
           const yearWorkshops = regularWorkshopsByYear[year] || [];
           const yearGallery = groupedWorkshopGalleryByYear[year] || [];
-          const galleryImages = yearGallery.flatMap(item => 
-            item.gallery ? item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0) : []
+          const galleryImages = yearGallery.flatMap((item: any) => 
+            item.gallery ? item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0) : []
           );
 
           return yearWorkshops.length > 0 ? (
@@ -2577,7 +2678,7 @@ case 'Physical Facilities': {
               </summary>
               <div className="cst-dropdown-content">
                 <ul className="list-disc pl-6 my-4 space-y-2">
-                  {yearWorkshops.map((workshop) => (
+                  {yearWorkshops.map((workshop: any) => (
                     <li key={workshop.id}>
                       <span className="text-gray-800">{workshop.title}</span>
                       {workshop.file_url && (
@@ -2639,7 +2740,7 @@ case 'Physical Facilities': {
                   </summary>
                   <div className="cst-dropdown-content">
                     <ul className="list-disc pl-6 my-4 space-y-2">
-                      {yearLecturers.map((lecturer) => (
+                      {yearLecturers.map((lecturer: any) => (
                         <li key={lecturer.id}>
                           <span className="text-gray-800">{lecturer.title}</span>
                           {lecturer.file_url && (
@@ -2663,7 +2764,7 @@ case 'Physical Facilities': {
                     {groupedLecturersGalleryByYear[year] && (
                       (() => {
                         const lecturerGalleryImages = groupedLecturersGalleryByYear[year].flatMap(item =>
-                          item.gallery ? item.gallery.split(',').map((url: string) => url.trim()).filter(url => url.length > 0) : []
+                          item.gallery ? item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0) : []
                         );
                         return lecturerGalleryImages.length > 0 ? (
                           <div className="border-t-2 border-[#B22222] mt-4 pt-4 px-0">
@@ -2769,7 +2870,7 @@ case 'Physical Facilities': {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Computer Science & Technology"
+        title="CST Department"
       >
         {renderContentWithTitle()}
       </DepartmentSidebar>

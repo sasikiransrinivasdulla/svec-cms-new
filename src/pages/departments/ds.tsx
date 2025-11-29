@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+﻿import React, { useState,useEffect } from 'react';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
@@ -72,7 +72,7 @@ interface DepartmentLibrary {
 
 interface MOU {
   id: number;
-  organization_name: string;
+  mou_with: string;
   from_date: string;
   to_date: string;
 }
@@ -140,6 +140,7 @@ const [meritScholarships, setMeritScholarships] = useState<any[]>([]);
 const [extraCurricular, setExtraCurricular] = useState<any[]>([]);
 const [sahayaEvents, setSahayaEvents] = useState<any[]>([]);
 const [scudActivities, setScudActivities] = useState<any[]>([]);
+const [technicalAssociation, setTechnicalAssociation] = useState<any[]>([]);
 const [extraCurricularGallery, setExtraCurricularGallery] = useState<any[]>([]);
 const [technicalAssociationGallery, setTechnicalAssociationGallery] = useState<any[]>([]);
 const [newsletters, setNewsletters] = useState<any[]>([]);
@@ -151,6 +152,7 @@ const [workshops, setWorkshops] = useState<Workshop[]>([]);
 const [academicToppers, setAcademicToppers] = useState<any[]>([]);
 const[bosMembers,setBosMembers]=useState<BOSMember[]>([]);
 const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
+const [generalTables, setGeneralTables] = useState<any[]>([]);
 
 
    useEffect(() => {
@@ -179,7 +181,8 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
           hackathonsGalleryResponse,
           extraCurricularResponse,
           handbooksResponse,
-          publicDeptResponse
+          publicDeptResponse,
+          generalTablesResponse
         ] = await Promise.allSettled([
           fetch('/api/ds/ds-department-overview').then(res => res.json()).catch(() => null),
           fetch('/api/ds/ds-faculty').then(res => res.json()).catch(() => []),
@@ -201,132 +204,16 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
           fetch('/api/ds/ds-hackathons').then(res => res.json()).catch(() => []),
           fetch('/api/ds/ds-hackathons-gallery').then(res => res.json()).catch(() => []),
           fetch('/api/ds/ds-extra-curricular').then(res => res.json()).catch(() => []),
+          fetch('/api/ds/ds-technical-association').then(res => res.json()).catch(() => []),
+          fetch('/api/ds/ds-technical-association-gallery').then(res => res.json()).catch(() => []),
           fetch('/api/ds/ds-handbooks').then(res => res.json()).catch(() => []),
-          fetch('/api/public/departments/ds').then(res => res.json()).catch(() => ({ success: false, data: {} }))
+          fetch('/api/public/departments/ds').then(res => res.json()).catch(() => ({ success: false, data: {} })),
+          fetch('/api/ds/ds-table?table=ds_non_teaching_staff').then(res => res.json()).catch(() => [])
         ]);
 
-<<<<<<< HEAD
         // Set overview data
         if (overviewResponse.status === 'fulfilled' && overviewResponse.value) {
-          setOverview(overviewResponse.value);
-=======
-        try {
-            // Load all necessary data
-            await Promise.all([
-                loadSidebarItems(),
-                loadFacultyData(),
-                loadNonTeachingStaff(),
-                loadBoardOfStudies(),
-                loadDepartmentProfile(),
-                loadPhysicalFacilities(),
-                loadBosMeetingMinutes()
-            ]);
-        } catch (err) {
-            console.error('Error loading data:', err);
-            setError('Failed to load department data');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const loadSidebarItems = async () => {
-        try {
-            const response = await fetch('/api/ds/sidebar-items');
-            if (!response.ok) throw new Error('Failed to fetch sidebar items');
-            const data = await response.json();
-            setSidebarItems(data);
-        } catch (err) {
-            console.error('Error loading sidebar items:', err);
-        }
-    };
-
-    const loadFacultyData = async () => {
-        try {
-            const response = await fetch('/api/ds/faculty');
-            if (!response.ok) throw new Error('Failed to fetch faculty data');
-            const data = await response.json();
-            setFaculty(data);
-        } catch (err) {
-            console.error('Error loading faculty data:', err);
-        }
-    };
-
-    const loadNonTeachingStaff = async () => {
-        try {
-            const response = await fetch('/api/ds/non-teaching-staff');
-            if (!response.ok) throw new Error('Failed to fetch non-teaching staff');
-            const data = await response.json();
-            setNonTeachingFaculty(data);
-        } catch (err) {
-            console.error('Error loading non-teaching staff:', err);
-        }
-    };
-
-    const loadBoardOfStudies = async () => {
-        try {
-            const response = await fetch('/api/ds/board-of-studies');
-            if (!response.ok) throw new Error('Failed to fetch board of studies');
-            const data = await response.json();
-            setBoardOfStudies(data);
-        } catch (err) {
-            console.error('Error loading board of studies:', err);
-        }
-    };
-
-    const loadDepartmentProfile = async () => {
-        try {
-            const response = await fetch('/api/ds/department-profile');
-            if (!response.ok) throw new Error('Failed to fetch department profile');
-            const data = await response.json();
-            setDepartmentProfile(data);
-        } catch (err) {
-            console.error('Error loading department profile:', err);
-        }
-    };
-
-    const loadPhysicalFacilities = async () => {
-        try {
-            const response = await fetch('/api/ds/physical-facilities');
-            if (!response.ok) throw new Error('Failed to fetch physical facilities');
-            const data = await response.json();
-            setPhysicalFacilities(data);
-        } catch (err) {
-            console.error('Error loading physical facilities:', err);
-        }
-    };
-
-    const loadBosMeetingMinutes = async () => {
-        try {
-            const response = await fetch('/api/ds/bos-meeting-minutes');
-            if (!response.ok) throw new Error('Failed to fetch BOS meeting minutes');
-            const data = await response.json();
-            setBosMeetingMinutes(data);
-        } catch (err) {
-            console.error('Error loading BOS meeting minutes:', err);
-        }
-    };
-
-    // Get current profile section data
-    const getCurrentProfileSection = () => {
-        return departmentProfile.find(section => section.section_name === activeDeptTab);
-    };
-
-    // Get HOD information from faculty
-    const getHODInfo = () => {
-        return faculty.find(member => member.is_hod);
-    };
-
-    const renderDeptTabContent = () => {
-        const currentSection = getCurrentProfileSection();
-
-        if (!currentSection) {
-            return (
-                <div className="py-6">
-                    <h3 className="text-2xl font-bold text-[#B22222] mb-4">Loading...</h3>
-                </div>
-            );
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
-        }
+          setOverview(overviewResponse.value);        }
 
         // Set faculty data
         if (facultyResponse.status === 'fulfilled' && facultyResponse.value) {
@@ -369,8 +256,11 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
         }
 
         // Set BOS data
-        if (bosResponse.status === 'fulfilled' && bosResponse.value) {
-          setBosMembers(Array.isArray(bosResponse.value) ? bosResponse.value : []);
+        if (bosResponse.status === 'fulfilled') {
+          const bosVal = bosResponse.value;
+          console.log('BOS Members Response:', bosVal);
+          const bosArray = Array.isArray(bosVal) ? bosVal : Array.isArray(bosVal?.data) ? bosVal.data : [];
+          setBosMembers(bosArray);
         }
 
         // Set faculty achievements data
@@ -399,8 +289,11 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
         }
 
         // Set BOS minutes data
-        if (bosMinutesResponse.status === 'fulfilled' && bosMinutesResponse.value) {
-          setBosMinutes(Array.isArray(bosMinutesResponse.value) ? bosMinutesResponse.value : []);
+        if (bosMinutesResponse.status === 'fulfilled') {
+          const minutesVal = bosMinutesResponse.value;
+          console.log('BOS Minutes Response:', minutesVal);
+          const minutesArray = Array.isArray(minutesVal) ? minutesVal : Array.isArray(minutesVal?.data) ? minutesVal.data : [];
+          setBosMinutes(minutesArray);
         }
 
         // Set non-teaching staff data
@@ -409,8 +302,15 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
         }
 
         // Set hackathons data
-        if (hackathonsResponse.status === 'fulfilled' && hackathonsResponse.value) {
+        if (hackathonsResponse.status === 'fulfilled') {
+          console.log('Hackathons API Response:', {
+            status: 'success',
+            value: hackathonsResponse.value,
+            isArray: Array.isArray(hackathonsResponse.value)
+          });
           setHackathons(Array.isArray(hackathonsResponse.value) ? hackathonsResponse.value : []);
+        } else if (hackathonsResponse.status === 'rejected') {
+          console.error('Hackathons API Error:', hackathonsResponse.reason);
         }
 
         // Set hackathons gallery data
@@ -423,15 +323,29 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
           setExtraCurricular(Array.isArray(extraCurricularResponse.value) ? extraCurricularResponse.value : []);
         }
 
+        // Set technical association data
+        const technicalAssociationResponse = await fetch('/api/ds/ds-technical-association')
+          .then(res => res.json())
+          .catch(() => []);
+        setScudActivities(Array.isArray(technicalAssociationResponse) ? technicalAssociationResponse : []);
+
+        // Set technical association gallery data
+        const technicalAssociationGalleryResponse = await fetch('/api/ds/ds-technical-association-gallery')
+          .then(res => res.json())
+          .catch(() => []);
+        setTechnicalAssociationGallery(Array.isArray(technicalAssociationGalleryResponse) ? technicalAssociationGalleryResponse : []);
+
         // Set handbooks data
         if (handbooksResponse.status === 'fulfilled' && handbooksResponse.value) {
           setHandbooks(Array.isArray(handbooksResponse.value) ? handbooksResponse.value : []);
         }
 
+        
+
         // Handle public department API data as fallback
         if (publicDeptResponse.status === 'fulfilled' && publicDeptResponse.value) {
           const publicData = publicDeptResponse.value?.data || {};
-          console.log('🔍 ds Public Department API data available:', Object.keys(publicData));
+          console.log('ðŸ” ds Public Department API data available:', Object.keys(publicData));
           // Use public data as fallback for any missing data if needed
         }
 
@@ -459,6 +373,7 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
     { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
     { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
     { id: 'Physical Facilities', label: 'Physical Facilities', icon: <HardHat className="w-4 h-4" /> },
+    
     //{ id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
     { id: 'MoUs', label: 'MoUs', icon: <Handshake className="w-4 h-4" /> },
     { id: 'Faculty Development Programs', label: 'Faculty Development Programs', icon: <TrendingUp className="w-4 h-4" /> },
@@ -669,15 +584,15 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
             <ul className="pl-5 space-y-3 text-gray-700">
-              <li><strong className="text-[#850209]">➟</strong> All Class Rooms are ICT enabled.</li>
-              <li><strong className="text-[#850209]">➟</strong> MoUs with NIT ANP , Eduskills , Hexaware , APSSDC , Alykas
+              <li><strong className="text-[#850209]">âžŸ</strong> All Class Rooms are ICT enabled.</li>
+              <li><strong className="text-[#850209]">âžŸ</strong> MoUs with NIT ANP , Eduskills , Hexaware , APSSDC , Alykas
                     Innovations Pvt.Ltd, thingTronics Pvt Ltd,Bangalore and
                     TCS-iON.</li>
-              <li><strong className="text-[#850209]">➟</strong> College has MOU with TCS for conducting Online Competitive Exams for which our Department Resources are being utilized.</li>
-              <li><strong className="text-[#850209]">➟</strong> Professional Society memberships in ISTE and IAENG.</li>
-              <li><strong className="text-[#850209]">➟</strong> Good faculty retention.</li>
-              <li><strong className="text-[#850209]">➟</strong> Well Equipped Laboratories.</li>
-              <li><strong className="text-[#850209]">➟</strong> Sahaya, Social Service Unit, managed by the Students.</li>
+              <li><strong className="text-[#850209]">âžŸ</strong> College has MOU with TCS for conducting Online Competitive Exams for which our Department Resources are being utilized.</li>
+              <li><strong className="text-[#850209]">âžŸ</strong> Professional Society memberships in ISTE and IAENG.</li>
+              <li><strong className="text-[#850209]">âžŸ</strong> Good faculty retention.</li>
+              <li><strong className="text-[#850209]">âžŸ</strong> Well Equipped Laboratories.</li>
+              <li><strong className="text-[#850209]">âžŸ</strong> Sahaya, Social Service Unit, managed by the Students.</li>
             </ul>
           </div>
         );
@@ -925,7 +840,6 @@ case 'Department Profile':
     items: studentAchievements.filter(a => a.category === cat)
   }));
 
-<<<<<<< HEAD
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
@@ -946,127 +860,7 @@ case 'Department Profile':
                           href={item.fileUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#B22222] hover:underline"
-=======
-                            {/* Row 4: Salient Features (centered) */}
-                            <div className="flex justify-center">
-                                <button
-                                    onClick={() => setActiveDeptTab('SalientFeatures')}
-                                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                                        ? 'bg-[#B22222] text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                        }`}
-                                >
-                                    Salient Features
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Game-Style Right Side Settings Panel */}
-                        {settingsPanelOpen && (
-                            <div className="fixed inset-0 z-50">
-                                {/* Backdrop */}
-                                <div
-                                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
-                                    onClick={() => setSettingsPanelOpen(false)}
-                                ></div>
-
-                                {/* Settings Panel */}
-                                <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
-                                    {/* Panel Header */}
-                                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                                                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                    </svg>
-                                                </div>
-                                                <div>
-                                                    <h3 className="text-white font-bold text-lg">Department Navigation</h3>
-                                                    <p className="text-white/70 text-sm">Select a section to explore</p>
-                                                </div>
-                                            </div>
-                                            <button
-                                                onClick={() => setSettingsPanelOpen(false)}
-                                                className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                                            >
-                                                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Panel Content */}
-                                    <div className="p-6 h-full overflow-y-auto">
-                                        <div className="space-y-3">
-                                            {sections.map((section, index) => {
-                                                const isActive = section === activeDeptTab;
-                                                return (
-                                                    <button
-                                                        key={section}
-                                                        onClick={() => {
-                                                            setActiveDeptTab(section);
-                                                            setSettingsPanelOpen(false);
-                                                        }}
-                                                        className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                                            ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
-                                                            : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                                                            }`}
-                                                    >
-                                                        <div className="flex items-center gap-3">
-                                                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                                                }`}>
-                                                                {index + 1}
-                                                            </div>
-                                                            <div>
-                                                                <div className="font-semibold">
-                                                                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                                                </div>
-                                                                <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                                                    {section === 'Department' && 'Overview & HOD Profile'}
-                                                                    {section === 'Vision' && 'Department Vision Statement'}
-                                                                    {section === 'Mission' && 'Department Mission Statement'}
-                                                                    {section === 'PEOs' && 'Program Educational Objectives'}
-                                                                    {section === 'POs' && 'Program Outcomes'}
-                                                                    {section === 'PSOs' && 'Program Specific Outcomes'}
-                                                                    {section === 'COs' && 'Course Outcomes'}
-                                                                    {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                                                </div>
-                                                            </div>
-                                                            {isActive && (
-                                                                <div className="ml-auto">
-                                                                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-
-                                        {/* Panel Footer */}
-                                        <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                                            <div className="text-center">
-                                                <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                                                <div className="text-white/50 text-xs">
-                                                    Click any section above to navigate instantly
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Floating Settings Button - Mobile Only */}
-                        <button
-                            onClick={() => setSettingsPanelOpen(true)}
-                            className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-                            title="Department Navigation"
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
-                        >
+                          className="text-[#B22222] hover:underline"                        >
                           View
                         </a>
                       </>
@@ -1169,7 +963,6 @@ case 'Department Profile':
                     </details>
                   )}
 
-<<<<<<< HEAD
                   {/* SOC Syllabus */}
                   {syllabusGrouped.soc && syllabusGrouped.soc.length > 0 && (
                     <details className="cst-dropdown" open>
@@ -1213,195 +1006,7 @@ case 'Department Profile':
                                   href={item.fileUrl || item.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-[#B22222] hover:underline"
-=======
-            case 'Faculty Profiles':
-                return (
-                    <div className="space-y-8">
-                        {loading ? (
-                            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                                <div className="text-center">
-                                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#B22222] mx-auto"></div>
-                                    <p className="mt-4 text-gray-600">Loading faculty data...</p>
-                                </div>
-                            </div>
-                        ) : error ? (
-                            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                                <div className="text-center">
-                                    <p className="text-red-600">Error: {error}</p>
-                                    <button
-                                        onClick={loadAllData}
-                                        className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
-                                    >
-                                        Retry
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                                    <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
-                                    {faculty.length > 0 ? (
-                                        <div className="overflow-x-auto">
-                                            <table className="w-full text-sm text-left text-gray-500">
-                                                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                                                    <tr>
-                                                        <th scope="col" className="px-6 py-3">S.No.</th>
-                                                        <th scope="col" className="px-6 py-3">Name</th>
-                                                        <th scope="col" className="px-6 py-3">Qualification</th>
-                                                        <th scope="col" className="px-6 py-3">Designation</th>
-                                                        <th scope="col" className="px-6 py-3">Profile</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {faculty.map((member, index) => (
-                                                        <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                                            <td className="px-6 py-4">{index + 1}</td>
-                                                            <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                                                            <td className="px-6 py-4">{member.qualification}</td>
-                                                            <td className="px-6 py-4">{member.designation}</td>
-                                                            <td className="px-6 py-4">
-                                                                {member.profile_url ? (
-                                                                    <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View Profile</a>
-                                                                ) : (
-                                                                    <span className="text-gray-400">N/A</span>
-                                                                )}
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    ) : (
-                                        <p className="text-center text-gray-600">No faculty data available</p>
-                                    )}
-                                </div>
-                                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                                    <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Staff</h2>
-                                    {nonTeachingFaculty.length > 0 ? (
-                                        <div className="overflow-x-auto">
-                                            <table className="w-full text-sm text-left text-gray-500">
-                                                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                                                    <tr>
-                                                        <th scope="col" className="px-6 py-3">S.No.</th>
-                                                        <th scope="col" className="px-6 py-3">Name</th>
-                                                        <th scope="col" className="px-6 py-3">Designation</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {nonTeachingFaculty.map((member, index) => (
-                                                        <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                                            <td className="px-6 py-4">{index + 1}</td>
-                                                            <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                                                            <td className="px-6 py-4">{member.designation}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    ) : (
-                                        <p className="text-center text-gray-600">No non-teaching staff data available</p>
-                                    )}
-                                </div>
-                            </>
-                        )}
-                    </div>
-                );
-
-            case 'Board of Studies':
-                return (
-                    <div className="space-y-8">
-                        {loading ? (
-                            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                                <div className="text-center">
-                                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#B22222] mx-auto"></div>
-                                    <p className="mt-4 text-gray-600">Loading board of studies data...</p>
-                                </div>
-                            </div>
-                        ) : error ? (
-                            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                                <div className="text-center">
-                                    <p className="text-red-600">Error: {error}</p>
-                                    <button
-                                        onClick={loadAllData}
-                                        className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
-                                    >
-                                        Retry
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                                    <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
-                                    {boardOfStudies.length > 0 ? (
-                                        <div className="overflow-x-auto">
-                                            <table className="w-full text-sm text-left text-gray-500">
-                                                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                                                    <tr>
-                                                        <th scope="col" className="px-6 py-3">S.No.</th>
-                                                        <th scope="col" className="px-6 py-3">Name</th>
-                                                        <th scope="col" className="px-6 py-3">Designation</th>
-                                                        <th scope="col" className="px-6 py-3">Organization</th>
-                                                        <th scope="col" className="px-6 py-3">Position</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {boardOfStudies.map((member, index) => (
-                                                        <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                                            <td className="px-6 py-4">{index + 1}</td>
-                                                            <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                                                            <td className="px-6 py-4">{member.designation}</td>
-                                                            <td className="px-6 py-4">{member.organization}</td>
-                                                            <td className="px-6 py-4">{member.position}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    ) : (
-                                        <p className="text-center text-gray-600">No board of studies data available</p>
-                                    )}
-                                </div>
-                                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                                    <h4 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Board of Studies Meeting Minutes</h4>
-                                    {bosMeetingMinutes.length > 0 ? (
-                                        <ul className="list-disc list-inside space-y-2 text-center">
-                                            {bosMeetingMinutes.map((minute, index) => (
-                                                <li key={index}>
-                                                    {minute.title} - {new Date(minute.meeting_date).toLocaleDateString()}
-                                                    {minute.document_url && (
-                                                        <a href={minute.document_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-2">View</a>
-                                                    )}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p className="text-center text-gray-600">No meeting minutes available</p>
-                                    )}
-                                </div>
-                            </>
-                        )}
-                    </div>
-                );
-
-            case 'Physical Facilities':
-                return (
-                    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
-                        {loading ? (
-                            <div className="text-center">
-                                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#B22222] mx-auto"></div>
-                                <p className="mt-4 text-gray-600">Loading physical facilities data...</p>
-                            </div>
-                        ) : error ? (
-                            <div className="text-center">
-                                <p className="text-red-600">Error: {error}</p>
-                                <button
-                                    onClick={loadAllData}
-                                    className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
-                                >
+                                  className="text-[#B22222] hover:underline"                                >
                                   View
                                 </a>
                               </li>
@@ -1725,7 +1330,7 @@ case 'MoUs': {
               <th className="py-3 px-4 border-b text-left">Organization Name</th>
               <th className="py-3 px-4 border-b text-left">From</th>
               <th className="py-3 px-4 border-b text-left">To</th>
-              <th className="py-3 px-4 border-b text-left">Action</th>
+             
             </tr>
           </thead>
           <tbody>
@@ -1733,7 +1338,7 @@ case 'MoUs': {
               mous.map((item, idx) => (
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="py-3 px-4 border-b">{idx + 1}</td>
-                  <td className="py-3 px-4 border-b">{item.organization_name}</td>
+                  <td className="py-3 px-4 border-b">{item.mou_with}</td>
                   <td className="py-3 px-4 border-b">{item.from_date}</td>
                   <td className="py-3 px-4 border-b">{item.to_date}</td>
                  
@@ -1749,24 +1354,7 @@ case 'MoUs': {
           </tbody>
         </table>
       </div>
-      <h3 className="text-xl font-semibold text-[#B22222] mb-4">B. Interaction with the Industry</h3>
-      <div className="flex justify-center mb-6">
-        <ul className="space-y-4 list-none max-w-3xl">
-          {industryPrograms.map((item) => (
-            <li key={item.id} className="py-2">
-              {item.title} -{' '}
-              <a
-                href={item.file_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#B22222] hover:underline ml-2"
-              >
-                View
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+     
 
       {/* MOU Edit Modal */}
       {mouModalOpen && editingMou && (
@@ -1835,214 +1423,158 @@ case 'MoUs': {
      
 
 case 'Physical Facilities': {
-  // Group by category
-  const categories = Array.from(new Set(physicalFacilities.map(f => f.category)));
-  const grouped = categories.map(cat => ({
-    category: cat,
-    items: physicalFacilities.filter(f => f.category === cat)
-  }));
-
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
-      <div className="space-y-6">
-        {grouped.map((group, index) => (
-          <details key={group.category} open={index === 0} className="cst-dropdown">
-            <summary>{group.category}</summary>
-            <div className="cst-dropdown-content">
-            {group.category === 'Laboratories' ? (
-              <div>
-                {group.items.map(item => (
-                  <div key={item.id} className="mb-8">
-                    {item.description && <p className="text-gray-700 mb-4">{item.description}</p>}
-                    {item.lab_details && item.lab_details.length > 0 && (
-                      <div className="mb-6">
-                        <h3 className="text-2xl font-bold text-center mb-4 text-[#B22222]">
-                          {item.lab_details[0]?.name || 'Laboratory'}
-                        </h3>
-<<<<<<< HEAD
-                        <div className="overflow-x-auto">
-                          <table className="min-w-full bg-white border border-gray-300 rounded-lg">
-                            <thead className="bg-gray-600 text-white">
-                              <tr>
-                                <th className="py-3 px-4 border border-gray-300 text-left font-semibold">S.No</th>
-                                <th className="py-3 px-4 border border-gray-300 text-left font-semibold">Name of the Lab</th>
-                                <th className="py-3 px-4 border border-gray-300 text-left font-semibold">Configuration</th>
-                                <th className="py-3 px-4 border border-gray-300 text-left font-semibold">No. of Systems</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {item.lab_details.map((lab, i) => (
-                                <tr key={i} className={i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                                  <td className="py-3 px-4 border border-gray-300 text-center font-medium">
-                                    {i + 1}
-                                  </td>
-                                  <td className="py-3 px-4 border border-gray-300 font-medium">
-                                    {lab.name || 'Linus Torvalds Lab'}
-                                  </td>
-                                  <td className="py-3 px-4 border border-gray-300">
-                                    <div className="space-y-1 text-sm">
-                                      {lab.model && <div><strong>Model:</strong> {lab.model}</div>}
-                                      {lab.processor && <div><strong>Processor:</strong> {lab.processor}</div>}
-                                      {lab.ram && <div><strong>RAM:</strong> {lab.ram}</div>}
-                                      {lab.storage && <div><strong>Storage:</strong> {lab.storage}</div>}
-                                      {lab.system_type && <div><strong>System type:</strong> {lab.system_type}</div>}
-                                      {lab.monitor && <div><strong>Monitor:</strong> {lab.monitor}</div>}
-                                      {lab.keyboard && <div><strong>Keyboard:</strong> {lab.keyboard}</div>}
-                                      {lab.mouse && <div><strong>Mouse:</strong> {lab.mouse}</div>}
-                                      {/* Fallback to configuration if specific fields not available */}
-                                      {!lab.model && lab.configuration && <div>{lab.configuration}</div>}
-                                    </div>
-                                  </td>
-                                  <td className="py-3 px-4 border border-gray-300 text-center font-medium text-lg">
-                                    {lab.systems || lab.no_of_systems || '02'}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <ul className="list-disc pl-6 my-2 space-y-2">
-                {group.items.map(item => (
-                  <li key={item.id}>
-                    {item.title}
-                    {item.file_url && (
-                      <>
-                        {' - '}
-                        <a
-                          href={item.file_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#B22222] hover:underline"
-                        >
-                          View
-                        </a>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-            </div>
-          </details>
-        ))}
+      
+      {/* Introduction Section */}
+      <div className="mb-8 space-y-4">
+        <p className="text-gray-700">
+          The Department has well equipped labs with the latest Configuration. Total 9 Computer Labs for UG, PG and one research lab consisting a total of 674 systems. The various servers in the server room include Oracle 11g Database Server, Intranet Server (TOMCAT), NPTEL Video/Web Server, MAT Lab Server 2012 R2, Red Hat Linux 5.0 Server, Library Automation Server, A-Mail Server, ECAP Server.
+        </p>
+        <p className="text-gray-700">
+          The college has high-speed internet connectivity throughout the campus through a leased line from BSNL with 200Mbps, 400Mbps from Jio, and 40 Mbps (Broadband).
+        </p>
       </div>
-    </div>
-  );
-}      case 'Faculty Development Programs': {
-  // Group by category
-  const categories = Array.from(new Set(facultyDevelopment.map(f => f.category)));
-  const grouped = categories.map(cat => ({
-    category: cat,
-    items: facultyDevelopment.filter(f => f.category === cat)
-  }));
 
-  return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2 }}>
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
       <div className="space-y-6">
-        {grouped.map((group, index) => (
-          <details key={group.category} open={index === 0} className="cst-dropdown">
-            <summary>{group.category}</summary>
-            <div className="cst-dropdown-content">
-            {group.category === 'Gallery' ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-                {group.items
-                  .filter(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0)
-                  .flatMap(item => item.gallery || [])
-                  .map((img, i) => (
-                    <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="w-full h-auto rounded-lg shadow" />
-                  ))
-                }
+        {(() => {
+          // Group physical facilities by category
+          const grouped = physicalFacilities.reduce((acc, facility) => {
+            const category = facility.category || 'Other';
+            if (!acc[category]) {
+              acc[category] = [];
+            }
+            acc[category].push(facility);
+            return acc;
+          }, {} as Record<string, any[]>);
+
+          // Define preferred order for categories
+          const categoryOrder = ['Seminar Halls', 'Class Rooms', 'Laboratories', 'Other'];
+          const sortedCategories = Object.keys(grouped).sort((a, b) => {
+            const indexA = categoryOrder.indexOf(a);
+            const indexB = categoryOrder.indexOf(b);
+            return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+          });
+
+          return sortedCategories.map((category, index) => (
+            <details key={category} open={index === 0} className="cst-dropdown">
+              <summary>{category}</summary>
+              <div className="cst-dropdown-content">
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {grouped[category].map((item) => (
+                    <li key={item.id}>
+                      {item.title}
+                      {item.file_url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={item.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ) : (
-              <ul className="list-disc pl-6 my-2 space-y-2">
-                {group.items.map((item, idx) => (
-                  <li key={item.id}>
-                    {item.title}
-                    {item.year && <> ({item.year})</>}
-                    {item.file_url && (
-                      <>
-                        {' - '}
-                        <a
-                          href={item.file_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#B22222] hover:underline"
-                        >
-                          View
-                        </a>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-            </div>
-          </details>
-        ))}
+            </details>
+          ));
+        })()}
       </div>
     </div>
   );
 }
+
      case 'Faculty Achievements': {
-  // Get unique categories from the data itself
-  const uniqueCategories = Array.from(new Set(facultyAchievements.map(a => a.category))).sort();
-  console.log('Faculty Achievements rendering - total items:', facultyAchievements.length, 'Categories found:', uniqueCategories);
+  // Get unique types/categories from the data itself
+  const uniqueTypes = Array.from(new Set(facultyAchievements.map(a => a.category || a.type))).sort();
+  console.log('Faculty Achievements rendering - total items:', facultyAchievements.length, 'Types found:', uniqueTypes);
   
-  // Group achievements by category
-  const grouped = uniqueCategories.map(cat => ({
-    category: cat,
-       items: facultyAchievements.filter(a => a.category === cat)
-  }));
+  // Group achievements by type, then by year
+  const grouped = uniqueTypes.map(type => {
+    const itemsOfType = facultyAchievements.filter(a => (a.category || a.type) === type);
+    // Group by year within each type
+    const yearGroups = Array.from(new Set(itemsOfType.map(a => a.year))).sort().reverse();
+    return {
+      type,
+      yearGroups: yearGroups.map(year => ({
+        year,
+        items: itemsOfType.filter(a => a.year === year)
+      }))
+    };
+  });
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
-      <div className="space-y-6">
-        {grouped.map((group, index) => (
-          <details key={group.category} open={index === 0} className="cst-dropdown">
-            <summary>{group.category}</summary>
-            <div className="cst-dropdown-content">
-            {group.items.length > 0 ? (
-              <ul className="list-disc pl-6 my-2 space-y-2">
-                {group.items.map((item, idx) => (
-                  <li key={item.id}>
-                    {item.title}
-                    {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
-                    {item.file_url && (
-                      <>
-                        {' - '}
-                        <a
-                          href={item.file_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#B22222] hover:underline"
-                        >
-                          View
-                        </a>
-                      </>
-                    )}
-                  </li>
+      <div className="space-y-4">
+        {grouped.map((group, typeIndex) => (
+          <details key={group.type} open={typeIndex === 0} className="border border-red-600 rounded-lg">
+            <summary className="bg-red-700 text-white px-4 py-3 cursor-pointer font-semibold hover:bg-red-800 transition-colors flex items-center justify-between">
+              <span>{group.type}</span>
+              <span className="text-sm">({group.yearGroups.reduce((sum, yg) => sum + yg.items.length, 0)} items)</span>
+            </summary>
+            <div className="p-4 bg-gray-50">
+              <div className="space-y-3">
+                {group.yearGroups.map((yearGroup, yearIndex) => (
+                  <div key={`${group.type}-${yearGroup.year}`} className="bg-white rounded border border-gray-200">
+                    <div className="px-4 py-2 bg-gray-100 font-semibold text-gray-700 border-b border-gray-200">
+                      {yearGroup.year}
+                    </div>
+                    <ul className="list-disc pl-8 py-3 space-y-2">
+                      {yearGroup.items.map((item, idx) => (
+                        <li key={item.id || idx} className="text-gray-700">
+                          <span>{item.title}</span>
+                          {item.file_url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={item.file_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline font-medium"
+                              >
+                                View
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
-            ) : (
-              <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
-            )}
+              </div>
             </div>
           </details>
         ))}
+        {facultyAchievements.length === 0 && (
+          <div className="text-center text-gray-600 py-8">
+            <p>No faculty achievement data available at this time.</p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
      case 'Academic Toppers': {
+  // Filter gallery data for academic toppers
+  const academicToppersGallery = hackathonsGallery.filter(
+    g => g.category === 'academic toppers' || g.category === 'Academic Toppers'
+  );
+  
+  // Group gallery by academic year if available
+  const galleryGroups = academicToppersGallery.length > 0
+    ? Array.from(new Set(academicToppersGallery.map(g => g.academic_year || g.title || 'Gallery'))).map(year => ({
+        name: year,
+        images: academicToppersGallery.filter(g => (g.academic_year || g.title) === year)
+      })).sort((a, b) => b.name.localeCompare(a.name)) // Sort descending by year
+    : [];
+
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic Toppers</h2>
@@ -2071,13 +1603,51 @@ case 'Physical Facilities': {
                     <td className="py-3 px-4 border-b">{idx + 1}</td>
                     <td className="py-3 px-4 border-b">{item.academic_year}</td>
                     <td className="py-3 px-4 border-b">{item.particulars}</td>
-                    <td className="py-3 px-4 border-b">{item.students_benefited}</td>
+                    <td className="py-3 px-4 border-b">{item.no_of_students_benefited}</td>
                     <td className="py-3 px-4 border-b">₹{item.scholarship_amount?.toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+
+          {galleryGroups.length > 0 && (
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Gallery</h3>
+              <div className="space-y-4">
+                {galleryGroups.map((group, groupIndex) => (
+                  <details key={group.name} open={groupIndex === 0} className="border border-red-600 rounded-lg">
+                    <summary className="bg-red-700 text-white px-4 py-3 cursor-pointer font-semibold hover:bg-red-800 transition-colors flex items-center justify-between">
+                      <span>{group.name}</span>
+                      <span className="text-sm">({group.images.length} images)</span>
+                    </summary>
+                    <div className="p-4 bg-gray-50">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {group.images.map((img, imgIndex) => (
+                          <div 
+                            key={`${group.name}-${imgIndex}`} 
+                            className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+                          >
+                            <img
+                              src={img.gallery || img.image_url || img.url}
+                              alt={`${group.name} - ${img.title || 'Image ' + (imgIndex + 1)}`}
+                              className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                              onClick={() => window.open(img.gallery || img.image_url || img.url, '_blank')}
+                            />
+                            {img.title && (
+                              <div className="p-2 bg-white">
+                                <p className="text-sm font-medium text-gray-700 truncate">{img.title}</p>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )}
 
           {academicToppers.some(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0) && (
             <>
@@ -2106,145 +1676,113 @@ case 'Physical Facilities': {
 
     
        case 'Technical Association': {
-  // Separate activities and gallery events
-  const activityItems = scudActivities.filter(a => a.file_url);
-  const galleryEvents = scudActivities.filter(a => a.gallery && Array.isArray(a.gallery) && a.gallery.length > 0);
+  console.log('🏢 Technical Association Section - State Check:', {
+    scudActivitiesLength: scudActivities?.length || 0,
+    technicalAssociationLength: scudActivities?.length || 0,
+    technicalAssociationGalleryLength: technicalAssociationGallery?.length || 0,
+    hackathonsGalleryLength: hackathonsGallery?.length || 0,
+  });
+  
+  // Get all activity and gallery data
+  const allActivities = scudActivities && scudActivities.length > 0 ? scudActivities : [];
+  
+  // Filter gallery data for technical association from hackathonsGallery
+  const technicalGallery = hackathonsGallery.filter(
+    g => g.category === 'technical association' || g.category === 'Technical Association'
+  );
+
+  const hasAnyData = allActivities.length > 0 || technicalGallery.length > 0;
+
+  // Check if there's any data
+  if (!hasAnyData) {
+    return (
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
+        <div className="text-center py-8">
+          <div className="text-gray-500">No technical association data available currently.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
-      <div className="space-y-6">
-        {activityItems.map(item => (
-          <details key={item.id} className="border rounded-lg p-4" open>
-            <summary className="text-lg font-semibold cursor-pointer">{item.title}</summary>
-            <ul className="list-disc pl-6 my-2">
-              <li>
-                {item.title} -{' '}
-                <a
-                  href={item.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B22222] hover:underline"
-                >
-                  View More
-                </a>
-              </li>
-            </ul>
-          </details>
-        ))}
-
-        {galleryEvents.length > 0 && (
-          <details className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
-            <div className="space-y-10 mt-4">
-              {galleryEvents.map(event => (
-                <div key={event.id}>
-                  <h3 className="text-xl font-semibold text-center mb-4">{event.title}</h3>
-                  <div className={`grid grid-cols-1 ${event.gallery && Array.isArray(event.gallery) && event.gallery.length > 2 ? 'md:grid-cols-3' : 'sm:grid-cols-2'} gap-6`}>
-                    {event.gallery && Array.isArray(event.gallery) && event.gallery.map((img: any, i: number) => (
-                      <img
-                        key={i}
-                        src={img}
-                        alt={`${event.title} Image ${i + 1}`}
-                        className="w-full h-auto rounded-lg shadow object-cover"
-                      />
-                    ))}
+      <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Technical Association</h2>
+      <div className="space-y-4">
+        
+        {/* First Dropdown: Nexus Event Winners List - from ds_technical_association table */}
+        {allActivities.length > 0 && (
+          <details className="group">
+            <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+              <span>Nexus Event Winners List</span>
+              <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+            </summary>
+            <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
+              <div className="space-y-3">
+                {allActivities.map((item, index) => (
+                  <div key={item.id || index} className="bg-white p-4 rounded border border-gray-300">
+                    <div className="flex justify-between items-start gap-4">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-800">{item.title || `Event ${index + 1}`}</h4>
+                        {item.description && (
+                          <p className="text-gray-600 text-sm mt-1">{item.description}</p>
+                        )}
+                      </div>
+                      {(item.file_url || item.fileUrl) && (
+                        <a
+                          href={item.file_url || item.fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline font-semibold whitespace-nowrap text-sm"
+                        >
+                          View More
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </details>
         )}
 
-        {/* Technical Association Gallery Dropdown - Grouped by Academic Year */}
-        <div>
-          <h3 className="text-2xl font-semibold text-center mb-6 text-[#B22222]">Event Gallery</h3>
-          <div className="space-y-4">
-            {technicalAssociationGallery.length > 0 ? (
-              (() => {
-                // Group gallery items by academic year
-                const groupedByYear: Record<string, any[]> = {};
-                technicalAssociationGallery.forEach(item => {
-                  const year = item.academic_year;
-                  if (!groupedByYear[year]) {
-                    groupedByYear[year] = [];
-                  }
-                  groupedByYear[year].push(item);
-                });
-
-                return Object.entries(groupedByYear).map(([year, items], index) => {
-                  // Combine all images from all entries for this academic year
-                  const allYearImages: string[] = [];
-                  items.forEach(item => {
-                    if (item.gallery) {
-                      const images = item.gallery
-                        .split(',')
-                        .map((url: string) => url.trim())
-                        .filter((url: string) => url.length > 0);
-                      allYearImages.push(...images);
-                    }
-                  });
-
-                  return (
-                    <details key={year} className="cst-dropdown" open={index === 0}>
-                      <summary>
-                        {year} Event Gallery
-                      </summary>
-                      <div className="cst-dropdown-content">
-                        {allYearImages.length > 0 ? (
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {allYearImages.map((img, i) => (
-                              <div key={i} className="flex flex-col items-center">
-                                <img
-                                  src={img}
-                                  alt={`Technical Association ${year} Image ${i + 1}`}
-                                  className="w-[400px] h-[300px] rounded-lg shadow-lg object-cover"
-                                  onError={(e) => {
-                                    (e.target as HTMLImageElement).src = '/placeholder-image.svg';
-                                    (e.target as HTMLImageElement).className = 'w-[400px] h-[300px] rounded-lg shadow-lg bg-gray-200';
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </div>
-=======
-                        {loading ? (
-                            <div>
-                                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#B22222] mx-auto"></div>
-                                <p className="mt-4 text-gray-600">Loading {activeTab.toLowerCase()} data...</p>
-                            </div>
-                        ) : error ? (
-                            <div>
-                                <p className="text-red-600 mb-4">Error: {error}</p>
-                                <button
-                                    onClick={loadAllData}
-                                    className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
-                                >
-                                    Retry
-                                </button>
-                            </div>
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
-                        ) : (
-                          <div className="text-center text-gray-600 py-8">
-                            No images available for {year}
-                          </div>
-                        )}
+        {/* Second Dropdown: Gallery - from ds_hackathons_gallery with category = technical association */}
+        {technicalGallery.length > 0 && (
+          <details className="group">
+            <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+              <span>Gallery</span>
+              <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+            </summary>
+            <div className="bg-white p-8 mt-2 rounded-lg border border-gray-300">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {technicalGallery.map((item, i) => (
+                  <div key={i} className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+                    <img
+                      src={item.gallery || item.image_url || item.url}
+                      alt={`${item.title || 'Technical Association'} Image ${i + 1}`}
+                      className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                      onClick={() => window.open(item.gallery || item.image_url || item.url, '_blank')}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/placeholder-image.svg';
+                        (e.target as HTMLImageElement).className = 'w-full h-48 bg-gray-200';
+                      }}
+                    />
+                    {item.title && (
+                      <div className="p-2 bg-gray-50">
+                        <p className="text-xs font-medium text-gray-700 truncate">{item.title}</p>
                       </div>
-                    </details>
-                  );
-                });
-              })()
-            ) : (
-              <div className="text-center text-gray-600 py-8">
-                No gallery data available
+                    )}
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          </details>
+        )}
       </div>
     </div>
   );
 }
+
      case 'Newsletters': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -2258,58 +1796,181 @@ case 'Physical Facilities': {
      case 'Extra-Curricular Activities': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
-      <div className="text-center text-gray-600 py-8">
-        <p>Extra-curricular activities information will be available soon.</p>
-      </div>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Extra-Curricular Activities</h2>
+      {extraCurricular && extraCurricular.length > 0 ? (
+        <div className="space-y-6">
+          {extraCurricular.map((activity, index) => (
+            <details key={activity.id || index} className="cst-dropdown group">
+              <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                <span>{activity.title || `Activity ${index + 1}`}</span>
+                <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+              </summary>
+              <div className="cst-dropdown-content p-4">
+                <div className="space-y-4">
+                  {activity.description && (
+                    <p className="text-gray-700">{activity.description}</p>
+                  )}
+                  
+                  {activity.date && (
+                    <p className="text-sm text-gray-600">
+                      <strong>Date:</strong> {new Date(activity.date).toLocaleDateString()}
+                    </p>
+                  )}
+                  
+                  {activity.organizer && (
+                    <p className="text-sm text-gray-600">
+                      <strong>Organized by:</strong> {activity.organizer}
+                    </p>
+                  )}
+                  
+                  {activity.participants && (
+                    <p className="text-sm text-gray-600">
+                      <strong>Participants:</strong> {activity.participants}
+                    </p>
+                  )}
+                  
+                  {(activity.file_url || activity.fileUrl) && (
+                    <div className="mt-4">
+                      <a
+                        href={activity.file_url || activity.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#B22222] hover:underline font-semibold flex items-center"
+                      >
+                        View Details <ExternalLink className="h-4 w-4 ml-1" />
+                      </a>
+                    </div>
+                  )}
+                  
+                  {activity.gallery && Array.isArray(activity.gallery) && activity.gallery.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="font-semibold text-gray-800 mb-3">Gallery</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {activity.gallery.map((img: string, i: number) => (
+                          <div key={i} className="rounded-lg overflow-hidden shadow-md">
+                            <img
+                              src={img}
+                              alt={`Activity Image ${i + 1}`}
+                              className="w-full h-48 object-cover hover:scale-105 transition-transform cursor-pointer"
+                              onClick={() => window.open(img, '_blank')}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </details>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center text-gray-600 py-8">
+          <p>Extra-curricular activities information will be available soon.</p>
+        </div>
+      )}
     </div>
   );
 }
- case 'Hackathons': {
+     case 'Hackathons': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Hackathons</h2>
       {hackathons && hackathons.length > 0 ? (
         <div className="space-y-6">
           {hackathons.map((hackathon, index) => (
-            <details key={hackathon.id || index} className="cst-dropdown" open={index === 0}>
-              <summary className="text-lg font-semibold cursor-pointer">
-                {hackathon.title || `Hackathon ${index + 1}`}
+            <details key={hackathon.id || index} className="cst-dropdown group">
+              <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                <span>{hackathon.title || `Hackathon ${index + 1}`}</span>
+                <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
               </summary>
-              <div className="cst-dropdown-content">
-                <div className="space-y-4 p-4">
+              <div className="cst-dropdown-content p-4">
+                <div className="space-y-4">
                   {hackathon.description && (
                     <p className="text-gray-700">{hackathon.description}</p>
                   )}
+                  
                   {hackathon.date && (
                     <p className="text-sm text-gray-600">
                       <strong>Date:</strong> {new Date(hackathon.date).toLocaleDateString()}
                     </p>
                   )}
+                  
                   {hackathon.organizers && (
                     <p className="text-sm text-gray-600">
-                      <strong>Organizers:</strong> {hackathon.organizers}
+                      <strong>Organized by:</strong> {hackathon.organizers}
                     </p>
                   )}
+                  
                   {hackathon.participants && (
                     <p className="text-sm text-gray-600">
                       <strong>Participants:</strong> {hackathon.participants}
                     </p>
                   )}
+                  
                   {hackathon.theme && (
                     <p className="text-sm text-gray-600">
                       <strong>Theme:</strong> {hackathon.theme}
                     </p>
                   )}
-                  {hackathon.file_url && (
-                    <a
-                      href={hackathon.file_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block bg-[#B22222] text-white px-4 py-2 rounded hover:bg-[#8B1E1E] transition-colors"
-                    >
-                      View Details
-                    </a>
+                  
+                  {(hackathon.file_url || hackathon.fileUrl) && (
+                    <div className="mt-4">
+                      <a
+                        href={hackathon.file_url || hackathon.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#B22222] hover:underline font-semibold flex items-center"
+                      >
+                        View Details <ExternalLink className="h-4 w-4 ml-1" />
+                      </a>
+                    </div>
+                  )}
+                  
+                  {hackathon.gallery && Array.isArray(hackathon.gallery) && hackathon.gallery.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="font-semibold text-gray-800 mb-3">Gallery</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {hackathon.gallery.map((img: string, i: number) => (
+                          <div key={i} className="rounded-lg overflow-hidden shadow-md">
+                            <img
+                              src={img}
+                              alt={`Hackathon Image ${i + 1}`}
+                              className="w-full h-48 object-cover hover:scale-105 transition-transform cursor-pointer"
+                              onClick={() => window.open(img, '_blank')}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {hackathonsGallery && hackathonsGallery.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="font-semibold text-gray-800 mb-3">Event Gallery</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {hackathonsGallery
+                          .filter((galleryItem: any) => 
+                            galleryItem.hackathon_id === hackathon.id || 
+                            galleryItem.event_id === hackathon.id
+                          )
+                          .map((galleryItem: any, i: number) => (
+                            <div key={i} className="rounded-lg overflow-hidden shadow-md">
+                              <img
+                                src={galleryItem.image_url || galleryItem.url}
+                                alt={`Hackathon Gallery ${i + 1}`}
+                                className="w-full h-48 object-cover hover:scale-105 transition-transform cursor-pointer"
+                                onClick={() => window.open(galleryItem.image_url || galleryItem.url, '_blank')}
+                              />
+                              {galleryItem.caption && (
+                                <p className="text-xs text-center p-2 text-gray-600">
+                                  {galleryItem.caption}
+                                </p>
+                              )}
+                            </div>
+                          ))}
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -2323,7 +1984,6 @@ case 'Physical Facilities': {
       )}
     </div>
   );
-        break;
 }
 
      case 'Handbooks': {
@@ -2410,12 +2070,63 @@ case 'Physical Facilities': {
         break;
       }
 
+      case 'General Tables': {
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">General Tables</h2>
+            {generalTables && generalTables.length > 0 ? (
+              <div className="space-y-6">
+                {generalTables.map((item, index) => (
+                  <details key={item.id || index} open={index === 0} className="cst-dropdown">
+                    <summary>{item.name || item.title || `Table ${index + 1}`}</summary>
+                    <div className="cst-dropdown-content">
+                      <div className="overflow-x-auto">
+                        {item.description && (
+                          <p className="text-gray-700 mb-4">{item.description}</p>
+                        )}
+                        {item.data && Array.isArray(item.data) && item.data.length > 0 ? (
+                          <table className="w-full border-collapse border border-gray-300">
+                            <thead className="bg-gray-800 text-white">
+                              <tr>
+                                {Object.keys(item.data[0]).map((key) => (
+                                  <th key={key} className="px-4 py-2 border border-gray-300 text-left">{key}</th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {item.data.map((row: any, rowIndex: number) => (
+                                <tr key={rowIndex} className="hover:bg-gray-50">
+                                  {Object.values(row).map((value: any, colIndex: number) => (
+                                    <td key={colIndex} className="px-4 py-2 border border-gray-300">
+                                      {String(value)}
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        ) : (
+                          <p className="text-gray-600">No data available for this table.</p>
+                        )}
+                      </div>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center text-gray-600 py-8">
+                <p>General table data will be available soon.</p>
+              </div>
+            )}
+          </div>
+        );
+      }
+
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
   };
 
-<<<<<<< HEAD
   const renderContentWithTitle = () => {
     // Just return the content without adding another title, since it's already included in content sections
     return (
@@ -2483,83 +2194,13 @@ case 'Physical Facilities': {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Artificial Intelligence & Machine Learning Department"
+        title="CSE-Data Science Department"
       >
         {renderContentWithTitle()}
       </DepartmentSidebar>
       {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
-  );
-=======
-    //         <div className="container mx-auto px-4 py-8">
-    //             <div className="flex flex-col lg:flex-row gap-8">
-    //                 <aside className="w-full lg:w-80 lg:flex-shrink-0">
-    //                     <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-    //                         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-    //                             <span className="font-bold">Department Menu</span>
-    //                             <Menu className="w-6 h-6" />
-    //                         </button>
-    //                         <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-    //                             <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-    //                             {loading ? (
-    //                                 <div className="flex items-center justify-center py-8">
-    //                                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#B22222]"></div>
-    //                                     <span className="ml-2 text-gray-600">Loading menu...</span>
-    //                                 </div>
-    //                             ) : sidebarItems.length > 0 ? (
-    //                                 <ul className="space-y-2">
-    //                                     {sidebarItems.map((item) => (
-    //                                         <li key={item}>
-    //                                             <button
-    //                                                 className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeTab === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-    //                                                 onClick={() => {
-    //                                                     setActiveTab(item);
-    //                                                     setSidebarOpen(false);
-    //                                                 }}
-    //                                             >
-    //                                                 <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeTab === item ? 'rotate-90' : ''}`} />
-    //                                                 <span>{item}</span>
-    //                                             </button>
-    //                                         </li>
-    //                                     ))}
-    //                                 </ul>
-    //                             ) : (
-    //                                 <p className="text-gray-500 text-sm">No menu items available</p>
-    //                             )}
-    //                         </nav>
-    //                     </div>
-    //                 </aside>
-    //                 <main className="flex-1 min-w-0">
-    //                     {renderContent()}
-    //                 </main>
-    //             </div>
-    //         </div>
-    //     </div>
-    // );
-
-    const renderContentWithTitle = () => {
-        // Just return the content without adding another title, since it's already included in content sections
-        return (
-            <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
-                {renderContent()}
-            </div>
-        );
-    };
-
-    return (
-        <div className="flex flex-col min-h-screen">
-            <DepartmentSidebar
-                items={sidebarItems}
-                activeItem={activeTab}
-                onItemClick={setActiveTab}
-                title="CSE-DS Department"
-            >
-                {renderContentWithTitle()}
-            </DepartmentSidebar>
-            {/* Footer is only shown when scrolling the main content area, not the sidebar */}
-        </div>
-    );
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
-};
+  );};
 
 export default DSDepartment;
+

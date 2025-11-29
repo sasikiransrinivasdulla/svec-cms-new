@@ -23,6 +23,7 @@ interface MenuItemWithDropdown {
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [submenuPosition, setSubmenuPosition] = useState<{ top: number, left: number } | null>(null);
@@ -35,6 +36,8 @@ const Header: React.FC = () => {
   const isHomePage = pathname === '/';
 
   useEffect(() => {
+    setIsMounted(true);
+    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -59,7 +62,7 @@ const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('click', handleClickOutside);
-    handleScroll(); // Check scroll position on initial load
+    // Don't call handleScroll() immediately to prevent hydration mismatch
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -205,7 +208,7 @@ const departments = [
     ? 'bg-background/95 shadow-md backdrop-blur-sm'
     : 'bg-transparent';
 
-  const textColorClass = isScrolled || !isHomePage
+  const textColorClass = (isMounted && (isScrolled || !isHomePage))
     ? 'text-foreground'
     : 'text-white';
 

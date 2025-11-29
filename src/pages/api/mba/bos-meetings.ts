@@ -13,10 +13,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            `SELECT title as meeting_number, meeting_date, document_url, id
-       FROM mba_bos_minutes
-       WHERE status = 'active'
-       ORDER BY meeting_date DESC`
+            `SELECT 
+                meeting_no AS meeting_number,
+                meeting_date,
+                file_url AS document_url,
+                id
+             FROM mba_bos_minutes
+            
+             ORDER BY meeting_date DESC`
         );
 
         await connection.end();

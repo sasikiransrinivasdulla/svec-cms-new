@@ -4,7 +4,7 @@ import { executeQuery } from '../../../lib/dbPool';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === 'GET') {
-      const tableName = 'ds-placements'.replace('ds-', 'cds_').replace(/-/g, '_');
+      const tableName = 'ds-placements'.replace('ds-', 'ds_').replace(/-/g, '_');
       const rows: any = await executeQuery(
         `SELECT * FROM ${tableName} ORDER BY id DESC`
       );

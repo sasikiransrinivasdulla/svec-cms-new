@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { Book, BookOpen, Award, Users, FileText, Activity, Phone, Microscope, Download, Presentation, Trophy, Building, Link as LinkIcon } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
@@ -663,7 +663,6 @@ const BSHDepartment: React.FC = () => {
           </div>
         );
 
-<<<<<<< HEAD
         case 'FDPs/Workshops Participated':
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
@@ -687,32 +686,7 @@ const BSHDepartment: React.FC = () => {
       )}
     </div>
   );
-=======
 
-      case 'FDPs/Workshops Participated':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">FDPs/Workshops Participated</h2>
-            {loadingFdp ? (
-              <div>Loading...</div>
-            ) : fdpError ? (
-              <div className="text-red-600">Error: {fdpError}</div>
-            ) : (
-              <details open>
-                <summary className="font-semibold text-lg mb-2">FDPs/Workshops Participated</summary>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  {fdpDocs.map((doc, idx) => (
-                    <li key={doc.id}>
-                      {doc.title} -{' '}
-                      <a href={doc.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            )}
-          </div>
-        );
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">

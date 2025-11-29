@@ -88,21 +88,40 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'workshops': 'mech_workshops'
   },
   'cse': {
-    'faculty': 'cse_faculty',
-    'staff': 'cse_staff',
-    'achievements': 'cse_achievements',
-    'placements': 'cse_placements',
-    'hackathons': 'cse_hackathons',
-    'handbooks': 'cse_handbooks',
-    'mous': 'cse_mous',
-    'syllabus': 'cse_syllabus',
-    'physical-facilities': 'cse_physical_facilities',
+    'bos-members': 'cse_bos_members',
+    'bos-minutes': 'cse_bos_minutes',
     'department-library': 'cse_department_library',
+    'department-overview': 'cse_department_overview',
+    'eresources': 'cse_eresources',
+    'extra-curricular': 'cse_extra_curricular',
+    'faculty': 'cse_faculty',
+    'faculty-achievements': 'cse_faculty_achievements',
+    'faculty-development': 'cse_faculty_development',
+    'gate': 'cse_gate',
+    'hackathons': 'cse_hackathons',
+    'hackathons-gallery': 'cse_hackathons_gallery',
+    'handbooks': 'cse_handbooks',
+    'industry-programs': 'cse_industry_programs',
     'merit-scholarships': 'cse_merit_scholarships',
-    'technical-association': 'cse_technical_association',
-    'training-activities': 'cse_training_activities',
+    'mous': 'cse_mous',
     'newsletters': 'cse_newsletters',
-    'extra-curricular': 'cse_extra_curricular'
+    'non-teaching-faculty': 'cse_non_teaching_faculty',
+    'physical-facilities': 'cse_physical_facilities',
+    'placements': 'cse_placements',
+    'placements-gallery': 'cse_hackathons_gallery',
+    'roll-of-honour': 'cse_roll_of_honour',
+    'sahaya-events': 'cse_sahaya_events',
+    'scud-activities': 'cse_scud_activities',
+    'student-achievements': 'cse_student_achievements',
+    'syllabus': 'cse_syllabus',
+    'technical-association': 'cse_technical_association',
+    'technical-faculty': 'cse_technical_faculty',
+    'training-activities': 'cse_training_activities',
+    'workshops': 'cse_workshops',
+    'training-activities-gallery': 'cse_hackathons_gallery',
+    'extra-curricular-gallery': 'cse_hackathons_gallery',
+    'faculty-development-gallery': 'cse_hackathons_gallery',
+    'workshops-gallery': 'cse_hackathons_gallery'
   },
   'eee': {
     'faculty': 'eee_faculty',
@@ -453,43 +472,45 @@ export async function POST(
     const mappedBody = mapFieldsToDatabase(tableName, body);
     console.log(`[POST] Field mapping for ${tableName}:`, { original: body, mapped: mappedBody });
 
-    // Auto-add dept field if table requires it
+    // Auto-add dept field if table requires it (but not for syllabus module)
     // Check if table structure includes dept field by testing with a sample query
-    try {
-      const sampleRow = await query<RowDataPacket[]>(`SELECT * FROM ${tableName} LIMIT 1`);
-      if (sampleRow.length === 0) {
-        // Empty table - check table structure
-        const columns = await query<RowDataPacket[]>(`SHOW COLUMNS FROM ${tableName}`);
-        const deptColumn = columns.find((col: any) => col.Field === 'dept');
-        if (deptColumn && !mappedBody.dept) {
-          mappedBody.dept = dept;
-          console.log(`[POST] Auto-added dept field: ${dept}`);
+    if (module !== 'syllabus') {
+      try {
+        const sampleRow = await query<RowDataPacket[]>(`SELECT * FROM ${tableName} LIMIT 1`);
+        if (sampleRow.length === 0) {
+          // Empty table - check table structure
+          const columns = await query<RowDataPacket[]>(`SHOW COLUMNS FROM ${tableName}`);
+          const deptColumn = columns.find((col: any) => col.Field === 'dept');
+          if (deptColumn && !mappedBody.dept) {
+            mappedBody.dept = dept;
+            console.log(`[POST] Auto-added dept field: ${dept}`);
+          }
+        } else {
+          // Non-empty table - check if first row has dept field
+          if (sampleRow[0].hasOwnProperty('dept') && !mappedBody.dept) {
+            mappedBody.dept = dept;
+            console.log(`[POST] Auto-added dept field: ${dept}`);
+          }
         }
-      } else {
-        // Non-empty table - check if first row has dept field
-        if (sampleRow[0].hasOwnProperty('dept') && !mappedBody.dept) {
+      } catch (err) {
+        console.warn(`[POST] Could not check dept field for ${tableName}:`, err);
+        // Fallback: try adding dept field for known department tables
+        if (!mappedBody.dept && (tableName.includes('_') && (
+          tableName.startsWith('cai_') || 
+          tableName.startsWith('ece_') || 
+          tableName.startsWith('cst_') || 
+          tableName.startsWith('eee_') || 
+          tableName.startsWith('mba_') ||
+          tableName.startsWith('bsh_') ||
+          tableName.startsWith('civil_') ||
+          tableName.startsWith('mech_') ||
+          tableName.startsWith('ect_') ||
+          tableName.startsWith('aiml_') ||
+          tableName.startsWith('ds_')
+        ))) {
           mappedBody.dept = dept;
-          console.log(`[POST] Auto-added dept field: ${dept}`);
+          console.log(`[POST] Fallback: Auto-added dept field: ${dept}`);
         }
-      }
-    } catch (err) {
-      console.warn(`[POST] Could not check dept field for ${tableName}:`, err);
-      // Fallback: try adding dept field for known department tables
-      if (!mappedBody.dept && (tableName.includes('_') && (
-        tableName.startsWith('cai_') || 
-        tableName.startsWith('ece_') || 
-        tableName.startsWith('cst_') || 
-        tableName.startsWith('eee_') || 
-        tableName.startsWith('mba_') ||
-        tableName.startsWith('bsh_') ||
-        tableName.startsWith('civil_') ||
-        tableName.startsWith('mech_') ||
-        tableName.startsWith('ect_') ||
-        tableName.startsWith('aiml_') ||
-        tableName.startsWith('ds_')
-      ))) {
-        mappedBody.dept = dept;
-        console.log(`[POST] Fallback: Auto-added dept field: ${dept}`);
       }
     }
 

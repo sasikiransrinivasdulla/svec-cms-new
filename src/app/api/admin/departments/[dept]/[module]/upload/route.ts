@@ -40,6 +40,7 @@ export async function POST(
       'image/jpeg',
       'image/jpg', 
       'image/png',
+      'image/webp',
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
@@ -47,7 +48,7 @@ export async function POST(
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json({
         success: false,
-        error: 'Invalid file type. Only PDF, JPG, PNG, DOC, DOCX files are allowed.'
+        error: 'Invalid file type. Only PDF, JPG, PNG, WebP, DOC, DOCX files are allowed.'
       }, { status: 400 });
     }
 

@@ -2153,7 +2153,7 @@ const EEEDepartment: React.FC = () => {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Electrical & Electronics Engineering Department"
+        title="EEE Department"
       >
         {renderContentWithTitle()}
       </DepartmentSidebar>

@@ -1260,6 +1260,7 @@ export default function SuperAdminDashboard() {
 
   if (selectedModule) {
     const module = currentModules.find(m => m.key === selectedModule);
+    const showNameColumn = module?.key === 'faculty' || module?.table === 'faculty_profiles';
     const department = DEPARTMENTS.find(d => d.key === selectedDepartment);
 
     return (
@@ -1388,6 +1389,9 @@ export default function SuperAdminDashboard() {
                         <tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                           <th className="text-left p-4 font-bold text-gray-700 uppercase text-xs tracking-wider">ID</th>
                           <th className="text-left p-4 font-bold text-gray-700 uppercase text-xs tracking-wider">Title</th>
+                          {showNameColumn && (
+                            <th className="text-left p-4 font-bold text-gray-700 uppercase text-xs tracking-wider">Name</th>
+                          )}
                           <th className="text-left p-4 font-bold text-gray-700 uppercase text-xs tracking-wider">Date</th>
                           <th className="text-left p-4 font-bold text-gray-700 uppercase text-xs tracking-wider">Status</th>
                           <th className="text-right p-4 font-bold text-gray-700 uppercase text-xs tracking-wider">Actions</th>
@@ -1405,6 +1409,11 @@ export default function SuperAdminDashboard() {
                             <td className="p-4 font-semibold text-gray-800">
                               {item.title || item.name || item.description || 'Untitled'}
                             </td>
+                            {showNameColumn && (
+                              <td className="p-4 text-gray-700">
+                                {item.name || '—'}
+                              </td>
+                            )}
                             <td className="p-4 text-gray-600">
                               {item.created_at ? new Date(item.created_at).toLocaleDateString() : '-'}
                             </td>
@@ -1908,11 +1917,6 @@ function EditForm({
 
   // Get field configuration for this module
   const moduleConfig = department && module ? getModuleFieldConfig(department, module) : null;
-  const fields = moduleConfig?.fields || [];
-
-  useEffect(() => {
-    if (item) {
-      // Initialize form with existing data
       setFormData({ ...item });
     } else {
       // Initialize empty form

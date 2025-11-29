@@ -1,8 +1,29 @@
-
+﻿
 import React, { useState } from 'react';
-import { Briefcase, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
+import { Briefcase, BookOpen, Award, ExternalLink, Menu, ChevronRight, ChevronDown, Users, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 import { useEffect } from 'react';
+
+const AccordionSection: React.FC<{ title: string; isOpen: boolean; onToggle: () => void; children: React.ReactNode }> = ({
+  title,
+  isOpen,
+  onToggle,
+  children,
+}) => (
+  <div className="border border-[#B22222] rounded-xl overflow-hidden">
+    <button
+      className="w-full flex items-center justify-between bg-[#B22222] text-white px-4 py-3"
+      onClick={onToggle}
+    >
+      <span className="font-semibold tracking-wide">{title}</span>
+      <ChevronDown className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+    </button>
+    {isOpen && (
+      <div className="overflow-x-auto animate-fade-in border-t border-[#B22222]/40 bg-white px-4 pb-4">{children}</div>
+    )}
+  </div>
+);
+
 const MBADepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
@@ -18,10 +39,19 @@ const MBADepartment: React.FC = () => {
   const [facultyAch, setFacultyAch] = React.useState<any[]>([]);
   const [placement, setPlacement] = React.useState<any[]>([]);
   const [StudentAch, setStudentAch] = React.useState<any[]>([]);
+  const [accordionOpenState, setAccordionOpenState] = React.useState<Record<string, boolean>>({
+    teaching: true,
+    nonTeaching: false,
+    boardMembers: true,
+    boardMeetings: false,
+    syllabus: true,
+    mous: true,
+    fdp: true,
+  });
   useEffect(() => {
     fetch('/api/mba/student-achievements') // backend API URL
       .then((res) => res.json())
-      .then((data) => setPlacement(data)) // assuming your API returns { placements: [...] }
+      .then((data) => setStudentAch(Array.isArray(data) ? data : []))
       .catch((err) => console.error("Error fetching MBA Student Achievements:", err));
   }, []);
   useEffect(() => {
@@ -60,7 +90,7 @@ const MBADepartment: React.FC = () => {
       .catch((err) => console.error("Error fetching Faculty Development:", err));
   }, []);
   React.useEffect(() => {
-    fetch("/api/syllabus?dept=mba")
+    fetch('/api/mba/syllabus')
       .then((res) => res.json())
       .then((data) => {
         setSyllabus(Array.isArray(data) ? data : []);
@@ -116,13 +146,76 @@ const MBADepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
+  const toggleAccordion = (key: string) => {
+    setAccordionOpenState((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const facultyAccordionSections = [
+    {
+      key: 'teaching',
+      title: 'Teaching Faculty',
+      content: (
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th scope="col" className="px-6 py-3">S.No.</th>
+              <th scope="col" className="px-6 py-3">Name</th>
+              <th scope="col" className="px-6 py-3">Qualification</th>
+              <th scope="col" className="px-6 py-3">Designation</th>
+              <th scope="col" className="px-6 py-3">Profile</th>
+            </tr>
+          </thead>
+          <tbody>
+            {faculty.map((member, index) => (
+              <tr key={index} className="bg-white border-b last:border-b-0 border-gray-200">
+                <td className="px-6 py-4">{index + 1}</td>
+                <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                <td className="px-6 py-4">{member.qualification}</td>
+                <td className="px-6 py-4">{member.designation}</td>
+                <td className="px-6 py-4">
+                  <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ),
+    },
+    {
+      key: 'nonTeaching',
+      title: 'Non-Teaching Staff',
+      content: (
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th scope="col" className="px-6 py-3">S.No.</th>
+              <th scope="col" className="px-6 py-3">Name</th>
+              <th scope="col" className="px-6 py-3">Designation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {nonTeachingFaculty.map((member, index) => (
+              <tr key={index} className="bg-white border-b last:border-b-0 border-gray-200">
+                <td className="px-6 py-4">{index + 1}</td>
+                <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                <td className="px-6 py-4">{member.designation}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ),
+    },
+  ];
+
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
       case 'Department':
         return (
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-<<<<<<< HEAD
             <p className="text-gray-700 mb-3 text-justify">
                       The Department of Business Administraiton have it's own
                       Assocaiton called RAYS (Reflective Altitutde Yander in
@@ -131,11 +224,6 @@ const MBADepartment: React.FC = () => {
                       association is formed during the academic year 2011-12.
                       The formation function of the assocation took on
                       31-March-2012.
-
-=======
-            <p className="text-gray-700 mb-3">
-              The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints by providing new dimensions in the body of knowledge needed for managerial development.
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
             </p>
             <div className="mt-8">
               <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Courses</h4>
@@ -354,7 +442,6 @@ const MBADepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-<<<<<<< HEAD
             <div className="space-y-8">
               {/* Desktop Navigation Tabs */}
               <div className="hidden md:block relative mb-8">
@@ -370,46 +457,7 @@ const MBADepartment: React.FC = () => {
                     >
                       {section === 'SalientFeatures' ? 'Salient Features' : section}
                     </button>
-                  ))}
-=======
-            {/* <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2> */}
-
-            {/* Desktop Navigation Tabs */}
-            <div className="hidden md:block relative mb-8">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => setActiveDeptTab(section)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                      ? 'bg-[#B22222] text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* HOD Information */}
-            <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
-              <div className="md:w-1/3">
-                <img
-                  src="/mbaHosd1.jpeg"
-                  alt="Mr. D. Naveen Kumar"
-                  className="w-full h-auto object-cover rounded-lg shadow-md"
-                />
-              </div>
-              <div className="md:w-2/3 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Mr. D. Naveen Kumar</h3>
-                  <p className="text-lg text-[#B22222] font-medium mb-2">Sr.Asst.Professor & Head of Department, MBA</p>
-                  <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-364)</p>
-                  <p className="text-gray-600">Fax No: 08818-284322</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_mba@srivasaviengg.ac.in" className="text-primary hover:underline">hod_mba@srivasaviengg.ac.in</a></p>
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
-                </div>
+                  ))}                </div>
               </div>
 
               {/* Mobile Section Display */}
@@ -422,7 +470,6 @@ const MBADepartment: React.FC = () => {
                 </div>
               </div>
 
-<<<<<<< HEAD
               {/* HOD Information (Static for now) */}
               {activeDeptTab === 'Department' && (
                 <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
@@ -450,10 +497,6 @@ const MBADepartment: React.FC = () => {
                   </div>
                 </div>
               )}
-=======
-
->>>>>>> 3a590e26b7f94b4cc40978c6473077a8fe737854
-
               {/* Game-Style Right Side Settings Panel */}
               {settingsPanelOpen && (
                 <div className="fixed inset-0 z-50">
@@ -577,131 +620,107 @@ const MBADepartment: React.FC = () => {
       case 'Faculty Profiles':
         return (
           <div className="space-y-8">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">S.No.</th>
-                      <th scope="col" className="px-6 py-3">Name</th>
-                      <th scope="col" className="px-6 py-3">Qualification</th>
-                      <th scope="col" className="px-6 py-3">Designation</th>
-                      <th scope="col" className="px-6 py-3">Profile</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {faculty.map((member, index) => (
-                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-6 py-4">{index + 1}</td>
-                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                        <td className="px-6 py-4">{member.qualification}</td>
-                        <td className="px-6 py-4">{member.designation}</td>
-                        <td className="px-6 py-4">
-                          <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            {facultyAccordionSections.map((section) => (
+              <div key={section.key} className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+                <AccordionSection
+                  title={section.title}
+                  isOpen={accordionOpenState[section.key] ?? false}
+                  onToggle={() => toggleAccordion(section.key)}
+                >
+                  {section.content}
+                </AccordionSection>
               </div>
-            </div>
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Staff</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">S.No.</th>
-                      <th scope="col" className="px-6 py-3">Name</th>
-                      <th scope="col" className="px-6 py-3">Designation</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {nonTeachingFaculty.map((member, index) => (
-                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-6 py-4">{index + 1}</td>
-                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                        <td className="px-6 py-4">{member.designation}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            ))}
           </div>
         );
 
       case 'Board of Studies':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-              Board of Studies Members
-            </h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">S.No</th>
-                    <th scope="col" className="px-6 py-3">Name</th>
-                    <th scope="col" className="px-6 py-3">Designation</th>
-                    <th scope="col" className="px-6 py-3">Organization</th>
-                    <th scope="col" className="px-6 py-3">Role</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {boardOfStudies.map((member: any, index: number) => (
-                    <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                      <td className="px-6 py-4">{index + 1}</td>
-                      <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                      <td className="px-6 py-4">{member.designation}</td>
-                      <td className="px-6 py-4">{member.organization}</td>
-                      <td className="px-6 py-4">{member.role}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <div className="space-y-6">
+              <AccordionSection
+                title="Board of Studies Members"
+                isOpen={accordionOpenState.boardMembers}
+                onToggle={() => toggleAccordion('boardMembers')}
+              >
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">S.No</th>
+                        <th scope="col" className="px-6 py-3">Name</th>
+                        <th scope="col" className="px-6 py-3">Designation</th>
+                        <th scope="col" className="px-6 py-3">Organization</th>
+                        <th scope="col" className="px-6 py-3">Role</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(Array.isArray(boardOfStudies) ? boardOfStudies : []).map((member: any, index: number) => (
+                        <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                          <td className="px-6 py-4">{index + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{member.name || '-'}</td>
+                          <td className="px-6 py-4">{member.designation || '-'}</td>
+                          <td className="px-6 py-4">{member.organization || '-'}</td>
+                          <td className="px-6 py-4">{member.position_in_job || '-'}</td>
+                        </tr>
+                      ))}
+                      {(!Array.isArray(boardOfStudies) || boardOfStudies.length === 0) && (
+                        <tr>
+                          <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                            No board of studies members available
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </AccordionSection>
 
-            <div className="mt-8">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-4">
-                Board of Studies Meeting Minutes
-              </h3>
-
-              {bosMeetings.length === 0 ? (
-                <p className="text-gray-600">No meeting minutes available.</p>
-              ) : (
-                <ul className="space-y-3">
-                  {bosMeetings.map((meeting) => (
-                    <li key={meeting.id} className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Minutes of {meeting.meeting_number}
-                        <sup>
-                          {meeting.meeting_number === "1"
-                            ? "st"
-                            : meeting.meeting_number === "2"
-                              ? "nd"
-                              : meeting.meeting_number === "3"
-                                ? "rd"
-                                : "th"}
-                        </sup>{" "}
-                        meeting of the Board of Studies, dated{" "}
-                        {new Date(meeting.meeting_date).toLocaleDateString("en-GB")}
-                        <a
-                          href={meeting.document_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline"
-                        >
-                          - View
-                        </a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <AccordionSection
+                title="Board of Studies Meeting Minutes"
+                isOpen={accordionOpenState.boardMeetings}
+                onToggle={() => toggleAccordion('boardMeetings')}
+              >
+                {Array.isArray(bosMeetings) && bosMeetings.length > 0 ? (
+                  <ul className="space-y-3">
+                    {bosMeetings.map((meeting: any) => (
+                      <li key={meeting.id ?? meeting.meeting_number} className="flex items-start">
+                        <span className="mr-2">•</span>
+                        <div>
+                          Minutes of {meeting.meeting_number || "-"}
+                          <sup>
+                            {meeting.meeting_number === "1"
+                              ? "st"
+                              : meeting.meeting_number === "2"
+                                ? "nd"
+                                : meeting.meeting_number === "3"
+                                  ? "rd"
+                                  : "th"}
+                          </sup>{" "}
+                          meeting of the Board of Studies, dated{" "}
+                          {meeting.meeting_date
+                            ? new Date(meeting.meeting_date).toLocaleDateString("en-GB")
+                            : "-"}
+                          {meeting.document_url && (
+                            <a
+                              href={meeting.document_url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline"
+                            >
+                              - View
+                            </a>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-600">No meeting minutes available.</p>
+                )}
+              </AccordionSection>
             </div>
           </div>
         );
@@ -711,64 +730,69 @@ const MBADepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Memorandums of Understanding (MoUs)</h2>
 
-            <div className="space-y-6">
-              {/* Star Health MOU */}
-              <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800">Star Health and Allied Insurance Company Ltd</h3>
-                    <p className="text-gray-600 mt-2">A leading health insurance provider offering comprehensive insurance solutions.</p>
+            <AccordionSection
+              title="MoU Details"
+              isOpen={accordionOpenState.mous}
+              onToggle={() => toggleAccordion('mous')}
+            >
+              <div className="space-y-6">
+                <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-800">Star Health and Allied Insurance Company Ltd</h3>
+                      <p className="text-gray-600 mt-2">A leading health insurance provider offering comprehensive insurance solutions.</p>
+                    </div>
+                    <div className="mt-4 md:mt-0">
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/22%20Star%20Health%2020230717180414256.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center"
+                      >
+                        <FileText className="w-4 h-4 mr-2" />
+                        View Document
+                      </a>
+                    </div>
                   </div>
-                  <div className="mt-4 md:mt-0">
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/mba/22%20Star%20Health%2020230717180414256.pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center"
-                    >
-                      <FileText className="w-4 h-4 mr-2" />
-                      View Document
-                    </a>
-                  </div>
-                </div>
 
-                <div className="mt-6">
-                  <h4 className="font-semibold text-gray-700 mb-2">Key Benefits</h4>
-                  <ul className="list-disc list-inside space-y-1 text-gray-600">
-                    <li>Industry exposure through internships and training programs</li>
-                    <li>Guest lectures by industry professionals</li>
-                    <li>Career opportunities for students in the insurance sector</li>
-                    <li>Research collaboration opportunities</li>
-                    <li>Enhanced understanding of insurance practices and risk management</li>
-                  </ul>
+                  <div className="mt-6">
+                    <h4 className="font-semibold text-gray-700 mb-2">Key Benefits</h4>
+                    <ul className="list-disc list-inside space-y-1 text-gray-600">
+                      <li>Industry exposure through internships and training programs</li>
+                      <li>Guest lectures by industry professionals</li>
+                      <li>Career opportunities for students in the insurance sector</li>
+                      <li>Research collaboration opportunities</li>
+                      <li>Enhanced understanding of insurance practices and risk management</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
-              <h4 className="text-lg font-semibold text-blue-800 flex items-center">
-                <Handshake className="h-5 w-5 mr-2" />
-                Benefits to Students
-              </h4>
-              <ul className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-blue-700">
-                <li className="flex items-center">
-                  <ChevronRight className="h-4 w-4 mr-2" />
-                  Practical industry exposure
-                </li>
-                <li className="flex items-center">
-                  <ChevronRight className="h-4 w-4 mr-2" />
-                  Internship opportunities
-                </li>
-                <li className="flex items-center">
-                  <ChevronRight className="h-4 w-4 mr-2" />
-                  Career placement assistance
-                </li>
-                <li className="flex items-center">
-                  <ChevronRight className="h-4 w-4 mr-2" />
-                  Professional skills development
-                </li>
-              </ul>
-            </div>
+              <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <h4 className="text-lg font-semibold text-blue-800 flex items-center">
+                  <Handshake className="h-5 w-5 mr-2" />
+                  Benefits to Students
+                </h4>
+                <ul className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-blue-700">
+                  <li className="flex items-center">
+                    <ChevronRight className="h-4 w-4 mr-2" />
+                    Practical industry exposure
+                  </li>
+                  <li className="flex items-center">
+                    <ChevronRight className="h-4 w-4 mr-2" />
+                    Internship opportunities
+                  </li>
+                  <li className="flex items-center">
+                    <ChevronRight className="h-4 w-4 mr-2" />
+                    Career placement assistance
+                  </li>
+                  <li className="flex items-center">
+                    <ChevronRight className="h-4 w-4 mr-2" />
+                    Professional skills development
+                  </li>
+                </ul>
+              </div>
+            </AccordionSection>
           </div>
         );
 
@@ -779,36 +803,42 @@ const MBADepartment: React.FC = () => {
               Faculty Development Programs
             </h2>
 
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-xl font-semibold mb-4 bg-gray-100 p-3 rounded-lg">
-                  FDPs Attended
-                </h3>
-                <ul className="space-y-3 pl-4">
-                  {facultyDev.length > 0 ? (
-                    facultyDev.map((item: any, idx: number) => (
-                      <li key={idx} className="flex items-start">
-                        <span className="mr-2 text-gray-600">•</span>
-                        <div>
-                          FDPs attended during the Academic Year {item.academic_year}
-                          <a
-                            href={item.file_url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-4 w-4 mr-1" />
-                            View
-                          </a>
-                        </div>
-                      </li>
-                    ))
-                  ) : (
-                    <li className="text-gray-500">No data available</li>
-                  )}
-                </ul>
+            <AccordionSection
+              title="Faculty Development Activities"
+              isOpen={accordionOpenState.fdp}
+              onToggle={() => toggleAccordion('fdp')}
+            >
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-semibold mb-4 bg-gray-100 p-3 rounded-lg">
+                    FDPs Attended
+                  </h3>
+                  <ul className="space-y-3 pl-4">
+                    {facultyDev.length > 0 ? (
+                      facultyDev.map((item: any, idx: number) => (
+                        <li key={idx} className="flex items-start">
+                          <span className="mr-2 text-gray-600">â€¢</span>
+                          <div>
+                            FDPs attended during the Academic Year {item.academic_year}
+                            <a
+                              href={item.file_url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-4 w-4 mr-1" />
+                              View
+                            </a>
+                          </div>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-gray-500">No data available</li>
+                    )}
+                  </ul>
+                </div>
               </div>
-            </div>
+            </AccordionSection>
           </div>
         );
 
@@ -822,16 +852,17 @@ const MBADepartment: React.FC = () => {
 
             <div className="space-y-6">
               {Object.keys(groupedData).map((type) => (
-                <div key={type}>
+                <div key={type} className="group">
                   <details open={type === "Patents"}>
-                    <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
-                      {type}
+                    <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+                      <span>{type}</span>
+                      <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                     </summary>
-                    <div className="mt-4 pl-4">
+                    <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
                       <ul className="space-y-3">
                         {groupedData[type].map((item: any, idx: number) => (
                           <li key={idx} className="flex items-start">
-                            <span className="mr-2 text-gray-600">•</span>
+                            <span className="mr-2 text-gray-600">â€¢</span>
                             <div>
                               {item.title}
                               <a
@@ -856,49 +887,55 @@ const MBADepartment: React.FC = () => {
         );
 
 
-      case 'Placements':
+      case 'Placements': {
+        const sortedPlacements = Array.isArray(placement)
+          ? [...placement].sort((a, b) => (b.batch || '').localeCompare(a.batch || ''))
+          : [];
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
 
             <div className="space-y-4">
-              {placement?.length > 0 ? (
-                placement
-                  .sort((a, b) => b.academic_year.localeCompare(a.academic_year)) // optional: sort by year descending
-                  .map((item, index) => (
-                    <details key={index} open={index === 0}>
-                      <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
-                        Placement Year {item.academic_year}
+              {sortedPlacements.length > 0 ? (
+                sortedPlacements.map((item: any, index: number) => (
+                  <div key={item.id || index} className="group">
+                    <details open={index === 0} className="border rounded-xl overflow-hidden">
+                      <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+                        <span>{item.batch ? `Placement Batch ${item.batch}` : 'Placement Details'}</span>
+                        <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                       </summary>
-                      <div className="mt-3 ml-4">
-                        <ul className="space-y-2">
-                          <li className="flex items-start">
-                            <span className="mr-2 text-gray-600">•</span>
-                            <div>
-                              <p>
-                                Placements during the Academic Year {item.academic_year}
-                                <a
-                                  href={item.report_url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                                >
-                                  <FileText className="h-4 w-4 mr-1" />
-                                  View
-                                </a>
-                              </p>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </details>
-                  ))
+                      <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
+                      <ul className="space-y-2">
+                        <li className="flex items-start text-gray-700">
+                          <span className="mr-2 text-[#B22222]">•</span>
+                          <div>
+                            <p>{item.title || 'Placement report'}</p>
+                            {item.file_url && (
+                              <a
+                                href={item.file_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center text-[#B22222] hover:underline mt-2"
+                              >
+                                <FileText className="h-4 w-4 mr-1" />
+                                View Report
+                              </a>
+                            )}
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+                ))
               ) : (
                 <p className="text-center text-gray-500">No placement data available.</p>
               )}
             </div>
           </div>
         );
+      }
 
       case 'Student Achievements':
         return (
@@ -906,14 +943,16 @@ const MBADepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
 
             <div className="space-y-4">
-              <details open>
-                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
-                  Internships
-                </summary>
-                <div className="mt-3 ml-4">
+              <div className="group">
+                <details open>
+                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+                    <span>Internships</span>
+                    <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+                  </summary>
+                  <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
                   <ul className="space-y-2">
                     <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">•</span>
+                      <span className="mr-2 text-gray-600">â€¢</span>
                       <div>
                         Internships during the Academic Year 2020-22
                         <a
@@ -928,7 +967,7 @@ const MBADepartment: React.FC = () => {
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">•</span>
+                      <span className="mr-2 text-gray-600">â€¢</span>
                       <div>
                         Internships during the Academic Year 2019-21
                         <a
@@ -943,7 +982,7 @@ const MBADepartment: React.FC = () => {
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">•</span>
+                      <span className="mr-2 text-gray-600">â€¢</span>
                       <div>
                         Internships during the Academic Year 2018-20
                         <a
@@ -958,7 +997,7 @@ const MBADepartment: React.FC = () => {
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">•</span>
+                      <span className="mr-2 text-gray-600">â€¢</span>
                       <div>
                         Internships during the Academic Year 2017-19
                         <a
@@ -974,16 +1013,19 @@ const MBADepartment: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-              </details>
+                </details>
+              </div>
 
-              <details>
-                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
-                  NPTEL
-                </summary>
-                <div className="mt-3 ml-4">
+              <div className="group">
+                <details>
+                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+                    <span>NPTEL</span>
+                    <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+                  </summary>
+                  <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
                   <ul className="space-y-2">
                     <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">•</span>
+                      <span className="mr-2 text-gray-600">â€¢</span>
                       <div>
                         NPTEL Certifications during Academic Year 2021-2022
                         <a
@@ -998,7 +1040,7 @@ const MBADepartment: React.FC = () => {
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">•</span>
+                      <span className="mr-2 text-gray-600">â€¢</span>
                       <div>
                         NPTEL Certifications during Academic Year 2020-2021
                         <a
@@ -1013,7 +1055,7 @@ const MBADepartment: React.FC = () => {
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">•</span>
+                      <span className="mr-2 text-gray-600">â€¢</span>
                       <div>
                         NPTEL Certifications during Academic Year 2019-2020
                         <a
@@ -1029,16 +1071,19 @@ const MBADepartment: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-              </details>
+                </details>
+              </div>
 
-              <details>
-                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
-                  Industrial Visits
-                </summary>
-                <div className="mt-3 ml-4">
+              <div className="group">
+                <details>
+                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+                    <span>Industrial Visits</span>
+                    <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+                  </summary>
+                  <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
                   <ul className="space-y-2">
                     <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">•</span>
+                      <span className="mr-2 text-gray-600">â€¢</span>
                       <div>
                         Industrial Visits during 2012-2014 to 2022-2023
                         <a
@@ -1054,7 +1099,8 @@ const MBADepartment: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-              </details>
+                </details>
+              </div>
             </div>
           </div>
         );
@@ -1123,11 +1169,14 @@ const MBADepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Newsletters</h2>
-            <details open>
-              <summary className="cursor-pointer font-semibold text-lg bg-gray-100 p-3 rounded-md hover:bg-gray-200 transition-colors">
-                News Letter 2016
-              </summary>
-              <ul className="mt-4 space-y-3 pl-6">
+            <div className="group">
+              <details open>
+                <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+                  <span>News Letter 2016</span>
+                  <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+                </summary>
+              <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
+                <ul className="space-y-3">
                 <li className="flex items-start">
                   <FileText className="h-5 w-5 mr-2 text-[#B22222] mt-0.5" />
                   <a
@@ -1140,7 +1189,9 @@ const MBADepartment: React.FC = () => {
                   </a>
                 </li>
               </ul>
-            </details>
+              </div>
+              </details>
+            </div>
           </div>
         );
       case 'Department Alumni':
@@ -1148,11 +1199,13 @@ const MBADepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Alumni</h2>
             <div className="mt-5">
-              <details open>
-                <summary className="cursor-pointer font-semibold text-lg bg-gray-100 p-3 rounded-md hover:bg-gray-200 transition-colors">
-                  Core Committee 2022-2023
-                </summary>
-                <div className="mt-4">
+              <div className="group">
+                <details open>
+                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+                    <span>Core Committee 2022-2023</span>
+                    <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+                  </summary>
+                  <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
                   <div className="flex justify-center items-center">
                     <ul className="space-y-3">
                       <li className="flex items-start">
@@ -1172,6 +1225,7 @@ const MBADepartment: React.FC = () => {
                   </div>
                 </div>
               </details>
+            </div>
             </div>
           </div>
         );
@@ -1282,32 +1336,38 @@ const MBADepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
 
-            {loading ? (
-              <p className="text-center text-gray-600">Loading syllabus...</p>
-            ) : syllabus.length === 0 ? (
-              <p className="text-center text-gray-600">No syllabus available.</p>
-            ) : (
-              <div className="container mt-5">
-                <div className="grid grid-cols-1 gap-6">
-                  {syllabus.map((item, index) => (
-                    <div key={index} className="text-center">
-                      <h3 className="text-xl font-semibold mb-2">
-                        {item.year} - {item.title}
-                        <a
-                          href={item.pdf_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-5 w-5 mr-1" />
-                          View
-                        </a>
-                      </h3>
-                    </div>
-                  ))}
+            <AccordionSection
+              title="MBA Syllabus"
+              isOpen={accordionOpenState.syllabus}
+              onToggle={() => toggleAccordion('syllabus')}
+            >
+              {loading ? (
+                <p className="text-center text-gray-600">Loading syllabus...</p>
+              ) : syllabus.length === 0 ? (
+                <p className="text-center text-gray-600">No syllabus available.</p>
+              ) : (
+                <div className="container mt-5">
+                  <div className="grid grid-cols-1 gap-6">
+                    {syllabus.map((item, index) => (
+                      <div key={index} className="text-center">
+                        <h3 className="text-xl font-semibold mb-2">
+                          {item.year} - {item.title}
+                          <a
+                            href={item.pdf_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-5 w-5 mr-1" />
+                            View
+                          </a>
+                        </h3>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </AccordionSection>
           </div>
         );
       default:
@@ -1330,7 +1390,7 @@ const MBADepartment: React.FC = () => {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Master of Business Administration"
+        title="MBA Department"
       >
         {renderContentWithTitle()}
       </DepartmentSidebar>
@@ -1341,3 +1401,4 @@ const MBADepartment: React.FC = () => {
 };
 
 export default MBADepartment;
+

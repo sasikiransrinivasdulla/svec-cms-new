@@ -14,11 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // get type from query if provided
         const { type } = req.query;
 
-        let query = "SELECT id, achievement_type as type, academic_year as year, achievement_title as title, description, document_url as proof_url FROM mba_faculty_achievements WHERE status = 'active'";
+        let query = "SELECT * FROM mba_faculty_achievements";
         let values: any[] = [];
 
         if (type) {
-            query += " AND achievement_type = ?";
+            query += " WHERE achievement_type = ?";
             values.push(type);
         }
 

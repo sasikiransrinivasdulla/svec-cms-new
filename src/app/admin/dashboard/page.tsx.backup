@@ -773,24 +773,6 @@ const DEPARTMENT_MODULES = {
     }
   ],
 
-  // Master of Business Administration
-  mba: [
-    { 
-      key: 'faculty', 
-      name: 'Faculty', 
-      icon: Users, 
-      description: 'Faculty members and profiles',
-      table: 'mba_faculty'
-    },
-    { 
-      key: 'placements', 
-      name: 'Placements', 
-      icon: Users, 
-      description: 'Student placement records',
-      table: 'mba_placements'
-    }
-  ],
-
   // Basic Sciences & Humanities
   bsh: [
     { 
@@ -1089,7 +1071,6 @@ const DEPARTMENTS = [
   { key: 'mech', name: 'Mechanical Engineering', color: 'bg-red-500', icon: Hammer },
   { key: 'cse', name: 'Computer Science', color: 'bg-purple-500', icon: Cpu },
   { key: 'eee', name: 'Electrical & Electronics', color: 'bg-yellow-500', icon: Zap },
-  { key: 'mba', name: 'Business Administration', color: 'bg-indigo-500', icon: Briefcase },
   { key: 'bsh', name: 'Basic Sciences & Humanities', color: 'bg-pink-500', icon: BookOpen },
   { key: 'cst', name: 'Computer Science & Technology', color: 'bg-teal-500', icon: Settings },
   { key: 'ect', name: 'Electronics & Communication Tech', color: 'bg-cyan-500', icon: Activity },
@@ -1116,6 +1097,9 @@ export default function SuperAdminDashboard() {
   const [editingItem, setEditingItem] = useState<ModuleData | null>(null);
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
   const [nextRefreshCountdown, setNextRefreshCountdown] = useState(30);
+
+  // Get current department modules (moved before useEffects that depend on it)
+  const currentModules = DEPARTMENT_MODULES[selectedDepartment as keyof typeof DEPARTMENT_MODULES] || [];
 
   // Debug state changes
   useEffect(() => {
@@ -1153,9 +1137,6 @@ export default function SuperAdminDashboard() {
 
     return () => clearInterval(countdownInterval);
   }, [selectedModule]);
-
-  // Get current department modules
-  const currentModules = DEPARTMENT_MODULES[selectedDepartment as keyof typeof DEPARTMENT_MODULES] || [];
 
   // Filter modules based on search
   const filteredModules = currentModules.filter(module =>
@@ -1574,7 +1555,7 @@ export default function SuperAdminDashboard() {
           </Dialog>
         </div>
       </div>
-    );
+    );  // End of selectedModule view
   }
 
   return (

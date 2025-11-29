@@ -5,7 +5,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     if (req.method === 'GET') {
       const rows: any = await executeQuery(
-        "SELECT * FROM cst_sahaya_events ORDER BY year DESC"
+        "select * from cst_sahaya_events order by year DESC"
       );
 
       res.status(200).json(rows);

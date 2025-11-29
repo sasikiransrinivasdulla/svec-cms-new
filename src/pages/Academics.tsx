@@ -44,6 +44,16 @@ interface AutonomousExamSection {
   posted_date: string;
 }
 
+interface JNTUKTimetable {
+  sno: number;
+  date: string;
+  content: string;
+  degree: 'UG' | 'PG';
+  type: string;
+  link: string | null;
+  posteddate: string;
+}
+
 const Academics: React.FC = () => {
   const [activeTab, setActiveTab] = useState('calendars');
   const [ugCalendars, setUgCalendars] = useState<(AcademicCalendar | RsacItem)[]>([]);
@@ -57,21 +67,23 @@ const Academics: React.FC = () => {
   const [ugAutonomousData, setUgAutonomousData] = useState<{ [key: string]: AutonomousExamSection[] }>({});
   const [pgAutonomousData, setPgAutonomousData] = useState<{ [key: string]: AutonomousExamSection[] }>({});
   
-  // JNTUK exam section timetables
-  interface JNTUKTimetable {
-    sno: number;
-    date: string;
-    content: string;
-    degree: 'UG' | 'PG';
-    type: string;
-    link: string | null;
-    posteddate: string;
-  }
-  const [ugJNTUKTimetables, setUgJNTUKTimetables] = useState<JNTUKTimetable[]>([]);
-  const [pgJNTUKTimetables, setPgJNTUKTimetables] = useState<JNTUKTimetable[]>([]);
+  
+  // JNTUK exam section data organized by degree and type
+  const [ugJNTUKData, setUgJNTUKData] = useState<{ [key: string]: JNTUKTimetable[] }>({});
+  const [pgJNTUKData, setPgJNTUKData] = useState<{ [key: string]: JNTUKTimetable[] }>({});
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Type options for autonomous section labels
+  const typeOptions = [
+    { value: 'Regular', label: 'Regular Examination' },
+    { value: 'Supply', label: 'Supplementary Examination' },
+    { value: 'Rules', label: 'Examination Rules' },
+    { value: 'Notification', label: 'Notifications' },
+    { value: 'Timetable', label: 'Time Tables' },
+    { value: 'revaluation_results', label: 'Revaluation Results' }
+  ];
 
   // Dropdown states for autonomous section
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
@@ -115,10 +127,10 @@ const Academics: React.FC = () => {
           fetch('/api/academics/rsac?type=syllabus'),
           fetch('/api/academics/rsac?type=regulations'),
           fetch('/api/academics/autonomous'),
-          fetch('/api/exam-section/jntuk-exam-section?type=timetable')
+          fetch('/api/exam-section/jntuk-exam-section')
         ]);
 
-        async function safeJson(res, fallback) {
+        async function safeJson(res: Response, fallback: any) {
           try {
             if (!res.ok) return fallback;
             const text = await res.text();
@@ -164,12 +176,30 @@ const Academics: React.FC = () => {
         // Set autonomous exam section data
         setUgAutonomousData(autonomousData.data?.UG || {});
         setPgAutonomousData(autonomousData.data?.PG || {});
+        
+        console.log('Autonomous data received:', autonomousData);
+        console.log('UG Autonomous data:', autonomousData.data?.UG);
+        console.log('PG Autonomous data:', autonomousData.data?.PG);
 
-        // Filter JNTUK timetables by degree
-        const ugTimetables = jntukTimetablesData.filter((item: JNTUKTimetable) => item.degree === 'UG');
-        const pgTimetables = jntukTimetablesData.filter((item: JNTUKTimetable) => item.degree === 'PG');
-        setUgJNTUKTimetables(ugTimetables);
-        setPgJNTUKTimetables(pgTimetables);
+        // Set JNTUK exam section data organized by degree and type
+        const jntukByDegree: { [key: string]: { [key: string]: JNTUKTimetable[] } } = {
+          UG: {},
+          PG: {}
+        };
+        
+        (Array.isArray(jntukTimetablesData) ? jntukTimetablesData : []).forEach((item: JNTUKTimetable) => {
+          const degree = item.degree as keyof typeof jntukByDegree;
+          if (!jntukByDegree[degree]) {
+            jntukByDegree[degree] = {};
+          }
+          if (!jntukByDegree[degree][item.type]) {
+            jntukByDegree[degree][item.type] = [];
+          }
+          jntukByDegree[degree][item.type].push(item);
+        });
+        
+        setUgJNTUKData(jntukByDegree.UG || {});
+        setPgJNTUKData(jntukByDegree.PG || {});
       } catch (err) {
         console.error('Error fetching academic data:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
@@ -750,9 +780,9 @@ const Academics: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                           <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Examination Rules</h5>
-                          {ugAutonomousData['examination_rules'] && ugAutonomousData['examination_rules'].length > 0 ? (
+                          {ugAutonomousData['Rules'] && ugAutonomousData['Rules'].length > 0 ? (
                             <ul className="space-y-3">
-                              {ugAutonomousData['examination_rules'].map((item) => (
+                              {ugAutonomousData['Rules'].map((item) => (
                                 <li key={item.id} className="flex items-start justify-between gap-3">
                                   <div className="flex items-start gap-2 flex-1">
                                     <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
@@ -777,9 +807,9 @@ const Academics: React.FC = () => {
                         </div>
                         <div>
                           <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Examination Rules</h5>
-                          {pgAutonomousData['examination_rules'] && pgAutonomousData['examination_rules'].length > 0 ? (
+                          {pgAutonomousData['Rules'] && pgAutonomousData['Rules'].length > 0 ? (
                             <ul className="space-y-3">
-                              {pgAutonomousData['examination_rules'].map((item) => (
+                              {pgAutonomousData['Rules'].map((item) => (
                                 <li key={item.id} className="flex items-start justify-between gap-3">
                                   <div className="flex items-start gap-2 flex-1">
                                     <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
@@ -959,9 +989,9 @@ const Academics: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                           <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Revaluation Results</h5>
-                          {ugAutonomousData['Revaluation Results'] && ugAutonomousData['Revaluation Results'].length > 0 ? (
+                          {ugAutonomousData['revaluation_results'] && ugAutonomousData['revaluation_results'].length > 0 ? (
                             <ul className="space-y-3">
-                              {ugAutonomousData['Revaluation Results'].map((item) => (
+                              {ugAutonomousData['revaluation_results'].map((item) => (
                                 <li key={item.id} className="flex items-start justify-between gap-3">
                                   <div className="flex items-start gap-2 flex-1">
                                     <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
@@ -986,9 +1016,9 @@ const Academics: React.FC = () => {
                         </div>
                         <div>
                           <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Revaluation Results</h5>
-                          {pgAutonomousData['Revaluation Results'] && pgAutonomousData['Revaluation Results'].length > 0 ? (
+                          {pgAutonomousData['revaluation_results'] && pgAutonomousData['revaluation_results'].length > 0 ? (
                             <ul className="space-y-3">
-                              {pgAutonomousData['Revaluation Results'].map((item) => (
+                              {pgAutonomousData['revaluation_results'].map((item) => (
                                 <li key={item.id} className="flex items-start justify-between gap-3">
                                   <div className="flex items-start gap-2 flex-1">
                                     <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
@@ -1039,9 +1069,9 @@ const Academics: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                           <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Timetables</h5>
-                          {ugJNTUKTimetables.length > 0 ? (
+                          {ugJNTUKData['Timetables'] && ugJNTUKData['Timetables'].length > 0 ? (
                             <ul className="space-y-3">
-                              {ugJNTUKTimetables.map((item) => (
+                              {ugJNTUKData['Timetables'].map((item) => (
                                 <li key={item.sno} className="flex items-start justify-between gap-3">
                                   <div className="flex items-start gap-2 flex-1">
                                     <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
@@ -1066,9 +1096,9 @@ const Academics: React.FC = () => {
                         </div>
                         <div>
                           <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Timetables</h5>
-                          {pgJNTUKTimetables.length > 0 ? (
+                          {pgJNTUKData['Timetables'] && pgJNTUKData['Timetables'].length > 0 ? (
                             <ul className="space-y-3">
-                              {pgJNTUKTimetables.map((item) => (
+                              {pgJNTUKData['Timetables'].map((item) => (
                                 <li key={item.sno} className="flex items-start justify-between gap-3">
                                   <div className="flex items-start gap-2 flex-1">
                                     <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
@@ -1107,7 +1137,62 @@ const Academics: React.FC = () => {
                   </button>
                   {expandedSections.jntukResults && (
                     <div className="p-4 bg-white">
-                      <p className="text-gray-500 italic">No results available.</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Results</h5>
+                          {ugJNTUKData['Results'] && ugJNTUKData['Results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Results'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG results available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Results</h5>
+                          {pgJNTUKData['Results'] && pgJNTUKData['Results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Results'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG results available.</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1123,7 +1208,62 @@ const Academics: React.FC = () => {
                   </button>
                   {expandedSections.jntukRevaluation && (
                     <div className="p-4 bg-white">
-                      <p className="text-gray-500 italic">No revaluation results available.</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Revaluation Results</h5>
+                          {ugJNTUKData['Revaluation Results'] && ugJNTUKData['Revaluation Results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Revaluation Results'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG revaluation results available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Revaluation Results</h5>
+                          {pgJNTUKData['Revaluation Results'] && pgJNTUKData['Revaluation Results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Revaluation Results'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG revaluation results available.</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1139,7 +1279,62 @@ const Academics: React.FC = () => {
                   </button>
                   {expandedSections.jntukFeeNotifications && (
                     <div className="p-4 bg-white">
-                      <p className="text-gray-500 italic">No fee notifications available.</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Fee Notifications</h5>
+                          {ugJNTUKData['Fee Notifications'] && ugJNTUKData['Fee Notifications'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Fee Notifications'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG fee notifications available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Fee Notifications</h5>
+                          {pgJNTUKData['Fee Notifications'] && pgJNTUKData['Fee Notifications'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Fee Notifications'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG fee notifications available.</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1155,7 +1350,62 @@ const Academics: React.FC = () => {
                   </button>
                   {expandedSections.jntukDownloads && (
                     <div className="p-4 bg-white">
-                      <p className="text-gray-500 italic">No downloads available.</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Downloads</h5>
+                          {ugJNTUKData['Downloads'] && ugJNTUKData['Downloads'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Downloads'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG downloads available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Downloads</h5>
+                          {pgJNTUKData['Downloads'] && pgJNTUKData['Downloads'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Downloads'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG downloads available.</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>

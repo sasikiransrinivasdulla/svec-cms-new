@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            `SELECT * FROM mba_student_achievements WHERE status = 'active' ORDER BY created_at DESC`
+            `SELECT * FROM mba_student_achievements ORDER BY created_at DESC`
         );
 
         await connection.end();

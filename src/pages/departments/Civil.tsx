@@ -333,9 +333,37 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed text-justify">
               The Department of Civil Engineering was established in the year 2001 with a vision to strive towards quality education, research and consultancy. Civil Engineering is one of the oldest and broadest engineering discipline which has been an aspect of life, since the beginning of human civilization. Efforts have been made to provide high quality technical education to students with a view to make them successful professionals.
             </p>
+             <div className="mt-8">
+              <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Courses</h4>
+              
+              
+              
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300 rounded-lg shadow-sm">
+                  <thead>
+                    <tr className="bg-green-700 text-white">
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Sl.No</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Name of the Course</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Eligibility Criteria</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Duration</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Intake</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <td className="border border-gray-300 px-4 py-3 text-center">1</td>
+                      <td className="border border-gray-300 px-4 py-3">B.Tech-Civil Engineering</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">AP EAPCET</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">4 Years</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">60</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         );
     }

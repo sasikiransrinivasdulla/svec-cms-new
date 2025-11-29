@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'File size too large' }, { status: 400 });
       }
 
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
       if (!allowedTypes.includes(profileFile.type)) {
         return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
       }
@@ -178,7 +178,7 @@ export async function PUT(request: NextRequest) {
         return NextResponse.json({ error: 'File size too large' }, { status: 400 });
       }
 
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
       if (!allowedTypes.includes(profileFile.type)) {
         return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
       }

@@ -13,9 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            `SELECT name, designation, organization, member_type as role, status, created_at 
-       FROM mba_bos_members 
-       WHERE status = "active"`
+            `SELECT name, designation, organization, position_in_job, created_at 
+       FROM mba_bos_members order by created_at DESC`
         );
 
         await connection.end();

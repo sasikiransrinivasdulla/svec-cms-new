@@ -364,6 +364,49 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['title', 'category', 'created_at'],
       editableFields: ['title', 'category', 'file_url']
     },
+    'physical-facilities': {
+      tableName: 'cai_physical_facilities',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Program Title',
+          type: 'text',
+          placeholder: 'e.g., Teaching with Technology Workshop',
+          required: true,
+          size: 'full',
+          description: 'Enter the faculty development program title'
+        },
+        {
+          name: 'category',
+          label: 'Program Type',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the program type',
+          options: [
+            { value: 'Laboratories', label: 'Laboratories' },
+            { value: 'Class Rooms', label: 'Class Rooms' },
+            { value: 'Timetables', label: 'Timetables' },
+            { value: 'Seminar Halls', label: 'Seminar Halls' }
+          ]
+        },
+        {
+          name: 'file_url',
+          label: 'Program Document/Certificate',
+          type: 'file',
+          placeholder: 'Upload program details or certificate',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload program document, certificate, or image (PDF, DOC, DOCX, or Image files max 1MB)'
+        }
+      ],
+      searchableFields: ['title', 'category'],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category', 'file_url']
+    },
+    
     'faculty-development': {
       tableName: 'cai_faculty_development_programs',
       displayField: 'title',
@@ -385,8 +428,8 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'half',
           description: 'Select the program type',
           options: [
-            { value: 'Attended', label: 'Attended' },
-            { value: 'Conducted', label: 'Conducted' },
+            { value: 'FDP Attended', label: 'Attended' },
+            { value: 'FDP Conducted', label: 'Conducted' },
             { value: 'Workshops/Training', label: 'Workshops/Training' },
             { value: 'Gallery', label: 'Gallery' }
           ]
@@ -415,6 +458,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['title', 'category', 'year', 'created_at'],
       editableFields: ['title', 'category', 'year', 'file_url']
     },
+    
     'placements': {
       tableName: 'cai_placements',
       displayField: 'title',
@@ -1359,9 +1403,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       size: 'half',
       description: 'Select the workshop category',
       options: [
-        { value: 'SOC', label: 'SOC' },
+        
         { value: 'Guest Lecturers/Seminars', label: 'Guest Lecturers/Seminars' },
-        { value: 'Workshops', label: 'Workshops' }
+        { value: 'Workshops/SOC', label: 'Workshops/SOC' }
       ]
     },
     {
@@ -1590,7 +1634,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['title', 'category', 'file_url']
     },
     'faculty-development': {
-      tableName: 'cai_faculty_development_programs',
+      tableName: 'cst_faculty_development_programs',
       displayField: 'title',
       fields: [
         {
@@ -1610,10 +1654,10 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'half',
           description: 'Select the program type',
           options: [
-            { value: 'Attended', label: 'Attended' },
-            { value: 'Conducted', label: 'Conducted' },
+            { value: 'FDP Attended', label: 'Attended' },
+            { value: 'FDP Conducted', label: 'Conducted' },
             { value: 'Workshops/Training', label: 'Workshops/Training' },
-            { value: 'Gallery', label: 'Gallery' }
+            
           ]
         },
         {
@@ -2647,6 +2691,58 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       searchableFields: ['name', 'rollno', 'batch'],
       sortableFields: ['name', 'cgpa', 'batch', 'created_at'],
       editableFields: ['name', 'batch', 'cgpa']
+    },
+    'sahaya-events': {
+      tableName: 'cst_sahaya_events',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Title',
+          type: 'text',
+          placeholder: 'e.g., Sahaya Events',
+          required: true,
+          size: 'full',
+          description: 'Enter the title for the Sahaya event section',
+          validation: {
+            max: 1000,
+            message: 'Title must not exceed 1000 characters'
+          }
+        },
+        {
+          name: 'year',
+          label: 'Year',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: true,
+          size: 'half',
+          description: 'Enter the year of the event'
+        },
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the category for this event',
+          options: [
+            { value: 'ecactivities', label: 'EC Activities' },
+            { value: 'sahaya', label: 'Sahaya' }
+          ]
+        },
+        {
+          name: 'file_url',
+          label: 'Event Document/PDF',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload event document, certificate, or related file (PDF, DOC, DOCX, or Image files)'
+        }
+      ],
+      searchableFields: ['title', 'year', 'category'],
+      sortableFields: ['title', 'year', 'category', 'created_at'],
+      editableFields: ['title', 'year', 'category', 'file_url']
     }
   },
   // ================================================================================================
@@ -4798,6 +4894,49 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['title', 'category', 'year', 'created_at'],
       editableFields: ['title', 'category', 'year', 'file_url']
     },
+    'physical-facilities': {
+      tableName: 'aiml_physical_facilities',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Program Title',
+          type: 'text',
+          placeholder: 'e.g., Teaching with Technology Workshop',
+          required: true,
+          size: 'full',
+          description: 'Enter the faculty development program title'
+        },
+        {
+          name: 'category',
+          label: 'Program Type',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the program type',
+          options: [
+            { value: 'Laboratories', label: 'Laboratories' },
+            { value: 'Class Rooms', label: 'Class Rooms' },
+            { value: 'Timetables', label: 'Timetables' },
+            { value: 'Seminar Halls', label: 'Seminar Halls' }
+          ]
+        },
+       
+        {
+          name: 'file_url',
+          label: 'Program Document/Certificate',
+          type: 'file',
+          placeholder: 'Upload program details or certificate',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload program document, certificate, or image (PDF, DOC, DOCX, or Image files max 1MB)'
+        }
+      ],
+      searchableFields: ['title', 'category'],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category',  'file_url']
+    },
     'placements': {
       tableName: 'aiml_placements',
       displayField: 'title',
@@ -5681,7 +5820,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           description: 'Enter job designation'
         },
         {
-          name: 'profile_url',
+          name: 'profileUrl',
           label: 'Profile PDF',
           type: 'file',
           required: false,
@@ -5918,8 +6057,8 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'half',
           description: 'Select the program type',
           options: [
-            { value: 'Attended', label: 'Attended' },
-            { value: 'Conducted', label: 'Conducted' },
+            { value: 'FDP Attended', label: 'Attended' },
+            { value: 'FDP Conducted', label: 'Conducted' },
             { value: 'Workshops/Training', label: 'Workshops/Training' },
             { value: 'Gallery', label: 'Gallery' }
           ]
@@ -6000,7 +6139,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'academic toppers', label: 'Academic Toppers' },
             { value: 'technical association', label: 'Technical Association' },
             { value: 'extracurricular activities', label: 'Extracurricular Activities' },
-            { value: 'laboratory', label: 'Laboratory' }
+            { value: 'laboratories', label: 'Laboratories' }
           ]
         },
         {
@@ -6830,6 +6969,342 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['hod_name', 'hod_email', 'hod_qualification', 'hod_image_url', 'description']
     }
   },
+  // ================================================================================================
+  'cse': {
+     'faculty-development': {
+      tableName: 'cse_faculty_development_programs',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Program Title',
+          type: 'text',
+          placeholder: 'e.g., Teaching with Technology Workshop',
+          required: true,
+          size: 'full',
+          description: 'Enter the faculty development program title'
+        },
+        {
+          name: 'category',
+          label: 'Program Type',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the program type',
+          options: [
+            { value: 'FDP Attended', label: 'Attended' },
+            { value: 'FDP Conducted', label: 'Conducted' },
+            { value: 'Workshops/Training', label: 'Workshops/Training' },
+          ]
+        },
+        {
+          name: 'year',
+          label: 'Year/Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024 or 2024-25',
+          required: false,
+          size: 'half',
+          description: 'Enter the year or academic year'
+        },
+        {
+          name: 'file_url',
+          label: 'Program Document/Certificate',
+          type: 'file',
+          placeholder: 'Upload program details or certificate',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload program document, certificate, or image (PDF, DOC, DOCX, or Image files max 1MB)'
+        }
+      ],
+      searchableFields: ['title', 'category', 'year'],
+      sortableFields: ['title', 'category', 'year', 'created_at'],
+      editableFields: ['title', 'category', 'year', 'file_url']
+    },
+     'workshops': {
+     tableName: 'cse_workshops',
+  displayField: 'title',
+  fields: [
+     {
+      name: 'category',
+      label: 'Category',
+      type: 'select',
+      required: true,
+      size: 'half',
+      description: 'Select the workshop category',
+      options: [
+        
+        { value: 'Guest Lecturers/Seminars', label: 'Guest Lecturers/Seminars' },
+        { value: 'Workshops/SOC', label: 'Workshops/SOC' }
+      ]
+    },
+    {
+      name: 'title',
+      label: 'Workshop Title',
+      type: 'text',
+      placeholder: 'e.g., Machine Learning Fundamentals',
+      required: true,
+      size: 'full',
+      description: 'Enter the title of the workshop'
+    },
+   
+    {
+      name: 'file_url',
+      label: 'Workshop Document/Brochure',
+      type: 'file',
+      required: false,
+      size: 'full',
+      accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+      description: 'Upload workshop document, brochure, or image (PDF, DOC, or Image files)'
+    }
+  ],
+  searchableFields: ['title', 'category',],
+  sortableFields: ['title', 'category','created_at'],
+  editableFields: ['title', 'category','file_url']
+},
+    'faculty-achievements': {
+      tableName: 'cse_faculty_achievements',
+      displayField: 'title',
+      
+      fields: [
+         {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the type of achievement',
+          options: [
+            { value: 'Journal Publications', label: 'Journal Publications' },
+            { value: 'Conferences', label: 'Conferences' },
+            { value: 'Book Publications', label: 'Book Publications' },
+            { value: 'Certifications', label: 'Certifications' },
+            { value: 'Patents', label: 'Patents' },
+            { value: 'Research Supervisors', label: 'Research Supervisors' },
+            { value: 'Awards', label: 'Awards' },
+            { value: 'Faculty Out-Reach', label: 'Faculty Out-Reach' }
+          ]
+        },
+        {
+          name: 'title',
+          label: 'Achievement Title',
+          type: 'text',
+          placeholder: 'e.g., Best Teacher Award, Paper Title, etc.',
+          required: true,
+          size: 'full',
+          description: 'Enter the title of the achievement, publication, or certification'
+        },
+        {
+          name: 'file_url',
+          label: 'Supporting Document',
+          type: 'file',
+          placeholder: 'Upload certificate, publication, or related document',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload supporting document, certificate, or publication (PDF, DOC, DOCX, or Image files max 1MB)'
+        }
+      ],
+      searchableFields: ['title', 'category'],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category', 'file_url']
+    },
+    'syllabus': {
+      
+  tableName: 'cse_syllabus',
+  displayField: 'title',
+
+  fields: [
+    {
+      name: 'type',
+      label: 'Type',
+      type: 'select',              // dropdown
+      required: true,
+      size: 'full',
+      options: [
+        { label: 'SOC', value: 'soc' },
+        { label: 'B.Tech Syllabus', value: 'B.Tech Syllabus' },
+        { label: 'M.Tech Syllabus', value: 'M.Tech Syllabus' }
+      ],
+      description: 'Select whether this document is SOC or Syllabus'
+    },
+    {
+      name: 'title',
+      label: 'Syllabus Title',
+      type: 'text',
+      placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+      required: true,
+      size: 'full',
+      description: 'Enter the title or name of the syllabus document',
+      validation: {
+        min: 5,
+        max: 200,
+        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+      }
+    },
+    {
+      name: 'fileUrl',
+      label: 'Syllabus PDF Document',
+      type: 'file',
+      required: true,
+      size: 'full',
+      accept: '.pdf,.doc,.docx',
+      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+    }
+  ],
+
+  searchableFields: ['title', 'type'],
+  sortableFields: ['title', 'created_at'],
+  editableFields: ['type', 'title', 'fileUrl']
+},
+'academic-toppers': {
+      
+  tableName: 'cse_academic_toppers',
+  displayField: 'title',
+
+  fields: [
+    {
+      name: 'type',
+      label: 'Type',
+      type: 'select',              // dropdown
+      required: true,
+      size: 'full',
+      options: [
+        { label: 'Merit Scholarships', value: 'Merit Scholarships' },
+        { label: 'Academic Toppers', value: 'Academic Toppers' },
+        
+      ],
+      description: 'Select whether this document is Merit Scholarships or Academic Toppers'
+    },
+    {
+      name: 'title',
+      label: 'Syllabus Title',
+      type: 'text',
+      placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+      required: true,
+      size: 'full',
+      description: 'Enter the title or name of the syllabus document',
+      validation: {
+        min: 5,
+        max: 200,
+        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+      }
+    },
+    {
+      name: 'fileUrl',
+      label: 'Syllabus PDF Document',
+      type: 'file',
+      required: true,
+      size: 'full',
+      accept: '.pdf,.doc,.docx',
+      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+    }
+  ],
+
+  searchableFields: ['title', 'type'],
+  sortableFields: ['title', 'created_at'],
+  editableFields: ['type', 'title', 'fileUrl']
+},
+    'department-overview': {
+      tableName: 'cse_department_overview',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Title',
+          type: 'text',
+          placeholder: 'e.g., Department Overview',
+          required: true,
+          size: 'full',
+          description: 'Enter the title for this overview section',
+          validation: {
+            max: 1000,
+            message: 'Title must not exceed 1000 characters'
+          }
+        },
+        {
+          name: 'description',
+          label: 'Description',
+          type: 'textarea',
+          placeholder: 'Enter detailed description...',
+          required: true,
+          size: 'full',
+          rows: 6,
+          description: 'Provide a comprehensive description for this section',
+          validation: {
+            max: 5000,
+            message: 'Description must not exceed 5000 characters'
+          }
+        },
+        {
+          name: 'file_url',
+          label: 'Related Document/Image',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload related document, image, or brochure (PDF, DOC, DOCX, or Image files)'
+        }
+      ],
+      searchableFields: ['title', 'description'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['title', 'description', 'file_url']
+    },
+    'sahaya-events': {
+      tableName: 'cse_sahaya_events',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Title',
+          type: 'text',
+          placeholder: 'e.g., Sahaya Events',
+          required: true,
+          size: 'full',
+          description: 'Enter the title for the Sahaya event section',
+          validation: {
+            max: 1000,
+            message: 'Title must not exceed 1000 characters'
+          }
+        },
+        {
+          name: 'year',
+          label: 'Year',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: true,
+          size: 'half',
+          description: 'Enter the year of the event'
+        },
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the category for this event',
+          options: [
+            { value: 'ecactivities', label: 'EC Activities' },
+            { value: 'sahaya', label: 'Sahaya' }
+          ]
+        },
+        {
+          name: 'file_url',
+          label: 'Event Document/PDF',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload event document, certificate, or related file (PDF, DOC, DOCX, or Image files)'
+        }
+      ],
+      searchableFields: ['title', 'year', 'category'],
+      sortableFields: ['title', 'year', 'category', 'created_at'],
+      editableFields: ['title', 'year', 'category', 'file_url']
+    }
+  }
 };
 
 // ================================================================================================
