@@ -999,51 +999,19 @@ const MBADepartment: React.FC = () => {
                   <ul className="list-disc pl-6 my-2 space-y-2">
                     <li>
                       Internships during the Academic Year 2020-22
-                      <a
-                        href="#"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View
-                      </a>
+                      <span className="ml-2 text-gray-400 italic text-sm">(Document unavailable)</span>
                     </li>
                     <li>
                       Internships during the Academic Year 2019-21
-                      <a
-                        href="#"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View
-                      </a>
+                      <span className="ml-2 text-gray-400 italic text-sm">(Document unavailable)</span>
                     </li>
                     <li>
                       Internships during the Academic Year 2018-20
-                      <a
-                        href="#"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View
-                      </a>
+                      <span className="ml-2 text-gray-400 italic text-sm">(Document unavailable)</span>
                     </li>
                     <li>
                       Internships during the Academic Year 2017-19
-                      <a
-                        href="#"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View Details
-                      </a>
+                      <span className="ml-2 text-gray-400 italic text-sm">(Document unavailable)</span>
                     </li>
                   </ul>
                 </div>
