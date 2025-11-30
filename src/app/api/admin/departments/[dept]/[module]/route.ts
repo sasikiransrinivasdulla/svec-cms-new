@@ -61,7 +61,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'bos-members': 'civil_bos_members',
     'bos-minutes': 'civil_bos_minutes',
     'faculty': 'civil_faculty',
-    
+
     'consultancy': 'civil_consultancy',
     'extra-curricular': 'civil_extra_curricular_activities',
     'newsletters': 'civil_newsletters',
@@ -148,7 +148,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'bos-minutes': 'mba_bos_minutes',
     'department-library': 'mba_department_library',
     'department-overview': 'mba_department_overview',
-    'extra-curricular': 'mba_extra_curricular',
+    'extra-curricular': 'mba_extracurricular_activities',
     'faculty': 'mba_faculty',
     'faculty-achievements': 'mba_faculty_achievements',
     'faculty-development': 'mba_faculty_development',
@@ -259,7 +259,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'technical-faculty': 'ds_technical_faculty',
     'training-activities': 'ds_training_activities'
   },
-   'cst': {
+  'cst': {
     'bos-members': 'cst_bos_members',
     'bos-minutes': 'cst_bos_minutes',
     'department-library': 'cst_department_library',
@@ -294,7 +294,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'extra-curricular-gallery': 'cst_hackathons_gallery',
     'faculty-development-gallery': 'cst_hackathons_gallery',
     'workshops-gallery': 'cst_hackathons_gallery'
- },
+  },
 };
 
 // Verify user authentication and department access
@@ -309,7 +309,7 @@ async function verifyDepartmentAccess(request: NextRequest, department: string) 
   const token = authHeader.substring(7);
   console.log('Token length:', token.length);
   const user = verifyToken(token);
-  
+
   if (!user) {
     console.log('Token verification failed');
     return { error: 'Invalid token', status: 401 };
@@ -341,7 +341,7 @@ export async function GET(
   try {
     const { dept, module } = await params;
     console.log(`[GET] Fetching module data - Department: ${dept}, Module: ${module}`);
-    
+
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = Math.min(parseInt(searchParams.get('limit') || '100'), 1000); // Cap at 1000
@@ -358,29 +358,29 @@ export async function GET(
     // Get table name
     const tableName = DEPARTMENT_MODULES[dept]?.[module];
     console.log(`[GET] Resolved table name: ${tableName}`);
-    
+
     if (!tableName) {
       console.log(`[GET] Invalid department or module - ${dept}/${module}`);
       return NextResponse.json({ error: 'Invalid department or module' }, { status: 404 });
     }
 
     const offset = (page - 1) * limit;
-    
+
     // Build search condition with optimized query
     let searchCondition = '';
     let queryParams: any[] = [];
-    
+
     if (search) {
       // Simple text search on commonly searchable fields instead of querying table structure
       const searchFields = ['title', 'name', 'description', 'subject', 'author', 'company'];
       const availableFields: string[] = [];
-      
+
       // Quick check for which fields exist (cached approach)
       try {
         const sampleRow = await query<RowDataPacket[]>(
           `SELECT * FROM ${tableName} LIMIT 1`
         );
-        
+
         if (sampleRow.length > 0) {
           const existingFields = Object.keys(sampleRow[0]);
           availableFields.push(...searchFields.filter(field => existingFields.includes(field)));
@@ -430,7 +430,7 @@ export async function GET(
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
     console.error('Error details:', { errorMessage, errorStack });
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage,
       stack: process.env.NODE_ENV === 'development' ? errorStack : undefined
@@ -496,10 +496,10 @@ export async function POST(
         console.warn(`[POST] Could not check dept field for ${tableName}:`, err);
         // Fallback: try adding dept field for known department tables
         if (!mappedBody.dept && (tableName.includes('_') && (
-          tableName.startsWith('cai_') || 
-          tableName.startsWith('ece_') || 
-          tableName.startsWith('cst_') || 
-          tableName.startsWith('eee_') || 
+          tableName.startsWith('cai_') ||
+          tableName.startsWith('ece_') ||
+          tableName.startsWith('cst_') ||
+          tableName.startsWith('eee_') ||
           tableName.startsWith('mba_') ||
           tableName.startsWith('bsh_') ||
           tableName.startsWith('civil_') ||
@@ -512,6 +512,27 @@ export async function POST(
           console.log(`[POST] Fallback: Auto-added dept field: ${dept}`);
         }
       }
+    }
+
+    // Check for JSON columns and convert string values to proper JSON format
+    try {
+      const tableColumns = await query<RowDataPacket[]>(`SHOW COLUMNS FROM ${tableName}`);
+      for (const col of tableColumns) {
+        const columnName = col.Field;
+        const columnType = col.Type.toLowerCase();
+
+        // If column is JSON type and the value is a string (file URL), wrap it in JSON array
+        if (columnType.includes('json') && mappedBody[columnName]) {
+          const value = mappedBody[columnName];
+          if (typeof value === 'string' && value.trim() !== '' && !value.startsWith('[') && !value.startsWith('{')) {
+            // Convert string URL to JSON array format
+            mappedBody[columnName] = JSON.stringify([value]);
+            console.log(`[POST] Converted ${columnName} to JSON array:`, mappedBody[columnName]);
+          }
+        }
+      }
+    } catch (err) {
+      console.warn(`[POST] Could not check JSON columns for ${tableName}:`, err);
     }
 
     // Build insert query
@@ -542,7 +563,7 @@ export async function POST(
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
     console.error('Error details:', { errorMessage, errorStack });
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage,
       stack: process.env.NODE_ENV === 'development' ? errorStack : undefined
@@ -603,11 +624,32 @@ export async function PUT(
     }
 
     const oldRecordData = existingRecord[0];
-    
+
     // Map form fields to database fields
     const mappedBody = mapFieldsToDatabase(tableName, body);
     console.log(`[PUT] Field mapping for ${tableName}:`, { original: body, mapped: mappedBody });
-    
+
+    // Check for JSON columns and convert string values to proper JSON format
+    try {
+      const tableColumns = await query<RowDataPacket[]>(`SHOW COLUMNS FROM ${tableName}`);
+      for (const col of tableColumns) {
+        const columnName = col.Field;
+        const columnType = col.Type.toLowerCase();
+
+        // If column is JSON type and the value is a string (file URL), wrap it in JSON array
+        if (columnType.includes('json') && mappedBody[columnName]) {
+          const value = mappedBody[columnName];
+          if (typeof value === 'string' && value.trim() !== '' && !value.startsWith('[') && !value.startsWith('{')) {
+            // Convert string URL to JSON array format
+            mappedBody[columnName] = JSON.stringify([value]);
+            console.log(`[PUT] Converted ${columnName} to JSON array:`, mappedBody[columnName]);
+          }
+        }
+      }
+    } catch (err) {
+      console.warn(`[PUT] Could not check JSON columns for ${tableName}:`, err);
+    }
+
     // Delete replaced files before updating
     try {
       await deleteReplacedFiles(oldRecordData, mappedBody);
@@ -615,9 +657,7 @@ export async function PUT(
     } catch (fileError) {
       console.error(`⚠️ Error cleaning up replaced files for ${dept}/${module} record ID: ${id}`, fileError);
       // Continue with database update even if file cleanup fails
-    }
-
-    // Build update query
+    }    // Build update query
     const columns = Object.keys(mappedBody);
     const values = Object.values(mappedBody);
     const setClause = columns.map(col => `${col} = ?`).join(', ');
@@ -649,7 +689,7 @@ export async function PUT(
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
     console.error('Error details:', { errorMessage, errorStack });
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage,
       stack: process.env.NODE_ENV === 'development' ? errorStack : undefined
@@ -700,7 +740,7 @@ export async function DELETE(
     }
 
     const recordData = existingRecord[0];
-    
+
     // Delete the record from database first (fast operation)
     await query(`DELETE FROM ${tableName} WHERE id = ?`, [id]);
 
@@ -709,7 +749,7 @@ export async function DELETE(
       success: true,
       message: 'Record deleted successfully'
     });
-    
+
     // Cleanup files in the background (don't await this)
     setImmediate(async () => {
       try {
@@ -720,7 +760,7 @@ export async function DELETE(
         // File cleanup failure doesn't affect the user - record is already deleted
       }
     });
-    
+
     return response;
 
   } catch (error) {
@@ -728,7 +768,7 @@ export async function DELETE(
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
     console.error('Error details:', { errorMessage, errorStack });
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage,
       stack: process.env.NODE_ENV === 'development' ? errorStack : undefined

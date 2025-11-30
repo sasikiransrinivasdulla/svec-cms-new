@@ -39,6 +39,11 @@ const MBADepartment: React.FC = () => {
   const [facultyAch, setFacultyAch] = React.useState<any[]>([]);
   const [placement, setPlacement] = React.useState<any[]>([]);
   const [StudentAch, setStudentAch] = React.useState<any[]>([]);
+  const [handbooks, setHandbooks] = React.useState<any[]>([]);
+  const [meritScholarships, setMeritScholarships] = React.useState<any[]>([]);
+  const [mous, setMous] = React.useState<any[]>([]);
+  const [newsletters, setNewsletters] = React.useState<any[]>([]);
+  const [physicalFacilities, setPhysicalFacilities] = React.useState<any[]>([]);
   const [accordionOpenState, setAccordionOpenState] = React.useState<Record<string, boolean>>({
     teaching: true,
     nonTeaching: false,
@@ -47,6 +52,7 @@ const MBADepartment: React.FC = () => {
     syllabus: true,
     mous: true,
     fdp: true,
+    handbooks: true,
   });
   useEffect(() => {
     fetch('/api/mba/student-achievements') // backend API URL
@@ -76,8 +82,8 @@ const MBADepartment: React.FC = () => {
   const groupedData = React.useMemo(() => {
     if (!Array.isArray(facultyAch)) return {};
     return facultyAch.reduce((acc: any, curr) => {
-      if (!acc[curr.type]) acc[curr.type] = [];
-      acc[curr.type].push(curr);
+      if (!acc[curr.category]) acc[curr.category] = [];
+      acc[curr.category].push(curr);
       return acc;
     }, {});
   }, [facultyAch]);
@@ -86,7 +92,7 @@ const MBADepartment: React.FC = () => {
   useEffect(() => {
     fetch('/api/mba/faculty-development') // backend API URL
       .then((res) => res.json())
-      .then((data) => setFacultyDev(data))
+      .then((data) => setFacultyDev(Array.isArray(data) ? data : []))
       .catch((err) => console.error("Error fetching Faculty Development:", err));
   }, []);
   React.useEffect(() => {
@@ -120,6 +126,42 @@ const MBADepartment: React.FC = () => {
         setboardOfStudies(data || []);
       });
   }, []);
+
+  React.useEffect(() => {
+    fetch('/api/mba/handbooks')
+      .then((res) => res.json())
+      .then((data) => setHandbooks(Array.isArray(data) ? data : []))
+      .catch((err) => console.error("Error fetching MBA Handbooks:", err));
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/mba/merit-scholarships')
+      .then((res) => res.json())
+      .then((data) => setMeritScholarships(Array.isArray(data) ? data : []))
+      .catch((err) => console.error("Error fetching MBA Merit Scholarships:", err));
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/mba/mous')
+      .then((res) => res.json())
+      .then((data) => setMous(Array.isArray(data) ? data : []))
+      .catch((err) => console.error("Error fetching MBA MoUs:", err));
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/mba/newsletters')
+      .then((res) => res.json())
+      .then((data) => setNewsletters(Array.isArray(data) ? data : []))
+      .catch((err) => console.error("Error fetching MBA Newsletters:", err));
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/mba/physical-facilities')
+      .then((res) => res.json())
+      .then((data) => setPhysicalFacilities(Array.isArray(data) ? data : []))
+      .catch((err) => console.error("Error fetching MBA Physical Facilities:", err));
+  }, []);
+
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
     { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
@@ -217,19 +259,19 @@ const MBADepartment: React.FC = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
             <p className="text-gray-700 mb-3 text-justify">
-                      The Department of Business Administraiton have it's own
-                      Assocaiton called RAYS (Reflective Altitutde Yander in
-                      Serenity). RAYS is the Association name of Department of
-                      MBA of Sri Vasavi Engineering College, Pedatadepalli. The
-                      association is formed during the academic year 2011-12.
-                      The formation function of the assocation took on
-                      31-March-2012.
+              The Department of Business Administraiton have it's own
+              Assocaiton called RAYS (Reflective Altitutde Yander in
+              Serenity). RAYS is the Association name of Department of
+              MBA of Sri Vasavi Engineering College, Pedatadepalli. The
+              association is formed during the academic year 2011-12.
+              The formation function of the assocation took on
+              31-March-2012.
             </p>
             <div className="mt-8">
               <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Courses</h4>
-              
-              
-              
+
+
+
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse border border-gray-300 rounded-lg shadow-sm">
                   <thead>
@@ -402,9 +444,9 @@ const MBADepartment: React.FC = () => {
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
             <p className="text-gray-700 leading-relaxed text-justify">
-              The Master of Business Administration (MBA) program at Sri Vasavi Engineering College provides 
-              comprehensive business education designed to develop future leaders and managers. The program combines 
-              theoretical knowledge with practical applications, preparing students for leadership roles in various 
+              The Master of Business Administration (MBA) program at Sri Vasavi Engineering College provides
+              comprehensive business education designed to develop future leaders and managers. The program combines
+              theoretical knowledge with practical applications, preparing students for leadership roles in various
               sectors of the business world.
             </p>
             <div className="mt-8">
@@ -453,7 +495,7 @@ const MBADepartment: React.FC = () => {
                       className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
                         ? 'bg-[#B22222] text-white shadow-lg'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
+                        }`}
                     >
                       {section === 'SalientFeatures' ? 'Salient Features' : section}
                     </button>
@@ -546,7 +588,7 @@ const MBADepartment: React.FC = () => {
                               className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
                                 ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                                 : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center gap-3">
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
@@ -736,6 +778,7 @@ const MBADepartment: React.FC = () => {
               onToggle={() => toggleAccordion('mous')}
             >
               <div className="space-y-6">
+                {/* Hardcoded Star Health MoU */}
                 <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                     <div>
@@ -766,6 +809,22 @@ const MBADepartment: React.FC = () => {
                     </ul>
                   </div>
                 </div>
+
+                {/* Dynamic MoUs from database */}
+                {mous.map((mou, index) => (
+                  <div key={mou.id || index} className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                      <div className="flex-1">
+                        <h3 className="text-xl font-semibold text-gray-800">{mou.mou_with}</h3>
+                        <div className="mt-3 space-y-1 text-sm text-gray-600">
+                          <p><span className="font-medium">From:</span> {mou.from_date}</p>
+                          <p><span className="font-medium">To:</span> {mou.to_date}</p>
+                          <p><span className="font-medium">Status:</span> <span className="text-green-600 font-medium">{mou.status}</span></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
@@ -817,18 +876,20 @@ const MBADepartment: React.FC = () => {
                     {facultyDev.length > 0 ? (
                       facultyDev.map((item: any, idx: number) => (
                         <li key={idx} className="flex items-start">
-                          <span className="mr-2 text-gray-600">â€¢</span>
+                          <span className="mr-2 text-gray-600">•</span>
                           <div>
-                            FDPs attended during the Academic Year {item.academic_year}
-                            <a
-                              href={item.file_url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-4 w-4 mr-1" />
-                              View
-                            </a>
+                            {item.title} ({item.academic_year})
+                            {item.file_url && (
+                              <a
+                                href={item.file_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                              >
+                                <FileText className="h-4 w-4 mr-1" />
+                                View Certificate
+                              </a>
+                            )}
                           </div>
                         </li>
                       ))
@@ -850,39 +911,48 @@ const MBADepartment: React.FC = () => {
               Faculty Achievements
             </h2>
 
-            <div className="space-y-6">
-              {Object.keys(groupedData).map((type) => (
-                <div key={type} className="group">
-                  <details open={type === "Patents"}>
-                    <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
-                      <span>{type}</span>
-                      <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
-                    </summary>
-                    <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                      <ul className="space-y-3">
-                        {groupedData[type].map((item: any, idx: number) => (
-                          <li key={idx} className="flex items-start">
-                            <span className="mr-2 text-gray-600">â€¢</span>
-                            <div>
-                              {item.title}
-                              <a
-                                href={item.proof_url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                              >
-                                <FileText className="h-4 w-4 mr-1" />
-                                View
-                              </a>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </details>
-                </div>
-              ))}
-            </div>
+            {Object.keys(groupedData).length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-gray-500 text-lg">No faculty achievements data available.</p>
+                <p className="text-gray-400 text-sm mt-2">Please check the console for any errors.</p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {Object.keys(groupedData).map((type) => (
+                  <div key={type} className="group">
+                    <details open={type === "Patents"}>
+                      <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
+                        <span>{type}</span>
+                        <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+                      </summary>
+                      <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
+                        <ul className="space-y-3">
+                          {groupedData[type].map((item: any, idx: number) => (
+                            <li key={idx} className="flex items-start">
+                              <span className="mr-2 text-gray-600">•</span>
+                              <div>
+                                {item.title}
+                                {item.file_url && (
+                                  <a
+                                    href={item.file_url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                                  >
+                                    <FileText className="h-4 w-4 mr-1" />
+                                    View
+                                  </a>
+                                )}
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         );
 
@@ -906,28 +976,28 @@ const MBADepartment: React.FC = () => {
                         <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                       </summary>
                       <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                      <ul className="space-y-2">
-                        <li className="flex items-start text-gray-700">
-                          <span className="mr-2 text-[#B22222]">•</span>
-                          <div>
-                            <p>{item.title || 'Placement report'}</p>
-                            {item.file_url && (
-                              <a
-                                href={item.file_url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center text-[#B22222] hover:underline mt-2"
-                              >
-                                <FileText className="h-4 w-4 mr-1" />
-                                View Report
-                              </a>
-                            )}
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </details>
-                </div>
+                        <ul className="space-y-2">
+                          <li className="flex items-start text-gray-700">
+                            <span className="mr-2 text-[#B22222]">•</span>
+                            <div>
+                              <p>{item.title || 'Placement report'}</p>
+                              {item.file_url && (
+                                <a
+                                  href={item.file_url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center text-[#B22222] hover:underline mt-2"
+                                >
+                                  <FileText className="h-4 w-4 mr-1" />
+                                  View Report
+                                </a>
+                              )}
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </details>
+                  </div>
                 ))
               ) : (
                 <p className="text-center text-gray-500">No placement data available.</p>
@@ -950,10 +1020,8 @@ const MBADepartment: React.FC = () => {
                     <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                   </summary>
                   <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">â€¢</span>
-                      <div>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>
                         Internships during the Academic Year 2020-22
                         <a
                           href="#"
@@ -964,11 +1032,8 @@ const MBADepartment: React.FC = () => {
                           <FileText className="h-4 w-4 mr-1" />
                           View
                         </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">â€¢</span>
-                      <div>
+                      </li>
+                      <li>
                         Internships during the Academic Year 2019-21
                         <a
                           href="#"
@@ -979,11 +1044,8 @@ const MBADepartment: React.FC = () => {
                           <FileText className="h-4 w-4 mr-1" />
                           View
                         </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">â€¢</span>
-                      <div>
+                      </li>
+                      <li>
                         Internships during the Academic Year 2018-20
                         <a
                           href="#"
@@ -994,11 +1056,8 @@ const MBADepartment: React.FC = () => {
                           <FileText className="h-4 w-4 mr-1" />
                           View
                         </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">â€¢</span>
-                      <div>
+                      </li>
+                      <li>
                         Internships during the Academic Year 2017-19
                         <a
                           href="#"
@@ -1009,10 +1068,9 @@ const MBADepartment: React.FC = () => {
                           <FileText className="h-4 w-4 mr-1" />
                           View
                         </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                      </li>
+                    </ul>
+                  </div>
                 </details>
               </div>
 
@@ -1023,10 +1081,8 @@ const MBADepartment: React.FC = () => {
                     <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                   </summary>
                   <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">â€¢</span>
-                      <div>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>
                         NPTEL Certifications during Academic Year 2021-2022
                         <a
                           href="https://srivasaviengg.ac.in/uploads/mba/mba%2021-22%20nptel.pdf"
@@ -1037,11 +1093,8 @@ const MBADepartment: React.FC = () => {
                           <FileText className="h-4 w-4 mr-1" />
                           View
                         </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">â€¢</span>
-                      <div>
+                      </li>
+                      <li>
                         NPTEL Certifications during Academic Year 2020-2021
                         <a
                           href="https://srivasaviengg.ac.in/uploads/mba/mba%2020-21%20nptel.pdf"
@@ -1052,11 +1105,8 @@ const MBADepartment: React.FC = () => {
                           <FileText className="h-4 w-4 mr-1" />
                           View
                         </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">â€¢</span>
-                      <div>
+                      </li>
+                      <li>
                         NPTEL Certifications during Academic Year 2019-2020
                         <a
                           href="https://srivasaviengg.ac.in/uploads/mba/mba%2019-20%20pdf.pdf"
@@ -1067,10 +1117,9 @@ const MBADepartment: React.FC = () => {
                           <FileText className="h-4 w-4 mr-1" />
                           View
                         </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                      </li>
+                    </ul>
+                  </div>
                 </details>
               </div>
 
@@ -1081,10 +1130,8 @@ const MBADepartment: React.FC = () => {
                     <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                   </summary>
                   <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="mr-2 text-gray-600">â€¢</span>
-                      <div>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>
                         Industrial Visits during 2012-2014 to 2022-2023
                         <a
                           href="https://srivasaviengg.ac.in/uploads/mba/Industrial%20Visit.pdf"
@@ -1095,10 +1142,9 @@ const MBADepartment: React.FC = () => {
                           <FileText className="h-4 w-4 mr-1" />
                           View
                         </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                      </li>
+                    </ul>
+                  </div>
                 </details>
               </div>
             </div>
@@ -1165,35 +1211,107 @@ const MBADepartment: React.FC = () => {
             </div>
           </div>
         );
-      case 'Newsletters':
+      case 'Physical Facilities': {
+        // Group by facility_type
+        const types = Array.from(new Set(physicalFacilities.map(f => f.facility_type || 'Other')));
+        const grouped = types.map(type => ({
+          type: type,
+          items: physicalFacilities.filter(f => (f.facility_type || 'Other') === type)
+        }));
+
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
+            {physicalFacilities.length === 0 ? (
+              <p className="text-center text-gray-600 py-8">No physical facilities data available.</p>
+            ) : (
+              <div className="space-y-4">
+                {grouped.map((group, index) => (
+                  <details key={group.type} open={index === 0} className="cst-dropdown">
+                    <summary>{group.type}</summary>
+                    <div className="cst-dropdown-content">
+                      <div className="space-y-4">
+                        {group.items.map((facility, idx) => (
+                          <div key={facility.id || idx} className="border-b border-gray-200 pb-4 last:border-b-0">
+                            <h4 className="text-lg font-semibold text-[#B22222] mb-2">{facility.facility_name}</h4>
+                            {facility.capacity && (
+                              <p className="text-gray-700 mb-1">
+                                <span className="font-semibold">Capacity:</span> {facility.capacity}
+                              </p>
+                            )}
+                            {facility.location && (
+                              <p className="text-gray-700 mb-1">
+                                <span className="font-semibold">Location:</span> {facility.location}
+                              </p>
+                            )}
+                            {facility.description && (
+                              <p className="text-gray-700 mb-2">
+                                <span className="font-semibold">Description:</span> {facility.description}
+                              </p>
+                            )}
+                            {facility.equipment_details && (
+                              <p className="text-gray-700 mb-1">
+                                <span className="font-semibold">Equipment:</span> {facility.equipment_details}
+                              </p>
+                            )}
+                            {facility.status && (
+                              <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${facility.status.toLowerCase() === 'active' ? 'bg-green-100 text-green-800' :
+                                facility.status.toLowerCase() === 'inactive' ? 'bg-red-100 text-red-800' :
+                                  'bg-gray-100 text-gray-800'
+                                }`}>
+                                {facility.status}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      }
+      case 'Newsletters': {
+        // Group newsletters by year for better UX
+        const grouped = newsletters.reduce((acc, n) => {
+          const year = n.year || 'Unknown';
+          if (!acc[year]) acc[year] = [];
+          acc[year].push(n);
+          return acc;
+        }, {} as Record<string, any[]>);
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Newsletters</h2>
-            <div className="group">
-              <details open>
-                <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
-                  <span>News Letter 2016</span>
-                  <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
-                </summary>
-              <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                <ul className="space-y-3">
-                <li className="flex items-start">
-                  <FileText className="h-5 w-5 mr-2 text-[#B22222] mt-0.5" />
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mba/MBA%20Newsletter.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-blue-600 hover:underline"
-                  >
-                    View Newsletter PDF
-                  </a>
-                </li>
-              </ul>
-              </div>
-              </details>
+            <div className="space-y-4">
+              {Object.entries(grouped).sort(([yearA], [yearB]) => yearB.localeCompare(yearA)).map(([year, items], index) => (
+                <details key={year} open={index === 0} className="cst-dropdown">
+                  <summary>{year} Newsletters</summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-none pl-0 my-2">
+                      {(items as any[]).map((item: any) => (
+                        <li key={item.id} className="p-2">
+                          {item.title} -{' '}
+                          <a
+                            href={item.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              ))}
             </div>
           </div>
         );
+      }
       case 'Department Alumni':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1206,26 +1324,26 @@ const MBADepartment: React.FC = () => {
                     <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                   </summary>
                   <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                  <div className="flex justify-center items-center">
-                    <ul className="space-y-3">
-                      <li className="flex items-start">
-                        <FileText className="h-5 w-5 mr-2 text-[#B22222] mt-0.5" />
-                        SVEC-MBA Alumni List
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mba/MBA%20ALUMNI%20list.pdf"
-                          // ...existing code...
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                    </ul>
+                    <div className="flex justify-center items-center">
+                      <ul className="space-y-3">
+                        <li className="flex items-start">
+                          <FileText className="h-5 w-5 mr-2 text-[#B22222] mt-0.5" />
+                          SVEC-MBA Alumni List
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/MBA%20ALUMNI%20list.pdf"
+                            // ...existing code...
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline"
+                          >
+                            View
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </details>
-            </div>
+                </details>
+              </div>
             </div>
           </div>
         );
@@ -1370,6 +1488,108 @@ const MBADepartment: React.FC = () => {
             </AccordionSection>
           </div>
         );
+
+      case 'Handbooks':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Handbooks</h2>
+
+            <AccordionSection
+              title="MBA Handbooks"
+              isOpen={accordionOpenState.handbooks}
+              onToggle={() => toggleAccordion('handbooks')}
+            >
+              {handbooks.length === 0 ? (
+                <p className="text-center text-gray-600">No handbooks available.</p>
+              ) : (
+                <div className="space-y-4">
+                  {handbooks.map((handbook, index) => (
+                    <div key={index} className="border rounded-lg p-4 bg-gray-50 hover:shadow-md transition-shadow">
+                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold text-gray-800">{handbook.title}</h3>
+                          <div className="flex gap-4 mt-2 text-sm text-gray-600">
+                            <span className="flex items-center">
+                              <span className="font-medium mr-1">Academic Year:</span>
+                              {handbook.academic_year}
+                            </span>
+                            {handbook.semester && (
+                              <span className="flex items-center">
+                                <span className="font-medium mr-1">Semester:</span>
+                                {handbook.semester}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="mt-3 md:mt-0">
+                          <a
+                            href={handbook.file_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                          >
+                            <FileText className="h-4 w-4 mr-2" />
+                            View Handbook
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </AccordionSection>
+          </div>
+        );
+
+      case 'Merit Scholarship/Academic Toppers':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Merit Scholarship/Academic Toppers</h2>
+
+            {meritScholarships.length === 0 ? (
+              <p className="text-center text-gray-600">No merit scholarship data available.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-gray-500 border-collapse">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0">
+                    <tr>
+                      <th scope="col" className="px-6 py-3 border border-gray-300">S.No</th>
+                      <th scope="col" className="px-6 py-3 border border-gray-300">Academic Year</th>
+                      <th scope="col" className="px-6 py-3 border border-gray-300">Particulars</th>
+                      <th scope="col" className="px-6 py-3 border border-gray-300">Students Benefited</th>
+                      <th scope="col" className="px-6 py-3 border border-gray-300">Scholarship Amount (₹)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {meritScholarships.map((scholarship, index) => (
+                      <tr key={scholarship.id || index} className="bg-white border-b hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 border border-gray-300 text-center">{index + 1}</td>
+                        <td className="px-6 py-4 border border-gray-300 font-medium text-gray-900">{scholarship.academic_year}</td>
+                        <td className="px-6 py-4 border border-gray-300">{scholarship.particulars}</td>
+                        <td className="px-6 py-4 border border-gray-300 text-center">{scholarship.students_benefited}</td>
+                        <td className="px-6 py-4 border border-gray-300 text-right font-medium">
+                          ₹{parseInt(scholarship.scholarship_amount || '0').toLocaleString('en-IN')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot className="bg-gray-50 font-semibold">
+                    <tr>
+                      <td colSpan={3} className="px-6 py-4 border border-gray-300 text-right">Total:</td>
+                      <td className="px-6 py-4 border border-gray-300 text-center">
+                        {meritScholarships.reduce((sum, s) => sum + parseInt(s.students_benefited || '0'), 0)}
+                      </td>
+                      <td className="px-6 py-4 border border-gray-300 text-right text-[#B22222]">
+                        ₹{meritScholarships.reduce((sum, s) => sum + parseInt(s.scholarship_amount || '0'), 0).toLocaleString('en-IN')}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            )}
+          </div>
+        );
+
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }

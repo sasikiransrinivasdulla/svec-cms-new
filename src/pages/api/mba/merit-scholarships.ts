@@ -11,13 +11,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            `SELECT * FROM mba_newsletters ORDER BY id DESC`
+            `SELECT * FROM mba_merit_scholarships 
+       WHERE dept = 'mba' 
+       ORDER BY academic_year DESC, id DESC`
         );
 
         await connection.end();
         res.status(200).json(rows);
     } catch (error) {
-        console.error('Error fetching MBA newsletters:', error);
-        res.status(500).json({ error: 'Failed to fetch MBA newsletters' });
+        console.error('Error fetching MBA merit scholarships:', error);
+        res.status(500).json({ error: 'Failed to fetch MBA merit scholarships' });
     }
 }

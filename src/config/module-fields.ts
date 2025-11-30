@@ -60,7 +60,7 @@ export const workshopsFieldConfig: ModuleFieldConfig = {
   tableName: 'cai_workshops',
   displayField: 'title',
   fields: [
-     {
+    {
       name: 'category',
       label: 'Category',
       type: 'select',
@@ -82,7 +82,7 @@ export const workshopsFieldConfig: ModuleFieldConfig = {
       size: 'full',
       description: 'Enter the title of the workshop'
     },
-   
+
     {
       name: 'file_url',
       label: 'Workshop Document/Brochure',
@@ -94,8 +94,8 @@ export const workshopsFieldConfig: ModuleFieldConfig = {
     }
   ],
   searchableFields: ['title', 'category',],
-  sortableFields: ['title', 'category','created_at'],
-  editableFields: ['title', 'category','file_url']
+  sortableFields: ['title', 'category', 'created_at'],
+  editableFields: ['title', 'category', 'file_url']
 };
 
 /**
@@ -103,7 +103,7 @@ export const workshopsFieldConfig: ModuleFieldConfig = {
  * Structure: { dept: { module: config } }
  */
 export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConfig>> = {
-  
+
   // ================================================================================================
   // CSE-AI DEPARTMENT (Computer Science & AI)
   // Table Prefix: cai_*
@@ -174,7 +174,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'designation',
           label: 'Designation',
@@ -184,9 +184,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'designation'],
+      searchableFields: ['title', 'designation'],
       sortableFields: ['title', 'designation', 'created_at'],
       editableFields: ['title', 'designation']
     },
@@ -198,17 +198,17 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'title',
           label: 'Technical Faculty Name',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'description',
           label: 'description',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter job designation'
@@ -217,16 +217,16 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'document_url',
           label: 'document url',
           type: 'file',
-          
+
           required: true,
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'description'],
-      sortableFields: ['title', 'description','document_url', 'created_at'],
-      editableFields: ['title', 'desscription','document_url']
+      searchableFields: ['title', 'description'],
+      sortableFields: ['title', 'description', 'document_url', 'created_at'],
+      editableFields: ['title', 'desscription', 'document_url']
     },
     'non-teaching-faculty': {
       tableName: 'cai_non_teaching_faculty',
@@ -321,9 +321,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
     'faculty-achievements': {
       tableName: 'cai_faculty_achievements',
       displayField: 'title',
-      
+
       fields: [
-         {
+        {
           name: 'category',
           label: 'Category',
           type: 'select',
@@ -406,7 +406,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['title', 'category', 'created_at'],
       editableFields: ['title', 'category', 'file_url']
     },
-    
+
     'faculty-development': {
       tableName: 'cai_faculty_development_programs',
       displayField: 'title',
@@ -458,7 +458,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['title', 'category', 'year', 'created_at'],
       editableFields: ['title', 'category', 'year', 'file_url']
     },
-    
+
     'placements': {
       tableName: 'cai_placements',
       displayField: 'title',
@@ -881,7 +881,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'Till Date', label: 'Till Date' },
             { value: 'Expired', label: 'Expired' },
             { value: 'Terminated', label: 'Terminated' },
-            
+
           ]
         }
       ],
@@ -890,52 +890,52 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['mou_with', 'from_date', 'to_date', 'status']
     },
     'syllabus': {
-  tableName: 'cai_syllabus',
-  displayField: 'title',
+      tableName: 'cai_syllabus',
+      displayField: 'title',
 
-  fields: [
-    {
-      name: 'type',
-      label: 'Type',
-      type: 'select',              // dropdown
-      required: true,
-      size: 'full',
-      options: [
-        { label: 'SOC', value: 'soc' },
-        { label: 'Syllabus', value: 'syllabus' }
+      fields: [
+        {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'SOC', value: 'soc' },
+            { label: 'Syllabus', value: 'syllabus' }
+          ],
+          description: 'Select whether this document is SOC or Syllabus'
+        },
+        {
+          name: 'title',
+          label: 'Syllabus Title',
+          type: 'text',
+          placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+          required: true,
+          size: 'full',
+          description: 'Enter the title or name of the syllabus document',
+          validation: {
+            min: 5,
+            max: 200,
+            pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+            message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+          }
+        },
+        {
+          name: 'fileUrl',
+          label: 'Syllabus PDF Document',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+        }
       ],
-      description: 'Select whether this document is SOC or Syllabus'
-    },
-    {
-      name: 'title',
-      label: 'Syllabus Title',
-      type: 'text',
-      placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
-      required: true,
-      size: 'full',
-      description: 'Enter the title or name of the syllabus document',
-      validation: {
-        min: 5,
-        max: 200,
-        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
-      }
-    },
-    {
-      name: 'fileUrl',
-      label: 'Syllabus PDF Document',
-      type: 'file',
-      required: true,
-      size: 'full',
-      accept: '.pdf,.doc,.docx',
-      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
-    }
-  ],
 
-  searchableFields: ['title', 'type'],
-  sortableFields: ['title', 'created_at'],
-  editableFields: ['type', 'title', 'fileUrl']
-},
+      searchableFields: ['title', 'type'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['type', 'title', 'fileUrl']
+    },
 
     'student-achievements': {
       tableName: 'cai_student_achievements',
@@ -1293,7 +1293,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'hod_name',
           label: 'HOD Name',
           type: 'text',
-         
+
           required: true,
           size: 'full',
           description: 'Enter the full name of the Head of Department'
@@ -1302,7 +1302,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'hod_email',
           label: 'HOD Email',
           type: 'email',
-         
+
           required: false,
           size: 'half',
           description: 'Enter HOD email address'
@@ -1340,11 +1340,11 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['hod_name', 'hod_email', 'hod_qualification', 'hod_image_url', 'description']
     }
   },
-  
+
   // ================================================================================================
- 'cst': {
-  
-    
+  'cst': {
+
+
     'faculty': {
       tableName: 'cst_faculty',
       displayField: 'title',
@@ -1358,7 +1358,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter faculty member full name'
         },
-        
+
         {
           name: 'qualification',
           label: 'Qualification',
@@ -1392,46 +1392,46 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['title', 'qualification', 'designation', 'profileUrl']
     },
     'workshops': {
-     tableName: 'cst_workshops',
-  displayField: 'title',
-  fields: [
-     {
-      name: 'category',
-      label: 'Category',
-      type: 'select',
-      required: true,
-      size: 'half',
-      description: 'Select the workshop category',
-      options: [
-        
-        { value: 'Guest Lecturers/Seminars', label: 'Guest Lecturers/Seminars' },
-        { value: 'Workshops/SOC', label: 'Workshops/SOC' }
-      ]
+      tableName: 'cst_workshops',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the workshop category',
+          options: [
+
+            { value: 'Guest Lecturers/Seminars', label: 'Guest Lecturers/Seminars' },
+            { value: 'Workshops/SOC', label: 'Workshops/SOC' }
+          ]
+        },
+        {
+          name: 'title',
+          label: 'Workshop Title',
+          type: 'text',
+          placeholder: 'e.g., Machine Learning Fundamentals',
+          required: true,
+          size: 'full',
+          description: 'Enter the title of the workshop'
+        },
+
+        {
+          name: 'file_url',
+          label: 'Workshop Document/Brochure',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload workshop document, brochure, or image (PDF, DOC, or Image files)'
+        }
+      ],
+      searchableFields: ['title', 'category',],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category', 'file_url']
     },
-    {
-      name: 'title',
-      label: 'Workshop Title',
-      type: 'text',
-      placeholder: 'e.g., Machine Learning Fundamentals',
-      required: true,
-      size: 'full',
-      description: 'Enter the title of the workshop'
-    },
-   
-    {
-      name: 'file_url',
-      label: 'Workshop Document/Brochure',
-      type: 'file',
-      required: false,
-      size: 'full',
-      accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
-      description: 'Upload workshop document, brochure, or image (PDF, DOC, or Image files)'
-    }
-  ],
-  searchableFields: ['title', 'category',],
-  sortableFields: ['title', 'category','created_at'],
-  editableFields: ['title', 'category','file_url']
-},
     'technical-faculty': {
       tableName: 'cst_technical_faculty',
       displayField: 'title',
@@ -1445,7 +1445,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'designation',
           label: 'Designation',
@@ -1455,9 +1455,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'designation'],
+      searchableFields: ['title', 'designation'],
       sortableFields: ['title', 'designation', 'created_at'],
       editableFields: ['title', 'designation']
     },
@@ -1469,7 +1469,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'title',
           label: 'Title',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter the batch year for this placement'
@@ -1590,9 +1590,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
     'faculty-achievements': {
       tableName: 'cst_faculty_achievements',
       displayField: 'title',
-      
+
       fields: [
-         {
+        {
           name: 'category',
           label: 'Category',
           type: 'select',
@@ -1657,7 +1657,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'FDP Attended', label: 'Attended' },
             { value: 'FDP Conducted', label: 'Conducted' },
             { value: 'Workshops/Training', label: 'Workshops/Training' },
-            
+
           ]
         },
         {
@@ -1692,7 +1692,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'title',
           label: 'Title',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter the batch year for this placement'
@@ -1847,7 +1847,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['meeting_date', 'meeting_no', 'created_at'],
       editableFields: ['meeting_no', 'meeting_date', 'file_url']
     },
-    
+
     'eresources': {
       tableName: 'cst_eresources',
       displayField: 'subject_name',
@@ -1916,7 +1916,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       tableName: 'cst_hackathons',
       displayField: 'title',
       fields: [
-        
+
         {
           name: 'academic_year',
           label: 'Academic Year',
@@ -1925,9 +1925,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           required: true,
           size: 'half'
         },
-       
-       
-       
+
+
+
         {
           name: 'brochure_url',
           label: 'Brochure',
@@ -1947,7 +1947,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       ],
       searchableFields: ['title', 'academic_year'],
       sortableFields: ['title', 'academic_year', 'created_at'],
-      editableFields: ['title', 'academic_year',  'brochure_url', 'winners_url']
+      editableFields: ['title', 'academic_year', 'brochure_url', 'winners_url']
     },
     'newsletters': {
       tableName: 'cst_newsletters',
@@ -1985,7 +1985,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           required: true,
           size: 'half'
         },
-        
+
         {
           name: 'file_url',
           label: 'Newsletter PDF',
@@ -2078,7 +2078,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'Till Date', label: 'Till Date' },
             { value: 'Expired', label: 'Expired' },
             { value: 'Terminated', label: 'Terminated' },
-            
+
           ]
         },
         {
@@ -2117,7 +2117,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'half',
           description: 'Enter the academic year'
         },
-        
+
         {
           name: 'file_url',
           label: 'Program Document/Brochure',
@@ -2129,56 +2129,56 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
         }
       ],
       searchableFields: ['title', 'academic_year'],
-      sortableFields: ['title', 'academic_year' ],
+      sortableFields: ['title', 'academic_year'],
       editableFields: ['title', 'academic_year', 'file_url']
     },
     'syllabus': {
-  tableName: 'cst_syllabus',
-  displayField: 'title',
+      tableName: 'cst_syllabus',
+      displayField: 'title',
 
-  fields: [
-    {
-      name: 'type',
-      label: 'Type',
-      type: 'select',              // dropdown
-      required: true,
-      size: 'full',
-      options: [
-        { label: 'SOC', value: 'soc' },
-        { label: 'Syllabus', value: 'syllabus' }
+      fields: [
+        {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'SOC', value: 'soc' },
+            { label: 'Syllabus', value: 'syllabus' }
+          ],
+          description: 'Select whether this document is SOC or Syllabus'
+        },
+        {
+          name: 'title',
+          label: 'Syllabus Title',
+          type: 'text',
+          placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+          required: true,
+          size: 'full',
+          description: 'Enter the title or name of the syllabus document',
+          validation: {
+            min: 5,
+            max: 200,
+            pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+            message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+          }
+        },
+        {
+          name: 'fileUrl',
+          label: 'Syllabus PDF Document',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+        }
       ],
-      description: 'Select whether this document is SOC or Syllabus'
-    },
-    {
-      name: 'title',
-      label: 'Syllabus Title',
-      type: 'text',
-      placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
-      required: true,
-      size: 'full',
-      description: 'Enter the title or name of the syllabus document',
-      validation: {
-        min: 5,
-        max: 200,
-        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
-      }
-    },
-    {
-      name: 'fileUrl',
-      label: 'Syllabus PDF Document',
-      type: 'file',
-      required: true,
-      size: 'full',
-      accept: '.pdf,.doc,.docx',
-      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
-    }
-  ],
 
-  searchableFields: ['title', 'type'],
-  sortableFields: ['title', 'created_at'],
-  editableFields: ['type', 'title', 'fileUrl']
-},
+      searchableFields: ['title', 'type'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['type', 'title', 'fileUrl']
+    },
 
     'student-achievements': {
       tableName: 'cst_student_achievements',
@@ -2556,7 +2556,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'hod_name',
           label: 'HOD Name',
           type: 'text',
-         
+
           required: true,
           size: 'full',
           description: 'Enter the full name of the Head of Department'
@@ -2565,7 +2565,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'hod_email',
           label: 'HOD Email',
           type: 'email',
-         
+
           required: false,
           size: 'half',
           description: 'Enter HOD email address'
@@ -2610,7 +2610,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'rollno',
           label: 'Roll Number',
           type: 'text',
-          
+
           required: true,
           size: 'half',
           description: 'Student roll number'
@@ -2619,7 +2619,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'name',
           label: 'Student Name',
           type: 'text',
-          
+
           required: true,
           size: 'half',
           description: 'Full name of the student'
@@ -2912,7 +2912,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['titles', 'volumes', 'faculty_incharge', 'phone', 'email', 'description', 'image_url']
     }
   },
-  
+
   // ================================================================================================
   // CIVIL DEPARTMENT (Civil Engineering)
   // Table Prefix: civil_*
@@ -3119,7 +3119,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       searchableFields: ['issue'],
       editableFields: ['issue', 'date', 'url']
     },
-    
+
     'physical-facilities': {
       tableName: 'civil_physical_facilities',
       displayField: 'name',
@@ -3167,7 +3167,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       searchableFields: ['name', 'category'],
       editableFields: ['category', 'name', 'description', 'laboratory_gallery']
     },
-   
+
     'technical-association': {
       tableName: 'civil_technical_association',
       displayField: 'committee',
@@ -3235,7 +3235,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['year', 'name', 'url']
     }
   },
-  
+
   // ================================================================================================
   // BSH DEPARTMENT (Basic Sciences & Humanities)
   // Table Prefix: bsh_*
@@ -3299,53 +3299,53 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['hod_name', 'created_at'],
       editableFields: ['hod_name', 'hod_email', 'hod_qualification', 'hod_image_url', 'description']
     },
-     'syllabus': {
-       tableName: 'bsh_syllabus',
-  displayField: 'title',
+    'syllabus': {
+      tableName: 'bsh_syllabus',
+      displayField: 'title',
 
-  fields: [
-    {
-      name: 'type',
-      label: 'Type',
-      type: 'select',              // dropdown
-      required: true,
-      size: 'full',
-      options: [
-        { label: 'SOC', value: 'soc' },
-        { label: 'Syllabus', value: 'syllabus' }
+      fields: [
+        {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'SOC', value: 'soc' },
+            { label: 'Syllabus', value: 'syllabus' }
+          ],
+          description: 'Select whether this document is SOC or Syllabus'
+        },
+        {
+          name: 'title',
+          label: 'Syllabus Title',
+          type: 'text',
+
+          required: true,
+          size: 'full',
+          description: 'Enter the title or name of the syllabus document',
+          validation: {
+            min: 5,
+            max: 200,
+            pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+            message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+          }
+        },
+        {
+          name: 'fileUrl',
+          label: 'Syllabus PDF Document',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+        }
       ],
-      description: 'Select whether this document is SOC or Syllabus'
-    },
-    {
-      name: 'title',
-      label: 'Syllabus Title',
-      type: 'text',
 
-      required: true,
-      size: 'full',
-      description: 'Enter the title or name of the syllabus document',
-      validation: {
-        min: 5,
-        max: 200,
-        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
-      }
+      searchableFields: ['title', 'type'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['type', 'title', 'fileUrl']
     },
-    {
-      name: 'fileUrl',
-      label: 'Syllabus PDF Document',
-      type: 'file',
-      required: true,
-      size: 'full',
-      accept: '.pdf,.doc,.docx',
-      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
-    }
-  ],
-
-  searchableFields: ['title', 'type'],
-  sortableFields: ['title', 'created_at'],
-  editableFields: ['type', 'title', 'fileUrl']
-},
     'photogallery': {
       tableName: 'bsh_photogallery',
       displayField: 'title',
@@ -3419,7 +3419,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['title', 'url', 'year']
     }
   },
-  
+
   // ================================================================================================
   // MBA DEPARTMENT (Business Administration)
   // Table Prefix: mba_*
@@ -3432,7 +3432,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       tableName: 'mba_workshops',
       displayField: 'title',
       fields: [
-         {
+        {
           name: 'category',
           label: 'Category',
           type: 'select',
@@ -3465,8 +3465,8 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
         }
       ],
       searchableFields: ['title', 'category',],
-      sortableFields: ['title', 'category','created_at'],
-      editableFields: ['title', 'category','file_url']
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category', 'file_url']
     },
     'faculty': {
       tableName: 'mba_faculty',
@@ -3526,7 +3526,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'designation',
           label: 'Designation',
@@ -3536,9 +3536,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'designation'],
+      searchableFields: ['title', 'designation'],
       sortableFields: ['title', 'designation', 'created_at'],
       editableFields: ['title', 'designation']
     },
@@ -3550,17 +3550,17 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'title',
           label: 'Technical Faculty Name',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'description',
           label: 'description',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter job designation'
@@ -3569,16 +3569,16 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'document_url',
           label: 'document url',
           type: 'file',
-          
+
           required: true,
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'description'],
-      sortableFields: ['title', 'description','document_url', 'created_at'],
-      editableFields: ['title', 'desscription','document_url']
+      searchableFields: ['title', 'description'],
+      sortableFields: ['title', 'description', 'document_url', 'created_at'],
+      editableFields: ['title', 'desscription', 'document_url']
     },
     'non-teaching-faculty': {
       tableName: 'mba_non_teaching_faculty',
@@ -3673,9 +3673,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
     'faculty-achievements': {
       tableName: 'mba_faculty_achievements',
       displayField: 'title',
-      
+
       fields: [
-         {
+        {
           name: 'category',
           label: 'Category',
           type: 'select',
@@ -4018,7 +4018,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'Till Date', label: 'Till Date' },
             { value: 'Expired', label: 'Expired' },
             { value: 'Terminated', label: 'Terminated' },
-            
+
           ]
         }
       ],
@@ -4033,7 +4033,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
         {
           name: 'type',
           label: 'Type',
-          type: 'select',              
+          type: 'select',
           required: true,
           size: 'full',
           options: [
@@ -4108,11 +4108,30 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       fields: [
         {
           name: 'title',
-          label: 'Activity Title',
+          label: 'Newsletter/Magazine Title',
           type: 'text',
-          placeholder: 'e.g., Tech Talk Series',
+          placeholder: 'e.g., Tech Insights, Business Today',
           required: true,
-          size: 'full'
+          size: 'full',
+          description: 'Enter the name of the newsletter or magazine'
+        },
+        {
+          name: 'volume',
+          label: 'Volume Number',
+          type: 'number',
+          placeholder: 'e.g., 5',
+          required: false,
+          size: 'half',
+          description: 'Volume number (numeric only)'
+        },
+        {
+          name: 'issue',
+          label: 'Issue Number',
+          type: 'number',
+          placeholder: 'e.g., 2',
+          required: false,
+          size: 'half',
+          description: 'Issue number (numeric only)'
         },
         {
           name: 'academic_year',
@@ -4120,43 +4139,43 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           type: 'text',
           placeholder: 'e.g., 2024-25',
           required: true,
-          size: 'half'
-        },
-        {
-          name: 'volume',
-          label: 'Volume',
-          type: 'number',
-          placeholder: 'e.g., 1',
-          required: false,
-          size: 'half'
-        },
-        {
-          name: 'issue',
-          label: 'Issue',
-          type: 'text',
-          placeholder: 'e.g., Jan, Feb',
-          required: false,
-          size: 'half'
+          size: 'half',
+          description: 'Academic year of publication'
         },
         {
           name: 'publish_date',
-          label: 'Date',
+          label: 'Publish Date',
           type: 'date',
           required: false,
-          size: 'half'
+          size: 'half',
+          description: 'Date of publication'
         },
         {
           name: 'pdf_url',
-          label: 'Activity Document/Report',
+          label: 'PDF Document',
           type: 'file',
           required: false,
           size: 'full',
-          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png'
+          accept: '.pdf',
+          description: 'Upload newsletter/magazine PDF (max 5MB)'
+        },
+        {
+          name: 'status',
+          label: 'Status',
+          type: 'select',
+          required: false,
+          size: 'half',
+          options: [
+            { value: 'published', label: 'Published' },
+            { value: 'draft', label: 'Draft' },
+            { value: 'archived', label: 'Archived' }
+          ],
+          description: 'Publication status'
         }
       ],
-      searchableFields: ['title', 'academic_year'],
-      sortableFields: ['title', 'academic_year', 'publish_date', 'created_at'],
-      editableFields: ['title', 'academic_year', 'volume', 'issue', 'publish_date', 'pdf_url']
+      searchableFields: ['title', 'volume', 'issue', 'academic_year'],
+      sortableFields: ['title', 'publish_date', 'academic_year', 'volume', 'issue'],
+      editableFields: ['title', 'volume', 'issue', 'academic_year', 'publish_date', 'pdf_url', 'status']
     },
     'activity-coordinators': {
       tableName: 'mba_activity_coordinators',
@@ -4451,23 +4470,13 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           description: 'Enter the academic year'
         },
         {
-          name: 'handbook_type',
-          label: 'Handbook Type',
+          name: 'semester',
+          label: 'Semester',
           type: 'text',
-          placeholder: 'e.g., Student, Faculty, General',
+          placeholder: 'e.g., I, II, III, IV',
           required: false,
           size: 'half',
-          description: 'Enter handbook type (if applicable)'
-        },
-        {
-          name: 'description',
-          label: 'Description',
-          type: 'textarea',
-          placeholder: 'Enter handbook description',
-          required: false,
-          size: 'full',
-          rows: 3,
-          description: 'Brief description of the handbook content'
+          description: 'Enter semester (if applicable)'
         },
         {
           name: 'file_url',
@@ -4479,9 +4488,58 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           description: 'Upload the handbook PDF file (PDF format required)'
         }
       ],
-      searchableFields: ['title', 'academic_year'],
+      searchableFields: ['title', 'academic_year', 'semester'],
       sortableFields: ['title', 'academic_year', 'created_at'],
-      editableFields: ['title', 'academic_year', 'handbook_type', 'description', 'file_url']
+      editableFields: ['title', 'academic_year', 'semester', 'file_url']
+    },
+    'newsletters': {
+      tableName: 'mba_newsletters',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Newsletter Title',
+          type: 'text',
+          placeholder: 'e.g., Monthly Newsletter',
+          required: true,
+          size: 'full'
+        },
+        {
+          name: 'volume',
+          label: 'Volume',
+          type: 'number',
+          placeholder: 'e.g., 1',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'issue',
+          label: 'Issue',
+          type: 'number',
+          placeholder: 'e.g., 1, 2, 3',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'year',
+          label: 'Year',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'file_url',
+          label: 'Newsletter PDF',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf'
+        }
+      ],
+      searchableFields: ['title', 'year', 'volume'],
+      sortableFields: ['title', 'volume', 'issue', 'year'],
+      editableFields: ['title', 'volume', 'issue', 'year', 'file_url']
     },
     'department-library': {
       tableName: 'mba_department_library',
@@ -4534,7 +4592,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['title', 'author', 'category', 'isbn', 'available_copies']
     },
   },
-  
+
   // ================================================================================================
   // AIML DEPARTMENT (AI & Machine Learning)
   // Table Prefix: aiml_*
@@ -4546,55 +4604,55 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
   // • hackathons-gallery, merit-scholarships, mous, newsletters, non-teaching-faculty
   // • placements, student-achievements, syllabus, technical-association, technical-faculty, workshops
   // ================================================================================================
-    'aiml': {
+  'aiml': {
     'workshops': workshopsFieldConfig,
     'syllabus': {
-     tableName: 'aiml_syllabus',
-  displayField: 'title',
+      tableName: 'aiml_syllabus',
+      displayField: 'title',
 
-  fields: [
-    {
-      name: 'type',
-      label: 'Type',
-      type: 'select',              // dropdown
-      required: true,
-      size: 'full',
-      options: [
-        { label: 'SOC', value: 'soc' },
-        { label: 'Syllabus', value: 'syllabus' }
+      fields: [
+        {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'SOC', value: 'soc' },
+            { label: 'Syllabus', value: 'syllabus' }
+          ],
+          description: 'Select whether this document is SOC or Syllabus'
+        },
+        {
+          name: 'title',
+          label: 'Syllabus Title',
+          type: 'text',
+          placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+          required: true,
+          size: 'full',
+          description: 'Enter the title or name of the syllabus document',
+          validation: {
+            min: 5,
+            max: 200,
+            pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+            message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+          }
+        },
+        {
+          name: 'fileUrl',
+          label: 'Syllabus PDF Document',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+        }
       ],
-      description: 'Select whether this document is SOC or Syllabus'
-    },
-    {
-      name: 'title',
-      label: 'Syllabus Title',
-      type: 'text',
-      placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
-      required: true,
-      size: 'full',
-      description: 'Enter the title or name of the syllabus document',
-      validation: {
-        min: 5,
-        max: 200,
-        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
-      }
-    },
-    {
-      name: 'fileUrl',
-      label: 'Syllabus PDF Document',
-      type: 'file',
-      required: true,
-      size: 'full',
-      accept: '.pdf,.doc,.docx',
-      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
-    }
-  ],
 
-  searchableFields: ['title', 'type'],
-  sortableFields: ['title', 'created_at'],
-  editableFields: ['type', 'title', 'fileUrl']
-},
+      searchableFields: ['title', 'type'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['type', 'title', 'fileUrl']
+    },
     'faculty': {
       tableName: 'aiml_faculty',
       displayField: 'title',
@@ -4653,7 +4711,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'designation',
           label: 'Designation',
@@ -4663,9 +4721,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'designation'],
+      searchableFields: ['title', 'designation'],
       sortableFields: ['title', 'designation', 'created_at'],
       editableFields: ['title', 'designation']
     },
@@ -4677,17 +4735,17 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'title',
           label: 'Technical Faculty Name',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'description',
           label: 'description',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter job designation'
@@ -4696,16 +4754,16 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'document_url',
           label: 'document url',
           type: 'file',
-          
+
           required: true,
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'description'],
-      sortableFields: ['title', 'description','document_url', 'created_at'],
-      editableFields: ['title', 'desscription','document_url']
+      searchableFields: ['title', 'description'],
+      sortableFields: ['title', 'description', 'document_url', 'created_at'],
+      editableFields: ['title', 'desscription', 'document_url']
     },
     'non-teaching-faculty': {
       tableName: 'aiml_non_teaching_faculty',
@@ -4800,9 +4858,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
     'faculty-achievements': {
       tableName: 'aiml_faculty_achievements',
       displayField: 'title',
-      
+
       fields: [
-         {
+        {
           name: 'category',
           label: 'Category',
           type: 'select',
@@ -4921,7 +4979,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'Seminar Halls', label: 'Seminar Halls' }
           ]
         },
-       
+
         {
           name: 'file_url',
           label: 'Program Document/Certificate',
@@ -4935,7 +4993,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       ],
       searchableFields: ['title', 'category'],
       sortableFields: ['title', 'category', 'created_at'],
-      editableFields: ['title', 'category',  'file_url']
+      editableFields: ['title', 'category', 'file_url']
     },
     'placements': {
       tableName: 'aiml_placements',
@@ -5359,7 +5417,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'Till Date', label: 'Till Date' },
             { value: 'Expired', label: 'Expired' },
             { value: 'Terminated', label: 'Terminated' },
-            
+
           ]
         }
       ],
@@ -5367,7 +5425,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['mou_with', 'from_date', 'to_date', 'status', 'created_at'],
       editableFields: ['mou_with', 'from_date', 'to_date', 'status']
     },
-    
+
 
     'student-achievements': {
       tableName: 'aiml_student_achievements',
@@ -5786,7 +5844,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
   // • hackathons-gallery, handbooks, mous, non-teaching-faculty, physical-facilities
   // • placements, student-achievements, syllabus, technical-association, workshops
   // ================================================================================================
-    'cse-ds': {
+  'cse-ds': {
     'workshops': workshopsFieldConfig,
     'faculty': {
       tableName: 'ds_faculty',
@@ -5846,7 +5904,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'designation',
           label: 'Designation',
@@ -5856,9 +5914,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'designation'],
+      searchableFields: ['title', 'designation'],
       sortableFields: ['title', 'designation', 'created_at'],
       editableFields: ['title', 'designation']
     },
@@ -5870,17 +5928,17 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'title',
           label: 'Technical Faculty Name',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter technical faculty member full name'
         },
-        
+
         {
           name: 'description',
           label: 'description',
           type: 'text',
-          
+
           required: true,
           size: 'full',
           description: 'Enter job designation'
@@ -5889,16 +5947,16 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           name: 'document_url',
           label: 'document url',
           type: 'file',
-          
+
           required: true,
           size: 'full',
           description: 'Enter job designation'
         },
-       
+
       ],
-         searchableFields: ['title', 'description'],
-      sortableFields: ['title', 'description','document_url', 'created_at'],
-      editableFields: ['title', 'desscription','document_url']
+      searchableFields: ['title', 'description'],
+      sortableFields: ['title', 'description', 'document_url', 'created_at'],
+      editableFields: ['title', 'desscription', 'document_url']
     },
     'non-teaching-faculty': {
       tableName: 'ds_non_teaching_faculty',
@@ -5993,9 +6051,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
     'faculty-achievements': {
       tableName: 'ds_faculty_achievements',
       displayField: 'title',
-      
+
       fields: [
-         {
+        {
           name: 'category',
           label: 'Category',
           type: 'select',
@@ -6305,7 +6363,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['subject_name', 'regulation', 'semester', 'academic_year'],
       editableFields: ['regulation', 'semester', 'subject_name', 'file_type', 'academic_year', 'file_url']
     },
-     'hackathons': {
+    'hackathons': {
       tableName: 'ds_hackathons',
       displayField: 'title',
       fields: [
@@ -6509,7 +6567,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'Till Date', label: 'Till Date' },
             { value: 'Expired', label: 'Expired' },
             { value: 'Terminated', label: 'Terminated' },
-            
+
           ]
         }
       ],
@@ -6518,52 +6576,52 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['mou_with', 'from_date', 'to_date', 'status']
     },
     'syllabus': {
-  tableName: 'ds_syllabus',
-  displayField: 'title',
+      tableName: 'ds_syllabus',
+      displayField: 'title',
 
-  fields: [
-    {
-      name: 'type',
-      label: 'Type',
-      type: 'select',              // dropdown
-      required: true,
-      size: 'full',
-      options: [
-        { label: 'SOC', value: 'soc' },
-        { label: 'Syllabus', value: 'syllabus' }
+      fields: [
+        {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'SOC', value: 'soc' },
+            { label: 'Syllabus', value: 'syllabus' }
+          ],
+          description: 'Select whether this document is SOC or Syllabus'
+        },
+        {
+          name: 'title',
+          label: 'Syllabus Title',
+          type: 'text',
+          placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+          required: true,
+          size: 'full',
+          description: 'Enter the title or name of the syllabus document',
+          validation: {
+            min: 5,
+            max: 200,
+            pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+            message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+          }
+        },
+        {
+          name: 'fileUrl',
+          label: 'Syllabus PDF Document',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+        }
       ],
-      description: 'Select whether this document is SOC or Syllabus'
-    },
-    {
-      name: 'title',
-      label: 'Syllabus Title',
-      type: 'text',
-      placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
-      required: true,
-      size: 'full',
-      description: 'Enter the title or name of the syllabus document',
-      validation: {
-        min: 5,
-        max: 200,
-        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
-      }
-    },
-    {
-      name: 'fileUrl',
-      label: 'Syllabus PDF Document',
-      type: 'file',
-      required: true,
-      size: 'full',
-      accept: '.pdf,.doc,.docx',
-      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
-    }
-  ],
 
-  searchableFields: ['title', 'type'],
-  sortableFields: ['title', 'created_at'],
-  editableFields: ['type', 'title', 'fileUrl']
-},
+      searchableFields: ['title', 'type'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['type', 'title', 'fileUrl']
+    },
 
     'student-achievements': {
       tableName: 'ds_student_achievements',
@@ -6971,7 +7029,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
   },
   // ================================================================================================
   'cse': {
-     'faculty-development': {
+    'faculty-development': {
       tableName: 'cse_faculty_development_programs',
       displayField: 'title',
       fields: [
@@ -7021,53 +7079,53 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['title', 'category', 'year', 'created_at'],
       editableFields: ['title', 'category', 'year', 'file_url']
     },
-     'workshops': {
-     tableName: 'cse_workshops',
-  displayField: 'title',
-  fields: [
-     {
-      name: 'category',
-      label: 'Category',
-      type: 'select',
-      required: true,
-      size: 'half',
-      description: 'Select the workshop category',
-      options: [
-        
-        { value: 'Guest Lecturers/Seminars', label: 'Guest Lecturers/Seminars' },
-        { value: 'Workshops/SOC', label: 'Workshops/SOC' }
-      ]
+    'workshops': {
+      tableName: 'cse_workshops',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the workshop category',
+          options: [
+
+            { value: 'Guest Lecturers/Seminars', label: 'Guest Lecturers/Seminars' },
+            { value: 'Workshops/SOC', label: 'Workshops/SOC' }
+          ]
+        },
+        {
+          name: 'title',
+          label: 'Workshop Title',
+          type: 'text',
+          placeholder: 'e.g., Machine Learning Fundamentals',
+          required: true,
+          size: 'full',
+          description: 'Enter the title of the workshop'
+        },
+
+        {
+          name: 'file_url',
+          label: 'Workshop Document/Brochure',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload workshop document, brochure, or image (PDF, DOC, or Image files)'
+        }
+      ],
+      searchableFields: ['title', 'category',],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category', 'file_url']
     },
-    {
-      name: 'title',
-      label: 'Workshop Title',
-      type: 'text',
-      placeholder: 'e.g., Machine Learning Fundamentals',
-      required: true,
-      size: 'full',
-      description: 'Enter the title of the workshop'
-    },
-   
-    {
-      name: 'file_url',
-      label: 'Workshop Document/Brochure',
-      type: 'file',
-      required: false,
-      size: 'full',
-      accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
-      description: 'Upload workshop document, brochure, or image (PDF, DOC, or Image files)'
-    }
-  ],
-  searchableFields: ['title', 'category',],
-  sortableFields: ['title', 'category','created_at'],
-  editableFields: ['title', 'category','file_url']
-},
     'faculty-achievements': {
       tableName: 'cse_faculty_achievements',
       displayField: 'title',
-      
+
       fields: [
-         {
+        {
           name: 'category',
           label: 'Category',
           type: 'select',
@@ -7110,103 +7168,103 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['title', 'category', 'file_url']
     },
     'syllabus': {
-      
-  tableName: 'cse_syllabus',
-  displayField: 'title',
 
-  fields: [
-    {
-      name: 'type',
-      label: 'Type',
-      type: 'select',              // dropdown
-      required: true,
-      size: 'full',
-      options: [
-        { label: 'SOC', value: 'soc' },
-        { label: 'B.Tech Syllabus', value: 'B.Tech Syllabus' },
-        { label: 'M.Tech Syllabus', value: 'M.Tech Syllabus' }
+      tableName: 'cse_syllabus',
+      displayField: 'title',
+
+      fields: [
+        {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'SOC', value: 'soc' },
+            { label: 'B.Tech Syllabus', value: 'B.Tech Syllabus' },
+            { label: 'M.Tech Syllabus', value: 'M.Tech Syllabus' }
+          ],
+          description: 'Select whether this document is SOC or Syllabus'
+        },
+        {
+          name: 'title',
+          label: 'Syllabus Title',
+          type: 'text',
+          placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+          required: true,
+          size: 'full',
+          description: 'Enter the title or name of the syllabus document',
+          validation: {
+            min: 5,
+            max: 200,
+            pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+            message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+          }
+        },
+        {
+          name: 'fileUrl',
+          label: 'Syllabus PDF Document',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+        }
       ],
-      description: 'Select whether this document is SOC or Syllabus'
-    },
-    {
-      name: 'title',
-      label: 'Syllabus Title',
-      type: 'text',
-      placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
-      required: true,
-      size: 'full',
-      description: 'Enter the title or name of the syllabus document',
-      validation: {
-        min: 5,
-        max: 200,
-        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
-      }
-    },
-    {
-      name: 'fileUrl',
-      label: 'Syllabus PDF Document',
-      type: 'file',
-      required: true,
-      size: 'full',
-      accept: '.pdf,.doc,.docx',
-      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
-    }
-  ],
 
-  searchableFields: ['title', 'type'],
-  sortableFields: ['title', 'created_at'],
-  editableFields: ['type', 'title', 'fileUrl']
-},
-'academic-toppers': {
-      
-  tableName: 'cse_academic_toppers',
-  displayField: 'title',
+      searchableFields: ['title', 'type'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['type', 'title', 'fileUrl']
+    },
+    'academic-toppers': {
 
-  fields: [
-    {
-      name: 'type',
-      label: 'Type',
-      type: 'select',              // dropdown
-      required: true,
-      size: 'full',
-      options: [
-        { label: 'Merit Scholarships', value: 'Merit Scholarships' },
-        { label: 'Academic Toppers', value: 'Academic Toppers' },
-        
+      tableName: 'cse_academic_toppers',
+      displayField: 'title',
+
+      fields: [
+        {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'Merit Scholarships', value: 'Merit Scholarships' },
+            { label: 'Academic Toppers', value: 'Academic Toppers' },
+
+          ],
+          description: 'Select whether this document is Merit Scholarships or Academic Toppers'
+        },
+        {
+          name: 'title',
+          label: 'Syllabus Title',
+          type: 'text',
+          placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+          required: true,
+          size: 'full',
+          description: 'Enter the title or name of the syllabus document',
+          validation: {
+            min: 5,
+            max: 200,
+            pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+            message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+          }
+        },
+        {
+          name: 'fileUrl',
+          label: 'Syllabus PDF Document',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+        }
       ],
-      description: 'Select whether this document is Merit Scholarships or Academic Toppers'
-    },
-    {
-      name: 'title',
-      label: 'Syllabus Title',
-      type: 'text',
-      placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
-      required: true,
-      size: 'full',
-      description: 'Enter the title or name of the syllabus document',
-      validation: {
-        min: 5,
-        max: 200,
-        pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-        message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
-      }
-    },
-    {
-      name: 'fileUrl',
-      label: 'Syllabus PDF Document',
-      type: 'file',
-      required: true,
-      size: 'full',
-      accept: '.pdf,.doc,.docx',
-      description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
-    }
-  ],
 
-  searchableFields: ['title', 'type'],
-  sortableFields: ['title', 'created_at'],
-  editableFields: ['type', 'title', 'fileUrl']
-},
+      searchableFields: ['title', 'type'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['type', 'title', 'fileUrl']
+    },
     'department-overview': {
       tableName: 'cse_department_overview',
       displayField: 'title',

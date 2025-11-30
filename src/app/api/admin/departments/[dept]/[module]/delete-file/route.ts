@@ -44,7 +44,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'bos-minutes': 'mba_bos_minutes',
     'department-library': 'mba_department_library',
     'department-overview': 'mba_department_overview',
-    'extra-curricular': 'mba_extra_curricular',
+    'extra-curricular': 'mba_extracurricular_activities',
     'faculty': 'mba_faculty',
     'faculty-achievements': 'mba_faculty_achievements',
     'faculty-development': 'mba_faculty_development',
@@ -163,7 +163,7 @@ async function verifyDepartmentAccess(request: NextRequest, department: string) 
 
   const token = authHeader.substring(7);
   const user = verifyToken(token);
-  
+
   if (!user) {
     return { error: 'Invalid token', status: 401 };
   }
@@ -205,7 +205,7 @@ async function handleFileDelete(
 ) {
   try {
     const { dept, module } = await params;
-    
+
     let id: string | null = null;
     let field: string | null = null;
     let fileUrl: string | null = null;
@@ -344,7 +344,7 @@ async function handleFileDelete(
   } catch (error) {
     console.error('[DELETE FILE] Error:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage
     }, { status: 500 });

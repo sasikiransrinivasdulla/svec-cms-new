@@ -143,7 +143,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'bos-minutes': 'mba_bos_minutes',
     'department-library': 'mba_department_library',
     'department-overview': 'mba_department_overview',
-    'extra-curricular': 'mba_extra_curricular',
+    'extra-curricular': 'mba_extracurricular_activities',
     'faculty': 'mba_faculty',
     'faculty-achievements': 'mba_faculty_achievements',
     'faculty-development': 'mba_faculty_development',
@@ -284,7 +284,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'technical-faculty': 'cst_technical_faculty',
     'training-activities': 'cst_training_activities',
     'workshops': 'cst_workshops'
-    
+
   }
 };
 
@@ -298,11 +298,11 @@ async function verifyAuth(request: NextRequest) {
 
   const token = authHeader.substring(7);
   console.log('Token:', token);
-  
+
   // verifyToken is synchronous, not async
   const user = verifyToken(token);
   console.log('Verified User:', user);
-  
+
   if (!user) {
     return { error: 'Invalid token', status: 401 };
   }
@@ -339,7 +339,7 @@ export async function GET(
     console.log(`[Structure] Looking for config for ${dept}/${module}`);
     const fieldConfig = getModuleFieldConfig(dept, module);
     console.log(`[Structure] Field config found:`, !!fieldConfig);
-    
+
     if (fieldConfig) {
       // Return configured field structure
       console.log(`[Structure] Returning configured fields for ${dept}/${module}`, fieldConfig);
@@ -373,7 +373,7 @@ export async function GET(
 
   } catch (error) {
     console.error('Structure fetch error:', error);
-    
+
     // If table doesn't exist, return default structure
     if (error instanceof Error && error.message.includes("doesn't exist")) {
       return NextResponse.json({
@@ -387,7 +387,7 @@ export async function GET(
         tableName: 'default'
       });
     }
-    
+
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

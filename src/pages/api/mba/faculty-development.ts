@@ -14,8 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const [rows] = await connection.execute(
             `SELECT program_title as title, YEAR(start_date) as academic_year, certificate_url as file_url
-       FROM mba_faculty_development
-       WHERE status = 'active'`
+       FROM mba_faculty_development`
         );
 
         await connection.end();

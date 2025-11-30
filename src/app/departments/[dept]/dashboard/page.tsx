@@ -12,14 +12,14 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { fetchWithErrorHandling, safeJsonParse } from '@/utils/api-helpers';
-import { 
-  Search, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Eye, 
-  Grid3X3, 
-  List, 
+import {
+  Search,
+  Plus,
+  Edit,
+  Trash2,
+  Eye,
+  Grid3X3,
+  List,
   BookOpen,
   Users,
   Award,
@@ -76,7 +76,7 @@ const DEPARTMENT_MODULES: Record<string, Array<{
     { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops', table: 'cai_workshops' },
     { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'cai_technical_association' },
   ],
-  
+
   'cds': [
     { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'ds_bos_members' },
     { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'ds_bos_minutes' },
@@ -128,7 +128,7 @@ const DEPARTMENT_MODULES: Record<string, Array<{
     { key: 'staff', name: 'Staff', icon: Users, description: 'Department staff members', table: 'aiml_staff' },
     { key: 'academic-toppers', name: 'Academic Toppers', icon: Award, description: 'Academic achievement records', table: 'aiml_academictoppers' }
   ],
-  
+
   'cse-ds': [
     { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'ds_bos_members' },
     { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'ds_bos_minutes' },
@@ -169,9 +169,9 @@ const DEPARTMENT_MODULES: Record<string, Array<{
     { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'mba_placements' },
     { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'mba_student_achievements' },
     { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'mba_syllabus' },
-     { key: 'hackathons-gallery', name: 'Gallery', icon: Briefcase, description: 'Gallery Images', table: 'mba_hackathons_gallery' },
-    
-    
+    { key: 'hackathons-gallery', name: 'Gallery', icon: Briefcase, description: 'Gallery Images', table: 'mba_hackathons_gallery' },
+
+
   ],
   'ece': [
     { key: 'board-of-studies', name: 'Board of Studies', icon: BookOpen, description: 'Board of Studies and meetings', table: 'ece_board_of_studies' },
@@ -293,7 +293,7 @@ const DEPARTMENT_MODULES: Record<string, Array<{
     { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'eee_bos_members' },
     { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'eee_bos_minutes' },
     { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'eee_syllabus' },
-     { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'eee_department_overview' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'eee_department_overview' },
     { key: 'faculty-innovations', name: 'Faculty T&L Innovations', icon: Settings, description: 'Faculty teaching and research innovations', table: 'eee_faculty_innovations' },
     { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'eee_placements' },
     { key: 'research-centers', name: 'Research Centers', icon: Building2, description: 'Department research centers and facilities', table: 'eee_research_centers' },
@@ -341,7 +341,7 @@ const DEPARTMENT_MODULES: Record<string, Array<{
     { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'ect_placements' },
     { key: 'scholarships-toppers', name: 'Merit Scholarships/Academic', icon: Award, description: 'Student achievements and scholarships', table: 'ect_scholarships_toppers' },
     { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'ect_student_achievements' },
-     { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'ect_eresources' },
+    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'ect_eresources' },
     { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'ect_syllabus' },
     { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'ect_technical_association' },
     { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'ect_training_activities' },
@@ -377,7 +377,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
   const [dept, setDept] = useState<string>('');
   const { user, logout, isLoading: authLoading } = useAuth();
   const router = useRouter();
-  
+
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
@@ -390,10 +390,10 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
   const [editingItem, setEditingItem] = useState<ModuleData | null>(null);
   const [tableColumns, setTableColumns] = useState<any[]>([]);
   // Cache for frequently accessed data
-  const [dataCache, setDataCache] = useState<Record<string, {data: ModuleData[], timestamp: number}>>({});
-  const [structureCache, setStructureCache] = useState<Record<string, {columns: any[], timestamp: number}>>({});
+  const [dataCache, setDataCache] = useState<Record<string, { data: ModuleData[], timestamp: number }>>({});
+  const [structureCache, setStructureCache] = useState<Record<string, { columns: any[], timestamp: number }>>({});
   const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-  
+
   // Auto-refresh state
   const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(false);
   const [refreshInterval, setRefreshInterval] = useState(30000); // 30 seconds default
@@ -533,20 +533,20 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
 
     const cacheKey = `${dept}-${moduleKey}-${page}`;
     const cached = dataCache[cacheKey];
-    
+
     // Check cache first (skip if forceRefresh is true)
     if (!forceRefresh && cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       setModuleData(cached.data);
       setLoading(false);
       return;
     }
-    
+
     setLoading(true);
-  const authToken = localStorage.getItem('authToken');
-  // Only include Authorization header when a valid token exists to avoid sending 'Bearer null'
-  const headers: Record<string, string> = {};
-  if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
-    
+    const authToken = localStorage.getItem('authToken');
+    // Only include Authorization header when a valid token exists to avoid sending 'Bearer null'
+    const headers: Record<string, string> = {};
+    if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
+
     try {
       // Use Promise.allSettled for parallel requests
       const [structureResult, dataResult] = await Promise.allSettled([
@@ -554,36 +554,36 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         (async () => {
           const structureCacheKey = `${dept}-${moduleKey}-structure`;
           const cachedStructure = structureCache[structureCacheKey];
-          
+
           if (!forceRefresh && cachedStructure && Date.now() - cachedStructure.timestamp < CACHE_DURATION) {
             return { fields: cachedStructure.columns };
           }
-          
+
           const result = await fetchWithErrorHandling(
-            dept === 'cst' 
-              ? `/api/admin/departments/cst/${moduleKey}/structure` 
-              : `/api/admin/departments/${dept}/${moduleKey}/structure`, 
+            dept === 'cst'
+              ? `/api/admin/departments/cst/${moduleKey}/structure`
+              : `/api/admin/departments/${dept}/${moduleKey}/structure`,
             { headers }
           );
-          
+
           // Cache structure
           setStructureCache(prev => ({
             ...prev,
             [structureCacheKey]: { columns: result.fields || [], timestamp: Date.now() }
           }));
-          
+
           return result;
         })(),
-        
+
         // Data request
         fetchWithErrorHandling(
-          dept === 'cst' 
+          dept === 'cst'
             ? `/api/admin/departments/cst/${moduleKey}?page=${page}&limit=1000&_t=${Date.now()}`
-            : `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=1000&_t=${Date.now()}`, 
+            : `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=1000&_t=${Date.now()}`,
           { headers }
         )
       ]);
-      
+
       // Handle structure result
       if (structureResult.status === 'fulfilled') {
         setTableColumns(structureResult.value.fields || []);
@@ -591,7 +591,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         console.warn('Failed to load table structure:', structureResult.reason);
         setTableColumns([]);
       }
-      
+
       // Handle data result
       if (dataResult.status === 'fulfilled' && dataResult.value.success && dataResult.value.data) {
         const data = dataResult.value.data.records || [];
@@ -599,7 +599,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         setTotalRecords(dataResult.value.data.total || 0);
         setTotalPages(dataResult.value.data.totalPages || 1);
         setCurrentPage(page);
-        
+
         // Cache the data
         setDataCache(prev => ({
           ...prev,
@@ -650,13 +650,13 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this item? This will also delete any associated files.')) return;
-    
+
     // Find the item to be deleted to get file URL
     const itemToDelete = moduleData.find(item => item.id === id);
-    
+
     try {
       const authToken = localStorage.getItem('authToken');
-      
+
       // For CST department, files are automatically deleted by the new API
       // For other departments, delete associated files manually
       if (dept !== 'cst' && itemToDelete) {
@@ -669,7 +669,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
           // Other variations
           'certificateUrl', 'reportUrl', 'galleryUrl', 'documentUrl'
         ];
-        
+
         for (const field of fileFields) {
           if (itemToDelete[field]) {
             try {
@@ -687,26 +687,26 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
           }
         }
       }
-      
+
       const result = await fetchWithErrorHandling(
-        dept === 'cst' 
+        dept === 'cst'
           ? `/api/admin/departments/cst/${selectedModule}?id=${id}`
-          : `/api/admin/departments/${dept}/${selectedModule}?id=${id}`, 
+          : `/api/admin/departments/${dept}/${selectedModule}?id=${id}`,
         {
           method: 'DELETE',
-                headers: {
-                  ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
-                }
+          headers: {
+            ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
+          }
         }
       );
-      
+
       if (result.success) {
         toast.success('Record and associated files deleted successfully');
-        
+
         // Clear ALL cache to force complete refresh from server
         setDataCache({});
         setStructureCache({});
-        
+
         // Trigger cross-tab auto-update notification
         localStorage.setItem('admin_data_updated', JSON.stringify({
           timestamp: Date.now(),
@@ -715,7 +715,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
           action: 'delete',
           updatedAt: new Date().toISOString()
         }));
-        
+
         // Immediately reload fresh data from server (no cache)
         if (selectedModule) {
           // If this was the last item on the page and we're not on page 1, go to previous page
@@ -736,23 +736,23 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         toast.error('Error deleting item');
       }
     }
-  };  const handleSave = async (data: any) => {
+  }; const handleSave = async (data: any) => {
     try {
       const authToken = localStorage.getItem('authToken');
       const method = editingItem ? 'PUT' : 'POST';
-      const url = editingItem 
-        ? (dept === 'cst' 
-           ? `/api/admin/departments/cst/${selectedModule}?id=${editingItem.id}`
-           : `/api/admin/departments/${dept}/${selectedModule}?id=${editingItem.id}`)
+      const url = editingItem
+        ? (dept === 'cst'
+          ? `/api/admin/departments/cst/${selectedModule}?id=${editingItem.id}`
+          : `/api/admin/departments/${dept}/${selectedModule}?id=${editingItem.id}`)
         : (dept === 'cst'
-           ? `/api/admin/departments/cst/${selectedModule}`
-           : `/api/admin/departments/${dept}/${selectedModule}`);
+          ? `/api/admin/departments/cst/${selectedModule}`
+          : `/api/admin/departments/${dept}/${selectedModule}`);
 
       // Check if the table has a 'dept' column before including it
       const hasDeptColumn = tableColumns.some(field => field.Field === 'dept');
-      
+
       // Conditionally include dept field only if the table has that column
-      const saveData = hasDeptColumn 
+      const saveData = hasDeptColumn
         ? { ...data, dept: dept } // Add dept if table has the column
         : { ...data }; // Don't add dept if table doesn't have the column
 
@@ -769,7 +769,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         setShowCreateModal(false);
         setEditingItem(null);
         toast.success(editingItem ? 'Record updated successfully' : 'Record created successfully');
-        
+
         // Trigger cross-tab auto-update notification
         localStorage.setItem('admin_data_updated', JSON.stringify({
           timestamp: Date.now(),
@@ -778,7 +778,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
           action: editingItem ? 'update' : 'create',
           updatedAt: new Date().toISOString()
         }));
-        
+
         if (selectedModule) {
           // Clear ALL cache to force complete refresh
           setDataCache({});
@@ -815,16 +815,16 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
           <div className="mb-10">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
               <div className="flex items-center gap-2 text-sm">
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   onClick={() => setSelectedModule(null)}
                   className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors flex items-center gap-2 font-medium border border-blue-200"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   Back to Dashboard
                 </Button>
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   onClick={() => window.history.back()}
                   className="text-gray-600 hover:text-gray-800 hover:bg-gray-50 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
                 >
@@ -845,11 +845,11 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                 <ChevronRight className="w-4 h-4 text-gray-300" />
                 <span className="font-medium text-gray-700">{module?.name}</span>
               </div>
-              
+
               <div className="flex items-center gap-2">
-                <Button 
-                  onClick={handleLogout} 
-                  variant="outline" 
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
                   size="sm"
                   className="hover:bg-red-50 hover:border-red-200 hover:text-red-700 transition-colors"
                 >
@@ -858,7 +858,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                 </Button>
               </div>
             </div>
-            
+
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 p-6 shadow-sm">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className="space-y-2">
@@ -875,8 +875,8 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                       {totalRecords} {totalRecords === 1 ? 'record' : 'records'}
                     </Badge>
                   </div>
-                  <Button 
-                    onClick={handleCreate} 
+                  <Button
+                    onClick={handleCreate}
                     className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
                     size="lg"
                   >
@@ -994,8 +994,8 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                             .slice(0, 5) // Limit to 5 columns for better display
                             .map((col) => {
                               const fieldName = col.Field || col.name || 'unknown';
-                              const displayName = typeof fieldName === 'string' 
-                                ? fieldName.split('_').join(' ') 
+                              const displayName = typeof fieldName === 'string'
+                                ? fieldName.split('_').join(' ')
                                 : 'Column';
                               return (
                                 <th key={fieldName} className="text-left p-4 capitalize">
@@ -1016,22 +1016,22 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                     </thead>
                     <tbody>
                       {moduleData.map((item) => {
-                        const displayColumns = tableColumns.length > 0 
+                        const displayColumns = tableColumns.length > 0
                           ? tableColumns
-                              .filter(col => {
-                                const fieldName = col.Field || col.name || '';
-                                return !['created_at', 'updated_at', 'deleted_at'].includes(fieldName);
-                              })
-                              .slice(0, 5)
+                            .filter(col => {
+                              const fieldName = col.Field || col.name || '';
+                              return !['created_at', 'updated_at', 'deleted_at'].includes(fieldName);
+                            })
+                            .slice(0, 5)
                           : [{ Field: 'id', Type: 'int' }, { Field: 'title', Type: 'varchar' }, { Field: 'created_at', Type: 'datetime' }];
-                        
+
                         return (
                           <tr key={item.id} className="border-b hover:bg-gray-50">
                             {displayColumns.map((col) => {
                               const fieldName = col.Field || col.name || '';
                               const value = item[fieldName];
                               let displayValue = value || '-';
-                              
+
                               // Format different data types
                               if (fieldName === 'id') {
                                 displayValue = `#${value}`;
@@ -1040,7 +1040,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                               } else if ((col.Type || '').includes('text') && value && value.length > 100) {
                                 displayValue = value.substring(0, 100) + '...';
                               }
-                              
+
                               return (
                                 <td key={fieldName} className="p-4">
                                   {fieldName === 'id' ? (
@@ -1055,15 +1055,15 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                             })}
                             <td className="p-4">
                               <div className="flex items-center justify-end gap-1">
-                                <Button 
-                                  size="sm" 
+                                <Button
+                                  size="sm"
                                   variant="ghost"
                                   onClick={() => handleEdit(item)}
                                 >
                                   <Edit className="w-4 h-4" />
                                 </Button>
-                                <Button 
-                                  size="sm" 
+                                <Button
+                                  size="sm"
                                   variant="ghost"
                                   onClick={() => handleDelete(item.id)}
                                 >
@@ -1090,7 +1090,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                 {editingItem ? 'Edit' : 'Create'} {module?.name}
               </DialogTitle>
             </DialogHeader>
-            <EditForm 
+            <EditForm
               item={editingItem}
               onSave={handleSave}
               onCancel={() => setShowCreateModal(false)}
@@ -1147,8 +1147,8 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                 <span className="text-sm text-gray-600">Role:</span>
                 <Badge className="capitalize bg-blue-100 text-blue-800">{user?.role}</Badge>
               </div>
-              <Button 
-                onClick={handleLogout} 
+              <Button
+                onClick={handleLogout}
                 variant="outline"
                 className="hover:bg-red-50 hover:border-red-200 hover:text-red-700 transition-colors"
               >
@@ -1239,7 +1239,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
               {filteredModules.map((module) => {
                 const IconComponent = module.icon;
                 return (
-                  <Card 
+                  <Card
                     key={module.key}
                     className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white/80 backdrop-blur-sm border-0 shadow-lg rounded-xl overflow-hidden"
                     onClick={() => handleModuleSelect(module.key)}
@@ -1276,8 +1276,8 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-3">No modules found</h3>
                 <p className="text-gray-600 mb-6">Try adjusting your search term or check back later.</p>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={() => setSearchTerm('')}
                   className="hover:bg-blue-50 hover:border-blue-200"
                 >
@@ -1293,15 +1293,15 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
 }
 
 // Dynamic Form component for editing
-function EditForm({ 
-  item, 
-  onSave, 
+function EditForm({
+  item,
+  onSave,
   onCancel,
   dept,
-  selectedModule 
-}: { 
-  item: ModuleData | null; 
-  onSave: (data: any) => void; 
+  selectedModule
+}: {
+  item: ModuleData | null;
+  onSave: (data: any) => void;
   onCancel: () => void;
   dept: string;
   selectedModule: string;
@@ -1345,10 +1345,10 @@ function EditForm({
   const fetchTableStructure = async () => {
     setLoading(true);
     try {
-  const authToken = localStorage.getItem('authToken');
-            // Add cache-busting parameter to ensure fresh data
-            const cacheBuster = Date.now();
-            const result = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${selectedModule}/structure?t=${cacheBuster}`, {
+      const authToken = localStorage.getItem('authToken');
+      // Add cache-busting parameter to ensure fresh data
+      const cacheBuster = Date.now();
+      const result = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${selectedModule}/structure?t=${cacheBuster}`, {
         headers: {
           ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {}),
           'Cache-Control': 'no-cache'
@@ -1356,7 +1356,7 @@ function EditForm({
       });
 
       console.log('[fetchTableStructure] API Response:', result);
-      
+
       // Check if we have configured fields (from module-fields.ts)
       if (result.source === 'config' && result.fields) {
         // Convert configured fields to the format expected by the form
@@ -1392,9 +1392,9 @@ function EditForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     let finalFormData = { ...formData };
-    
+
     // Handle file uploads for each selected file
     for (const [fieldName, file] of Object.entries(selectedFiles)) {
       setUploadingFields(prev => ({ ...prev, [fieldName]: true }));
@@ -1402,23 +1402,23 @@ function EditForm({
         const authToken = localStorage.getItem('authToken');
         const fileFormData = new FormData();
         fileFormData.append('file', file);
-        
+
         // For edit mode, include existing file URL for this specific field
         if (item && item[fieldName]) {
           fileFormData.append('existingUrl', item[fieldName]);
           fileFormData.append('overwriteExisting', 'true'); // Signal to override
         }
-        
+
         // Add record ID for tracking file associations
         if (item && item.id) {
           fileFormData.append('recordId', item.id.toString());
         }
-        
+
         // Use CST-specific endpoint for CST, generic endpoint for others
-        const uploadUrl = dept === 'cst' 
+        const uploadUrl = dept === 'cst'
           ? `/api/admin/departments/cst/${selectedModule}/upload`
           : `/api/admin/departments/${dept}/${selectedModule}/upload`;
-        
+
         const uploadResponse = await fetch(uploadUrl, {
           method: 'POST',
           headers: {
@@ -1426,20 +1426,20 @@ function EditForm({
           },
           body: fileFormData
         });
-        
+
         if (!uploadResponse.ok) {
           const errorData = await uploadResponse.json();
           throw new Error(errorData.error || 'Upload failed');
         }
-        
+
         const uploadResult = await uploadResponse.json();
-        
+
         // Update the specific field with the uploaded file URL
         finalFormData[fieldName] = uploadResult.data.url;
-        
+
         const uploadSizeKB = uploadResult.data.size;
         const uploadSizeMB = (uploadSizeKB / 1024).toFixed(2);
-        
+
         if (item && item.id) {
           toast.success('📝 File Updated Successfully!', {
             description: `${fieldName} file overridden successfully (${uploadSizeKB}KB / ${uploadSizeMB}MB)`,
@@ -1459,7 +1459,7 @@ function EditForm({
         setUploadingFields(prev => ({ ...prev, [fieldName]: false }));
       }
     }
-    
+
     // Exclude fields that shouldn't be saved to database (e.g., display-only fields)
     const fieldsToExclude = ['laboratory_gallery']; // These are reference/display fields only
     const dataToSave = Object.keys(finalFormData)
@@ -1468,7 +1468,7 @@ function EditForm({
         obj[key] = finalFormData[key];
         return obj;
       }, {} as Record<string, any>);
-    
+
     onSave(dataToSave);
   };
 
@@ -1477,19 +1477,19 @@ function EditForm({
     if (file) {
       const fileSizeKB = Math.round(file.size / 1024);
       const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-      
+
       // Validate file type (expanded to support more file types)
       const allowedTypes = [
         'application/pdf',
         'image/jpeg',
-        'image/jpg', 
+        'image/jpg',
         'image/png',
         'application/msword',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/vnd.ms-excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       ];
-      
+
       if (!allowedTypes.includes(file.type)) {
         toast.error('⚠️ Invalid File Type', {
           description: 'Please select a valid file. Supported formats: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX',
@@ -1498,7 +1498,7 @@ function EditForm({
         e.target.value = '';
         return;
       }
-      
+
       // Validate file size (5MB)
       const maxSize = 5 * 1024 * 1024; // 5MB
       if (file.size > maxSize) {
@@ -1509,7 +1509,7 @@ function EditForm({
         e.target.value = '';
         return;
       }
-      
+
       // Show warning for files larger than 3MB
       if (file.size > 3 * 1024 * 1024) {
         toast.warning('⚠️ Large File Warning', {
@@ -1517,10 +1517,10 @@ function EditForm({
           duration: 4000
         });
       }
-      
+
       setSelectedFiles(prev => ({ ...prev, [fieldName]: file }));
       console.log(`📎 Selected file for ${fieldName}: ${file.name} (${fileSizeKB}KB)`);
-      
+
       toast.success('📎 File Selected!', {
         description: `${file.name} (${fileSizeKB}KB) ready for upload to ${fieldName}`,
         duration: 3000
@@ -1539,10 +1539,10 @@ function EditForm({
   const getInputType = (fieldType: string, fieldName: string) => {
     // Add null/undefined check
     if (!fieldType) return 'text';
-    
+
     const type = fieldType.toLowerCase();
     const name = fieldName.toLowerCase();
-    
+
     if (name.includes('email')) return 'email';
     if (name.includes('phone') || name.includes('mobile')) return 'tel';
     if (name.includes('url') || name.includes('link')) return 'url';
@@ -1553,24 +1553,24 @@ function EditForm({
     if (type.includes('int') || type.includes('decimal') || type.includes('float')) return 'number';
     if (type.includes('text') || type.includes('longtext')) return 'textarea';
     if (type.includes('json')) return 'textarea';
-    
+
     return 'text';
   };
 
   const getEditableFields = () => {
     if (tableFields.length > 0) {
-      return tableFields.filter(field => 
+      return tableFields.filter(field =>
         !['id', 'dept', 'created_at', 'updated_at', 'deleted_at', 'minutes_url', 'agenda'].includes(field.Field)
       );
     }
-    
+
     // Fallback for when table structure isn't available
     if (item && Object.keys(item).length > 0) {
       return Object.keys(item)
         .filter(key => !['id', 'dept', 'created_at', 'updated_at', 'deleted_at', 'minutes_url', 'agenda'].includes(key))
         .map(field => ({ Field: field, Type: 'varchar(255)', Null: 'YES' }));
     }
-    
+
     return [
       { Field: 'title', Type: 'varchar(255)', Null: 'YES' },
       { Field: 'description', Type: 'text', Null: 'YES' }
@@ -1592,13 +1592,13 @@ function EditForm({
         const fieldName = field.Field || 'field';
         const inputType = getInputType(field.Type, fieldName);
         const isRequired = field.Null === 'NO';
-        
+
         // Use configured label if available, otherwise format field name
-        const displayName = field.fieldConfig?.label || 
-          (fieldName || '').split('_').map((word: string) => 
+        const displayName = field.fieldConfig?.label ||
+          (fieldName || '').split('_').map((word: string) =>
             word.charAt(0).toUpperCase() + word.slice(1)
           ).join(' ');
-          
+
         // Use configured placeholder if available
         const placeholder = field.fieldConfig?.placeholder || `Enter ${displayName.toLowerCase()}`;
 
@@ -1618,7 +1618,7 @@ function EditForm({
               {displayName}
               {isRequired && <span className="text-red-500">*</span>}
             </Label>
-            
+
             {/* Select field with options from field configuration */}
             {field.fieldConfig?.type === 'select' && field.fieldConfig?.options ? (
               <select
@@ -1635,6 +1635,51 @@ function EditForm({
                   </option>
                 ))}
               </select>
+            ) : field.fieldConfig?.type === 'file' ? (
+              // File upload based on field configuration
+              <div className="space-y-3">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-yellow-800 mb-2">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    <span className="font-semibold text-sm">File Upload Guidelines</span>
+                  </div>
+                  <div className="text-xs text-yellow-700 space-y-1">
+                    <p>• <span className="font-medium">Maximum size: 5MB</span> - Warning shown at 3MB, rejected above 5MB</p>
+                    <p>• Supported formats: {field.fieldConfig?.accept || 'PDF, JPG, PNG, DOC, DOCX, XLS, XLSX'}</p>
+                    <p>• Best practices: Compress large files before upload for faster processing</p>
+                    <p>• Files are stored securely in: /uploads/{dept}/{selectedModule}/</p>
+                  </div>
+                </div>
+                <Input
+                  id={`${fieldName}-upload`}
+                  type="file"
+                  accept={field.fieldConfig?.accept || '.pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx'}
+                  onChange={(e) => handleFileChange(e, fieldName)}
+                  className="cursor-pointer"
+                  required={isRequired && !formData[fieldName]}
+                />
+                {formData[fieldName] && (
+                  <div className="bg-blue-50 border border-blue-200 p-3 rounded-lg">
+                    <p className="text-xs text-blue-700 font-medium mb-1">📎 Current file:</p>
+                    <a
+                      href={formData[fieldName]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-600 hover:underline break-all"
+                    >
+                      {formData[fieldName]}
+                    </a>
+                  </div>
+                )}
+                {selectedFiles[fieldName] && (
+                  <div className="bg-green-50 border border-green-200 p-3 rounded-lg">
+                    <p className="text-xs text-green-700 font-medium mb-1">✅ New file ready for {displayName}:</p>
+                    <p className="text-xs text-green-600">{selectedFiles[fieldName].name} ({Math.round(selectedFiles[fieldName].size / 1024)}KB)</p>
+                  </div>
+                )}
+              </div>
             ) : fieldName === 'laboratory_gallery' && selectedModule === 'physical-facilities' ? (
               <select
                 id={fieldName}
@@ -1665,7 +1710,7 @@ function EditForm({
                     <p>• Multiple images will be comma-separated</p>
                   </div>
                 </div>
-                
+
                 {/* Image Upload Section */}
                 <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-4">
                   <div className="text-center space-y-2">
@@ -1685,28 +1730,28 @@ function EditForm({
                             const maxSize = 350 * 1024; // 350KB in bytes
                             let successCount = 0;
                             let totalFiles = files.length;
-                            
+
                             if (totalFiles === 0) return;
-                            
+
                             console.log(`Starting upload of ${totalFiles} files for gallery`);
-                            
+
                             for (const file of files) {
                               if (file.size > maxSize) {
-                                alert(`File "${file.name}" is too large. Maximum size is 350KB (${Math.round(file.size/1024)}KB).`);
+                                alert(`File "${file.name}" is too large. Maximum size is 350KB (${Math.round(file.size / 1024)}KB).`);
                                 continue;
                               }
-                              
+
                               const formDataFile = new FormData();
                               formDataFile.append('file', file);
                               formDataFile.append('dept', dept);
                               formDataFile.append('module', selectedModule);
                               formDataFile.append('gallery', 'true'); // Indicate this is a gallery upload
-                              
+
                               // For replacing existing image, pass the old URL
                               if (selectedModule === 'hackathons-gallery' && formData[fieldName]) {
                                 formDataFile.append('existingUrl', formData[fieldName]);
                               }
-                              
+
                               try {
                                 const authToken = localStorage.getItem('authToken');
                                 const response = await fetch(`/api/admin/departments/${dept}/${selectedModule}/upload`, {
@@ -1716,22 +1761,22 @@ function EditForm({
                                   },
                                   body: formDataFile,
                                 });
-                                
+
                                 if (response.ok) {
                                   const result = await response.json();
-                                  
+
                                   if (selectedModule === 'hackathons-gallery') {
                                     // For hackathons-gallery, replace the single image (no duplicates)
                                     handleChange(fieldName, result.data.url);
                                   } else {
                                     // For regular hackathons, append to comma-separated string
                                     const currentGallery = formData[fieldName] || '';
-                                    const newGallery = currentGallery 
+                                    const newGallery = currentGallery
                                       ? `${currentGallery}, ${result.data.url}`
                                       : result.data.url;
                                     handleChange(fieldName, newGallery);
                                   }
-                                  
+
                                   successCount++;
                                   console.log(`Successfully uploaded ${file.name} to gallery (${successCount}/${totalFiles})`);
                                 } else {
@@ -1743,11 +1788,11 @@ function EditForm({
                                 alert(`Error uploading ${file.name}: ${(error as any)?.message || 'Network error'}`);
                               }
                             }
-                            
+
                             if (successCount > 0) {
                               alert(`Successfully uploaded ${successCount} of ${totalFiles} images to gallery!`);
                             }
-                            
+
                             // Reset the file input
                             e.target.value = '';
                           }}
@@ -1759,7 +1804,7 @@ function EditForm({
                     <p className="text-xs text-gray-400">Max 350KB per image</p>
                   </div>
                 </div>
-                
+
                 {/* Manual URL Input */}
                 <div>
                   <label className="block text-xs font-medium text-gray-600 mb-1">
@@ -1775,7 +1820,7 @@ function EditForm({
                     className="text-sm"
                   />
                 </div>
-                
+
                 {/* Preview Section */}
                 {formData[fieldName] && (
                   <div className="bg-gray-50 border rounded-lg p-3">
@@ -1796,7 +1841,7 @@ function EditForm({
                             type="button"
                             onClick={async () => {
                               const imageUrl = formData[fieldName].trim();
-                              
+
                               // Delete image file from server
                               if (imageUrl && item?.id) {
                                 try {
@@ -1809,7 +1854,7 @@ function EditForm({
                                         'Content-Type': 'application/json',
                                         ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
                                       },
-                                      body: JSON.stringify({ 
+                                      body: JSON.stringify({
                                         fileUrl: imageUrl,
                                         id: item.id
                                       })
@@ -1819,7 +1864,7 @@ function EditForm({
                                   console.warn('Could not delete image file:', error);
                                 }
                               }
-                              
+
                               // Clear form field
                               handleChange(fieldName, '');
                             }}
@@ -1852,7 +1897,7 @@ function EditForm({
                                 type="button"
                                 onClick={async () => {
                                   const imageUrl = url.trim();
-                                  
+
                                   // Delete image file from server
                                   if (imageUrl && item?.id) {
                                     try {
@@ -1865,7 +1910,7 @@ function EditForm({
                                             'Content-Type': 'application/json',
                                             'Authorization': `Bearer ${authToken}`
                                           },
-                                          body: JSON.stringify({ 
+                                          body: JSON.stringify({
                                             fileUrl: imageUrl,
                                             id: item?.id
                                           })
@@ -1875,7 +1920,7 @@ function EditForm({
                                       console.warn('Could not delete image file:', error);
                                     }
                                   }
-                                  
+
                                   // Remove from form
                                   const urls = formData[fieldName].split(',').filter((_: string, i: number) => i !== index);
                                   handleChange(fieldName, urls.join(','));
@@ -1999,7 +2044,7 @@ function EditForm({
                 required={isRequired}
               />
             ) : inputType === 'url' && (
-              fieldName.toLowerCase().includes('url') || 
+              fieldName.toLowerCase().includes('url') ||
               fieldName.toLowerCase().includes('file') ||
               fieldName.toLowerCase().includes('document') ||
               fieldName.toLowerCase().includes('link')
@@ -2030,9 +2075,9 @@ function EditForm({
                 {formData[fieldName] && (
                   <div className="bg-blue-50 border border-blue-200 p-3 rounded-lg">
                     <p className="text-xs text-blue-700 font-medium mb-1">📎 Current file:</p>
-                    <a 
-                      href={formData[fieldName]} 
-                      target="_blank" 
+                    <a
+                      href={formData[fieldName]}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-blue-600 hover:underline break-all"
                     >
@@ -2066,7 +2111,7 @@ function EditForm({
                 required={isRequired}
               />
             )}
-            
+
             {/* Field description if available */}
             {field.fieldConfig?.description && (
               <p className="text-xs text-gray-500 mt-1">
@@ -2076,7 +2121,7 @@ function EditForm({
           </div>
         );
       })}
-      
+
       <DialogFooter className="gap-2 pt-4">
         <Button type="button" variant="outline" onClick={onCancel} disabled={Object.values(uploadingFields).some(Boolean)}>
           Cancel
