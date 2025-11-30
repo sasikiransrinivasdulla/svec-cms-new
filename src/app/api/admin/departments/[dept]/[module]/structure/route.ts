@@ -4,7 +4,7 @@ import { verifyToken } from '@/lib/auth/auth';
 import { RowDataPacket } from 'mysql2';
 import { getModuleFieldConfig, MODULES_FIELD_CONFIG } from '@/config/module-fields';
 
-// Department modules mapping
+// Department modules mapping - Updated for Civil BOS minutes
 const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
   'cse-ai': {
     'bos-members': 'cai_bos_members',
@@ -57,6 +57,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
   'civil': {
     'faculty': 'civil_faculty',
     'board-of-studies': 'bos_civil_meeting_minutes',
+    'bos-minutes': 'civil_bos_minutes',
     'consultancy': 'civil_consultancy',
     'extra-curricular': 'civil_extra_curricular_activities',
     'newsletters': 'civil_newsletters',

@@ -14,11 +14,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            `SELECT id, department, year, name, url
+            `SELECT id, category, year, title as name, file_url as url
        FROM civil_workshops
-       WHERE department = ?
-       ORDER BY year DESC, id DESC`,
-            [dept]
+       ORDER BY year DESC, id DESC`
         );
 
         await connection.end();

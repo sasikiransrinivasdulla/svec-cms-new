@@ -60,7 +60,7 @@ interface PlacementInfo {
 
 const Placements: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
-  
+
   // State for API data
   const [statistics, setStatistics] = useState<PlacementStatistics[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -188,7 +188,7 @@ const Placements: React.FC = () => {
     const interval = setInterval(() => {
       const activeSlide = carousel.querySelector('.carousel-item.active');
       const nextSlide = activeSlide?.nextElementSibling || carousel.querySelector('.carousel-item:first-child');
-      
+
       if (activeSlide && nextSlide) {
         activeSlide.classList.remove('active');
         nextSlide.classList.add('active');
@@ -289,8 +289,8 @@ const Placements: React.FC = () => {
             </div>
             <h3 className="text-xl font-semibold text-red-800 mb-2">Error Loading Data</h3>
             <p className="text-red-600 mb-4">{error}</p>
-            <button 
-              onClick={() => window.location.reload()} 
+            <button
+              onClick={() => window.location.reload()}
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
             >
               Retry
@@ -308,7 +308,7 @@ const Placements: React.FC = () => {
               <h1 className="text-4xl md:text-6xl font-bold mb-6 text-[#850209]">
                 {placementInfo?.title || 'Placements'}
               </h1>
-              
+
             </div>
 
             {/* Subtle background shapes */}
@@ -316,753 +316,751 @@ const Placements: React.FC = () => {
             <div className="absolute left-0 bottom-0 h-24 w-24 md:h-36 md:w-36 bg-secondary/20 rounded-full opacity-70 shadow-sm z-0"></div>
           </section>
 
-      {/* Placement Images Carousel */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div ref={carouselRef} className="relative">
-              <div className="overflow-hidden rounded-xl shadow-lg">
-                <div className="relative h-96">
-                  {carouselImages.length > 0 ? carouselImages.map((image, index) => (
-                    <div
-                      key={image.id}
-                      className={`carousel-item absolute inset-0 transition-opacity duration-500 ${
-                        index === 0 ? 'active opacity-100' : 'opacity-0'
-                      }`}
-                    >
-                      <img
-                        src={image.image_url}
-                        alt={image.alt_text}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          // Fallback image on error
-                          e.currentTarget.src = '../images/placement/default-placement.jpg';
-                        }}
-                      />
+          {/* Placement Images Carousel */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto">
+                <div ref={carouselRef} className="relative">
+                  <div className="overflow-hidden rounded-xl shadow-lg">
+                    <div className="relative h-96">
+                      {carouselImages.length > 0 ? carouselImages.map((image, index) => (
+                        <div
+                          key={image.id}
+                          className={`carousel-item absolute inset-0 transition-opacity duration-500 ${index === 0 ? 'active opacity-100' : 'opacity-0'
+                            }`}
+                        >
+                          <img
+                            src={image.image_url}
+                            alt={image.alt_text}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              // Hide broken image
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      )) : (
+                        <div className="flex items-center justify-center h-full bg-gray-200">
+                          <p className="text-gray-500 text-lg">No carousel images available</p>
+                        </div>
+                      )}
                     </div>
-                  )) : (
-                    <div className="flex items-center justify-center h-full bg-gray-200">
-                      <p className="text-gray-500 text-lg">No carousel images available</p>
+                  </div>
+
+                  {/* Carousel indicators */}
+                  {carouselImages.length > 0 && (
+                    <div className="flex justify-center mt-6 space-x-2">
+                      {carouselImages.map((_, index) => (
+                        <button
+                          key={index}
+                          className={`w-3 h-3 rounded-full transition-colors ${index === 0 ? 'bg-[#B22222]' : 'bg-gray-300'
+                            }`}
+                          onClick={() => {
+                            const carousel = carouselRef.current;
+                            if (carousel) {
+                              const activeSlide = carousel.querySelector('.carousel-item.active');
+                              const targetSlide = carousel.querySelectorAll('.carousel-item')[index];
+                              if (activeSlide && targetSlide) {
+                                activeSlide.classList.remove('active', 'opacity-100');
+                                activeSlide.classList.add('opacity-0');
+                                targetSlide.classList.remove('opacity-0');
+                                targetSlide.classList.add('active', 'opacity-100');
+                              }
+                            }
+                          }}
+                        />
+                      ))}
                     </div>
                   )}
                 </div>
               </div>
-              
-              {/* Carousel indicators */}
-              {carouselImages.length > 0 && (
-                <div className="flex justify-center mt-6 space-x-2">
-                  {carouselImages.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`w-3 h-3 rounded-full transition-colors ${
-                        index === 0 ? 'bg-[#B22222]' : 'bg-gray-300'
-                      }`}
-                      onClick={() => {
-                        const carousel = carouselRef.current;
-                        if (carousel) {
-                          const activeSlide = carousel.querySelector('.carousel-item.active');
-                          const targetSlide = carousel.querySelectorAll('.carousel-item')[index];
-                          if (activeSlide && targetSlide) {
-                            activeSlide.classList.remove('active', 'opacity-100');
-                            activeSlide.classList.add('opacity-0');
-                            targetSlide.classList.remove('opacity-0');
-                            targetSlide.classList.add('active', 'opacity-100');
-                          }
-                        }
-                      }}
-                    />
-                  ))}
-                </div>
-              )}
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* Placement Info Content Above Team */}
-      {placementInfo && (
-        <section className="py-8 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">{placementInfo.title}</h2>
-              <p className="text-xl text-gray-700">{placementInfo.description}</p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Placement Officer */}
-      {placementOfficer && (
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Officer</h2>
-              <p className="text-xl text-gray-600">Meet our dedicated placement officer</p>
-            </div>
-            
-            <div className="max-w-5xl mx-auto bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl shadow-xl p-8 mb-8 border border-gray-200">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className="flex justify-center lg:justify-start">
-                  <div className="relative">
-                    <img
-                      src={placementOfficer.image_url && placementOfficer.image_url.trim() !== '' ? placementOfficer.image_url : '/images/placement/default-placement.jpg'}
-                      alt={placementOfficer.name}
-                      className="w-80 h-80 rounded-2xl object-cover shadow-2xl border-4 border-white"
-                      onError={(e) => {
-                        e.currentTarget.src = '/images/placement/default-placement.jpg';
-                      }}
-                    />
-                    <div className="absolute -bottom-4 -right-4 bg-[#B22222] text-white p-3 rounded-full shadow-lg">
-                      <Phone className="w-6 h-6" />
-                    </div>
-                  </div>
+          {/* Placement Info Content Above Team */}
+          {placementInfo && (
+            <section className="py-8 bg-white">
+              <div className="container mx-auto px-4">
+                <div className="max-w-3xl mx-auto text-center mb-8">
+                  <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">{placementInfo.title}</h2>
+                  <p className="text-xl text-gray-700">{placementInfo.description}</p>
                 </div>
-                
-                <div className="text-center lg:text-left space-y-6">
-                  <div>
-                    <h3 className="text-3xl font-bold text-[#B22222] mb-3">{placementOfficer.name}</h3>
-                    <p className="text-xl text-gray-800 font-semibold mb-2">{placementOfficer.designation}</p>
-                    <p className="text-lg text-gray-600 mb-6">Sri Vasavi Engineering College</p>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
-                      <div className="bg-[#B22222] p-2 rounded-full">
-                        <Phone className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-500 block">Mobile</span>
-                        <span className="text-lg font-semibold text-gray-800">{placementOfficer.phone}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
-                      <div className="bg-[#B22222] p-2 rounded-full">
-                        <Mail className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-500 block">Email</span>
-                        <a 
-                          href={`mailto:${placementOfficer.email}`}
-                          className="text-lg font-semibold text-[#B22222] hover:underline"
-                        >
-                          {placementOfficer.email}
-                        </a>
-                      </div>
-                    </div>
-                    
-                    {placementOfficer.linkedin && (
-                      <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
-                        <div className="bg-blue-600 p-2 rounded-full">
-                          <ExternalLink className="w-5 h-5 text-white" />
+              </div>
+            </section>
+          )}
+
+          {/* Placement Officer */}
+          {placementOfficer && (
+            <section className="py-16 bg-white">
+              <div className="container mx-auto px-4">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Officer</h2>
+                  <p className="text-xl text-gray-600">Meet our dedicated placement officer</p>
+                </div>
+
+                <div className="max-w-5xl mx-auto bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl shadow-xl p-8 mb-8 border border-gray-200">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div className="flex justify-center lg:justify-start">
+                      <div className="relative">
+                        <img
+                          src={placementOfficer.image_url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="320" height="320"%3E%3Crect width="320" height="320" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E'}
+                          alt={placementOfficer.name}
+                          className="w-80 h-80 rounded-2xl object-cover shadow-2xl border-4 border-white"
+                          onError={(e) => {
+                            e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="320" height="320"%3E%3Crect width="320" height="320" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E';
+                          }}
+                        />
+                        <div className="absolute -bottom-4 -right-4 bg-[#B22222] text-white p-3 rounded-full shadow-lg">
+                          <Phone className="w-6 h-6" />
                         </div>
-                        <div>
-                          <span className="text-sm text-gray-500 block">LinkedIn Profile</span>
-                          <a 
-                            href={placementOfficer.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-lg font-semibold text-blue-600 hover:underline"
+                      </div>
+                    </div>
+
+                    <div className="text-center lg:text-left space-y-6">
+                      <div>
+                        <h3 className="text-3xl font-bold text-[#B22222] mb-3">{placementOfficer.name}</h3>
+                        <p className="text-xl text-gray-800 font-semibold mb-2">{placementOfficer.designation}</p>
+                        <p className="text-lg text-gray-600 mb-6">Sri Vasavi Engineering College</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                          <div className="bg-[#B22222] p-2 rounded-full">
+                            <Phone className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <span className="text-sm text-gray-500 block">Mobile</span>
+                            <span className="text-lg font-semibold text-gray-800">{placementOfficer.phone}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                          <div className="bg-[#B22222] p-2 rounded-full">
+                            <Mail className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <span className="text-sm text-gray-500 block">Email</span>
+                            <a
+                              href={`mailto:${placementOfficer.email}`}
+                              className="text-lg font-semibold text-[#B22222] hover:underline"
+                            >
+                              {placementOfficer.email}
+                            </a>
+                          </div>
+                        </div>
+
+                        {placementOfficer.linkedin && (
+                          <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                            <div className="bg-blue-600 p-2 rounded-full">
+                              <ExternalLink className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                              <span className="text-sm text-gray-500 block">LinkedIn Profile</span>
+                              <a
+                                href={placementOfficer.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-lg font-semibold text-blue-600 hover:underline"
+                              >
+                                See Profile
+                              </a>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Placement Team */}
+          <section className="py-16 bg-[#FFF8F0]">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Team</h2>
+                <p className="text-xl text-gray-600">Meet our dedicated placement team</p>
+              </div>
+              {team.length > 0 ? team.map((member) => (
+                <div key={member.id} className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div className="text-center md:text-left">
+                      <img
+                        src={member.image_url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="192" height="192"%3E%3Crect width="192" height="192" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="32" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E'}
+                        alt={member.name}
+                        className="w-48 h-48 rounded-lg mx-auto md:mx-0 mb-4 object-cover border-4 border-[#0097A7]"
+                        onError={(e) => {
+                          e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="192" height="192"%3E%3Crect width="192" height="192" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="32" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E';
+                        }}
+                      />
+                    </div>
+                    <div className="text-center md:text-left">
+                      <h3 className="text-2xl font-bold text-[#B22222] mb-2">{member.name}</h3>
+                      <p className="text-lg text-gray-700 mb-2">{member.designation}</p>
+                      <p className="text-gray-600 mb-4">Sri Vasavi Engineering College</p>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-center md:justify-start gap-2">
+                          <Phone className="w-4 h-4 text-[#B22222]" />
+                          <span className="text-gray-700">Mobile: {member.phone}</span>
+                        </div>
+                        <div className="flex items-center justify-center md:justify-start gap-2">
+                          <Phone className="w-4 h-4 text-[#B22222]" />
+                          <span className="text-gray-700">Office: {member.office}</span>
+                        </div>
+                        <div className="flex items-center justify-center md:justify-start gap-2">
+                          <Mail className="w-4 h-4 text-[#B22222]" />
+                          <a
+                            href={`mailto:${member.email}`}
+                            className="text-[#B22222] hover:underline"
                           >
-                            See Profile
+                            {member.email}
                           </a>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Placement Team */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Team</h2>
-            <p className="text-xl text-gray-600">Meet our dedicated placement team</p>
-          </div>
-          {team.length > 0 ? team.map((member) => (
-            <div key={member.id} className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="text-center md:text-left">
-                  <img
-                    src={member.image_url && member.image_url.trim() !== '' ? member.image_url : '/images/placement/default-placement.jpg'}
-                    alt={member.name}
-                    className="w-48 h-48 rounded-lg mx-auto md:mx-0 mb-4 object-cover border-4 border-[#0097A7]"
-                    onError={(e) => {
-                      e.currentTarget.src = '/images/placement/default-placement.jpg';
-                    }}
-                  />
+              )) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-600">No team members found.</p>
                 </div>
-                <div className="text-center md:text-left">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">{member.name}</h3>
-                  <p className="text-lg text-gray-700 mb-2">{member.designation}</p>
-                  <p className="text-gray-600 mb-4">Sri Vasavi Engineering College</p>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-center md:justify-start gap-2">
-                      <Phone className="w-4 h-4 text-[#B22222]" />
-                      <span className="text-gray-700">Mobile: {member.phone}</span>
+              )}
+            </div>
+          </section>
+
+          {/* Placement Statistics */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Statistics</h2>
+                <p className="text-xl text-gray-600">Our track record of successful placements</p>
+              </div>
+
+              {/* Statistics Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                {content.placementStats.map((stat, index) => {
+                  const Icon = iconMap[stat.icon];
+                  return (
+                    <div key={index} className="text-center p-8 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all transform hover:scale-105">
+                      <Icon className="w-16 h-16 mx-auto mb-4 text-[#B22222]" />
+                      <h3 className="text-4xl font-bold mb-2 text-[#B22222]">{stat.value}</h3>
+                      <p className="text-gray-600 font-medium">{stat.label}</p>
                     </div>
-                    <div className="flex items-center justify-center md:justify-start gap-2">
-                      <Phone className="w-4 h-4 text-[#B22222]" />
-                      <span className="text-gray-700">Office: {member.office}</span>
-                    </div>
-                    <div className="flex items-center justify-center md:justify-start gap-2">
-                      <Mail className="w-4 h-4 text-[#B22222]" />
-                      <a 
-                        href={`mailto:${member.email}`}
-                        className="text-[#B22222] hover:underline"
+                  );
+                })}
+              </div>
+
+              {/* Interactive Charts */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                {/* Year-wise Placement Trend */}
+                <div className="bg-[#FFF8F0] p-6 rounded-xl">
+                  <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
+                    Placement Trends (2017-2025)
+                  </h3>
+                  <ResponsiveContainer width="100%" height={350}>
+                    <LineChart data={yearlyTotalData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                      <XAxis
+                        dataKey="year"
+                        stroke="#666"
+                        fontSize={12}
+                      />
+                      <YAxis
+                        stroke="#666"
+                        fontSize={12}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: '#fff',
+                          border: '1px solid #B22222',
+                          borderRadius: '8px',
+                          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                        }}
+                      />
+                      <Legend />
+                      <Line
+                        type="monotone"
+                        dataKey="total"
+                        stroke={chartColors.primary}
+                        strokeWidth={3}
+                        dot={{ fill: chartColors.primary, strokeWidth: 2, r: 6 }}
+                        name="Total Placements"
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Department-wise Distribution (Pie Chart) */}
+                <div className="bg-[#FFF8F0] p-6 rounded-xl">
+                  <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
+                    Department-wise Placements (2025)
+                  </h3>
+                  <ResponsiveContainer width="100%" height={350}>
+                    <PieChart>
+                      <Pie
+                        data={departmentData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={120}
+                        paddingAngle={2}
+                        dataKey="value"
                       >
-                        {member.email}
-                      </a>
-                    </div>
-                  </div>
+                        {departmentData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: '#fff',
+                          border: '1px solid #B22222',
+                          borderRadius: '8px',
+                          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                        }}
+                      />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
-            </div>
-          )) : (
-            <div className="text-center py-8">
-              <p className="text-gray-600">No team members found.</p>
-            </div>
-          )}
-        </div>
-      </section>
 
-      {/* Placement Statistics */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Statistics</h2>
-            <p className="text-xl text-gray-600">Our track record of successful placements</p>
-          </div>
-          
-          {/* Statistics Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {content.placementStats.map((stat, index) => {
-              const Icon = iconMap[stat.icon];
-              return (
-                <div key={index} className="text-center p-8 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all transform hover:scale-105">
-                  <Icon className="w-16 h-16 mx-auto mb-4 text-[#B22222]" />
-                  <h3 className="text-4xl font-bold mb-2 text-[#B22222]">{stat.value}</h3>
-                  <p className="text-gray-600 font-medium">{stat.label}</p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Interactive Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Year-wise Placement Trend */}
-            <div className="bg-[#FFF8F0] p-6 rounded-xl">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
-                Placement Trends (2017-2025)
-              </h3>
-              <ResponsiveContainer width="100%" height={350}>
-                <LineChart data={yearlyTotalData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                  <XAxis 
-                    dataKey="year" 
-                    stroke="#666"
-                    fontSize={12}
-                  />
-                  <YAxis 
-                    stroke="#666"
-                    fontSize={12}
-                  />
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: '#fff',
-                      border: '1px solid #B22222',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                    }}
-                  />
-                  <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="total" 
-                    stroke={chartColors.primary}
-                    strokeWidth={3}
-                    dot={{ fill: chartColors.primary, strokeWidth: 2, r: 6 }}
-                    name="Total Placements"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Department-wise Distribution (Pie Chart) */}
-            <div className="bg-[#FFF8F0] p-6 rounded-xl">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
-                Department-wise Placements (2025)
-              </h3>
-              <ResponsiveContainer width="100%" height={350}>
-                <PieChart>
-                  <Pie
-                    data={departmentData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={120}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    {departmentData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: '#fff',
-                      border: '1px solid #B22222',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                    }}
-                  />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Department-wise Bar Chart */}
-          <div className="bg-[#FFF8F0] p-6 rounded-xl mb-8">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
-              Department-wise Placement Comparison (Last 5 Years)
-            </h3>
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={yearlyTotalData.slice(-5)}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                <XAxis 
-                  dataKey="year" 
-                  stroke="#666"
-                  fontSize={12}
-                />
-                <YAxis 
-                  stroke="#666"
-                  fontSize={12}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: '#fff',
-                    border: '1px solid #B22222',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-                <Legend />
-                <Bar dataKey="CSE" fill="#A9A9A9" name="Computer Science" />
-                <Bar dataKey="ECE" fill="#FF00FF" name="Electronics & Communication" />
-                <Bar dataKey="ME" fill="#FF6961" name="Mechanical" />
-                <Bar dataKey="EEE" fill="#B22222" name="Electrical & Electronics" />
-                <Bar dataKey="CE" fill="#0088FE" name="Civil" />
-                <Bar dataKey="MBA" fill="#FFC0CB" name="MBA" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Top Performing Departments */}
-          <div className="bg-white p-6 rounded-xl shadow-lg">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
-              Top Performing Departments (2025)
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {topDepartments.map((dept, index) => (
-                <div key={dept.name} className="flex items-center justify-between p-4 bg-[#FFF8F0] rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: dept.color }}
-                    ></div>
-                    <span className="font-semibold text-gray-800">{dept.name}</span>
-                  </div>
-                  <span className="text-lg font-bold text-[#B22222]">{dept.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Companies that Visited */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Companies that Visited</h2>
-            <p className="text-xl text-gray-600">Leading organizations that recruit from our campus</p>
-          </div>
-          
-          {/* Scrolling Company Logos */}
-          <div className="relative overflow-hidden">
-            <div className="flex animate-scroll space-x-8">
-              {[...companyLogos, ...companyLogos].map((logo, index) => (
-                <div key={index} className="flex-shrink-0">
-                  <img
-                    src={logo}
-                    alt={`Company ${index + 1}`}
-                    className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Top Recruiters */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Top Recruiters</h2>
-            <p className="text-xl text-gray-600">Leading companies that trust our talent</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.topRecruiters.map((company, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
-                <div className="text-center mb-4">
-                  <div className="text-4xl mb-3">{company.logo}</div>
-                  <h3 className="text-xl font-bold text-[#B22222]">{company.name}</h3>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Package Range:</span>
-                    <span className="font-semibold text-[#B22222]">{company.packages}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Students Hired:</span>
-                    <span className="font-semibold text-[#B22222]">{company.hired}</span>
-                  </div>
-                </div>
+              {/* Department-wise Bar Chart */}
+              <div className="bg-[#FFF8F0] p-6 rounded-xl mb-8">
+                <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
+                  Department-wise Placement Comparison (Last 5 Years)
+                </h3>
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart data={yearlyTotalData.slice(-5)}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                    <XAxis
+                      dataKey="year"
+                      stroke="#666"
+                      fontSize={12}
+                    />
+                    <YAxis
+                      stroke="#666"
+                      fontSize={12}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#fff',
+                        border: '1px solid #B22222',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                      }}
+                    />
+                    <Legend />
+                    <Bar dataKey="CSE" fill="#A9A9A9" name="Computer Science" />
+                    <Bar dataKey="ECE" fill="#FF00FF" name="Electronics & Communication" />
+                    <Bar dataKey="ME" fill="#FF6961" name="Mechanical" />
+                    <Bar dataKey="EEE" fill="#B22222" name="Electrical & Electronics" />
+                    <Bar dataKey="CE" fill="#0088FE" name="Civil" />
+                    <Bar dataKey="MBA" fill="#FFC0CB" name="MBA" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Placement Process */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Process</h2>
-            <p className="text-xl text-gray-600">Our systematic approach to ensure successful placements</p>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-8">
-              {content.placementProcess.map((process, index) => (
-                <div key={index} className="flex items-start">
-                  <div className="flex-shrink-0 w-16 h-16 bg-[#0097A7] text-white rounded-full flex items-center justify-center text-xl font-bold mr-6">
-                    {process.step}
-                  </div>
-                  <div className="flex-1">
-                    <div className="bg-[#FFF8F0] p-6 rounded-xl">
-                      <div className="flex justify-between items-start mb-3">
-                        <h3 className="text-xl font-bold text-[#B22222]">{process.title}</h3>
-                        <span className="bg-[#FFC107] text-[#B22222] px-3 py-1 rounded-full text-sm font-medium">
-                          {process.duration}
-                        </span>
+              {/* Top Performing Departments */}
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
+                  Top Performing Departments (2025)
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {topDepartments.map((dept, index) => (
+                    <div key={dept.name} className="flex items-center justify-between p-4 bg-[#FFF8F0] rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-4 h-4 rounded-full"
+                          style={{ backgroundColor: dept.color }}
+                        ></div>
+                        <span className="font-semibold text-gray-800">{dept.name}</span>
                       </div>
-                      <p className="text-gray-600 leading-relaxed">{process.description}</p>
+                      <span className="text-lg font-bold text-[#B22222]">{dept.value}</span>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Student Testimonials */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Success Stories</h2>
-            <p className="text-xl text-gray-600">Hear from our successfully placed students</p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {content.testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
-                <div className="text-center mb-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-4 border-[#0097A7]"
-                  />
-                  <h3 className="text-xl font-bold text-[#B22222]">{testimonial.name}</h3>
-                  <p className="text-[#B22222] font-medium">{testimonial.company}</p>
-                  <div className="flex justify-center items-center gap-4 mt-2 text-sm">
-                    <span className="bg-[#FFC107] text-[#B22222] px-2 py-1 rounded-full">
-                      {testimonial.package}
-                    </span>
-                    <span className="text-gray-600">{testimonial.branch}</span>
-                  </div>
-                </div>
-                <blockquote className="text-gray-600 italic text-center leading-relaxed">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div className="text-center mt-4 text-sm text-gray-500">
-                  - Batch of {testimonial.year}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Placement Services */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Services</h2>
-            <p className="text-xl text-gray-600">Comprehensive support for your career journey</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {content.services.map((service, index) => {
-              const Icon = iconMap[service.icon];
-              return (
-                <div key={index} className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all">
-                  <Icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-[#B22222] mb-3">{service.title}</h3>
-                  <p className="text-gray-600">{service.desc}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Department-wise Placements */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Department-wise Placements</h2>
-            <p className="text-xl text-gray-600">Placement statistics across all departments</p>
-          </div>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Computer Science & Engineering</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">95%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹6.5 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹25 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Electronics & Communications</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">92%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹5.8 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹18 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Mechanical Engineering</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">88%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹5.2 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹15 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Electrical & Electronics</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">90%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹5.5 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹16 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Civil Engineering</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">85%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹4.8 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹12 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">MBA</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">87%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹5.0 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹14 LPA</span>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* Placement Details & Reports */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Details & Reports</h2>
-            <p className="text-xl text-gray-600">Download detailed placement reports and college profile</p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto space-y-6">
-            {/* College Profile */}
-            <details className="bg-[#FFF8F0] rounded-lg p-6">
-              <summary className="text-xl font-bold text-[#B22222] cursor-pointer hover:text-[#850209] transition-colors">
-                College Profile
-              </summary>
-              <div className="mt-4 pl-4">
-                <a
-                  href="https://srivasaviengg.ac.in/uploads/placement_College_Brochure.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[#B22222] hover:text-[#850209] font-semibold transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  View College Profile
-                </a>
+          {/* Companies that Visited */}
+          <section className="py-16 bg-[#FFF8F0]">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Companies that Visited</h2>
+                <p className="text-xl text-gray-600">Leading organizations that recruit from our campus</p>
               </div>
-            </details>
 
-            {/* Placement Details by Year */}
-            {[
-              { year: "2024-25", file: "2025 BATCH PLACEMENTS DATA.pdf" },
-              { year: "2023-24", file: "2024 BATCH PLACEMENTS DATA.pdf" },
-              { year: "2022-23", file: "place_2022-23.pdf" },
-              { year: "2021-22", file: "place_2021-22.pdf" },
-              { year: "2020-21", file: "place_2020-21.pdf" },
-              { year: "2019-20", file: "place_2019-20.pdf" },
-              { year: "2018-19", file: "place_2018-19.pdf" },
-              { year: "2017-18", file: "place_2017-18.pdf" },
-              { year: "2016-17", file: "place_2016-17.pdf" },
-              { year: "2015-16", file: "place_2015-16.pdf" }
-            ].map((item, index) => (
-              <details key={index} className="bg-[#FFF8F0] rounded-lg p-6">
-                <summary className="text-xl font-bold text-[#B22222] cursor-pointer hover:text-[#850209] transition-colors">
-                  Placement Details of {item.year}
-                </summary>
-                <div className="mt-4">
-                  <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-gray-700">View or download the placement report:</span>
-                      <a
-                        href={`https://srivasaviengg.ac.in/uploads/${item.file}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-[#B22222] text-white px-4 py-2 rounded-lg hover:bg-[#850209] transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Download PDF
-                      </a>
+              {/* Scrolling Company Logos */}
+              <div className="relative overflow-hidden">
+                <div className="flex animate-scroll space-x-8">
+                  {[...companyLogos, ...companyLogos].map((logo, index) => (
+                    <div key={index} className="flex-shrink-0">
+                      <img
+                        src={logo}
+                        alt={`Company ${index + 1}`}
+                        className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                      />
                     </div>
-                    <div className="border rounded-lg overflow-hidden" style={{ height: '500px' }}>
-                      <object
-                        data={`https://srivasaviengg.ac.in/uploads/${item.file}`}
-                        type="application/pdf"
-                        width="100%"
-                        height="100%"
-                      >
-                        <p className="p-4 text-center text-gray-600">
-                          Unable to display PDF file. 
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Top Recruiters */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Top Recruiters</h2>
+                <p className="text-xl text-gray-600">Leading companies that trust our talent</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {content.topRecruiters.map((company, index) => (
+                  <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
+                    <div className="text-center mb-4">
+                      <div className="text-4xl mb-3">{company.logo}</div>
+                      <h3 className="text-xl font-bold text-[#B22222]">{company.name}</h3>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Package Range:</span>
+                        <span className="font-semibold text-[#B22222]">{company.packages}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Students Hired:</span>
+                        <span className="font-semibold text-[#B22222]">{company.hired}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Placement Process */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Process</h2>
+                <p className="text-xl text-gray-600">Our systematic approach to ensure successful placements</p>
+              </div>
+              <div className="max-w-4xl mx-auto">
+                <div className="space-y-8">
+                  {content.placementProcess.map((process, index) => (
+                    <div key={index} className="flex items-start">
+                      <div className="flex-shrink-0 w-16 h-16 bg-[#0097A7] text-white rounded-full flex items-center justify-center text-xl font-bold mr-6">
+                        {process.step}
+                      </div>
+                      <div className="flex-1">
+                        <div className="bg-[#FFF8F0] p-6 rounded-xl">
+                          <div className="flex justify-between items-start mb-3">
+                            <h3 className="text-xl font-bold text-[#B22222]">{process.title}</h3>
+                            <span className="bg-[#FFC107] text-[#B22222] px-3 py-1 rounded-full text-sm font-medium">
+                              {process.duration}
+                            </span>
+                          </div>
+                          <p className="text-gray-600 leading-relaxed">{process.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Student Testimonials */}
+          <section className="py-16 bg-[#FFF8F0]">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Success Stories</h2>
+                <p className="text-xl text-gray-600">Hear from our successfully placed students</p>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {content.testimonials.map((testimonial, index) => (
+                  <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div className="text-center mb-6">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-4 border-[#0097A7]"
+                      />
+                      <h3 className="text-xl font-bold text-[#B22222]">{testimonial.name}</h3>
+                      <p className="text-[#B22222] font-medium">{testimonial.company}</p>
+                      <div className="flex justify-center items-center gap-4 mt-2 text-sm">
+                        <span className="bg-[#FFC107] text-[#B22222] px-2 py-1 rounded-full">
+                          {testimonial.package}
+                        </span>
+                        <span className="text-gray-600">{testimonial.branch}</span>
+                      </div>
+                    </div>
+                    <blockquote className="text-gray-600 italic text-center leading-relaxed">
+                      "{testimonial.quote}"
+                    </blockquote>
+                    <div className="text-center mt-4 text-sm text-gray-500">
+                      - Batch of {testimonial.year}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Placement Services */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Services</h2>
+                <p className="text-xl text-gray-600">Comprehensive support for your career journey</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {content.services.map((service, index) => {
+                  const Icon = iconMap[service.icon];
+                  return (
+                    <div key={index} className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all">
+                      <Icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
+                      <h3 className="text-xl font-bold text-[#B22222] mb-3">{service.title}</h3>
+                      <p className="text-gray-600">{service.desc}</p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* Department-wise Placements */}
+          <section className="py-16 bg-[#FFF8F0]">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Department-wise Placements</h2>
+                <p className="text-xl text-gray-600">Placement statistics across all departments</p>
+              </div>
+              <div className="max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="bg-white p-6 rounded-xl shadow-md">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-4">Computer Science & Engineering</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span>Placement Rate:</span>
+                        <span className="font-bold text-green-600">95%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Average Package:</span>
+                        <span className="font-bold text-[#B22222]">₹6.5 LPA</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Highest Package:</span>
+                        <span className="font-bold text-[#B22222]">₹25 LPA</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-4">Electronics & Communications</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span>Placement Rate:</span>
+                        <span className="font-bold text-green-600">92%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Average Package:</span>
+                        <span className="font-bold text-[#B22222]">₹5.8 LPA</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Highest Package:</span>
+                        <span className="font-bold text-[#B22222]">₹18 LPA</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-4">Mechanical Engineering</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span>Placement Rate:</span>
+                        <span className="font-bold text-green-600">88%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Average Package:</span>
+                        <span className="font-bold text-[#B22222]">₹5.2 LPA</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Highest Package:</span>
+                        <span className="font-bold text-[#B22222]">₹15 LPA</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-4">Electrical & Electronics</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span>Placement Rate:</span>
+                        <span className="font-bold text-green-600">90%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Average Package:</span>
+                        <span className="font-bold text-[#B22222]">₹5.5 LPA</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Highest Package:</span>
+                        <span className="font-bold text-[#B22222]">₹16 LPA</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-4">Civil Engineering</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span>Placement Rate:</span>
+                        <span className="font-bold text-green-600">85%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Average Package:</span>
+                        <span className="font-bold text-[#B22222]">₹4.8 LPA</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Highest Package:</span>
+                        <span className="font-bold text-[#B22222]">₹12 LPA</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-4">MBA</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span>Placement Rate:</span>
+                        <span className="font-bold text-green-600">87%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Average Package:</span>
+                        <span className="font-bold text-[#B22222]">₹5.0 LPA</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Highest Package:</span>
+                        <span className="font-bold text-[#B22222]">₹14 LPA</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Placement Details & Reports */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Details & Reports</h2>
+                <p className="text-xl text-gray-600">Download detailed placement reports and college profile</p>
+              </div>
+
+              <div className="max-w-4xl mx-auto space-y-6">
+                {/* College Profile */}
+                <details className="bg-[#FFF8F0] rounded-lg p-6">
+                  <summary className="text-xl font-bold text-[#B22222] cursor-pointer hover:text-[#850209] transition-colors">
+                    College Profile
+                  </summary>
+                  <div className="mt-4 pl-4">
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/placement_College_Brochure.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-[#B22222] hover:text-[#850209] font-semibold transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      View College Profile
+                    </a>
+                  </div>
+                </details>
+
+                {/* Placement Details by Year */}
+                {[
+                  { year: "2024-25", file: "2025 BATCH PLACEMENTS DATA.pdf" },
+                  { year: "2023-24", file: "2024 BATCH PLACEMENTS DATA.pdf" },
+                  { year: "2022-23", file: "place_2022-23.pdf" },
+                  { year: "2021-22", file: "place_2021-22.pdf" },
+                  { year: "2020-21", file: "place_2020-21.pdf" },
+                  { year: "2019-20", file: "place_2019-20.pdf" },
+                  { year: "2018-19", file: "place_2018-19.pdf" },
+                  { year: "2017-18", file: "place_2017-18.pdf" },
+                  { year: "2016-17", file: "place_2016-17.pdf" },
+                  { year: "2015-16", file: "place_2015-16.pdf" }
+                ].map((item, index) => (
+                  <details key={index} className="bg-[#FFF8F0] rounded-lg p-6">
+                    <summary className="text-xl font-bold text-[#B22222] cursor-pointer hover:text-[#850209] transition-colors">
+                      Placement Details of {item.year}
+                    </summary>
+                    <div className="mt-4">
+                      <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
+                        <div className="flex justify-between items-center mb-4">
+                          <span className="text-gray-700">View or download the placement report:</span>
                           <a
                             href={`https://srivasaviengg.ac.in/uploads/${item.file}`}
-                            className="text-[#B22222] hover:underline ml-1"
                             target="_blank"
                             rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-[#B22222] text-white px-4 py-2 rounded-lg hover:bg-[#850209] transition-colors"
                           >
-                            Download
-                          </a> instead.
-                        </p>
-                      </object>
+                            <ExternalLink className="w-4 h-4" />
+                            Download PDF
+                          </a>
+                        </div>
+                        <div className="border rounded-lg overflow-hidden" style={{ height: '500px' }}>
+                          <object
+                            data={`https://srivasaviengg.ac.in/uploads/${item.file}`}
+                            type="application/pdf"
+                            width="100%"
+                            height="100%"
+                          >
+                            <p className="p-4 text-center text-gray-600">
+                              Unable to display PDF file.
+                              <a
+                                href={`https://srivasaviengg.ac.in/uploads/${item.file}`}
+                                className="text-[#B22222] hover:underline ml-1"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Download
+                              </a> instead.
+                            </p>
+                          </object>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-white relative overflow-hidden isolate">
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Career?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join our successful placement program and take the first step towards your dream career
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/admissions"
-              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#B22222] hover:text-white transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <span>Apply Now</span>
-              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-            </a>
-            <a
-              href="mailto:placements@srivasaviengg.ac.in"
-              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all transform hover:scale-105 flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <span>Contact Placement Cell</span>
-              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-            </a>
-          </div>
-        </div>
+          {/* CTA Section */}
+          <section className="py-16 bg-primary text-white relative overflow-hidden isolate">
+            <div className="container mx-auto px-4 text-center relative z-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Career?</h2>
+              <p className="text-xl mb-8 max-w-2xl mx-auto">
+                Join our successful placement program and take the first step towards your dream career
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="/admissions"
+                  className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#B22222] hover:text-white transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto"
+                >
+                  <span>Apply Now</span>
+                  <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
+                </a>
+                <a
+                  href="mailto:placements@srivasaviengg.ac.in"
+                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all transform hover:scale-105 flex items-center justify-center gap-2 w-full sm:w-auto"
+                >
+                  <span>Contact Placement Cell</span>
+                  <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
+                </a>
+              </div>
+            </div>
 
-        {/* Subtle decorative elements */}
-        <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 opacity-70 shadow-sm z-0"></div>
-        <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 opacity-70 shadow-sm z-0"></div>
-      </section>
+            {/* Subtle decorative elements */}
+            <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 opacity-70 shadow-sm z-0"></div>
+            <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 opacity-70 shadow-sm z-0"></div>
+          </section>
         </>
       )}
     </div>

@@ -102,13 +102,23 @@ const CivilDepartment: React.FC = () => {
       .catch((err) => console.error("Fetch error:", err));
   }, []);
   useEffect(() => {
-    fetch("/api/civil-workshops?dept=civil")
+    fetch("/api/civil-workshops")
       .then((res) => res.json())
       .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
-        setWorkshops(data);
+        console.log("Workshops API response:", data); // 👀 check this in browser console
+        // Ensure data is an array before setting state
+        if (Array.isArray(data)) {
+          console.log("Setting workshops data, count:", data.length);
+          setWorkshops(data);
+        } else {
+          console.error("Workshops data is not an array:", data);
+          setWorkshops([]);
+        }
       })
-      .catch((err) => console.error("Fetch error:", err));
+      .catch((err) => {
+        console.error("Workshops fetch error:", err);
+        setWorkshops([]);
+      });
   }, []);
   useEffect(() => {
     fetch('/api/civil-bos?dept=civil')
@@ -125,14 +135,21 @@ const CivilDepartment: React.FC = () => {
       .catch(err => console.error("Failed to fetch BOS:", err));
   }, []);
   useEffect(() => {
-    fetch('/api/civil-student-achievements?dept=civil')
+    fetch('/api/civil-student-achievements')
       .then((res) => res.json())
       .then((data) => {
-        setAchievements(data);
+        console.log('Student Achievements API response:', data);
+        if (data && typeof data === 'object' && !data.error) {
+          setAchievements(data);
+        } else {
+          console.error('Invalid achievements data:', data);
+          setAchievements({});
+        }
         setLoading(false);
       })
       .catch((err) => {
         console.error('Failed to fetch student achievements:', err);
+        setAchievements({});
         setLoading(false);
       });
   }, []);
@@ -336,11 +353,11 @@ const CivilDepartment: React.FC = () => {
             <p className="text-gray-700 leading-relaxed text-justify">
               The Department of Civil Engineering was established in the year 2001 with a vision to strive towards quality education, research and consultancy. Civil Engineering is one of the oldest and broadest engineering discipline which has been an aspect of life, since the beginning of human civilization. Efforts have been made to provide high quality technical education to students with a view to make them successful professionals.
             </p>
-             <div className="mt-8">
+            <div className="mt-8">
               <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Courses</h4>
-              
-              
-              
+
+
+
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse border border-gray-300 rounded-lg shadow-sm">
                   <thead>
@@ -378,22 +395,22 @@ const CivilDepartment: React.FC = () => {
               Placements
             </h2>
 
-            <div className="space-y-8">
-              <details open>
-                <summary className="font-semibold text-lg mb-2">Placements</summary>
-                <div className="ml-4">
-                  <ul className="list-disc ml-6 space-y-2">
+            <div className="space-y-4">
+              <details open className="cst-dropdown">
+                <summary>Placements</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
                     {placements.length > 0 ? (
                       placements.map((p: any) => (
                         <li key={p.id}>
                           Placements for Batch {p.batch} -{' '}
                           <a
                             href={p.file_url}
-                            className="text-primary hover:underline"
+                            className="text-[#B22222] hover:underline"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            View More
+                            View Details
                           </a>
                         </li>
                       ))
@@ -413,26 +430,26 @@ const CivilDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Student Achievements
             </h2>
-            <div className="space-y-8">
+            <div className="space-y-4">
               {Object.keys(achievements).length > 0 ? (
                 Object.entries(achievements).map(([category, items]) => (
-                  <details key={category} open>
-                    <summary className="font-semibold text-lg mb-2">{category}</summary>
-                    <div className="ml-4">
-                      <ul className="list-disc ml-6 space-y-2">
-                        {items.map((item) => (
+                  <details key={category} open className="cst-dropdown">
+                    <summary>{category}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {Array.isArray(items) && items.map((item) => (
                           <li key={item.id}>
                             {item.title} ({item.academic_year}){' '}
                             <a
                               href={item.proof_document_url}
-                              className="text-primary hover:underline"
+                              className="text-[#B22222] hover:underline"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              View More
+                              View Details
                             </a>
                             {item.description && (
-                              <p className="text-gray-600 text-sm">{item.description}</p>
+                              <p className="text-gray-600 text-sm mt-1">{item.description}</p>
                             )}
                           </li>
                         ))}
@@ -450,90 +467,108 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
-            <div className="space-y-8">
-              <details open>
-                <summary className="font-semibold text-lg mb-2">Conferences</summary>
-                <div className="overflow-x-auto mt-4">
-                  <table className="w-full text-sm text-left border mb-4 table-auto">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="px-4 py-2">SNo</th>
-                        <th className="px-4 py-2">Name of the Faculty</th>
-                        <th className="px-4 py-2">Title of the Paper</th>
-                        <th className="px-4 py-2">Name of the Conference</th>
-                        <th className="px-4 py-2">Venue</th>
-                        <th className="px-4 py-2">Year</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td className="px-4 py-2">1</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Simplified model of existing intercity public transportation</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
-                      <tr><td className="px-4 py-2">2</td><td className="px-4 py-2">L.Vyshnavi Sai</td><td className="px-4 py-2">Simplified model of existing intercity public transportation</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
-                      <tr><td className="px-4 py-2">3</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Silty soil stabilization using bituminous emulsion</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
-                      <tr><td className="px-4 py-2">4</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Stabilization of black cotton soil using jindal global road stabilizer</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
-                      <tr><td className="px-4 py-2">5</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Integrated landuse transportation over view</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
-                      <tr><td className="px-4 py-2">6</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">A study of speed breakers and vehicle operating cost</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
-                      <tr><td className="px-4 py-2">7</td><td className="px-4 py-2">T.Yeswanth Sai</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
-                      <tr><td className="px-4 py-2">8</td><td className="px-4 py-2">S.Sriram pradeep</td><td className="px-4 py-2">Mechanical properties of coconut shell concrete using quarry dust</td><td className="px-4 py-2">Internationsl Of Earth Sciences And Engineering</td><td className="px-4 py-2">Tamil Nadu</td><td className="px-4 py-2">24-MAR-2015</td></tr>
-                      <tr><td className="px-4 py-2">9</td><td className="px-4 py-2">G.Radha krishnan</td><td className="px-4 py-2">Model Study on cyclic loading responses of lexible Pavement System laid on Expansive Subgrade</td><td className="px-4 py-2">IIT Madras</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">2016</td></tr>
-                    </tbody>
-                  </table>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Conferences</summary>
+                <div className="cst-dropdown-content">
+                  <div className="overflow-x-auto mt-4">
+                    <table className="w-full text-sm text-left border mb-4 table-auto">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th className="px-4 py-2">SNo</th>
+                          <th className="px-4 py-2">Name of the Faculty</th>
+                          <th className="px-4 py-2">Title of the Paper</th>
+                          <th className="px-4 py-2">Name of the Conference</th>
+                          <th className="px-4 py-2">Venue</th>
+                          <th className="px-4 py-2">Year</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr><td className="px-4 py-2">1</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Simplified model of existing intercity public transportation</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                        <tr><td className="px-4 py-2">2</td><td className="px-4 py-2">L.Vyshnavi Sai</td><td className="px-4 py-2">Simplified model of existing intercity public transportation</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                        <tr><td className="px-4 py-2">3</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Silty soil stabilization using bituminous emulsion</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                        <tr><td className="px-4 py-2">4</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Stabilization of black cotton soil using jindal global road stabilizer</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                        <tr><td className="px-4 py-2">5</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Integrated landuse transportation over view</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                        <tr><td className="px-4 py-2">6</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">A study of speed breakers and vehicle operating cost</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                        <tr><td className="px-4 py-2">7</td><td className="px-4 py-2">T.Yeswanth Sai</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
+                        <tr><td className="px-4 py-2">8</td><td className="px-4 py-2">S.Sriram pradeep</td><td className="px-4 py-2">Mechanical properties of coconut shell concrete using quarry dust</td><td className="px-4 py-2">Internationsl Of Earth Sciences And Engineering</td><td className="px-4 py-2">Tamil Nadu</td><td className="px-4 py-2">24-MAR-2015</td></tr>
+                        <tr><td className="px-4 py-2">9</td><td className="px-4 py-2">G.Radha krishnan</td><td className="px-4 py-2">Model Study on cyclic loading responses of lexible Pavement System laid on Expansive Subgrade</td><td className="px-4 py-2">IIT Madras</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">2016</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">International Conferences</summary>
-                <div className="overflow-x-auto mt-4">
-                  <table className="w-full text-sm text-left border mb-4 table-auto">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="px-4 py-2">SNo</th>
-                        <th className="px-4 py-2">Name of the Faculty</th>
-                        <th className="px-4 py-2">Title of the Paper</th>
-                        <th className="px-4 py-2">Name of the Conference</th>
-                        <th className="px-4 py-2">Venue</th>
-                        <th className="px-4 py-2">Year</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td className="px-4 py-2">1</td><td className="px-4 py-2">M.Sambasivarao</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
-                      <tr><td className="px-4 py-2">2</td><td className="px-4 py-2">T.Yeswanthi</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
-                      <tr><td className="px-4 py-2">3</td><td className="px-4 py-2">A.Venkata Krishna</td><td className="px-4 py-2">An Experiment Analysis Of Using Melt Processed Plastic Pellet In Porous Concrete By Partially replacing Fine Aggregates</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
-                      <tr><td className="px-4 py-2">4</td><td className="px-4 py-2">A.Venkata Krishna</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
-                      <tr><td className="px-4 py-2">5</td><td className="px-4 py-2">Dr.V.V.V.Prabhakara Rao</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
-                      <tr><td className="px-4 py-2">6</td><td className="px-4 py-2">M.Sambasiva Rao</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
-                      <tr><td className="px-4 py-2">7</td><td className="px-4 py-2">K.Chandrika</td><td className="px-4 py-2">An Experimental Analysis on usage potential of lateritic soils as part/Full Replacement for fine aggregates in Concrete</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
-                      <tr><td className="px-4 py-2">8</td><td className="px-4 py-2">T.Yeswanthi Sai</td><td className="px-4 py-2">An Experimental Analysis Of Using Melt Processed Plastic Pellets In Porous Concrete By Partially Replacing Fine Aggregates</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
-                      <tr><td className="px-4 py-2">9</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">An Experimental Analysis on usage potential of lateritic soils as part/Full Replacement for fine aggregates in Concrete</td><td className="px-4 py-2">IIT Madras</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
-                    </tbody>
-                  </table>
+              <details className="cst-dropdown">
+                <summary>International Conferences</summary>
+                <div className="cst-dropdown-content">
+                  <div className="overflow-x-auto mt-4">
+                    <table className="w-full text-sm text-left border mb-4 table-auto">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th className="px-4 py-2">SNo</th>
+                          <th className="px-4 py-2">Name of the Faculty</th>
+                          <th className="px-4 py-2">Title of the Paper</th>
+                          <th className="px-4 py-2">Name of the Conference</th>
+                          <th className="px-4 py-2">Venue</th>
+                          <th className="px-4 py-2">Year</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr><td className="px-4 py-2">1</td><td className="px-4 py-2">M.Sambasivarao</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
+                        <tr><td className="px-4 py-2">2</td><td className="px-4 py-2">T.Yeswanthi</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
+                        <tr><td className="px-4 py-2">3</td><td className="px-4 py-2">A.Venkata Krishna</td><td className="px-4 py-2">An Experiment Analysis Of Using Melt Processed Plastic Pellet In Porous Concrete By Partially replacing Fine Aggregates</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
+                        <tr><td className="px-4 py-2">4</td><td className="px-4 py-2">A.Venkata Krishna</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
+                        <tr><td className="px-4 py-2">5</td><td className="px-4 py-2">Dr.V.V.V.Prabhakara Rao</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
+                        <tr><td className="px-4 py-2">6</td><td className="px-4 py-2">M.Sambasiva Rao</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
+                        <tr><td className="px-4 py-2">7</td><td className="px-4 py-2">K.Chandrika</td><td className="px-4 py-2">An Experimental Analysis on usage potential of lateritic soils as part/Full Replacement for fine aggregates in Concrete</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
+                        <tr><td className="px-4 py-2">8</td><td className="px-4 py-2">T.Yeswanthi Sai</td><td className="px-4 py-2">An Experimental Analysis Of Using Melt Processed Plastic Pellets In Porous Concrete By Partially Replacing Fine Aggregates</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
+                        <tr><td className="px-4 py-2">9</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">An Experimental Analysis on usage potential of lateritic soils as part/Full Replacement for fine aggregates in Concrete</td><td className="px-4 py-2">IIT Madras</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">International Journals</summary>
-                <div className="text-gray-500 italic p-4">No data available.</div>
+              <details className="cst-dropdown">
+                <summary>International Journals</summary>
+                <div className="cst-dropdown-content">
+                  <div className="text-gray-500 italic p-4">No data available.</div>
+                </div>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">Patents</summary>
-                <div className="text-gray-500 italic p-4">No data available.</div>
+              <details className="cst-dropdown">
+                <summary>Patents</summary>
+                <div className="cst-dropdown-content">
+                  <div className="text-gray-500 italic p-4">No data available.</div>
+                </div>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">Awards</summary>
-                <div className="text-gray-500 italic p-4">No data available.</div>
+              <details className="cst-dropdown">
+                <summary>Awards</summary>
+                <div className="cst-dropdown-content">
+                  <div className="text-gray-500 italic p-4">No data available.</div>
+                </div>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">Memberships</summary>
-                <div className="text-gray-500 italic p-4">No data available.</div>
+              <details className="cst-dropdown">
+                <summary>Memberships</summary>
+                <div className="cst-dropdown-content">
+                  <div className="text-gray-500 italic p-4">No data available.</div>
+                </div>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">NPTEL</summary>
-                <div className="text-gray-500 italic p-4">No data available.</div>
+              <details className="cst-dropdown">
+                <summary>NPTEL</summary>
+                <div className="cst-dropdown-content">
+                  <div className="text-gray-500 italic p-4">No data available.</div>
+                </div>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">Faculty Outreach</summary>
-                <div className="text-gray-500 italic p-4">No data available.</div>
+              <details className="cst-dropdown">
+                <summary>Faculty Outreach</summary>
+                <div className="cst-dropdown-content">
+                  <div className="text-gray-500 italic p-4">No data available.</div>
+                </div>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">Funded Projects,FDP's</summary>
-                <div className="text-gray-500 italic p-4">No data available.</div>
+              <details className="cst-dropdown">
+                <summary>Funded Projects, FDP's</summary>
+                <div className="cst-dropdown-content">
+                  <div className="text-gray-500 italic p-4">No data available.</div>
+                </div>
               </details>
             </div>
           </div>
@@ -825,68 +860,104 @@ const CivilDepartment: React.FC = () => {
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Members</h2>
-            <div className="overflow-x-auto mb-10">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2">S.No.</th>
-                    <th className="px-4 py-2">Name</th>
-                    <th className="px-4 py-2">Qualification</th>
-                    <th className="px-4 py-2">Designation</th>
-                    <th className="px-4 py-2">Profile</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {faculty.map((member, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2 font-medium">{member.name}</td>
-                      <td className="px-4 py-2">{member.qualification}</td>
-                      <td className="px-4 py-2">{member.designation}</td>
-                      <td className="px-4 py-2">
-                        <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <h2 className="text-3xl font-bold text-[#B22222] mt-12 mb-6 text-center">Non-Teaching Staff</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2">S.No.</th>
-                    <th className="px-4 py-2">Name</th>
-                    <th className="px-4 py-2">Designation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {nonTeachingFaculty.map((member, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2 font-medium">{member.name}</td>
-                      <td className="px-4 py-2">{member.designation}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Teaching Faculty</summary>
+                <div className="cst-dropdown-content">
+                  {faculty && faculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {faculty.map((member, index) => (
+                            <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              <td className="px-6 py-4">
+                                {member.profileUrl ? (
+                                  <a
+                                    href={member.profileUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
+                                  >
+                                    View Profile
+                                  </a>
+                                ) : (
+                                  <span className="text-gray-400 text-sm">No Profile</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {faculty ? 'No teaching faculty data available.' : 'Loading teaching faculty...'}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </details>
+
+              <details className="cst-dropdown">
+                <summary>Non-Teaching Staff</summary>
+                <div className="cst-dropdown-content">
+                  {nonTeachingFaculty && nonTeachingFaculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {nonTeachingFaculty.map((member, index) => (
+                            <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {nonTeachingFaculty ? 'No non-teaching staff data available.' : 'Loading non-teaching staff...'}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </details>
             </div>
           </div>
         );
       case 'Board of Studies':
         return (
-          <div className="tab4 mt-4">
-            <details open className="border rounded-lg p-4">
-              <summary
-                className="px-4 py-3 cursor-pointer text-lg font-semibold text-white"
-                style={{ backgroundColor: 'rgba(136,25,25,1)' }}
-              >
-                Board of Studies
-              </summary>
-
-              <div className="mt-4 overflow-x-auto">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+              Board of Studies
+            </h2>
+            <details open className="cst-dropdown">
+              <summary>Board of Studies Members</summary>
+              <div className="cst-dropdown-content">
                 {studentBOS.length > 0 ? (
                   <table className="w-full text-sm text-left border-collapse border border-gray-300 shadow-md rounded-lg">
                     <thead className="bg-gray-100 text-gray-700">
@@ -931,95 +1002,95 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
-            <div className="tab4 mt-4">
-              <details open className="border rounded-lg p-4">
-
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Timetables</summary>
-                <ul className="list-disc ml-6 space-y-2">
-                  <li>
-                    Master Timetable_A.Y for Sem-VIII 2022-23 -{' '}
-                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20VIII%20SEM(V18)%20TIMETABLE%20%20W.E.F%20-%2026.12.2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Master Timetable_A.Y for Sem-VI 2022-23 -{' '}
-                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20VI%20SEM(V20)%20TIMETABLE%20%20W.E.F%20-%2027.02.2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Master Timetable_A.Y for Sem-II 2021-22 -{' '}
-                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20IV%20SEM(V20)%20TIMETABLE%20%20W.E.F%2027.02.2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                </ul>
+            <div className="space-y-4">
+              <details open className="cst-dropdown">
+                <summary>Class Timetables</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>
+                      Master Timetable_A.Y for Sem-VIII 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20VIII%20SEM(V18)%20TIMETABLE%20%20W.E.F%20-%2026.12.2022.pdf" className="text-[#B22222] hover:underline" target="_blank" rel="noopener noreferrer">View Details</a>
+                    </li>
+                    <li>
+                      Master Timetable_A.Y for Sem-VI 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20VI%20SEM(V20)%20TIMETABLE%20%20W.E.F%20-%2027.02.2023.pdf" className="text-[#B22222] hover:underline" target="_blank" rel="noopener noreferrer">View Details</a>
+                    </li>
+                    <li>
+                      Master Timetable_A.Y for Sem-II 2021-22 -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20IV%20SEM(V20)%20TIMETABLE%20%20W.E.F%2027.02.2023.pdf" className="text-[#B22222] hover:underline" target="_blank" rel="noopener noreferrer">View Details</a>
+                    </li>
+                  </ul>
+                </div>
               </details>
-            </div>
 
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Rooms</summary>
-                <ul className="list-disc ml-6 space-y-2">
-                  <li>
-                    Class Rooms with ICT Enabled Facilities -{' '}
-                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/CE_Classrooms.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                </ul>
+              <details className="cst-dropdown">
+                <summary>Class Rooms</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>
+                      Class Rooms with ICT Enabled Facilities -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/CE_Classrooms.pdf" className="text-[#B22222] hover:underline" target="_blank" rel="noopener noreferrer">View Details</a>
+                    </li>
+                  </ul>
+                </div>
               </details>
-            </div>
-            <div className="tab4 mt-4">
-              <details open className="border rounded-lg p-4">
 
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Laboratories</summary>
-                <ul className="list-disc ml-6 space-y-2">
-                  <li>Strength of Materials Lab</li>
-                  <li>CAD & GSI Lab</li>
-                  <li>Concrete Technology Lab</li>
-                  <li>Engineering Geology Lab</li>
-                  <li>Surveying Lab</li>
-                  <li>Fluid Mechanics and Hydraulic Machinery Lab</li>
-                  <li>Water and Waste Water Engineering Lab</li>
-                  <li>Advanced Structural Engineering Lab</li>
-                  <li>Geotechnical Engineering Lab</li>
-                  <li>Transportation Engineering Lab</li>
-                </ul>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                  <div>
-                    <img src="/images/departments/ce/civil_adslab.jpg" alt="Strength of Materials Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Strength of Materials Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_cadlab.jpg" alt="CAD & GIS Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">CAD & GIS Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_ctlab.jpg" alt="Concrete Technology Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Concrete Technology Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_gtlab.jpg" alt="Engineering Geology Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Engineering Geology Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_sllab.jpg" alt="Surveying Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Surveying Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_fmlab.jpg" alt="Fluid Mechanics & Hydraulic Machinery Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Fluid Mechanics & Hydraulic Machinery Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_waterlab.jpg" alt="Waste Water Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Waste Water Engineering Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_adslab.jpg" alt="Advanced Structural Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Advanced Structural Engineering Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_geolab.jpg" alt="Geotechnical Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Geotechnical Engineering Lab</h4>
-                  </div>
-                  <div>
-                    <img src="/images/departments/ce/civil_telab.jpg" alt="Transportation Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
-                    <h4 className="text-center my-3 text-success">Transportation Engineering Lab</h4>
+              <details open className="cst-dropdown">
+                <summary>Class Laboratories</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>Strength of Materials Lab</li>
+                    <li>CAD & GSI Lab</li>
+                    <li>Concrete Technology Lab</li>
+                    <li>Engineering Geology Lab</li>
+                    <li>Surveying Lab</li>
+                    <li>Fluid Mechanics and Hydraulic Machinery Lab</li>
+                    <li>Water and Waste Water Engineering Lab</li>
+                    <li>Advanced Structural Engineering Lab</li>
+                    <li>Geotechnical Engineering Lab</li>
+                    <li>Transportation Engineering Lab</li>
+                  </ul>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                      <img src="/images/departments/ce/civil_adslab.jpg" alt="Strength of Materials Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Strength of Materials Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_cadlab.jpg" alt="CAD & GIS Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">CAD & GIS Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_ctlab.jpg" alt="Concrete Technology Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Concrete Technology Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_gtlab.jpg" alt="Engineering Geology Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Engineering Geology Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_sllab.jpg" alt="Surveying Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Surveying Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_fmlab.jpg" alt="Fluid Mechanics & Hydraulic Machinery Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Fluid Mechanics & Hydraulic Machinery Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_waterlab.jpg" alt="Waste Water Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Waste Water Engineering Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_adslab.jpg" alt="Advanced Structural Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Advanced Structural Engineering Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_geolab.jpg" alt="Geotechnical Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Geotechnical Engineering Lab</h4>
+                    </div>
+                    <div>
+                      <img src="/images/departments/ce/civil_telab.jpg" alt="Transportation Engineering Lab" className="w-full h-auto rounded-lg shadow object-cover" />
+                      <h4 className="text-center my-3 text-[#B22222]">Transportation Engineering Lab</h4>
+                    </div>
                   </div>
                 </div>
               </details>
@@ -1032,26 +1103,36 @@ const CivilDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Workshops
             </h2>
-
-            <div className="tab4 mt-4">
-              <details open className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Tim</summary>
-                <div className="ml-4">
-                  <ol className="list-decimal ml-6 space-y-2">
-                    {workshops.map((item) => (
-                      <li key={item.id}>
-                        {item.name} -{" "}
-                        <a
-                          href={item.url}
-                          className="text-primary hover:underline"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View More
-                        </a>
-                      </li>
-                    ))}
-                  </ol>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Workshops & Training Programs</summary>
+                <div className="cst-dropdown-content">
+                  {Array.isArray(workshops) && workshops.length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {workshops.map((item) => (
+                        <li key={item.id}>
+                          <span className="font-medium">{item.name}</span>
+                          {item.year && <span className="text-gray-600"> ({item.year})</span>}
+                          {item.category && <span className="text-gray-500 text-sm"> - {item.category}</span>}
+                          {item.url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={item.url}
+                                className="text-[#B22222] hover:underline"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                View Details
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-500 italic py-4">No workshops available.</p>
+                  )}
                 </div>
               </details>
             </div>
@@ -1105,7 +1186,6 @@ const CivilDepartment: React.FC = () => {
           </div>
         );
       case 'Newsletters':
-
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
@@ -1114,23 +1194,25 @@ const CivilDepartment: React.FC = () => {
             <div className="space-y-6">
               {Array.isArray(newsletters) && newsletters.length > 0 ? (
                 newsletters.map((item, index) => (
-                  <details key={item.id} open={index === 0}>
-                    <summary className="font-semibold text-lg mb-2">
+                  <details key={item.id} open={index === 0} className="cst-dropdown">
+                    <summary>
                       Newsletter Issue {item.issue}
                     </summary>
-                    <ul className="list-disc ml-6 space-y-2">
-                      <li>
-                        Newsletter Issue {item.issue} –{" "}
-                        <a
-                          href={item.url}
-                          className="text-primary hover:underline"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View More
-                        </a>
-                      </li>
-                    </ul>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          Newsletter Issue {item.issue} –{" "}
+                          <a
+                            href={item.url}
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </details>
                 ))
               ) : (
@@ -1142,45 +1224,75 @@ const CivilDepartment: React.FC = () => {
               Technical Magazines
             </h2>
             <div className="space-y-6">
-              <details open>
-                <summary className="font-semibold text-lg mb-2">
+              <details open className="cst-dropdown">
+                <summary>
                   Technical Magazine
                 </summary>
-                <ul className="list-disc ml-6 space-y-2">
-                  <li>
-                    Technical Magazine –{" "}
-                    <a
-                      href="#"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>
+                      Technical Magazine –{" "}
+                      <a
+                        href="#"
+                        className="text-[#B22222] hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </details>
             </div>
           </div>
         );
       case 'Extra-Curricular Activities':
-
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Extra-Curricular Activities
             </h2>
-            <div className="space-y-6">
-              <ul className="list-disc ml-6 space-y-4 text-center">
-                <li>
-                  Extracurricular activities during the Year 2018-19 -{' '}
-                  <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/Extra_curricular_activities.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
-                </li>
-                <li>
-                  Extracurricular activities during the Year 2017-18 -{' '}
-                  <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/ENGINEERS%20DAY(2017-2018).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
-                </li>
-              </ul>
+            <div className="space-y-4">
+              <details open className="cst-dropdown">
+                <summary>
+                  Extracurricular Activities - 2018-19
+                </summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>
+                      <a
+                        href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/Extra_curricular_activities.pdf"
+                        className="text-[#B22222] hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+
+              <details className="cst-dropdown">
+                <summary>
+                  Extracurricular Activities - 2017-18
+                </summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>
+                      <a
+                        href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/ENGINEERS%20DAY(2017-2018).pdf"
+                        className="text-[#B22222] hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         );
@@ -1233,118 +1345,187 @@ const CivilDepartment: React.FC = () => {
                 </div>
               ) : (
                 // Fallback static content if API fails
-                <ul className="list-disc ml-6 space-y-4">
-                  <li>
-                    Consultancy Details for the Academic year 2022-2023 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2021-2022 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2020-2021 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2019-2020 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2018-2019 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2017-2018 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2016-2017 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2015-2016 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2014-2015 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2013-2014 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                </ul>
+                <div className="space-y-4">
+                  <details open className="cst-dropdown">
+                    <summary>Consultancy Details 2022-2023</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2021-2022</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2020-2021</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2019-2020</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2018-2019</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2017-2018</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2016-2017</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2015-2016</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2014-2015</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="cst-dropdown">
+                    <summary>Consultancy Details 2013-2014</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf"
+                            className="text-[#B22222] hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
               )}
             </div>
           </div>
@@ -1356,17 +1537,17 @@ const CivilDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Syllabus
             </h2>
-            <div className="space-y-8">
+            <div className="space-y-4">
               {Array.isArray(Syllabus) && Syllabus.length > 0 ? (
                 Syllabus.map((item, index) => (
-                  <details key={index} open>
-                    <summary className="font-semibold text-lg mb-2">{item.program}</summary>
-                    <div className="ml-4">
-                      <ul className="list-disc ml-6 space-y-2">
+                  <details key={index} open className="cst-dropdown">
+                    <summary>{item.program}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
                         <li>
                           <a
                             href={item.url}
-                            className="text-primary hover:underline"
+                            className="text-[#B22222] hover:underline"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -1377,7 +1558,6 @@ const CivilDepartment: React.FC = () => {
                     </div>
                   </details>
                 ))
-
               ) : (
                 <p className="text-center text-gray-600">No syllabus available</p>
               )}

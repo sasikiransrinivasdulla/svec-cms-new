@@ -13,19 +13,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            `SELECT id, category, title, description, academic_year, proof_document_url
-       FROM student_achievements
-       WHERE department = ? AND (status IS NULL OR status = 'Active')
-       ORDER BY academic_year DESC, category ASC, id DESC`,
-            [dept]
+            `SELECT * FROM civil_student_achievements
+       ORDER BY id DESC`
         );
 
         await connection.end();
 
+        // Group by category if it exists, otherwise return as array
         const grouped: Record<string, any[]> = {};
         (rows as any[]).forEach((r) => {
-            if (!grouped[r.category]) grouped[r.category] = [];
-            grouped[r.category].push(r);
+            const category = r.category || 'General';
+            if (!grouped[category]) grouped[category] = [];
+            grouped[category].push(r);
         });
 
         res.status(200).json(grouped);
