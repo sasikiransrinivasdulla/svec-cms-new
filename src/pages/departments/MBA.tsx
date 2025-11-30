@@ -69,7 +69,38 @@ const MBADepartment: React.FC = () => {
   useEffect(() => {
     fetch('/api/mba/faculty-profiles') // backend API URL
       .then((res) => res.json())
-      .then((data) => setFaculty(data))
+      .then((data) => {
+        // Sort faculty by designation priority
+        const sortedFaculty = Array.isArray(data) ? [...data].sort((a, b) => {
+          const getDesignationPriority = (member: any) => {
+            const des = member.designation?.toLowerCase() || '';
+            const qual = member.qualification?.toLowerCase() || '';
+            const hasPhD = qual.includes('ph.d') || qual.includes('phd') || qual.includes('ph d');
+
+            if (des.includes('hod') || des.includes('head')) return 1;
+            if (des.includes('professor') && !des.includes('assistant') && !des.includes('associate') && hasPhD) return 2;
+            if (des.includes('professor') && !des.includes('assistant') && !des.includes('associate')) return 3;
+            if (des.includes('associate') && hasPhD) return 4;
+            if (des.includes('associate')) return 5;
+            if (des.includes('assistant') && hasPhD) return 6;
+            if (des.includes('assistant') && des.includes('sr')) return 7;
+            if (des.includes('assistant')) return 8;
+            return 9;
+          };
+
+          const priorityA = getDesignationPriority(a);
+          const priorityB = getDesignationPriority(b);
+
+          // If same priority, sort by name alphabetically
+          if (priorityA === priorityB) {
+            return (a.name || '').localeCompare(b.name || '');
+          }
+
+          return priorityA - priorityB;
+        }) : data;
+
+        setFaculty(sortedFaculty);
+      })
       .catch((err) => console.error("Error fetching Faculty Profiles:", err));
   }, []);
   useEffect(() => {
@@ -218,7 +249,14 @@ const MBADepartment: React.FC = () => {
                 <td className="px-6 py-4">{member.qualification}</td>
                 <td className="px-6 py-4">{member.designation}</td>
                 <td className="px-6 py-4">
-                  <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
+                  <a
+                    href={member.profile_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-[#B22222] hover:underline"
+                  >
+                    View
+                  </a>
                 </td>
               </tr>
             ))}
@@ -772,86 +810,50 @@ const MBADepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Memorandums of Understanding (MoUs)</h2>
 
-            <AccordionSection
-              title="MoU Details"
-              isOpen={accordionOpenState.mous}
-              onToggle={() => toggleAccordion('mous')}
-            >
-              <div className="space-y-6">
-                {/* Hardcoded Star Health MoU */}
-                <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-800">Star Health and Allied Insurance Company Ltd</h3>
+            <div className="space-y-4">
+              <details open className="cst-dropdown">
+                <summary>MoU Details</summary>
+                <div className="cst-dropdown-content">
+                  <div className="space-y-6">
+                    {/* Hardcoded Star Health MoU */}
+                    <div className="border rounded-lg p-4 bg-gray-50">
+                      <h3 className="text-lg font-semibold text-gray-800">Star Health and Allied Insurance Company Ltd</h3>
                       <p className="text-gray-600 mt-2">A leading health insurance provider offering comprehensive insurance solutions.</p>
-                    </div>
-                    <div className="mt-4 md:mt-0">
                       <a
                         href="https://srivasaviengg.ac.in/uploads/mba/22%20Star%20Health%2020230717180414256.pdf"
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center"
+                        className="inline-flex items-center mt-3 text-[#B22222] hover:underline"
                       >
-                        <FileText className="w-4 h-4 mr-2" />
-                        View Document
+                        <FileText className="w-4 h-4 mr-1" />
+                        View Details
                       </a>
+                      <div className="mt-4">
+                        <h4 className="font-semibold text-gray-700 mb-2">Key Benefits</h4>
+                        <ul className="list-disc pl-6 space-y-1 text-gray-600 text-sm">
+                          <li>Industry exposure through internships and training programs</li>
+                          <li>Guest lectures by industry professionals</li>
+                          <li>Career opportunities for students in the insurance sector</li>
+                          <li>Research collaboration opportunities</li>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="mt-6">
-                    <h4 className="font-semibold text-gray-700 mb-2">Key Benefits</h4>
-                    <ul className="list-disc list-inside space-y-1 text-gray-600">
-                      <li>Industry exposure through internships and training programs</li>
-                      <li>Guest lectures by industry professionals</li>
-                      <li>Career opportunities for students in the insurance sector</li>
-                      <li>Research collaboration opportunities</li>
-                      <li>Enhanced understanding of insurance practices and risk management</li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Dynamic MoUs from database */}
-                {mous.map((mou, index) => (
-                  <div key={mou.id || index} className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-semibold text-gray-800">{mou.mou_with}</h3>
-                        <div className="mt-3 space-y-1 text-sm text-gray-600">
+                    {/* Dynamic MoUs from database */}
+                    {mous.map((mou, index) => (
+                      <div key={mou.id || index} className="border rounded-lg p-4 bg-gray-50">
+                        <h3 className="text-lg font-semibold text-gray-800">{mou.mou_with}</h3>
+                        <div className="mt-2 space-y-1 text-sm text-gray-600">
                           <p><span className="font-medium">From:</span> {mou.from_date}</p>
                           <p><span className="font-medium">To:</span> {mou.to_date}</p>
                           <p><span className="font-medium">Status:</span> <span className="text-green-600 font-medium">{mou.status}</span></p>
                         </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-
-              <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
-                <h4 className="text-lg font-semibold text-blue-800 flex items-center">
-                  <Handshake className="h-5 w-5 mr-2" />
-                  Benefits to Students
-                </h4>
-                <ul className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-blue-700">
-                  <li className="flex items-center">
-                    <ChevronRight className="h-4 w-4 mr-2" />
-                    Practical industry exposure
-                  </li>
-                  <li className="flex items-center">
-                    <ChevronRight className="h-4 w-4 mr-2" />
-                    Internship opportunities
-                  </li>
-                  <li className="flex items-center">
-                    <ChevronRight className="h-4 w-4 mr-2" />
-                    Career placement assistance
-                  </li>
-                  <li className="flex items-center">
-                    <ChevronRight className="h-4 w-4 mr-2" />
-                    Professional skills development
-                  </li>
-                </ul>
-              </div>
-            </AccordionSection>
+                </div>
+              </details>
+            </div>
           </div>
         );
 
@@ -862,35 +864,29 @@ const MBADepartment: React.FC = () => {
               Faculty Development Programs
             </h2>
 
-            <AccordionSection
-              title="Faculty Development Activities"
-              isOpen={accordionOpenState.fdp}
-              onToggle={() => toggleAccordion('fdp')}
-            >
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-xl font-semibold mb-4 bg-gray-100 p-3 rounded-lg">
+            <div className="space-y-4">
+              <details open className="cst-dropdown">
+                <summary>Faculty Development Activities</summary>
+                <div className="cst-dropdown-content">
+                  <h3 className="text-lg font-semibold mb-3 text-[#B22222]">
                     FDPs Attended
                   </h3>
-                  <ul className="space-y-3 pl-4">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
                     {facultyDev.length > 0 ? (
                       facultyDev.map((item: any, idx: number) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="mr-2 text-gray-600">•</span>
-                          <div>
-                            {item.title} ({item.academic_year})
-                            {item.file_url && (
-                              <a
-                                href={item.file_url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                              >
-                                <FileText className="h-4 w-4 mr-1" />
-                                View Certificate
-                              </a>
-                            )}
-                          </div>
+                        <li key={idx}>
+                          {item.title} ({item.academic_year})
+                          {item.file_url && (
+                            <a
+                              href={item.file_url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-4 w-4 mr-1" />
+                              View Details
+                            </a>
+                          )}
                         </li>
                       ))
                     ) : (
@@ -898,8 +894,8 @@ const MBADepartment: React.FC = () => {
                     )}
                   </ul>
                 </div>
-              </div>
-            </AccordionSection>
+              </details>
+            </div>
           </div>
         );
 
@@ -917,39 +913,31 @@ const MBADepartment: React.FC = () => {
                 <p className="text-gray-400 text-sm mt-2">Please check the console for any errors.</p>
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {Object.keys(groupedData).map((type) => (
-                  <div key={type} className="group">
-                    <details open={type === "Patents"}>
-                      <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
-                        <span>{type}</span>
-                        <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
-                      </summary>
-                      <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                        <ul className="space-y-3">
-                          {groupedData[type].map((item: any, idx: number) => (
-                            <li key={idx} className="flex items-start">
-                              <span className="mr-2 text-gray-600">•</span>
-                              <div>
-                                {item.title}
-                                {item.file_url && (
-                                  <a
-                                    href={item.file_url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                                  >
-                                    <FileText className="h-4 w-4 mr-1" />
-                                    View
-                                  </a>
-                                )}
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </details>
-                  </div>
+                  <details key={type} open={type === "Patents"} className="cst-dropdown">
+                    <summary>{type}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {groupedData[type].map((item: any, idx: number) => (
+                          <li key={idx}>
+                            {item.title}
+                            {item.file_url && (
+                              <a
+                                href={item.file_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
+                              >
+                                <FileText className="h-4 w-4 mr-1" />
+                                View Details
+                              </a>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
                 ))}
               </div>
             )}
@@ -969,35 +957,27 @@ const MBADepartment: React.FC = () => {
             <div className="space-y-4">
               {sortedPlacements.length > 0 ? (
                 sortedPlacements.map((item: any, index: number) => (
-                  <div key={item.id || index} className="group">
-                    <details open={index === 0} className="border rounded-xl overflow-hidden">
-                      <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
-                        <span>{item.batch ? `Placement Batch ${item.batch}` : 'Placement Details'}</span>
-                        <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
-                      </summary>
-                      <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                        <ul className="space-y-2">
-                          <li className="flex items-start text-gray-700">
-                            <span className="mr-2 text-[#B22222]">•</span>
-                            <div>
-                              <p>{item.title || 'Placement report'}</p>
-                              {item.file_url && (
-                                <a
-                                  href={item.file_url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="inline-flex items-center text-[#B22222] hover:underline mt-2"
-                                >
-                                  <FileText className="h-4 w-4 mr-1" />
-                                  View Report
-                                </a>
-                              )}
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </details>
-                  </div>
+                  <details key={item.id || index} open={index === 0} className="cst-dropdown">
+                    <summary>{item.batch ? `Placement Batch ${item.batch}` : 'Placement Details'}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li className="text-gray-700">
+                          <span>{item.title || 'Placement report'}</span>
+                          {item.file_url && (
+                            <a
+                              href={item.file_url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-4 w-4 mr-1" />
+                              View Details
+                            </a>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
                 ))
               ) : (
                 <p className="text-center text-gray-500">No placement data available.</p>
@@ -1013,140 +993,125 @@ const MBADepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
 
             <div className="space-y-4">
-              <div className="group">
-                <details open>
-                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
-                    <span>Internships</span>
-                    <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
-                  </summary>
-                  <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                    <ul className="list-disc pl-6 space-y-2">
-                      <li>
-                        Internships during the Academic Year 2020-22
-                        <a
-                          href="#"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Internships during the Academic Year 2019-21
-                        <a
-                          href="#"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Internships during the Academic Year 2018-20
-                        <a
-                          href="#"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Internships during the Academic Year 2017-19
-                        <a
-                          href="#"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
+              <details open className="cst-dropdown">
+                <summary>Internships</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>
+                      Internships during the Academic Year 2020-22
+                      <a
+                        href="#"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2019-21
+                      <a
+                        href="#"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2018-20
+                      <a
+                        href="#"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2017-19
+                      <a
+                        href="#"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
 
-              <div className="group">
-                <details>
-                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
-                    <span>NPTEL</span>
-                    <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
-                  </summary>
-                  <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                    <ul className="list-disc pl-6 space-y-2">
-                      <li>
-                        NPTEL Certifications during Academic Year 2021-2022
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mba/mba%2021-22%20nptel.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        NPTEL Certifications during Academic Year 2020-2021
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mba/mba%2020-21%20nptel.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        NPTEL Certifications during Academic Year 2019-2020
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mba/mba%2019-20%20pdf.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
+              <details className="cst-dropdown">
+                <summary>NPTEL</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      NPTEL Certifications during Academic Year 2021-2022
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/mba%2021-22%20nptel.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li>
+                      NPTEL Certifications during Academic Year 2020-2021
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/mba%2020-21%20nptel.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li>
+                      NPTEL Certifications during Academic Year 2019-2020
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/mba%2019-20%20pdf.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
 
-              <div className="group">
-                <details>
-                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
-                    <span>Industrial Visits</span>
-                    <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
-                  </summary>
-                  <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                    <ul className="list-disc pl-6 space-y-2">
-                      <li>
-                        Industrial Visits during 2012-2014 to 2022-2023
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mba/Industrial%20Visit.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
+              <details className="cst-dropdown">
+                <summary>Industrial Visits</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      Industrial Visits during 2012-2014 to 2022-2023
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/Industrial%20Visit.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         );
@@ -1316,34 +1281,26 @@ const MBADepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Alumni</h2>
-            <div className="mt-5">
-              <div className="group">
-                <details open>
-                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md list-none">
-                    <span>Core Committee 2022-2023</span>
-                    <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
-                  </summary>
-                  <div className="bg-gray-50 p-6 mt-2 rounded-lg border border-gray-200">
-                    <div className="flex justify-center items-center">
-                      <ul className="space-y-3">
-                        <li className="flex items-start">
-                          <FileText className="h-5 w-5 mr-2 text-[#B22222] mt-0.5" />
-                          SVEC-MBA Alumni List
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/mba/MBA%20ALUMNI%20list.pdf"
-                            // ...existing code...
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline"
-                          >
-                            View
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-              </div>
+            <div className="space-y-4">
+              <details open className="cst-dropdown">
+                <summary>Core Committee 2022-2023</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>
+                      SVEC-MBA Alumni List
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/MBA%20ALUMNI%20list.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         );

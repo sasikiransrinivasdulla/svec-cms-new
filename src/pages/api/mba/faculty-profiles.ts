@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     const [rows] = await connection.execute(
-        `SELECT * FROM mba_faculty
+        `SELECT id, name, qualification, designation, profileUrl as profile_url FROM mba_faculty
         ORDER BY 
             CASE 
                 WHEN designation = 'Lecturer' THEN 4
@@ -22,8 +22,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 WHEN designation = 'Professor' THEN 0
                 ELSE 5
             END DESC`
-    );
+    ) as any;
 
+    // The URLs in database already have /uploads/mba/faculty/ prefix, so just return as-is
     await connection.end();
     res.status(200).json(rows);
 }

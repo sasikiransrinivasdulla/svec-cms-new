@@ -396,63 +396,63 @@ const BSHDepartment: React.FC = () => {
           </div>
         );
       case 'POs':
-          return (
-            <div className="animate-fade-in">
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
-              <div className="pl-5 space-y-3 text-gray-700 text-justify">
-                <ol className="list-decimal pl-6">
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Engineering knowledge:</strong>
-                    Apply the knowledge of Mathematics, Science, Engineering Fundamentals, and Concepts of Computer Science Engineering to the solution of complex Engineering problems. [K3]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Problem Analysis:</strong>
-                    Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of Mathematics, Natural Sciences, and Computer Science. [K4]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Design/development of solutions:</strong>
-                    Design solutions for complex engineering problems and design system components or processes that meet the specific needs with appropriate consideration for public health and safety, and the cultural, societal, and environmental considerations. [K5]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Conduct investigations of complex problems:</strong>
-                    Use research-based knowledge and research methods, including the design of experiments, analysis and interpretation of data, and synthesis of information to provide valid conclusions. [K5]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Modern tool usage:</strong>
-                    Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools, including prediction and modeling, to complex Engineering activities with an understanding of the limitations. [K3]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>The engineer and society:</strong>
-                    Apply reasoning informed by contextual knowledge to assess societal, health, safety, legal, and cultural issues and the consequent responsibilities relevant to professional Engineering practice. [K3]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Environment and sustainability:</strong>
-                    Understand the impact of professional engineering solutions in societal and environmental contexts and demonstrate knowledge of, and the need for sustainable development. [K3]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Ethics:</strong>
-                    Apply ethical principles and commit to professional ethics and responsibilities and norms of Engineering practice. [K3]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Individual and team work:</strong>
-                    Function effectively as an individual and as a member or leader in diverse teams and in multidisciplinary settings. [K6]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Communication:</strong>
-                    Communicate effectively on complex Engineering activities with the Engineering community and with society at large, such as being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions. [K2]
-                  </li>
-                  <li style={{marginBottom: '10px'}}>
-                    <strong style={{color: '#850209'}}>Project management and finance:</strong>
-                    Demonstrate knowledge and understanding of Engineering and Management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments. [K6]
-                  </li>
-                  <li>
-                    <strong style={{color: '#850209'}}>Life-long learning:</strong>
-                    Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change. [K1]
-                  </li>
-                </ol>
-              </div>
+        return (
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
+            <div className="pl-5 space-y-3 text-gray-700 text-justify">
+              <ol className="list-decimal pl-6">
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Engineering knowledge:</strong>
+                  Apply the knowledge of Mathematics, Science, Engineering Fundamentals, and Concepts of Computer Science Engineering to the solution of complex Engineering problems. [K3]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Problem Analysis:</strong>
+                  Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of Mathematics, Natural Sciences, and Computer Science. [K4]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Design/development of solutions:</strong>
+                  Design solutions for complex engineering problems and design system components or processes that meet the specific needs with appropriate consideration for public health and safety, and the cultural, societal, and environmental considerations. [K5]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Conduct investigations of complex problems:</strong>
+                  Use research-based knowledge and research methods, including the design of experiments, analysis and interpretation of data, and synthesis of information to provide valid conclusions. [K5]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Modern tool usage:</strong>
+                  Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools, including prediction and modeling, to complex Engineering activities with an understanding of the limitations. [K3]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>The engineer and society:</strong>
+                  Apply reasoning informed by contextual knowledge to assess societal, health, safety, legal, and cultural issues and the consequent responsibilities relevant to professional Engineering practice. [K3]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Environment and sustainability:</strong>
+                  Understand the impact of professional engineering solutions in societal and environmental contexts and demonstrate knowledge of, and the need for sustainable development. [K3]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Ethics:</strong>
+                  Apply ethical principles and commit to professional ethics and responsibilities and norms of Engineering practice. [K3]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Individual and team work:</strong>
+                  Function effectively as an individual and as a member or leader in diverse teams and in multidisciplinary settings. [K6]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Communication:</strong>
+                  Communicate effectively on complex Engineering activities with the Engineering community and with society at large, such as being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions. [K2]
+                </li>
+                <li style={{ marginBottom: '10px' }}>
+                  <strong style={{ color: '#850209' }}>Project management and finance:</strong>
+                  Demonstrate knowledge and understanding of Engineering and Management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments. [K6]
+                </li>
+                <li>
+                  <strong style={{ color: '#850209' }}>Life-long learning:</strong>
+                  Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change. [K1]
+                </li>
+              </ol>
             </div>
-          );
+          </div>
+        );
       case 'PSOs':
         return (
           <div>
@@ -663,29 +663,29 @@ const BSHDepartment: React.FC = () => {
           </div>
         );
 
-        case 'FDPs/Workshops Participated':
-  return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">FDPs/Workshops Participated</h2>
-      {loadingFdp ? (
-        <div>Loading...</div>
-      ) : fdpError ? (
-        <div className="text-red-600">Error: {fdpError}</div>
-      ) : (
-        <details open>
-          <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">FDPs/Workshops Participated</summary>
-          <ul className="list-disc ml-6 mt-4 space-y-2">
-            {fdpDocs.map((doc, idx) => (
-              <li key={doc.id}>
-                {doc.title} -{' '}
-                <a href={doc.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-              </li>
-            ))}
-          </ul>
-        </details>
-      )}
-    </div>
-  );
+      case 'FDPs/Workshops Participated':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">FDPs/Workshops Participated</h2>
+            {loadingFdp ? (
+              <div>Loading...</div>
+            ) : fdpError ? (
+              <div className="text-red-600">Error: {fdpError}</div>
+            ) : (
+              <details open>
+                <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">FDPs/Workshops Participated</summary>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  {fdpDocs.map((doc, idx) => (
+                    <li key={doc.id}>
+                      {doc.title} -{' '}
+                      <a href={doc.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
+          </div>
+        );
 
       case 'Department Profile':
         return (
@@ -966,7 +966,7 @@ const BSHDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
-            
+
             {/* Teaching Faculty Dropdown */}
             <details open className="mt-6">
               <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">Teaching Faculty</summary>
@@ -976,67 +976,80 @@ const BSHDepartment: React.FC = () => {
                 ) : facultyError ? (
                   <div className="text-red-600">Error: {facultyError}</div>
                 ) : (
-                  Object.entries(facultyData).map(([department, members]) => {
-                    let displayName = '';
-                    switch (department.toLowerCase()) {
-                      case 'chemistry':
-                        displayName = 'Chemistry Teaching Faculty';
-                        break;
-                      case 'physics':
-                        displayName = 'Physics Teaching Faculty';
-                        break;
-                      case 'mathematics':
-                        displayName = 'Mathematics Teaching Faculty';
-                        break;
-                      case 'english':
-                        displayName = 'English Teaching Faculty';
-                        break;
-                      case 'library':
-                        displayName = 'Library Faculty';
-                        break;
-                      case 'physicaleducation':
-                      case 'physical_education':
-                        displayName = 'Physical Education Faculty';
-                        break;
-                      default:
-                        displayName = department.charAt(0).toUpperCase() + department.slice(1);
-                    }
-                    return (
-                      <div key={department} className="mb-10">
-                        <h3 className="text-2xl font-semibold text-gray-700 mb-4 capitalize border-b-2 border-primary pb-2">{displayName}</h3>
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-sm text-left">
-                            <thead className="bg-gray-100">
-                              <tr>
-                                <th className="px-4 py-2">S.No.</th>
-                                <th className="px-4 py-2">Name</th>
-                                <th className="px-4 py-2">Qualification</th>
-                                <th className="px-4 py-2">Designation</th>
-                                <th className="px-4 py-2">Profile</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {members.map((member, index) => (
-                                <tr key={index} className="border-b hover:bg-gray-50">
-                                  <td className="px-4 py-2">{index + 1}</td>
-                                  <td className="px-4 py-2 font-medium">{member.name}</td>
-                                  <td className="px-4 py-2">{member.qualification}</td>
-                                  <td className="px-4 py-2">{member.designation}</td>
-                                  <td className="px-4 py-2">
-                                    {member.profileUrl ? (
-                                      <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
-                                    ) : (
-                                      <span className="text-gray-400">N/A</span>
-                                    )}
-                                  </td>
+                  Object.entries(facultyData)
+                    .sort(([deptA], [deptB]) => {
+                      // Define subject priority: Mathematics → Chemistry → Physics → English → Others
+                      const getPriority = (dept: string) => {
+                        const d = dept.toLowerCase();
+                        if (d === 'mathematics') return 1;
+                        if (d === 'chemistry') return 2;
+                        if (d === 'physics') return 3;
+                        if (d === 'english') return 4;
+                        return 5; // Others (library, physical education, etc.)
+                      };
+                      return getPriority(deptA) - getPriority(deptB);
+                    })
+                    .map(([department, members]) => {
+                      let displayName = '';
+                      switch (department.toLowerCase()) {
+                        case 'chemistry':
+                          displayName = 'Chemistry Teaching Faculty';
+                          break;
+                        case 'physics':
+                          displayName = 'Physics Teaching Faculty';
+                          break;
+                        case 'mathematics':
+                          displayName = 'Mathematics Teaching Faculty';
+                          break;
+                        case 'english':
+                          displayName = 'English Teaching Faculty';
+                          break;
+                        case 'library':
+                          displayName = 'Library Faculty';
+                          break;
+                        case 'physicaleducation':
+                        case 'physical_education':
+                          displayName = 'Physical Education Faculty';
+                          break;
+                        default:
+                          displayName = department.charAt(0).toUpperCase() + department.slice(1);
+                      }
+                      return (
+                        <div key={department} className="mb-10">
+                          <h3 className="text-2xl font-semibold text-gray-700 mb-4 capitalize border-b-2 border-primary pb-2">{displayName}</h3>
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-sm text-left">
+                              <thead className="bg-gray-100">
+                                <tr>
+                                  <th className="px-4 py-2">S.No.</th>
+                                  <th className="px-4 py-2">Name</th>
+                                  <th className="px-4 py-2">Qualification</th>
+                                  <th className="px-4 py-2">Designation</th>
+                                  <th className="px-4 py-2">Profile</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                {members.map((member, index) => (
+                                  <tr key={index} className="border-b hover:bg-gray-50">
+                                    <td className="px-4 py-2">{index + 1}</td>
+                                    <td className="px-4 py-2 font-medium">{member.name}</td>
+                                    <td className="px-4 py-2">{member.qualification}</td>
+                                    <td className="px-4 py-2">{member.designation}</td>
+                                    <td className="px-4 py-2">
+                                      {member.profileUrl ? (
+                                        <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
+                                      ) : (
+                                        <span className="text-gray-400">N/A</span>
+                                      )}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })
+                      );
+                    })
                 )}
               </div>
             </details>
@@ -1134,10 +1147,10 @@ const BSHDepartment: React.FC = () => {
                       {docs.map((doc, idx) => (
                         <li key={doc.id || idx}>
                           <span className="font-medium">{doc.type || 'Course'}</span> - {doc.title} {' '}
-                          <a 
-                            href={doc.fileUrl} 
-                            className="text-primary hover:underline" 
-                            target="_blank" 
+                          <a
+                            href={doc.fileUrl}
+                            className="text-primary hover:underline"
+                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             View Syllabus
