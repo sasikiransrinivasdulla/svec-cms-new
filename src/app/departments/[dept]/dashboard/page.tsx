@@ -328,24 +328,33 @@ const DEPARTMENT_MODULES: Record<string, Array<{
   'ect': [
     { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'ect_bos_members' },
     { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'ect_bos_minutes' },
-    { key: 'clubs', name: 'Clubs', icon: Users, description: 'Student clubs and organizations', table: 'ect_clubs' },
-    { key: 'extracurricular-activities', name: 'Extra-Curricular Activities', icon: Activity, description: 'Student activities and events', table: 'ect_extracurricular_activities' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops and training', table: 'ect_workshops' },
+    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'ect_department_library' },
+    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'ect_industry_programs' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'ect_department_overview' },
+    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'ect_eresources' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'ect_extra_curricular' },
     { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'ect_faculty' },
-    { key: 'faculty-innovations', name: 'Faculty Innovations', icon: Settings, description: 'Faculty research and innovations', table: 'ect_facultyinnovations' },
     { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'ect_faculty_achievements' },
-    { key: 'fdp', name: 'Faculty Development Programs', icon: GraduationCap, description: 'Professional development programs', table: 'ect_fdp' },
+    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'ect_faculty_development' },
+    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'ect_hackathons' },
+    { key: 'hackathons-gallery', name: 'Gallery', icon: Image, description: 'Gallery of hackathon events', table: 'ect_hackathons_gallery' },
     { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'ect_handbooks' },
+    { key: 'technical-association', name: 'Technical Association', icon: Briefcase, description: 'Technical association programs', table: 'ect_technical_association' },
+    { key: 'merit-scholarships', name: 'Academic Toppers', icon: Award, description: 'Student scholarship programs', table: 'ect_merit_scholarships' },
     { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'ect_mous' },
     { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'ect_newsletters' },
+    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'ect_non_teaching_faculty' },
     { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'ect_physical_facilities' },
     { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'ect_placements' },
-    { key: 'scholarships-toppers', name: 'Merit Scholarships/Academic', icon: Award, description: 'Student achievements and scholarships', table: 'ect_scholarships_toppers' },
+    { key: 'sahaya-events', name: 'Sahaya Events', icon: Activity, description: 'Sahaya community events', table: 'ect_sahaya_events' },
+    { key: 'scud-activities', name: 'SCUD Activities', icon: Activity, description: 'SCUD club activities', table: 'ect_scud_activities' },
     { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'ect_student_achievements' },
-    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'ect_eresources' },
+    { key: 'gate', name: 'GATE', icon: Award, description: 'GATE exam records and details', table: 'ect_gate' },
+    { key: 'roll-of-honour', name: 'Roll of Honour', icon: Award, description: 'Roll of Honour records and details', table: 'ect_roll_of_honour' },
     { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'ect_syllabus' },
-    { key: 'technical-association', name: 'Technical Association', icon: Settings, description: 'Professional associations', table: 'ect_technical_association' },
+    { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'ect_technical_faculty' },
     { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'ect_training_activities' },
-    { key: 'workshop', name: 'Workshop', icon: Settings, description: 'Educational workshops', table: 'ect_workshop_gl' }
   ],
 };
 
@@ -2140,4 +2149,3 @@ function EditForm({
     </form>
   );
 }
-

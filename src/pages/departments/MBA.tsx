@@ -699,18 +699,94 @@ const MBADepartment: React.FC = () => {
 
       case 'Faculty Profiles':
         return (
-          <div className="space-y-8">
-            {facultyAccordionSections.map((section) => (
-              <div key={section.key} className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-                <AccordionSection
-                  title={section.title}
-                  isOpen={accordionOpenState[section.key] ?? false}
-                  onToggle={() => toggleAccordion(section.key)}
-                >
-                  {section.content}
-                </AccordionSection>
-              </div>
-            ))}
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Teaching Faculty</summary>
+                <div className="cst-dropdown-content">
+                  {faculty && faculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {faculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              <td className="px-6 py-4">
+                                {(member.profile_url || member.profileUrl) ? (
+                                  <a
+                                    href={member.profile_url || member.profileUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
+                                  >
+                                    View Profile
+                                  </a>
+                                ) : (
+                                  <span className="text-gray-400 text-sm">No Profile</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {faculty ? 'No teaching faculty data available.' : 'Loading teaching faculty...'}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </details>
+
+              <details className="cst-dropdown">
+                <summary>Non-Teaching Staff</summary>
+                <div className="cst-dropdown-content">
+                  {nonTeachingFaculty && nonTeachingFaculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {nonTeachingFaculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {nonTeachingFaculty ? 'No non-teaching staff data available.' : 'Loading non-teaching staff...'}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </details>
+            </div>
           </div>
         );
 

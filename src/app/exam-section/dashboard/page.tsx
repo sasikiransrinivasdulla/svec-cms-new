@@ -70,6 +70,67 @@ export default function ExamSectionDashboard() {
   const [dataLoading, setDataLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('controller');
 
+  // Handle Delete for JNTUK items
+  const handleDeleteJntuk = async (sno: number | string | undefined) => {
+    if (!sno) return;
+    if (!confirm('Are you sure you want to delete this item?')) return;
+    try {
+      const res = await fetch('/api/exam-section/jntuk-exam-section', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sno }),
+      });
+      if (res.ok) {
+        setJntukData(prev => prev.filter(item => (item.sno ?? item.id) !== sno));
+        toast.success('Item deleted successfully');
+      } else {
+        toast.error('Failed to delete item');
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast.error('Error deleting item');
+    }
+  };
+
+  // Handle Delete for Autonomous items
+  const handleDeleteAutonomous = async (id: number | string | undefined) => {
+    if (!id) return;
+    if (!confirm('Are you sure you want to delete this item?')) return;
+    try {
+      const res = await fetch('/api/exam-section/autonomous-exam-section', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setAutonomousData(prev => prev.filter(item => item.id !== id));
+        toast.success('Item deleted successfully');
+      } else {
+        toast.error('Failed to delete item');
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast.error('Error deleting item');
+    }
+  };
+
+  // Handle Delete for RSAC items
+  const handleDeleteRsac = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this item?')) return;
+    try {
+      const res = await fetch(`/api/exam-section/rsac/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setRsacData(rsacData.filter(item => item.id !== id));
+        toast.success('Item deleted successfully');
+      } else {
+        toast.error('Failed to delete item');
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast.error('Error deleting item');
+    }
+  };
+
   useEffect(() => {
     if (!isLoading && (!isAuthenticated || user?.role !== 'exam')) {
       router.replace('/exam-section/auth/login');
@@ -78,6 +139,12 @@ export default function ExamSectionDashboard() {
 
   // Fetch all exam section data
   useEffect(() => {
+    const normalizeRecords = (payload: any) => {
+      if (Array.isArray(payload)) return payload;
+      if (payload && Array.isArray(payload.data)) return payload.data;
+      return [];
+    };
+
     const fetchAllData = async () => {
       try {
         setDataLoading(true);
@@ -89,25 +156,25 @@ export default function ExamSectionDashboard() {
           setControllerData(controllerJson.data || null);
         }
 
-        // Fetch JNTUK data
-        const jntukRes = await fetch('/api/exam-section/jntuk');
+        // Fetch JNTUK data (use admin endpoint for manageable records)
+        const jntukRes = await fetch('/api/exam-section/jntuk-exam-section');
         if (jntukRes.ok) {
           const jntukJson = await jntukRes.json();
-          setJntukData(Array.isArray(jntukJson.data) ? jntukJson.data : []);
+          setJntukData(normalizeRecords(jntukJson));
         }
 
         // Fetch Autonomous data
         const autonomousRes = await fetch('/api/exam-section/autonomous');
         if (autonomousRes.ok) {
           const autonomousJson = await autonomousRes.json();
-          setAutonomousData(Array.isArray(autonomousJson.data) ? autonomousJson.data : []);
+          setAutonomousData(normalizeRecords(autonomousJson));
         }
 
         // Fetch RSAC data
         const rsacRes = await fetch('/api/exam-section/rsac');
         if (rsacRes.ok) {
           const rsacJson = await rsacRes.json();
-          setRsacData(Array.isArray(rsacJson.data) ? rsacJson.data : []);
+          setRsacData(normalizeRecords(rsacJson));
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -388,10 +455,12 @@ export default function ExamSectionDashboard() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                          {jntukData.map((item: any) => (
-                            <tr key={item.id} className="hover:bg-gray-50">
-                              <td className="px-6 py-4 text-gray-800 font-medium">{item.title || item.name || '-'}</td>
-                              <td className="px-6 py-4 text-gray-600">{item.category || item.type || '-'}</td>
+                          {jntukData.map((item: any, index) => {
+                            const recordId = item.sno ?? item.id ?? index;
+                            return (
+                              <tr key={recordId} className="hover:bg-gray-50">
+                                <td className="px-6 py-4 text-gray-800 font-medium">{item.title || item.content || item.name || '-'}</td>
+                                <td className="px-6 py-4 text-gray-600">{item.category || item.type || '-'}</td>
                               <td className="px-6 py-4">
                                 <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Active</span>
                               </td>
@@ -400,16 +469,17 @@ export default function ExamSectionDashboard() {
                                   <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-blue-100 text-blue-600">
                                     <Eye className="w-4 h-4" />
                                   </button>
-                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
+                                  <Link href={`/exam-section/jntuk?edit=${recordId}`} className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
                                     <Edit className="w-4 h-4" />
-                                  </button>
-                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100 text-red-600">
+                                  </Link>
+                                  <button onClick={() => handleDeleteJntuk(recordId)} className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100 text-red-600">
                                     <Trash2 className="w-4 h-4" />
                                   </button>
                                 </div>
                               </td>
                             </tr>
-                          ))}
+                            );
+                          })}
                         </tbody>
                       </table>
                     ) : (
@@ -449,10 +519,10 @@ export default function ExamSectionDashboard() {
                                   <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-blue-100 text-blue-600">
                                     <Eye className="w-4 h-4" />
                                   </button>
-                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
+                                  <Link href={`/exam-section/autonomous?edit=${item.id}`} className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
                                     <Edit className="w-4 h-4" />
-                                  </button>
-                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100 text-red-600">
+                                  </Link>
+                                  <button onClick={() => handleDeleteAutonomous(item.id)} className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100 text-red-600">
                                     <Trash2 className="w-4 h-4" />
                                   </button>
                                 </div>
@@ -463,7 +533,7 @@ export default function ExamSectionDashboard() {
                       </table>
                     ) : (
                       <div className="text-center py-8">
-                        <p className="text-gray-500">No Autonomous data entered yet</p>
+                        <p className="text-gray-500">No Autonomous data data entered yet</p>
                         <Link href="/exam-section/autonomous" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
                           Add Autonomous Data
                         </Link>
@@ -498,9 +568,9 @@ export default function ExamSectionDashboard() {
                                   <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-blue-100 text-blue-600">
                                     <Eye className="w-4 h-4" />
                                   </button>
-                                  <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
+                                  <Link href={`/exam-section/autonomous?edit=${item.id}`} className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-yellow-100 text-yellow-600">
                                     <Edit className="w-4 h-4" />
-                                  </button>
+                                  </Link>
                                   <button className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100 text-red-600">
                                     <Trash2 className="w-4 h-4" />
                                   </button>

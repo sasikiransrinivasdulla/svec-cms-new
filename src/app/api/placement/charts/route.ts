@@ -24,7 +24,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { year, civil, mech, eee, ece, cse, mba } = body;
+        const { year, civil, mech, eee, ece, cse, mba, aiml, cai, ect, cst } = body;
 
         // Validate required fields
         if (!year || year.trim() === '') {
@@ -49,7 +49,9 @@ export async function POST(request: NextRequest) {
 
         // Insert new placement chart entry
         const result = await execute(
-            'INSERT INTO placement_charts (year, civil, mech, eee, ece, cse, mba) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            `INSERT INTO placement_charts 
+            (year, civil, mech, eee, ece, cse, mba, aiml, cai, ect, cst) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 year.trim(),
                 parseInt(civil) || 0,
@@ -57,7 +59,11 @@ export async function POST(request: NextRequest) {
                 parseInt(eee) || 0,
                 parseInt(ece) || 0,
                 parseInt(cse) || 0,
-                parseInt(mba) || 0
+                parseInt(mba) || 0,
+                parseInt(aiml) || 0,
+                parseInt(cai) || 0,
+                parseInt(ect) || 0,
+                parseInt(cst) || 0
             ]
         );
 
@@ -82,7 +88,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
         const body = await request.json();
-        const { id, year, civil, mech, eee, ece, cse, mba } = body;
+        const { id, year, civil, mech, eee, ece, cse, mba, aiml, cai, ect, cst } = body;
 
         // Validate required fields
         if (!id) {
@@ -114,7 +120,19 @@ export async function PUT(request: NextRequest) {
 
         // Update placement chart entry
         const result = await execute(
-            'UPDATE placement_charts SET year = ?, civil = ?, mech = ?, eee = ?, ece = ?, cse = ?, mba = ? WHERE id = ?',
+            `UPDATE placement_charts SET 
+                year = ?, 
+                civil = ?, 
+                mech = ?, 
+                eee = ?, 
+                ece = ?, 
+                cse = ?, 
+                mba = ?,
+                aiml = ?,
+                cai = ?,
+                ect = ?,
+                cst = ?
+            WHERE id = ?`,
             [
                 year.trim(),
                 parseInt(civil) || 0,
@@ -123,6 +141,10 @@ export async function PUT(request: NextRequest) {
                 parseInt(ece) || 0,
                 parseInt(cse) || 0,
                 parseInt(mba) || 0,
+                parseInt(aiml) || 0,
+                parseInt(cai) || 0,
+                parseInt(ect) || 0,
+                parseInt(cst) || 0,
                 id
             ]
         );

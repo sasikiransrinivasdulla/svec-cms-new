@@ -8,7 +8,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         "SELECT * FROM cst_workshops ORDER BY id DESC"
       );
 
-      res.status(200).json(rows);
+      // Normalize fields for UI consistency
+      const normalized = (rows || []).map((r: any) => ({
+        ...r,
+        title: r.title || r.name || 'Workshop',
+        file_url: r.file_url || r.url || r.document_url,
+        academic_year: r.academic_year || r.year || 'Current Year',
+        category: r.category || null
+      }));
+
+      res.status(200).json(normalized);
     } else {
       res.setHeader('Allow', ['GET']);
       res.status(405).json({ error: 'Method not allowed' });

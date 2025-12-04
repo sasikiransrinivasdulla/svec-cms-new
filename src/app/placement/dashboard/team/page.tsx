@@ -48,13 +48,17 @@ export default function PlacementTeamPage() {
         designation: '',
         branch: '',
         email: '',
-        phone: '',
-        image_url: ''
+        phone: ''
     });
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     // Edit state
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editData, setEditData] = useState<TeamMember | null>(null);
+    const [editImageFile, setEditImageFile] = useState<File | null>(null);
+    const [editImagePreview, setEditImagePreview] = useState<string | null>(null);
+    const [isSavingEdit, setIsSavingEdit] = useState(false);
 
     useEffect(() => {
         if (!authLoading && (!isAuthenticated || user?.role !== 'placement')) {
@@ -114,12 +118,79 @@ export default function PlacementTeamPage() {
             designation: '',
             branch: '',
             email: '',
-            phone: '',
-            image_url: ''
+            phone: ''
         });
+        clearImageSelection();
         setShowAddForm(false);
         setEditingId(null);
         setEditData(null);
+        clearEditImageSelection();
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) {
+            clearImageSelection();
+            return;
+        }
+
+        if (imagePreview && imagePreview.startsWith('blob:')) {
+            URL.revokeObjectURL(imagePreview);
+        }
+
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(file));
+    };
+
+    const clearImageSelection = () => {
+        if (imagePreview && imagePreview.startsWith('blob:')) {
+            URL.revokeObjectURL(imagePreview);
+        }
+        setImageFile(null);
+        setImagePreview(null);
+    };
+
+    const handleEditImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!editData) return;
+        const file = e.target.files?.[0];
+        if (!file) {
+            clearEditImageSelection(editData.image_url);
+            return;
+        }
+
+        if (editImagePreview && editImagePreview.startsWith('blob:')) {
+            URL.revokeObjectURL(editImagePreview);
+        }
+
+        setEditImageFile(file);
+        setEditImagePreview(URL.createObjectURL(file));
+    };
+
+    const clearEditImageSelection = (fallbackUrl: string | null = null) => {
+        if (editImagePreview && editImagePreview.startsWith('blob:')) {
+            URL.revokeObjectURL(editImagePreview);
+        }
+        setEditImageFile(null);
+        setEditImagePreview(fallbackUrl || null);
+    };
+
+    const uploadTeamImage = async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('module', 'team');
+
+        const response = await fetch('/api/placement/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => null);
+            throw new Error(error?.error || 'Failed to upload image');
+        }
+
+        const result = await response.json();
+        return result.url as string;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -131,18 +202,20 @@ export default function PlacementTeamPage() {
             return;
         }
 
-        if (!formData.image_url.trim()) {
-            toast.error('Image URL is required');
+        if (!imageFile) {
+            toast.error('Profile image is required');
             return;
         }
 
         try {
             setIsSubmitting(true);
 
+            const imageUrl = await uploadTeamImage(imageFile);
+
             const response = await fetch('/api/placement/team', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({ ...formData, image_url: imageUrl })
             });
 
             if (!response.ok) {
@@ -166,11 +239,13 @@ export default function PlacementTeamPage() {
     const handleEdit = (member: TeamMember) => {
         setEditingId(member.id);
         setEditData({ ...member });
+        clearEditImageSelection(member.image_url || null);
     };
 
     const handleCancelEdit = () => {
         setEditingId(null);
         setEditData(null);
+        clearEditImageSelection();
     };
 
     const handleSaveEdit = async () => {
@@ -182,16 +257,30 @@ export default function PlacementTeamPage() {
             return;
         }
 
-        if (!editData.image_url.trim()) {
-            toast.error('Image URL is required');
+        if (!editData.image_url?.trim() && !editImageFile) {
+            toast.error('Profile image is required');
             return;
         }
 
         try {
+            setIsSavingEdit(true);
+            let payload: TeamMember | (TeamMember & { image_url: string }) = { ...editData };
+
+            if (editImageFile) {
+                const uploadedUrl = await uploadTeamImage(editImageFile);
+                payload = { ...payload, image_url: uploadedUrl };
+            }
+
+            if (!payload.image_url?.trim()) {
+                toast.error('Profile image is required');
+                setIsSavingEdit(false);
+                return;
+            }
+
             const response = await fetch('/api/placement/team', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(editData)
+                body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
@@ -202,10 +291,13 @@ export default function PlacementTeamPage() {
             toast.success('Team member updated successfully!');
             setEditingId(null);
             setEditData(null);
+            clearEditImageSelection();
             fetchTeamMembers();
         } catch (error: any) {
             console.error('Error updating team member:', error);
             toast.error(error.message || 'Failed to update team member');
+        } finally {
+            setIsSavingEdit(false);
         }
     };
 
@@ -374,21 +466,40 @@ export default function PlacementTeamPage() {
                                         />
                                     </div>
 
-                                    {/* Image URL */}
-                                    <div className="space-y-2">
-                                        <Label htmlFor="image_url" className="text-gray-700 font-medium">
-                                            Image URL *
+                                    {/* Profile Image */}
+                                    <div className="space-y-2 md:col-span-2">
+                                        <Label className="text-gray-700 font-medium">
+                                            Profile Image *
                                         </Label>
-                                        <Input
-                                            id="image_url"
-                                            name="image_url"
-                                            type="text"
-                                            placeholder="e.g., /uploads/team/john.jpg"
-                                            value={formData.image_url}
-                                            onChange={handleInputChange}
-                                            disabled={isSubmitting}
-                                            className="w-full"
-                                        />
+                                        <div className="flex flex-col sm:flex-row gap-4 items-start">
+                                            <div className="w-20 h-20 rounded-full border border-dashed border-gray-300 flex items-center justify-center bg-gray-50 overflow-hidden">
+                                                {imagePreview ? (
+                                                    <img
+                                                        src={imagePreview}
+                                                        alt="Preview"
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <Users className="w-6 h-6 text-gray-400" />
+                                                )}
+                                            </div>
+                                            <div className="flex-1 space-y-2">
+                                                <Input
+                                                    type="file"
+                                                    accept="image/png,image/jpeg,image/webp"
+                                                    onChange={handleImageChange}
+                                                    disabled={isSubmitting}
+                                                />
+                                                <p className="text-xs text-gray-500">
+                                                    Upload JPG, PNG, or WebP files up to 300KB.
+                                                </p>
+                                                {imageFile && (
+                                                    <p className="text-xs text-gray-600">
+                                                        Selected: <span className="font-medium">{imageFile.name}</span>
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -472,13 +583,40 @@ export default function PlacementTeamPage() {
                                                 {editingId === member.id && editData ? (
                                                     <>
                                                         <td className="px-4 py-4">
-                                                            <Input
-                                                                type="text"
-                                                                value={editData.image_url}
-                                                                onChange={(e) => handleEditInputChange(e, 'image_url')}
-                                                                className="w-full text-sm"
-                                                                placeholder="Image URL"
-                                                            />
+                                                            <div className="flex flex-col sm:flex-row gap-3 items-start">
+                                                                <div className="w-14 h-14 rounded-full border border-dashed border-gray-300 flex items-center justify-center bg-gray-50 overflow-hidden">
+                                                                    {(editImagePreview || editData.image_url) ? (
+                                                                        <img
+                                                                            src={editImagePreview || editData.image_url}
+                                                                            alt="Preview"
+                                                                            className="w-full h-full object-cover"
+                                                                        />
+                                                                    ) : (
+                                                                        <Users className="w-5 h-5 text-gray-400" />
+                                                                    )}
+                                                                </div>
+                                                                <div className="space-y-2 w-full">
+                                                                    <Input
+                                                                        type="file"
+                                                                        accept="image/png,image/jpeg,image/webp"
+                                                                        onChange={handleEditImageChange}
+                                                                        disabled={isSavingEdit}
+                                                                    />
+                                                                    <p className="text-[11px] text-gray-500">Upload JPG, PNG, or WebP files up to 300KB.</p>
+                                                                    {(editImageFile || editImagePreview) && (
+                                                                        <div className="flex items-center gap-2 text-xs text-gray-600">
+                                                                            <span className="font-medium">{editImageFile?.name || 'Existing image selected'}</span>
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={() => clearEditImageSelection(editData.image_url || null)}
+                                                                                className="text-red-600 hover:underline"
+                                                                            >
+                                                                                Clear
+                                                                            </button>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
                                                         </td>
                                                         <td className="px-4 py-4">
                                                             <Input
@@ -544,7 +682,7 @@ export default function PlacementTeamPage() {
                                                     <>
                                                         <td className="px-4 py-4">
                                                             <img
-                                                                src={member.image_url}
+                                                                src={member.image_url?.trim() ? member.image_url : '/placeholder-avatar.png'}
                                                                 alt={member.name}
                                                                 className="w-12 h-12 rounded-full object-cover"
                                                                 onError={(e) => {

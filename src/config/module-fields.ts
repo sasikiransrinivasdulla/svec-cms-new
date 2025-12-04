@@ -3386,6 +3386,18 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       tableName: 'bsh_fdps',
       displayField: 'title',
       fields: [
+         {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'FDPs Organized', value: 'fdp_organized' },
+            { label: 'Guest Lectures Organized', value: 'guest_lectures_organized' }
+          ],
+          description: 'Select whether this document is SOC or Syllabus'
+        },
         {
           name: 'title',
           label: 'FDP/Program Title',
@@ -7362,6 +7374,1414 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['title', 'year', 'category', 'created_at'],
       editableFields: ['title', 'year', 'category', 'file_url']
     }
+  },
+
+  // ================================================================================================
+  // ECT DEPARTMENT (Electronics & Communication Technology)
+  // Table Prefix: ect_*
+  // ================================================================================================
+   'ect': {
+
+
+    'faculty': {
+      tableName: 'ect_faculty',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Faculty Name',
+          type: 'text',
+          placeholder: 'e.g., Dr. John Smith',
+          required: true,
+          size: 'full',
+          description: 'Enter faculty member full name'
+        },
+
+        {
+          name: 'qualification',
+          label: 'Qualification',
+          type: 'text',
+          placeholder: 'e.g., Ph.D. in Computer Science',
+          required: false,
+          size: 'full',
+          description: 'Enter highest educational qualification'
+        },
+        {
+          name: 'designation',
+          label: 'Designation',
+          type: 'text',
+          placeholder: 'e.g., Professor',
+          required: true,
+          size: 'full',
+          description: 'Enter job designation'
+        },
+        {
+          name: 'profileUrl',
+          label: 'Profile PDF',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf',
+          description: 'Upload profile photo or image (JPG, PNG, GIF, or WebP)'
+        }
+      ],
+      searchableFields: ['title', 'designation'],
+      sortableFields: ['title', 'designation', 'created_at'],
+      editableFields: ['title', 'qualification', 'designation', 'profileUrl']
+    },
+    'workshops': {
+      tableName: 'ect_workshops',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the workshop category',
+          options: [
+
+            { value: 'Guest Lecturers/Seminars', label: 'Guest Lecturers/Seminars' },
+            { value: 'Workshops/SOC', label: 'Workshops/SOC' }
+          ]
+        },
+        {
+          name: 'title',
+          label: 'Workshop Title',
+          type: 'text',
+          placeholder: 'e.g., Machine Learning Fundamentals',
+          required: true,
+          size: 'full',
+          description: 'Enter the title of the workshop'
+        },
+
+        {
+          name: 'file_url',
+          label: 'Workshop Document/Brochure',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload workshop document, brochure, or image (PDF, DOC, or Image files)'
+        }
+      ],
+      searchableFields: ['title', 'category',],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category', 'file_url']
+    },
+    'technical-faculty': {
+      tableName: 'ect_technical_faculty',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Technical Faculty Name',
+          type: 'text',
+          placeholder: 'e.g., Mr. John Doe',
+          required: true,
+          size: 'full',
+          description: 'Enter technical faculty member full name'
+        },
+
+        {
+          name: 'designation',
+          label: 'Designation',
+          type: 'text',
+          placeholder: 'e.g., Lab Technician, Technical Officer',
+          required: true,
+          size: 'full',
+          description: 'Enter job designation'
+        },
+
+      ],
+      searchableFields: ['title', 'designation'],
+      sortableFields: ['title', 'designation', 'created_at'],
+      editableFields: ['title', 'designation']
+    },
+    'technical-association': {
+      tableName: 'ect_technical_association',
+      displayField: 'batch',
+      fields: [
+        {
+          name: 'title',
+          label: 'Title',
+          type: 'text',
+
+          required: true,
+          size: 'full',
+          description: 'Enter the batch year for this placement'
+        },
+        {
+          name: 'batch',
+          label: 'Batch',
+          type: 'text',
+          placeholder: 'Enter batch',
+          required: true,
+          size: 'full',
+          description: 'Enter the batch year for this placement'
+        },
+        {
+          name: 'file_url',
+          label: 'File Url',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx',
+          description: 'File Upload Guidelines\n• Maximum size: 1MB - Files larger than 1MB will be rejected\n• Supported formats: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX\n• Files will be stored in: /uploads/cseai/placements/'
+        }
+      ],
+      searchableFields: ['title', 'batch'],
+      sortableFields: ['title', 'batch', 'created_at'],
+      editableFields: ['title', 'batch', 'file_url']
+    },
+    'non-teaching-faculty': {
+      tableName: 'ect_non_teaching_faculty',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Staff Name',
+          type: 'text',
+          placeholder: 'e.g., Mr. Rajesh Kumar',
+          required: true,
+          size: 'full',
+          description: 'Enter non-teaching staff member full name'
+        },
+        {
+          name: 'designation',
+          label: 'Designation',
+          type: 'text',
+          placeholder: 'e.g., Office Assistant, Administrative Staff',
+          required: true,
+          size: 'full',
+          description: 'Enter job designation'
+        }
+      ],
+      searchableFields: ['title', 'designation'],
+      sortableFields: ['title', 'designation', 'created_at'],
+      editableFields: ['title', 'designation']
+    },
+    'academic-toppers': {
+      tableName: 'ect_academictoppers',
+      displayField: 'particulars',
+      fields: [
+        {
+          name: 'batch',
+          label: 'Batch',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: true,
+          size: 'half',
+          description: 'Enter the batch year'
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: true,
+          size: 'half',
+          description: 'Enter the academic year in YYYY-YY format'
+        },
+        {
+          name: 'particulars',
+          label: 'Particulars/Details',
+          type: 'text',
+          placeholder: 'e.g., Academic Toppers',
+          required: true,
+          size: 'full',
+          description: 'Enter details about the achievement'
+        },
+        {
+          name: 'no_of_students_benefited',
+          label: 'Number of Students Benefited',
+          type: 'number',
+          placeholder: 'e.g., 17',
+          required: false,
+          size: 'half',
+          description: 'Number of students who benefited'
+        },
+        {
+          name: 'scholarship_amount',
+          label: 'Scholarship Amount (₹)',
+          type: 'number',
+          placeholder: 'e.g., 99500',
+          required: false,
+          size: 'half',
+          description: 'Total scholarship amount in rupees'
+        },
+        {
+          name: 'file_url',
+          label: 'Certificate/Document Upload',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload certificate, document, or image (PDF, DOC, DOCX, or Image files)'
+        }
+      ],
+      searchableFields: ['batch', 'particulars', 'academic_year'],
+      sortableFields: ['batch', 'academic_year', 'no_of_students_benefited', 'created_at'],
+      editableFields: ['batch', 'academic_year', 'particulars', 'no_of_students_benefited', 'scholarship_amount', 'file_url']
+    },
+    'faculty-achievements': {
+      tableName: 'ect_faculty_achievements',
+      displayField: 'title',
+
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the type of achievement',
+          options: [
+            { value: 'Journal Publications', label: 'Journal Publications' },
+            { value: 'Conferences', label: 'Conferences' },
+            { value: 'Book Publications', label: 'Book Publications' },
+            { value: 'Certifications', label: 'Certifications' },
+            { value: 'Patents', label: 'Patents' },
+            { value: 'Research Supervisors', label: 'Research Supervisors' },
+            { value: 'Faculty Out-Reach', label: 'Faculty Out-Reach' }
+          ]
+        },
+        {
+          name: 'title',
+          label: 'Achievement Title',
+          type: 'text',
+          placeholder: 'e.g., Best Teacher Award, Paper Title, etc.',
+          required: true,
+          size: 'full',
+          description: 'Enter the title of the achievement, publication, or certification'
+        },
+        {
+          name: 'file_url',
+          label: 'Supporting Document',
+          type: 'file',
+          placeholder: 'Upload certificate, publication, or related document',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload supporting document, certificate, or publication (PDF, DOC, DOCX, or Image files max 1MB)'
+        }
+      ],
+      searchableFields: ['title', 'category'],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category', 'file_url']
+    },
+    'faculty-development': {
+      tableName: 'ect_faculty_development_programs',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Program Title',
+          type: 'text',
+          placeholder: 'e.g., Teaching with Technology Workshop',
+          required: true,
+          size: 'full',
+          description: 'Enter the faculty development program title'
+        },
+        {
+          name: 'category',
+          label: 'Program Type',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the program type',
+          options: [
+            { value: 'FDP Attended', label: 'Attended' },
+            { value: 'FDP Conducted', label: 'Conducted' },
+            { value: 'Workshops/Training', label: 'Workshops/Training' },
+
+          ]
+        },
+        {
+          name: 'year',
+          label: 'Year/Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024 or 2024-25',
+          required: false,
+          size: 'half',
+          description: 'Enter the year or academic year'
+        },
+        {
+          name: 'file_url',
+          label: 'Program Document/Certificate',
+          type: 'file',
+          placeholder: 'Upload program details or certificate',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload program document, certificate, or image (PDF, DOC, DOCX, or Image files max 1MB)'
+        }
+      ],
+      searchableFields: ['title', 'category', 'year'],
+      sortableFields: ['title', 'category', 'year', 'created_at'],
+      editableFields: ['title', 'category', 'year', 'file_url']
+    },
+    'placements': {
+      tableName: 'ect_placements',
+      displayField: 'batch',
+      fields: [
+        {
+          name: 'title',
+          label: 'Title',
+          type: 'text',
+
+          required: true,
+          size: 'full',
+          description: 'Enter the batch year for this placement'
+        },
+        {
+          name: 'batch',
+          label: 'Batch',
+          type: 'text',
+          placeholder: 'Enter batch',
+          required: true,
+          size: 'full',
+          description: 'Enter the batch year for this placement'
+        },
+        {
+          name: 'file_url',
+          label: 'File Url',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx',
+          description: 'File Upload Guidelines\n• Maximum size: 1MB - Files larger than 1MB will be rejected\n• Supported formats: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX\n• Files will be stored in: /uploads/cseai/placements/'
+        }
+      ],
+      searchableFields: ['title', 'batch'],
+      sortableFields: ['title', 'batch', 'created_at'],
+      editableFields: ['title', 'batch', 'file_url']
+    },
+    'hackathons-gallery': {
+      tableName: 'ect_hackathons_gallery',
+      displayField: 'category',
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'full',
+          description: 'Select the gallery category',
+          options: [
+            { value: 'hackathon', label: 'Hackathon' },
+            { value: 'toppers', label: 'Academic Toppers' },
+            { value: 'technical', label: 'Technical Association' },
+            { value: 'activities', label: 'Extracurricular Activities' },
+            { value: 'labs', label: 'Laboratories' },
+            { value: 'placements', label: 'Placements' },
+            { value: 'training', label: 'Training Activities' },
+            { value: 'gate', label: 'GATE' },
+            { value: 'honour', label: 'Roll of Honour' },
+            { value: 'workshops', label: 'Workshops' },
+            { value: 'lectures', label: 'Guest Lecturers' },
+            { value: 'faculty', label: 'Faculty Development Programs' },
+
+
+          ]
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-2025',
+          required: true,
+          size: 'half',
+          description: 'Enter the academic year'
+        },
+        {
+          name: 'gallery',
+          label: 'Gallery Image',
+          type: 'file',
+          required: true,
+          size: 'half',
+          accept: '.jpg,.jpeg,.png,.gif,.webp',
+          description: 'Upload a single image for the gallery (JPG, PNG, GIF, or WebP)'
+        }
+      ],
+      searchableFields: ['category', 'academic_year'],
+      sortableFields: ['category', 'academic_year', 'created_at'],
+      editableFields: ['category', 'academic_year', 'gallery']
+    },
+    'bos-members': {
+      tableName: 'ect_bos_members',
+      displayField: 'name',
+      fields: [
+        {
+          name: 'name',
+          label: 'Member Name',
+          type: 'text',
+          placeholder: 'e.g., Dr. John Smith',
+          required: true,
+          size: 'full'
+        },
+        {
+          name: 'designation',
+          label: 'Designation',
+          type: 'text',
+          placeholder: 'e.g., Professor, Industry Expert',
+          required: false,
+          size: 'half'
+        },
+        {
+          name: 'organization',
+          label: 'Organization',
+          type: 'text',
+          placeholder: 'e.g., XYZ University, ABC Corporation',
+          required: false,
+          size: 'half'
+        },
+        {
+          name: 'position_in_job',
+          label: 'Position',
+          type: 'text',
+          placeholder: 'e.g., Head of Department, Director',
+          required: false,
+          size: 'full'
+        }
+      ],
+      searchableFields: ['name', 'designation', 'organization'],
+      sortableFields: ['name', 'designation', 'organization', 'created_at'],
+      editableFields: ['name', 'designation', 'organization', 'position_in_job']
+    },
+    'bos-minutes': {
+      tableName: 'ect_bos_minutes',
+      displayField: 'meeting_no',
+      fields: [
+        {
+          name: 'meeting_no',
+          label: 'Meeting Number',
+          type: 'text',
+          placeholder: 'e.g., 1st, 2nd, 3rd',
+          required: true,
+          size: 'half',
+          description: 'Enter the meeting number'
+        },
+        {
+          name: 'meeting_date',
+          label: 'Meeting Date',
+          type: 'date',
+          required: true,
+          size: 'half',
+          description: 'Select the meeting date'
+        },
+        {
+          name: 'file_url',
+          label: 'Meeting Minutes File',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload meeting minutes document (PDF, DOC, or DOCX format)'
+        }
+      ],
+      searchableFields: ['meeting_no', 'meeting_date'],
+      sortableFields: ['meeting_date', 'meeting_no', 'created_at'],
+      editableFields: ['meeting_no', 'meeting_date', 'file_url']
+    },
+
+    'eresources': {
+      tableName: 'ect_eresources',
+      displayField: 'subject_name',
+      fields: [
+        {
+          name: 'regulation',
+          label: 'Regulation',
+          type: 'text',
+          placeholder: 'e.g., R18, R20',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'semester',
+          label: 'Semester',
+          type: 'text',
+          placeholder: 'e.g., 1, 2, 3',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'subject_name',
+          label: 'Subject Name',
+          type: 'text',
+          placeholder: 'e.g., Data Structures',
+          required: true,
+          size: 'full'
+        },
+        {
+          name: 'file_type',
+          label: 'File Type',
+          type: 'select',
+          required: false,
+          size: 'half',
+          options: [
+            { value: 'PPT', label: 'PowerPoint (PPT)' },
+            { value: 'PDF', label: 'PDF' },
+            { value: 'DOCX', label: 'Document (DOCX)' },
+            { value: 'XLS', label: 'Spreadsheet (XLS)' },
+            { value: 'Video', label: 'Video' },
+            { value: 'Other', label: 'Other' }
+          ]
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: false,
+          size: 'half'
+        },
+        {
+          name: 'file_url',
+          label: 'Resource File',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.ppt,.pptx,.docx,.xls,.xlsx,.mp4,.mov'
+        }
+      ],
+      searchableFields: ['subject_name', 'regulation', 'semester'],
+      sortableFields: ['subject_name', 'regulation', 'semester', 'academic_year'],
+      editableFields: ['regulation', 'semester', 'subject_name', 'file_type', 'academic_year', 'file_url']
+    },
+    'hackathons': {
+      tableName: 'ect_hackathons',
+      displayField: 'title',
+      fields: [
+
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: true,
+          size: 'half'
+        },
+
+
+
+        {
+          name: 'brochure_url',
+          label: 'Brochure',
+          type: 'file',
+          required: false,
+          size: 'half',
+          accept: '.pdf,.jpg,.jpeg,.png'
+        },
+        {
+          name: 'winners_url',
+          label: 'Winners Details',
+          type: 'file',
+          required: false,
+          size: 'half',
+          accept: '.pdf,.doc,.docx'
+        }
+      ],
+      searchableFields: ['title', 'academic_year'],
+      sortableFields: ['title', 'academic_year', 'created_at'],
+      editableFields: ['title', 'academic_year', 'brochure_url', 'winners_url']
+    },
+    'newsletters': {
+      tableName: 'ect_newsletters',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Newsletter Title',
+          type: 'text',
+          placeholder: 'e.g., Monthly Newsletter',
+          required: true,
+          size: 'full'
+        },
+        {
+          name: 'volume',
+          label: 'Volume',
+          type: 'number',
+          placeholder: 'e.g., 1',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'issue',
+          label: 'Issue',
+          type: 'number',
+          placeholder: 'e.g., 1, 2, 3',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'year',
+          label: 'Year',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: true,
+          size: 'half'
+        },
+
+        {
+          name: 'file_url',
+          label: 'Newsletter PDF',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf'
+        }
+      ],
+      searchableFields: ['title', 'year', 'volume'],
+      sortableFields: ['title', 'volume', 'issue', 'year'],
+      editableFields: ['title', 'volume', 'issue', 'year', 'file_url']
+    },
+    'merit-scholarships': {
+      tableName: 'ect_merit_scholarships',
+      displayField: 'particulars',
+      fields: [
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: false,
+          size: 'half'
+        },
+        {
+          name: 'particulars',
+          label: 'Details',
+          type: 'text',
+          placeholder: 'e.g., Merit Scholarship Details',
+          required: false,
+          size: 'full'
+        },
+        {
+          name: 'students_benefited',
+          label: 'Number of Students Benefited',
+          type: 'number',
+          placeholder: 'e.g., 50',
+          required: false,
+          size: 'half'
+        },
+        {
+          name: 'scholarship_amount',
+          label: 'Total Scholarship Amount (₹)',
+          type: 'number',
+          placeholder: 'e.g., 500000',
+          required: false,
+          size: 'half'
+        }
+      ],
+      searchableFields: ['particulars', 'academic_year'],
+      sortableFields: ['academic_year', 'scholarship_amount', 'students_benefited'],
+      editableFields: ['academic_year', 'particulars', 'students_benefited', 'scholarship_amount']
+    },
+    'mous': {
+      tableName: 'ect_mous',
+      displayField: 'mou_with',
+      fields: [
+        {
+          name: 'mou_with',
+          label: 'Organization/Institute',
+          type: 'text',
+          placeholder: 'e.g., IIT Delhi, Google India, Microsoft',
+          required: true,
+          size: 'full'
+        },
+        {
+          name: 'from_date',
+          label: 'MOU Start Date',
+          type: 'text',
+          placeholder: 'e.g., 2024-01-15 or 01-01-2024',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'to_date',
+          label: 'MOU End Date',
+          type: 'text',
+          placeholder: 'e.g., 2026-01-14 or 31-12-2026',
+          required: true,
+          size: 'half'
+        },
+        {
+          name: 'status',
+          label: 'MOU Status',
+          type: 'select',
+          required: true,
+          size: 'half',
+          options: [
+            { value: 'Till Date', label: 'Till Date' },
+            { value: 'Expired', label: 'Expired' },
+            { value: 'Terminated', label: 'Terminated' },
+
+          ]
+        },
+        {
+          name: 'file_url',
+          label: 'MOU Document',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload the MOU document or agreement (PDF, DOC, DOCX, or Image files)'
+        }
+      ],
+      searchableFields: ['mou_with', 'status'],
+      sortableFields: ['mou_with', 'from_date', 'to_date', 'status', 'created_at'],
+      editableFields: ['mou_with', 'from_date', 'to_date', 'status', 'file_url']
+    },
+    'industry-programs': {
+      tableName: 'ect_industry_programs',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Program Title',
+          type: 'text',
+          placeholder: 'e.g., Industry Interaction Session, Corporate Training',
+          required: true,
+          size: 'full',
+          description: 'Enter the title of the industry program or interaction'
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: true,
+          size: 'half',
+          description: 'Enter the academic year'
+        },
+
+        {
+          name: 'file_url',
+          label: 'Program Document/Brochure',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload program details, brochure, or related document (PDF, DOC, DOCX, or Image files)'
+        }
+      ],
+      searchableFields: ['title', 'academic_year'],
+      sortableFields: ['title', 'academic_year'],
+      editableFields: ['title', 'academic_year', 'file_url']
+    },
+    'syllabus': {
+      tableName: 'ect_syllabus',
+      displayField: 'title',
+
+      fields: [
+        {
+          name: 'type',
+          label: 'Type',
+          type: 'select',              // dropdown
+          required: true,
+          size: 'full',
+          options: [
+            { label: 'SOC', value: 'soc' },
+            { label: 'Syllabus', value: 'syllabus' }
+          ],
+          description: 'Select whether this document is SOC or Syllabus'
+        },
+        {
+          name: 'title',
+          label: 'Syllabus Title',
+          type: 'text',
+          placeholder: 'e.g., B.Tech CSE-AI - II Year Syllabus',
+          required: true,
+          size: 'full',
+          description: 'Enter the title or name of the syllabus document',
+          validation: {
+            min: 5,
+            max: 200,
+            pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
+            message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
+          }
+        },
+        {
+          name: 'fileUrl',
+          label: 'Syllabus PDF Document',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload the syllabus document (PDF, DOC, or DOCX format). Old files are automatically managed.'
+        }
+      ],
+
+      searchableFields: ['title', 'type'],
+      sortableFields: ['title', 'created_at'],
+      editableFields: ['type', 'title', 'fileUrl']
+    },
+
+    'student-achievements': {
+      tableName: 'ect_student_achievements',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: false,
+          size: 'half',
+          options: [
+            { value: 'Internships', label: 'Internships' },
+            { value: 'Journals', label: 'Journals' },
+            { value: 'Conference Publications', label: 'Conference Publications' },
+            { value: 'NPTEL/Other Certifications', label: 'NPTEL/Other Certifications' },
+            { value: 'Global Certifications', label: 'Global Certifications' },
+            { value: 'Community Service Project', label: 'Community Service Project' },
+            { value: 'Student Research Projects', label: 'Student Research Projects' },
+            { value: 'Awards', label: 'Awards' },
+            { value: 'GIF', label: 'GIF' }
+          ]
+        },
+        {
+          name: 'year',
+          label: 'Year',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: false,
+          size: 'half',
+          description: 'Academic year'
+        },
+        {
+          name: 'title',
+          label: 'Achievement Title',
+          type: 'text',
+          required: true,
+          size: 'full'
+        },
+        {
+          name: 'file_url',
+          label: 'Certificate/Image',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.jpg,.jpeg,.png'
+        }
+      ],
+      searchableFields: ['title', 'category', 'year'],
+      sortableFields: ['title', 'category', 'year', 'created_at'],
+      editableFields: ['title', 'category', 'year', 'file_url']
+    },
+    'extra-curricular': {
+      tableName: 'ect_extracurricular_activities',
+      displayField: 'activity_name',
+      fields: [
+        {
+          name: 'activity_name',
+          label: 'Activity Name',
+          type: 'text',
+          placeholder: 'e.g., Maitri Association, Tech Club',
+          required: true,
+          size: 'full',
+          description: 'Name of the extra-curricular activity/association'
+        },
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Type of activity',
+          options: [
+            { value: 'social_service', label: 'Social Service' },
+            { value: 'cultural', label: 'Cultural' },
+            { value: 'sports', label: 'Sports' },
+            { value: 'technical', label: 'Technical' },
+            { value: 'professional', label: 'Professional Society' },
+            { value: 'community', label: 'Community Service' }
+          ]
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: false,
+          size: 'half',
+          description: 'Academic year of the activity'
+        },
+        {
+          name: 'description',
+          label: 'Description',
+          type: 'textarea',
+          placeholder: 'Enter detailed description of the activity',
+          required: true,
+          size: 'full',
+          rows: 6,
+          description: 'Detailed information about the activity'
+        },
+        {
+          name: 'faculty_coordinator_name',
+          label: 'Faculty Coordinator Name',
+          type: 'text',
+          placeholder: 'e.g., Mr. M Yesu Sekharam',
+          required: false,
+          size: 'full',
+          description: 'Name of the primary faculty coordinator'
+        },
+        {
+          name: 'faculty_coordinator_designation',
+          label: 'Coordinator Designation',
+          type: 'text',
+          placeholder: 'e.g., Assistant Professor',
+          required: false,
+          size: 'half',
+          description: 'Designation of the coordinator'
+        },
+        {
+          name: 'image_url',
+          label: 'Activity Cover Image',
+          type: 'file',
+          required: false,
+          size: 'half',
+          accept: '.jpg,.jpeg,.png,.gif,.webp',
+          description: 'Cover image for the activity'
+        },
+        {
+          name: 'status',
+          label: 'Status',
+          type: 'select',
+          required: true,
+          size: 'half',
+          options: [
+            { value: 'active', label: 'Active' },
+            { value: 'inactive', label: 'Inactive' },
+            { value: 'archived', label: 'Archived' }
+          ],
+          description: 'Activity status'
+        }
+      ],
+      searchableFields: ['activity_name', 'category', 'faculty_coordinator_name'],
+      sortableFields: ['activity_name', 'category', 'academic_year', 'created_at'],
+      editableFields: [
+        'activity_name',
+        'category',
+        'academic_year',
+        'description',
+        'faculty_coordinator_name',
+        'faculty_coordinator_designation',
+        'image_url',
+        'status'
+      ]
+    },
+    'activity-coordinators': {
+      tableName: 'ect_activity_coordinators',
+      displayField: 'name',
+      fields: [
+        {
+          name: 'activity_id',
+          label: 'Activity ID',
+          type: 'number',
+          placeholder: 'e.g., 1',
+          required: true,
+          size: 'half',
+          hidden: true,
+          description: 'Internal: Activity reference ID'
+        },
+        {
+          name: 'name',
+          label: 'Coordinator Name',
+          type: 'text',
+          placeholder: 'e.g., Mr. M Yesu Sekharam',
+          required: true,
+          size: 'full',
+          description: 'Name of the coordinator'
+        },
+        {
+          name: 'designation',
+          label: 'Designation',
+          type: 'text',
+          placeholder: 'e.g., Assistant Professor',
+          required: false,
+          size: 'half',
+          description: 'Job designation'
+        },
+        {
+          name: 'role',
+          label: 'Role Type',
+          type: 'select',
+          required: true,
+          size: 'half',
+          options: [
+            { value: 'faculty_coordinator', label: 'Faculty Coordinator' },
+            { value: 'student_coordinator', label: 'Student Coordinator' },
+            { value: 'co_coordinator', label: 'Co-Coordinator' }
+          ],
+          description: 'Coordinator role type'
+        },
+        {
+          name: 'email',
+          label: 'Email',
+          type: 'email',
+          placeholder: 'e.g., name@example.com',
+          required: false,
+          size: 'half',
+          description: 'Contact email address'
+        },
+        {
+          name: 'phone',
+          label: 'Phone',
+          type: 'text',
+          placeholder: 'e.g., +91 9876543210',
+          required: false,
+          size: 'half',
+          description: 'Contact phone number'
+        },
+        {
+          name: 'order_seq',
+          label: 'Display Order',
+          type: 'number',
+          placeholder: 'e.g., 1',
+          required: false,
+          size: 'half',
+          description: 'Order of display in frontend'
+        }
+      ],
+      searchableFields: ['name', 'designation', 'role'],
+      sortableFields: ['name', 'role', 'order_seq', 'created_at'],
+      editableFields: ['name', 'designation', 'role', 'email', 'phone', 'order_seq']
+    },
+    'activity-events': {
+      tableName: 'ect_activity_events',
+      displayField: 'event_title',
+      fields: [
+        {
+          name: 'activity_id',
+          label: 'Activity ID',
+          type: 'number',
+          placeholder: 'e.g., 1',
+          required: true,
+          size: 'half',
+          hidden: true,
+          description: 'Internal: Activity reference ID'
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2023-24',
+          required: true,
+          size: 'half',
+          description: 'Year the event was conducted'
+        },
+        {
+          name: 'event_title',
+          label: 'Event Title',
+          type: 'text',
+          placeholder: 'e.g., Maitri Event 2023',
+          required: true,
+          size: 'full',
+          description: 'Title or name of the event'
+        },
+        {
+          name: 'event_date',
+          label: 'Event Date',
+          type: 'date',
+          required: false,
+          size: 'half',
+          description: 'Date the event was conducted'
+        },
+        {
+          name: 'description',
+          label: 'Event Description',
+          type: 'textarea',
+          placeholder: 'Enter event details and outcomes',
+          required: false,
+          size: 'full',
+          rows: 4,
+          description: 'Detailed description of the event'
+        },
+        {
+          name: 'file_url',
+          label: 'Event Document/Report',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload event report, certificate, or document'
+        },
+        {
+          name: 'image_url',
+          label: 'Event Photo',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.jpg,.jpeg,.png,.gif,.webp',
+          description: 'Upload event photo/image'
+        }
+      ],
+      searchableFields: ['event_title', 'academic_year'],
+      sortableFields: ['event_title', 'event_date', 'academic_year', 'created_at'],
+      editableFields: ['academic_year', 'event_title', 'event_date', 'description', 'file_url', 'image_url']
+    },
+    'activity-gallery': {
+      tableName: 'ect_activity_gallery',
+      displayField: 'image_title',
+      fields: [
+        {
+          name: 'activity_id',
+          label: 'Activity ID',
+          type: 'number',
+          placeholder: 'e.g., 1',
+          required: true,
+          size: 'half',
+          hidden: true,
+          description: 'Internal: Activity reference ID'
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: false,
+          size: 'half',
+          description: 'Year of the activity'
+        },
+        {
+          name: 'image_url',
+          label: 'Gallery Image',
+          type: 'file',
+          required: true,
+          size: 'full',
+          accept: '.jpg,.jpeg,.png,.gif,.webp',
+          description: 'Upload image for gallery (JPG, PNG, GIF, or WebP)'
+        },
+        {
+          name: 'image_title',
+          label: 'Image Caption/Title',
+          type: 'text',
+          placeholder: 'e.g., Maitri Event Group Photo',
+          required: false,
+          size: 'full',
+          description: 'Caption or title for the image'
+        },
+        {
+          name: 'description',
+          label: 'Image Description',
+          type: 'textarea',
+          placeholder: 'Enter description of the image',
+          required: false,
+          size: 'full',
+          rows: 3,
+          description: 'Detailed description of what the image shows'
+        },
+        {
+          name: 'order_seq',
+          label: 'Display Order',
+          type: 'number',
+          placeholder: 'e.g., 1',
+          required: false,
+          size: 'half',
+          description: 'Order of display in gallery'
+        }
+      ],
+      searchableFields: ['image_title', 'academic_year'],
+      sortableFields: ['image_title', 'academic_year', 'order_seq', 'created_at'],
+      editableFields: ['academic_year', 'image_url', 'image_title', 'description', 'order_seq']
+    },
+    'department-overview': {
+      tableName: 'ect_department_overview',
+      displayField: 'hod_name',
+      fields: [
+        {
+          name: 'hod_name',
+          label: 'HOD Name',
+          type: 'text',
+
+          required: true,
+          size: 'full',
+          description: 'Enter the full name of the Head of Department'
+        },
+        {
+          name: 'hod_email',
+          label: 'HOD Email',
+          type: 'email',
+
+          required: false,
+          size: 'half',
+          description: 'Enter HOD email address'
+        },
+        {
+          name: 'hod_qualification',
+          label: 'HOD Qualification',
+          type: 'text',
+          required: false,
+          size: 'half',
+          description: 'Enter highest educational qualification'
+        },
+        {
+          name: 'hod_image_url',
+          label: 'HOD Image',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.jpg,.jpeg,.png,.gif,.webp',
+          description: 'Upload HOD profile image (JPG, PNG, GIF, or WebP format)'
+        },
+        {
+          name: 'description',
+          label: 'Department Description',
+          type: 'textarea',
+          placeholder: 'Enter department description and overview',
+          required: false,
+          size: 'full',
+          rows: 6,
+          description: 'Detailed description of the department'
+        }
+      ],
+      searchableFields: ['hod_name', 'hod_email'],
+      sortableFields: ['hod_name', 'created_at'],
+      editableFields: ['hod_name', 'hod_email', 'hod_qualification', 'hod_image_url', 'description']
+    },
+    'gate': {
+      tableName: 'ect_gate',
+      displayField: 'name',
+      fields: [
+        {
+          name: 'rollno',
+          label: 'Roll Number',
+          type: 'text',
+
+          required: true,
+          size: 'half',
+          description: 'Student roll number'
+        },
+        {
+          name: 'name',
+          label: 'Student Name',
+          type: 'text',
+
+          required: true,
+          size: 'half',
+          description: 'Full name of the student'
+        },
+        {
+          name: 'score',
+          label: 'GATE Score',
+          type: 'number',
+          placeholder: 'Enter score',
+          required: true,
+          size: 'half',
+          description: 'GATE exam score'
+        },
+        {
+          name: 'year',
+          label: 'Year',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: true,
+          size: 'half',
+          description: 'Academic year'
+        }
+      ],
+      searchableFields: ['name', 'roll_no'],
+      sortableFields: ['name', 'score', 'year', 'created_at'],
+      editableFields: ['name', 'score', 'year']
+    },
+    'roll-of-honour': {
+      tableName: 'ect_roll_of_honour',
+      displayField: 'name',
+      fields: [
+        {
+          name: 'rollno',
+          label: 'Roll Number',
+          type: 'text',
+          placeholder: 'e.g., CST2021001',
+          required: true,
+          size: 'half',
+          description: 'Student roll number'
+        },
+        {
+          name: 'name',
+          label: 'Student Name',
+          type: 'text',
+          placeholder: 'Enter full name',
+          required: true,
+          size: 'half',
+          description: 'Full name of the student'
+        },
+        {
+          name: 'batch',
+          label: 'Batch',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: true,
+          size: 'half',
+          description: 'Batch/Year'
+        },
+        {
+          name: 'cgpa',
+          label: 'CGPA',
+          type: 'text',
+          placeholder: 'e.g., 9.5',
+          required: true,
+          size: 'half',
+          description: 'Cumulative Grade Point Average'
+        }
+      ],
+      searchableFields: ['name', 'rollno', 'batch'],
+      sortableFields: ['name', 'cgpa', 'batch', 'created_at'],
+      editableFields: ['name', 'batch', 'cgpa']
+    },
+    'sahaya-events': {
+      tableName: 'ect_sahaya_events',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Title',
+          type: 'text',
+          placeholder: 'e.g., Sahaya Events',
+          required: true,
+          size: 'full',
+          description: 'Enter the title for the Sahaya event section',
+          validation: {
+            max: 1000,
+            message: 'Title must not exceed 1000 characters'
+          }
+        },
+        {
+          name: 'year',
+          label: 'Year',
+          type: 'text',
+          placeholder: 'e.g., 2024',
+          required: true,
+          size: 'half',
+          description: 'Enter the year of the event'
+        },
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the category for this event',
+          options: [
+            { value: 'ecactivities', label: 'EC Activities' },
+            { value: 'sahaya', label: 'Sahaya' }
+          ]
+        },
+        {
+          name: 'file_url',
+          label: 'Event Document/PDF',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload event document, certificate, or related file (PDF, DOC, DOCX, or Image files)'
+        }
+      ],
+      searchableFields: ['title', 'year', 'category'],
+      sortableFields: ['title', 'year', 'category', 'created_at'],
+      editableFields: ['title', 'year', 'category', 'file_url']
+    }
   }
 };
 
@@ -7407,4 +8827,3 @@ export function getSearchableFields(dept: string, module: string): string[] {
   const config = getModuleFieldConfig(dept, module);
   return config?.searchableFields || ['title', 'name', 'description'];
 }
-

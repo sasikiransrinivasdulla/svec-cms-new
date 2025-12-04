@@ -24,43 +24,6 @@ export async function GET(request: NextRequest) {
       console.log('No JNTUK data found in database, returning mock data');
       
       const mockJNTUKData = [
-        // Timetables
-        {
-          sno: 1,
-          date: '2024-03-01',
-          content: 'B.Tech III Year I Semester Regular Examinations Time Table - May 2024',
-          degree: 'UG',
-          type: 'timetable',
-          link: '/documents/jntuk-ug-timetable-may-2024.pdf',
-          posteddate: '2024-02-20'
-        },
-        {
-          sno: 2,
-          date: '2024-03-05',
-          content: 'B.Tech II Year I Semester Regular Examinations Time Table - May 2024',
-          degree: 'UG',
-          type: 'timetable',
-          link: '/documents/jntuk-ug-ii-year-timetable-may-2024.pdf',
-          posteddate: '2024-02-22'
-        },
-        {
-          sno: 3,
-          date: '2024-03-01',
-          content: 'M.Tech I Year I Semester Regular Examinations Time Table - May 2024',
-          degree: 'PG',
-          type: 'timetable',
-          link: '/documents/jntuk-pg-timetable-may-2024.pdf',
-          posteddate: '2024-02-25'
-        },
-        {
-          sno: 4,
-          date: '2024-03-10',
-          content: 'MBA I Year I Semester Regular Examinations Time Table - May 2024',
-          degree: 'PG',
-          type: 'timetable',
-          link: '/documents/jntuk-mba-timetable-may-2024.pdf',
-          posteddate: '2024-02-28'
-        },
         // Results
         {
           sno: 5,

@@ -181,25 +181,33 @@ const Academics: React.FC = () => {
         console.log('UG Autonomous data:', autonomousData.data?.UG);
         console.log('PG Autonomous data:', autonomousData.data?.PG);
 
-        // Set JNTUK exam section data organized by degree and type
+        // Set JNTUK exam section data - organize timetables by degree
+        const normalizeType = (type: string = '') => {
+          const lower = type.toLowerCase();
+          if (lower === 'timetable' || lower === 'timetables') return 'Timetables';
+          if (lower === 'results' || lower === 'result') return 'Results';
+          if (lower.includes('revaluation')) return 'Revaluation Results';
+          if (lower.includes('fee')) return 'Fee Notifications';
+          if (lower.includes('download')) return 'Downloads';
+          return type || 'Others';
+        };
+
         const jntukByDegree: { [key: string]: { [key: string]: JNTUKTimetable[] } } = {
           UG: {},
           PG: {}
         };
-        
+
         (Array.isArray(jntukTimetablesData) ? jntukTimetablesData : []).forEach((item: JNTUKTimetable) => {
-          const degree = item.degree as keyof typeof jntukByDegree;
-          if (!jntukByDegree[degree]) {
-            jntukByDegree[degree] = {};
+          const degree = (item.degree?.toUpperCase() === 'PG' ? 'PG' : 'UG') as 'UG' | 'PG';
+          const normalizedType = normalizeType(item.type);
+          if (!jntukByDegree[degree][normalizedType]) {
+            jntukByDegree[degree][normalizedType] = [];
           }
-          if (!jntukByDegree[degree][item.type]) {
-            jntukByDegree[degree][item.type] = [];
-          }
-          jntukByDegree[degree][item.type].push(item);
+          jntukByDegree[degree][normalizedType].push(item);
         });
-        
-        setUgJNTUKData(jntukByDegree.UG || {});
-        setPgJNTUKData(jntukByDegree.PG || {});
+
+        setUgJNTUKData(jntukByDegree.UG);
+        setPgJNTUKData(jntukByDegree.PG);
       } catch (err) {
         console.error('Error fetching academic data:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');

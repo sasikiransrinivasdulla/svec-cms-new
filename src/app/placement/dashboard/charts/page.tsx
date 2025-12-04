@@ -30,6 +30,10 @@ interface ChartData {
     ece: number;
     cse: number;
     mba: number;
+    aiml: number;
+    cai: number;
+    ect: number;
+    cst: number;
     created_at: string;
 }
 
@@ -50,7 +54,11 @@ export default function PlacementChartsPage() {
         eee: 0,
         ece: 0,
         cse: 0,
-        mba: 0
+        mba: 0,
+        aiml: 0,
+        cai: 0,
+        ect: 0,
+        cst: 0
     });
 
     // Edit state
@@ -103,7 +111,11 @@ export default function PlacementChartsPage() {
             eee: 0,
             ece: 0,
             cse: 0,
-            mba: 0
+            mba: 0,
+            aiml: 0,
+            cai: 0,
+            ect: 0,
+            cst: 0
         });
         setShowAddForm(false);
         setEditingId(null);
@@ -130,7 +142,11 @@ export default function PlacementChartsPage() {
                 eee: formData.eee,
                 ece: formData.ece,
                 cse: formData.cse,
-                mba: formData.mba
+                mba: formData.mba,
+                aiml: formData.aiml,
+                cai: formData.cai,
+                ect: formData.ect,
+                cst: formData.cst
             };
 
             if (editingId) {
@@ -171,7 +187,11 @@ export default function PlacementChartsPage() {
             eee: chart.eee,
             ece: chart.ece,
             cse: chart.cse,
-            mba: chart.mba
+            mba: chart.mba,
+            aiml: chart.aiml ?? 0,
+            cai: chart.cai ?? 0,
+            ect: chart.ect ?? 0,
+            cst: chart.cst ?? 0
         });
     };
 
@@ -374,6 +394,74 @@ export default function PlacementChartsPage() {
                                             className="w-full"
                                         />
                                     </div>
+
+                                    {/* AIML */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="aiml" className="text-gray-700 font-medium text-sm">
+                                            AIML
+                                        </Label>
+                                        <Input
+                                            id="aiml"
+                                            name="aiml"
+                                            type="number"
+                                            min="0"
+                                            value={formData.aiml}
+                                            onChange={handleInputChange}
+                                            disabled={isSubmitting}
+                                            className="w-full"
+                                        />
+                                    </div>
+
+                                    {/* CAI */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="cai" className="text-gray-700 font-medium text-sm">
+                                            CAI
+                                        </Label>
+                                        <Input
+                                            id="cai"
+                                            name="cai"
+                                            type="number"
+                                            min="0"
+                                            value={formData.cai}
+                                            onChange={handleInputChange}
+                                            disabled={isSubmitting}
+                                            className="w-full"
+                                        />
+                                    </div>
+
+                                    {/* ECT */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="ect" className="text-gray-700 font-medium text-sm">
+                                            ECT
+                                        </Label>
+                                        <Input
+                                            id="ect"
+                                            name="ect"
+                                            type="number"
+                                            min="0"
+                                            value={formData.ect}
+                                            onChange={handleInputChange}
+                                            disabled={isSubmitting}
+                                            className="w-full"
+                                        />
+                                    </div>
+
+                                    {/* CST */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="cst" className="text-gray-700 font-medium text-sm">
+                                            CST
+                                        </Label>
+                                        <Input
+                                            id="cst"
+                                            name="cst"
+                                            type="number"
+                                            min="0"
+                                            value={formData.cst}
+                                            onChange={handleInputChange}
+                                            disabled={isSubmitting}
+                                            className="w-full"
+                                        />
+                                    </div>
                                 </div>
 
                                 {/* Action Buttons */}
@@ -448,13 +536,17 @@ export default function PlacementChartsPage() {
                                             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">ECE</th>
                                             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">CSE</th>
                                             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">MBA</th>
+                                            <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">AIML</th>
+                                            <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">CAI</th>
+                                            <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">ECT</th>
+                                            <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">CST</th>
                                             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Total</th>
                                             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {chartData.map((chart) => {
-                                            const total = chart.civil + chart.mech + chart.eee + chart.ece + chart.cse + chart.mba;
+                                            const total = chart.civil + chart.mech + chart.eee + chart.ece + chart.cse + chart.mba + (chart.aiml || 0) + (chart.cai || 0) + (chart.ect || 0) + (chart.cst || 0);
                                             return (
                                                 <tr key={chart.id} className="border-b border-gray-100 hover:bg-orange-50/50 transition-colors">
                                                     <td className="px-4 py-4 text-sm font-bold text-gray-800">{chart.year}</td>
@@ -464,6 +556,10 @@ export default function PlacementChartsPage() {
                                                     <td className="px-4 py-4 text-center text-sm text-gray-700">{chart.ece}</td>
                                                     <td className="px-4 py-4 text-center text-sm text-gray-700">{chart.cse}</td>
                                                     <td className="px-4 py-4 text-center text-sm text-gray-700">{chart.mba}</td>
+                                                    <td className="px-4 py-4 text-center text-sm text-gray-700">{chart.aiml ?? 0}</td>
+                                                    <td className="px-4 py-4 text-center text-sm text-gray-700">{chart.cai ?? 0}</td>
+                                                    <td className="px-4 py-4 text-center text-sm text-gray-700">{chart.ect ?? 0}</td>
+                                                    <td className="px-4 py-4 text-center text-sm text-gray-700">{chart.cst ?? 0}</td>
                                                     <td className="px-4 py-4 text-center text-sm font-bold text-orange-600">{total}</td>
                                                     <td className="px-4 py-4">
                                                         <div className="flex items-center justify-center gap-2">

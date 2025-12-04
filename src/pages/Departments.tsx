@@ -81,7 +81,7 @@ const Departments: React.FC = () => {
     },
     {
       id: 'ect',
-      name: 'Electronics & Computer Engineering',
+      name: 'Electronics & Communication Technology',
       icon: Microchip,
       description: 'Advanced electronics and computer systems with focus on emerging technologies.',
       image: '/images/departments/ect/banner.jpg',

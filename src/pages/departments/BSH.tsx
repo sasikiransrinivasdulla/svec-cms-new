@@ -23,7 +23,7 @@ const BSHDepartment: React.FC = () => {
     { id: 'Activities', label: 'Activities', icon: <Activity className="w-4 h-4" /> },
     { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
     { id: 'Results', label: 'Results', icon: <Award className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
+    //{ id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
@@ -520,23 +520,27 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {resultsError}</div>
             ) : (
               <div className="nav-content mb-2">
-                <details open>
-                  <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">Results Since 2001</summary>
-                  <ul className="list-disc ml-6 mt-4 space-y-2">
-                    {results.map((result) => (
-                      <li key={result.id}>
-                        {result.title} -{' '}
-                        <a
-                          href={result.url}
-                          className="text-primary hover:underline"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                <details open className="cst-dropdown group">
+                  <summary className="flex justify-between items-center">
+                    <span>Results Since 2001</span>
+                  </summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-disc pl-6 space-y-2">
+                      {results.map((result) => (
+                        <li key={result.id}>
+                          {result.title} -{' '}
+                          <a
+                            href={result.url}
+                            className="text-primary hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </details>
               </div>
             )}
@@ -558,16 +562,21 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {activitiesError}</div>
             ) : (
               Object.entries(groupedActivities).map(([section, acts], index) => (
-                <details key={section} {...(index === 0 ? { open: true } : {})}>
-                  <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">{section}</summary>
-                  <ul className="list-disc ml-6 mt-4 space-y-2">
-                    {acts.map((act) => (
-                      <li key={act.id}>
-                        {act.title} {act.year ? `(${act.year})` : ''} -{' '}
-                        <a href={act.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                      </li>
-                    ))}
-                  </ul>
+                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                  <summary className="flex justify-between items-center">
+                    <span>{section}</span>
+
+                  </summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-disc pl-6 space-y-2">
+                      {acts.map((act) => (
+                        <li key={act.id}>
+                          {act.title} {act.year ? `(${act.year})` : ''} -{' '}
+                          <a href={act.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </details>
               ))
             )}
@@ -589,16 +598,21 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {facultyAchievementsError}</div>
             ) : (
               Object.entries(groupedAchievements).map(([section, achs], index) => (
-                <details key={section} {...(index === 0 ? { open: true } : {})} className="mt-4">
-                  <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">{section}</summary>
-                  <ul className="list-disc ml-6 mt-4 space-y-2">
-                    {achs.map((ach) => (
-                      <li key={ach.id}>
-                        {ach.title} -{' '}
-                        <a href={ach.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                      </li>
-                    ))}
-                  </ul>
+                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                  <summary className="flex justify-between items-center">
+                    <span>{section}</span>
+
+                  </summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-disc pl-6 space-y-2">
+                      {achs.map((ach) => (
+                        <li key={ach.id}>
+                          {ach.title} -{' '}
+                          <a href={ach.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </details>
               ))
             )}
@@ -621,10 +635,13 @@ const BSHDepartment: React.FC = () => {
             ) : (
               Object.entries(groupedLabs).map(([lab_name, items], index) => (
                 <div className="mt-4 m-2" key={lab_name}>
-                  <details {...(index === 0 ? { open: true } : {})}>
-                    <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">{lab_name}</summary>
-                    <div>
-                      <ul className="list-disc ml-6 mt-4 space-y-2">
+                  <details {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                    <summary className="flex justify-between items-center">
+                      <span>{lab_name}</span>
+  
+                    </summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 space-y-2">
                         {items.map((item) => (
                           <li key={item.id}>
                             {item.description} -{' '}
@@ -648,16 +665,21 @@ const BSHDepartment: React.FC = () => {
             ) : paperPresentationsError ? (
               <div className="text-red-600">Error: {paperPresentationsError}</div>
             ) : (
-              <details open>
-                <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">Faculty Paper Presentations</summary>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  {paperPresentations.map((item) => (
-                    <li key={item.id}>
-                      {item.title} {item.year ? `(${item.year})` : ''} -{' '}
-                      <a href={item.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                    </li>
-                  ))}
-                </ul>
+              <details open className="cst-dropdown group">
+                <summary className="flex justify-between items-center">
+                  <span>Faculty Paper Presentations</span>
+                    
+                </summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 space-y-2">
+                    {paperPresentations.map((item) => (
+                      <li key={item.id}>
+                        {item.title} {item.year ? `(${item.year})` : ''} -{' '}
+                        <a href={item.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </details>
             )}
           </div>
@@ -672,16 +694,21 @@ const BSHDepartment: React.FC = () => {
             ) : fdpError ? (
               <div className="text-red-600">Error: {fdpError}</div>
             ) : (
-              <details open>
-                <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">FDPs/Workshops Participated</summary>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  {fdpDocs.map((doc, idx) => (
-                    <li key={doc.id}>
-                      {doc.title} -{' '}
-                      <a href={doc.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                    </li>
-                  ))}
-                </ul>
+              <details open className="cst-dropdown group">
+                <summary className="flex justify-between items-center">
+                  <span>FDPs/Workshops Participated</span>
+                    
+                </summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 space-y-2">
+                    {fdpDocs.map((doc, idx) => (
+                      <li key={doc.id}>
+                        {doc.title} -{' '}
+                        <a href={doc.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </details>
             )}
           </div>
@@ -905,21 +932,73 @@ const BSHDepartment: React.FC = () => {
             ) : fdpsOrganizedError ? (
               <div className="text-red-600">Error: {fdpsOrganizedError}</div>
             ) : (
-              <details open className="mt-4">
-                <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">FDPs and Guest Lectures Organized</summary>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  {fdpsOrganized.length > 0 ? (
-                    fdpsOrganized.map((fdp) => (
-                      <li key={fdp.id}>
-                        {fdp.title} {fdp.year ? `(${fdp.year})` : ''} -{' '}
-                        <a href={fdp.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                      </li>
-                    ))
-                  ) : (
-                    <li className="text-gray-600">No FDPs/Guest Lectures data available</li>
-                  )}
-                </ul>
-              </details>
+              <div className="space-y-4">
+                {/* FDPs Organized Dropdown */}
+                <details className="cst-dropdown group">
+                  <summary className="flex justify-between items-center">
+                    <span>FDPs Organized</span>
+
+                  </summary>
+                  <div className="cst-dropdown-content">
+                    {fdpsOrganized.filter((fdp) => fdp.type === 'fdp_organized').length > 0 ? (
+                      <ul className="list-disc pl-6 space-y-2">
+                        {fdpsOrganized
+                          .filter((fdp) => fdp.type === 'fdp_organized')
+                          .map((fdp) => (
+                            <li key={fdp.id} className="text-gray-800">
+                              {fdp.title} {fdp.year ? `(${fdp.year})` : ''}{' '}
+                              {fdp.url ? (
+                                <>
+                                  {' - '}
+                                  <a href={fdp.url} className="text-[#B22222] hover:underline font-medium" target="_blank" rel="noopener noreferrer">
+                                    View
+                                  </a>
+                                </>
+                              ) : (
+                                ''
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    ) : (
+                      <p className="text-gray-600">No FDPs organized available</p>
+                    )}
+                  </div>
+                </details>
+
+                {/* Guest Lectures Organized Dropdown */}
+                <details className="cst-dropdown group">
+                  <summary className="flex justify-between items-center">
+                    <span>Guest Lectures Organized</span>
+
+                  </summary>
+                  <div className="cst-dropdown-content">
+                    {fdpsOrganized.filter((fdp) => fdp.type === 'guest_lectures_organized').length > 0 ? (
+                      <ul className="list-disc pl-6 space-y-2">
+                        {fdpsOrganized
+                          .filter((fdp) => fdp.type === 'guest_lectures_organized')
+                          .map((fdp) => (
+                            <li key={fdp.id} className="text-gray-800">
+                              {fdp.title} {fdp.year ? `(${fdp.year})` : ''}{' '}
+                              {fdp.url ? (
+                                <>
+                                  {' - '}
+                                  <a href={fdp.url} className="text-[#B22222] hover:underline font-medium" target="_blank" rel="noopener noreferrer">
+                                    View
+                                  </a>
+                                </>
+                              ) : (
+                                ''
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    ) : (
+                      <p className="text-gray-600">No guest lectures organized available</p>
+                    )}
+                  </div>
+                </details>
+              </div>
             )}
           </div>
         );
@@ -935,16 +1014,19 @@ const BSHDepartment: React.FC = () => {
             ) : (
               <>
                 {Object.entries(bosData).map(([section, items], index) => (
-                  <details key={section} {...(index === 0 ? { open: true } : {})} className="mt-4">
-                    <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">
-                      {section === 'english' && 'English BOS Meetings'}
-                      {section === 'joint' && 'Joint BOS'}
-                      {section === 'mathematics' && 'Mathematics BOS Meetings'}
-                      {section === 'chemistry' && 'Chemistry BOS Meetings'}
-                      {section === 'physics' && 'Physics BOS Meetings'}
-                      {/* Add more as needed */}
+                  <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                    <summary className="flex justify-between items-center">
+                      <span>
+                        {section === 'english' && 'English BOS Meetings'}
+                        {section === 'joint' && 'Joint BOS'}
+                        {section === 'mathematics' && 'Mathematics BOS Meetings'}
+                        {section === 'chemistry' && 'Chemistry BOS Meetings'}
+                        {section === 'physics' && 'Physics BOS Meetings'}
+                        {/* Add more as needed */}
+                      </span>
+  
                     </summary>
-                    <div className="mt-4 pl-6 pr-4 pb-4">
+                    <div className="cst-dropdown-content">
                       <ul className="list-disc space-y-2">
                         {items.map((item, idx) => (
                           <li key={item.id}>
@@ -968,9 +1050,12 @@ const BSHDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
 
             {/* Teaching Faculty Dropdown */}
-            <details open className="mt-6">
-              <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">Teaching Faculty</summary>
-              <div className="mt-4 pl-6 pr-4 pb-4">
+            <details open className="cst-dropdown group">
+              <summary className="flex justify-between items-center">
+                <span>Teaching Faculty</span>
+                  
+              </summary>
+              <div className="cst-dropdown-content">
                 {loadingFaculty ? (
                   <div>Loading faculty data...</div>
                 ) : facultyError ? (
@@ -1055,9 +1140,12 @@ const BSHDepartment: React.FC = () => {
             </details>
 
             {/* Non-Teaching Faculty Dropdown */}
-            <details className="mt-6">
-              <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">Non-Teaching Staff</summary>
-              <div className="mt-4 pl-6 pr-4 pb-4">
+            <details className="cst-dropdown group">
+              <summary className="flex justify-between items-center">
+                <span>Non-Teaching Staff</span>
+                  
+              </summary>
+              <div className="cst-dropdown-content">
                 {loadingNonTeaching ? (
                   <div>Loading non-teaching faculty...</div>
                 ) : nonTeachingError ? (
@@ -1104,8 +1192,12 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {studentAchievementsError}</div>
             ) : (
               Object.entries(groupedStudentAchievements).map(([section, achs], index) => (
-                <details key={section} {...(index === 0 ? { open: true } : {})} className="mb-4">
-                  <summary className="bg-[#B22222] text-white font-semibold text-lg p-4 rounded-lg cursor-pointer hover:bg-[#8B1A1A] transition-colors duration-300">{section}</summary>
+                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                  <summary className="flex justify-between items-center">
+                    <span>{section}</span>
+
+                  </summary>
+                  <div className="cst-dropdown-content">
                   <ul className="list-disc ml-6 mt-4 space-y-2">
                     {achs.map((ach) => (
                       <li key={ach.id}>
@@ -1114,6 +1206,43 @@ const BSHDepartment: React.FC = () => {
                       </li>
                     ))}
                   </ul>
+                  </div>
+                </details>
+              ))
+            )}
+          </div>
+        );
+      case 'Department Achievements':
+        // Group department achievements by section
+        const groupedDeptAchievements: { [section: string]: any[] } = {};
+        facultyAchievements.forEach((ach) => {
+          if (!groupedDeptAchievements[ach.section]) groupedDeptAchievements[ach.section] = [];
+          groupedDeptAchievements[ach.section].push(ach);
+        });
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Achievements</h2>
+            {loadingFacultyAchievements ? (
+              <div>Loading...</div>
+            ) : facultyAchievementsError ? (
+              <div className="text-red-600">Error: {facultyAchievementsError}</div>
+            ) : (
+              Object.entries(groupedDeptAchievements).map(([section, achs], index) => (
+                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                  <summary className="flex justify-between items-center">
+                    <span>{section}</span>
+
+                  </summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-disc ml-6 mt-4 space-y-2">
+                      {achs.map((ach) => (
+                        <li key={ach.id}>
+                          {ach.title} {ach.year ? `(${ach.year})` : ''} -{' '}
+                          <a href={ach.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </details>
               ))
             )}

@@ -14,16 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const [rows] = await connection.execute(
         'SELECT name, qualification, designation, profile_url, dept, status, created_at FROM faculty_profiles WHERE dept = ?',
         [dept]
-    ) as any;
-
-    // Ensure profile URLs have proper format
-    const formattedRows = (rows as any[]).map(row => ({
-        ...row,
-        profile_url: row.profile_url && !row.profile_url.startsWith('http') && !row.profile_url.startsWith('/uploads/')
-            ? `/uploads/civil/faculty-profiles/${row.profile_url}`
-            : row.profile_url
-    }));
+    );
 
     await connection.end();
-    res.status(200).json(formattedRows);
+    res.status(200).json(rows);
 }

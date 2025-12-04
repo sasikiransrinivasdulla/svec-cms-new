@@ -318,127 +318,37 @@ const DEPARTMENT_MODULES = {
   ],
 
   
-  // Electronics & Communication Engineering (ECE)
+  // Electronics & Communication Technology (ECT) - ALL 29 MODULES
   ect: [
-    { 
-      key: 'board-of-studies', 
-      name: 'Board of Studies', 
-      icon: BookOpen, 
-      description: 'Academic board meetings and decisions',
-      table: 'ece_board_of_studies'
-    },
-    { 
-      key: 'clubs', 
-      name: 'Clubs', 
-      icon: Users, 
-      description: 'Student clubs and organizations',
-      table: 'ece_clubs'
-    },
-    { 
-      key: 'extracurricular-activities', 
-      name: 'Extra-Curricular Activities', 
-      icon: Activity, 
-      description: 'Student activities and events',
-      table: 'ece_extracurricular_activities'
-    },
-    { 
-      key: 'faculty-achievements', 
-      name: 'Faculty Achievements', 
-      icon: Award, 
-      description: 'Faculty awards and recognitions',
-      table: 'ece_faculty_achievements'
-    },
-    { 
-      key: 'faculty-data', 
-      name: 'Faculty Data', 
-      icon: Users, 
-      description: 'Faculty profiles and information',
-      table: 'faculty_profiles'
-    },
-    { 
-      key: 'faculty-innovations', 
-      name: 'Faculty Innovations', 
-      icon: Settings, 
-      description: 'Faculty research and innovations',
-      table: 'ece_faculty_innovations'
-    },
-    { 
-      key: 'fdp', 
-      name: 'Faculty Development Programs', 
-      icon: GraduationCap, 
-      description: 'Professional development programs',
-      table: 'ece_fdp'
-    },
-    { 
-      key: 'handbooks', 
-      name: 'Handbooks', 
-      icon: BookOpen, 
-      description: 'Academic handbooks and guides',
-      table: 'ece_handbooks'
-    },
-    { 
-      key: 'mous', 
-      name: 'MOUs', 
-      icon: FileText, 
-      description: 'Memorandums of Understanding',
-      table: 'ece_mous'
-    },
-    { 
-      key: 'newsletters', 
-      name: 'Newsletters', 
-      icon: FileText, 
-      description: 'Department publications',
-      table: 'ece_newsletters'
-    },
-    { 
-      key: 'ntfaculty', 
-      name: 'Non-Teaching Faculty', 
-      icon: Users, 
-      description: 'Non-teaching staff members',
-      table: 'ece_nontfaculty'
-    },
-    { 
-      key: 'physical-facilities', 
-      name: 'Physical Facilities', 
-      icon: Building2, 
-      description: 'Infrastructure and equipment',
-      table: 'ece_physical_facilities'
-    },
-    { 
-      key: 'placements', 
-      name: 'Placements', 
-      icon: Users, 
-      description: 'Student placement records',
-      table: 'ece_placements'
-    },
-    { 
-      key: 'scholarships-toppers', 
-      name: 'Scholarships & Toppers', 
-      icon: Award, 
-      description: 'Student achievements and scholarships',
-      table: 'ece_scholarships_toppers'
-    },
-    { 
-      key: 'syllabus', 
-      name: 'Syllabus', 
-      icon: BookOpen, 
-      description: 'Course curriculum and syllabus',
-      table: 'ece_syllabus'
-    },
-    { 
-      key: 'technical-association', 
-      name: 'Technical Association', 
-      icon: Settings, 
-      description: 'Professional associations',
-      table: 'ece_technicalAssociation_trainingActivities'
-    },
-    { 
-      key: 'workshops', 
-      name: 'Workshops', 
-      icon: Settings, 
-      description: 'Educational workshops',
-      table: 'ece_worshops_gl'
-    }
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'bos_minutes' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops and training', table: 'workshops' },
+    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'department_library' },
+    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'department_data' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'department_profile' },
+    { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'department_data' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'department_data' },
+    { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'faculty_profiles' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'faculty_achievements' },
+    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'faculty_development' },
+    { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'department_data' },
+    { key: 'hackathons-gallery', name: 'Hackathons Gallery', icon: Image, description: 'Gallery of hackathon events', table: 'department_data' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'handbooks' },
+    { key: 'technical-association', name: 'Technical Association', icon: Briefcase, description: 'Technical association programs', table: 'technical_association' },
+    { key: 'merit-scholarships', name: 'Academic Toppers', icon: Award, description: 'Student scholarship programs', table: 'department_data' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'mous' },
+    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'newsletters' },
+    { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'faculty_profiles' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'placements' },
+    { key: 'sahaya-events', name: 'Sahaya Events', icon: Activity, description: 'Sahaya community events', table: 'department_data' },
+    { key: 'scud-activities', name: 'SCUD Activities', icon: Activity, description: 'SCUD club activities', table: 'department_data' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'student_achievements' },
+    { key: 'gate', name: 'GATE', icon: Award, description: 'GATE exam records and details', table: 'department_data' },
+    { key: 'roll-of-honour', name: 'Roll of Honour', icon: Award, description: 'Roll of Honour records', table: 'department_data' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'syllabus' },
+    { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'faculty_profiles' },
+    { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'training_activities' },
   ],
 
   // Civil Engineering
@@ -1240,9 +1150,23 @@ export default function SuperAdminDashboard() {
         ? `/api/admin/tables/${module.table}/${editingItem.id}`
         : `/api/admin/tables/${module.table}`;
 
-      const response = editingItem 
-        ? await apiPut(url, data)
-        : await apiPost(url, data);
+      let response;
+      
+      // Check if data is FormData (has file)
+      if (data instanceof FormData) {
+        response = await fetch(url, {
+          method: method,
+          body: data,
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
+          }
+        });
+      } else {
+        // Regular JSON request
+        response = editingItem 
+          ? await apiPut(url, data)
+          : await apiPost(url, data);
+      }
 
       if (response.ok) {
         setShowCreateModal(false);
@@ -1257,6 +1181,251 @@ export default function SuperAdminDashboard() {
       alert('Error saving item');
     }
   };
+
+  // Simple form component for editing - defined inside main component
+  function EditForm({ 
+    item, 
+    onSave, 
+    onCancel,
+    department,
+    module
+  }: { 
+    item: ModuleData | null; 
+    onSave: (data: any) => void; 
+    onCancel: () => void;
+    department: string;
+    module: string;
+  }) {
+    const [formData, setFormData] = useState<any>({});
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [selectedFileField, setSelectedFileField] = useState<string | null>(null);
+
+    // Get field configuration for this module
+    const moduleConfig = department && module ? getModuleFieldConfig(department, module) : null;
+    const fields = moduleConfig?.fields || [];
+
+    useEffect(() => {
+      if (item) {
+        setFormData({ ...item });
+      } else {
+        // Initialize empty form
+        setFormData({});
+      }
+    }, [item]);
+
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      // Pass both formData and selectedFile to onSave
+      const formDataObj = new FormData();
+      Object.keys(formData).forEach(key => {
+        // Skip file field names in the initial append (they'll be added separately with the actual file)
+        if (formData[key] !== null && formData[key] !== undefined && key !== selectedFileField) {
+          formDataObj.append(key, String(formData[key]));
+        }
+      });
+      if (selectedFile && selectedFileField) {
+        // Append the actual file object with the correct field name
+        formDataObj.append(selectedFileField, selectedFile);
+      }
+      onSave(formDataObj);
+    };
+
+    const handleChange = (field: string, value: any) => {
+      setFormData((prev: any) => ({
+        ...prev,
+        [field]: value
+      }));
+    };
+
+    const handleFileChange = (field: string, file: File) => {
+      // Get the field config to check accepted file types
+      const fieldConfig = fields.find(f => f.name === field);
+      const acceptedTypes = (fieldConfig as any)?.accept || '';
+      
+      // Validate file type based on accept attribute
+      if (acceptedTypes) {
+        const acceptedExtensions = acceptedTypes.split(',').map((ext: string) => ext.trim().toLowerCase());
+        const fileName = file.name.toLowerCase();
+        const fileExtension = '.' + fileName.split('.').pop();
+        const fileMimeType = file.type.toLowerCase();
+        
+        // Check if file extension or MIME type matches
+        const isValidExtension = acceptedExtensions.some((ext: string) => 
+          ext.startsWith('.') ? fileName.endsWith(ext) : fileName.includes(ext)
+        );
+        const isValidMimeType = acceptedExtensions.some((ext: string) => 
+          !ext.startsWith('.') && fileMimeType.includes(ext)
+        );
+        
+        // Also check MIME type for wildcard patterns like image/*
+        const isValidMimeWildcard = acceptedExtensions.some((ext: string) => {
+          if (ext === 'image/*') return fileMimeType.startsWith('image/');
+          if (ext === 'video/*') return fileMimeType.startsWith('video/');
+          if (ext === 'audio/*') return fileMimeType.startsWith('audio/');
+          if (ext === 'application/pdf') return fileMimeType === 'application/pdf';
+          return false;
+        });
+        
+        if (!isValidExtension && !isValidMimeType && !isValidMimeWildcard) {
+          alert(`Invalid file type. Please upload a file with format: ${acceptedTypes}\nYou selected: ${fileExtension} (${file.type})`);
+          return;
+        }
+      }
+      
+      // Validate file size (max 5MB for general files, 1MB default)
+      const maxSizeInMB = (fieldConfig as any)?.maxSize || 1;
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+      if (file.size > maxSizeInBytes) {
+        alert(`File size exceeds ${maxSizeInMB}MB limit. Please choose a smaller file.`);
+        return;
+      }
+      
+      setFormData((prev: any) => ({
+        ...prev,
+        [field]: file.name
+      }));
+      setSelectedFile(file);
+      setSelectedFileField(field);  // Track which field this file is for
+    };
+
+    // Use dynamic fields from config if available, otherwise fall back to basic fields
+    const getDisplayFields = () => {
+      if (fields.length > 0) {
+        return fields;
+      }
+      
+      // Fallback: show all fields except system fields
+      return Object.keys(item || formData)
+        .filter(key => !['id', 'created_at', 'updated_at', 'dept', 'department'].includes(key))
+        .map(key => ({
+          name: key,
+          label: key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+          type: key.includes('description') || key.includes('content') ? 'textarea' : 'text',
+          required: false,
+          size: 'full' as const
+        }));
+    };
+
+    const displayFields = getDisplayFields();
+
+    return (
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {displayFields.map((field: any) => {
+            const value = formData[field.name] || '';
+            const fieldSize = field.size === 'half' ? 'md:col-span-1' : 'md:col-span-2';
+
+            if (field.type === 'textarea') {
+              return (
+                <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                  <Label htmlFor={field.name} className="text-sm font-medium">
+                    {field.label}
+                    {field.required && <span className="text-red-500 ml-1">*</span>}
+                  </Label>
+                  <Textarea
+                    id={field.name}
+                    value={value}
+                    onChange={(e) => handleChange(field.name, e.target.value)}
+                    placeholder={(field as any).placeholder || `Enter ${field.label.toLowerCase()}`}
+                    rows={3}
+                    required={field.required}
+                    className="resize-none"
+                  />
+                </div>
+              );
+            } else if (field.type === 'date') {
+              return (
+                <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                  <Label htmlFor={field.name} className="text-sm font-medium">
+                    {field.label}
+                    {field.required && <span className="text-red-500 ml-1">*</span>}
+                  </Label>
+                  <Input
+                    id={field.name}
+                    type="date"
+                    value={value}
+                    onChange={(e) => handleChange(field.name, e.target.value)}
+                    required={field.required}
+                  />
+                </div>
+              );
+            } else if (field.type === 'select' && (field as any).options) {
+              return (
+                <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                  <Label htmlFor={field.name} className="text-sm font-medium">
+                    {field.label}
+                    {field.required && <span className="text-red-500 ml-1">*</span>}
+                  </Label>
+                  <select
+                    id={field.name}
+                    value={value}
+                    onChange={(e) => handleChange(field.name, e.target.value)}
+                    required={field.required}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select {field.label.toLowerCase()}</option>
+                    {(field as any).options.map((option: any) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              );
+            } else if (field.type === 'file') {
+              return (
+                <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                  <Label htmlFor={field.name} className="text-sm font-medium">
+                    {field.label}
+                    {field.required && <span className="text-red-500 ml-1">*</span>}
+                  </Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      id={field.name}
+                      type="file"
+                      onChange={(e) => e.target.files && handleFileChange(field.name, e.target.files[0])}
+                      accept={(field as any).accept}
+                      required={field.required && !value}
+                      className="flex-1"
+                    />
+                    {value && <span className="text-sm text-gray-600">{value}</span>}
+                  </div>
+                  {(field as any).description && <p className="text-xs text-gray-500">{(field as any).description}</p>}
+                </div>
+              );
+            } else {
+              return (
+                <div key={field.name} className={`space-y-2 ${fieldSize}`}>
+                  <Label htmlFor={field.name} className="text-sm font-medium">
+                    {field.label}
+                    {field.required && <span className="text-red-500 ml-1">*</span>}
+                  </Label>
+                  <Input
+                    id={field.name}
+                    type={field.type || 'text'}
+                    value={value}
+                    onChange={(e) => handleChange(field.name, e.target.value)}
+                    placeholder={(field as any).placeholder || `Enter ${field.label.toLowerCase()}`}
+                    required={field.required}
+                  />
+                  {(field as any).description && <p className="text-xs text-gray-500">{(field as any).description}</p>}
+                </div>
+              );
+            }
+          })}
+        </div>
+        
+        <DialogFooter className="gap-2 pt-4 border-t">
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+            {item ? 'Update' : 'Create'}
+          </Button>
+        </DialogFooter>
+      </form>
+    );
+  }
 
   if (selectedModule) {
     const module = currentModules.find(m => m.key === selectedModule);
@@ -1894,191 +2063,6 @@ export default function SuperAdminDashboard() {
           </DialogContent>
         </Dialog>
       </div>
-    </div>
-  );
-}
-
-// Simple form component for editing
-function EditForm({ 
-  item, 
-  onSave, 
-  onCancel,
-  department,
-  module
-}: { 
-  item: ModuleData | null; 
-  onSave: (data: any) => void; 
-  onCancel: () => void;
-  department: string;
-  module: string;
-}) {
-  const [formData, setFormData] = useState<any>({});
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  // Get field configuration for this module
-  const moduleConfig = department && module ? getModuleFieldConfig(department, module) : null;
-      setFormData({ ...item });
-    } else {
-      // Initialize empty form
-      setFormData({});
-    }
-  }, [item]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(formData);
-  };
-
-  const handleChange = (field: string, value: any) => {
-    setFormData((prev: any) => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const handleFileChange = (field: string, file: File) => {
-    setFormData((prev: any) => ({
-      ...prev,
-      [field]: file.name
-    }));
-    setSelectedFile(file);
-  };
-
-  // Use dynamic fields from config if available, otherwise fall back to basic fields
-  const getDisplayFields = () => {
-    if (fields.length > 0) {
-      return fields;
-    }
     
-    // Fallback: show all fields except system fields
-    return Object.keys(item || formData)
-      .filter(key => !['id', 'created_at', 'updated_at', 'dept', 'department'].includes(key))
-      .map(key => ({
-        name: key,
-        label: key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-        type: key.includes('description') || key.includes('content') ? 'textarea' : 'text',
-        required: false,
-        size: 'full' as const
-      }));
-  };
-
-  const displayFields = getDisplayFields();
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {displayFields.map((field: any) => {
-          const value = formData[field.name] || '';
-          const fieldSize = field.size === 'half' ? 'md:col-span-1' : 'md:col-span-2';
-
-          if (field.type === 'textarea') {
-            return (
-              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
-                <Label htmlFor={field.name} className="text-sm font-medium">
-                  {field.label}
-                  {field.required && <span className="text-red-500 ml-1">*</span>}
-                </Label>
-                <Textarea
-                  id={field.name}
-                  value={value}
-                  onChange={(e) => handleChange(field.name, e.target.value)}
-                  placeholder={(field as any).placeholder || `Enter ${field.label.toLowerCase()}`}
-                  rows={3}
-                  required={field.required}
-                  className="resize-none"
-                />
-              </div>
-            );
-          } else if (field.type === 'date') {
-            return (
-              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
-                <Label htmlFor={field.name} className="text-sm font-medium">
-                  {field.label}
-                  {field.required && <span className="text-red-500 ml-1">*</span>}
-                </Label>
-                <Input
-                  id={field.name}
-                  type="date"
-                  value={value}
-                  onChange={(e) => handleChange(field.name, e.target.value)}
-                  required={field.required}
-                />
-              </div>
-            );
-          } else if (field.type === 'select' && (field as any).options) {
-            return (
-              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
-                <Label htmlFor={field.name} className="text-sm font-medium">
-                  {field.label}
-                  {field.required && <span className="text-red-500 ml-1">*</span>}
-                </Label>
-                <select
-                  id={field.name}
-                  value={value}
-                  onChange={(e) => handleChange(field.name, e.target.value)}
-                  required={field.required}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Select {field.label.toLowerCase()}</option>
-                  {(field as any).options.map((option: any) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            );
-          } else if (field.type === 'file') {
-            return (
-              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
-                <Label htmlFor={field.name} className="text-sm font-medium">
-                  {field.label}
-                  {field.required && <span className="text-red-500 ml-1">*</span>}
-                </Label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    id={field.name}
-                    type="file"
-                    onChange={(e) => e.target.files && handleFileChange(field.name, e.target.files[0])}
-                    accept={(field as any).accept}
-                    required={field.required && !value}
-                    className="flex-1"
-                  />
-                  {value && <span className="text-sm text-gray-600">{value}</span>}
-                </div>
-                {(field as any).description && <p className="text-xs text-gray-500">{(field as any).description}</p>}
-              </div>
-            );
-          } else {
-            return (
-              <div key={field.name} className={`space-y-2 ${fieldSize}`}>
-                <Label htmlFor={field.name} className="text-sm font-medium">
-                  {field.label}
-                  {field.required && <span className="text-red-500 ml-1">*</span>}
-                </Label>
-                <Input
-                  id={field.name}
-                  type={field.type || 'text'}
-                  value={value}
-                  onChange={(e) => handleChange(field.name, e.target.value)}
-                  placeholder={(field as any).placeholder || `Enter ${field.label.toLowerCase()}`}
-                  required={field.required}
-                />
-                {(field as any).description && <p className="text-xs text-gray-500">{(field as any).description}</p>}
-              </div>
-            );
-          }
-        })}
-      </div>
-      
-      <DialogFooter className="gap-2 pt-4 border-t">
-        <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-          {item ? 'Update' : 'Create'}
-        </Button>
-      </DialogFooter>
-    </form>
   );
 }

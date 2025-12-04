@@ -185,87 +185,198 @@ const ECEDepartment: React.FC = () => {
 
     return (
       <>
-        {/* Journal Publications */}
-        <div className="mb-6">
-          <details>
-            <summary className="text-xl font-semibold cursor-pointer">Journal Publications</summary>
-            <ul className="list-disc pl-6 mt-4 space-y-2">
-              {journalPublications.map((item, index) => (
-                <li key={index}>
-                  {item.title} ({item.year}) - <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              ))}
-            </ul>
+        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
+        <div className="space-y-6">
+          {/* Journal Publications */}
+          <details open className="cst-dropdown">
+            <summary>Journal Publications</summary>
+            <div className="cst-dropdown-content">
+              {journalPublications.length > 0 ? (
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {journalPublications.map((item, index) => (
+                    <li key={index}>
+                      {item.title}
+                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
+                      {item.url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
           </details>
-        </div>
 
-        {/* Conference Publications */}
-        <div className="mb-6">
-          <details>
-            <summary className="text-xl font-semibold cursor-pointer">Conference Publications</summary>
-            <ul className="list-disc pl-6 mt-4 space-y-2">
-              {conferencePublications.map((item, index) => (
-                <li key={index}>
-                  {item.title} ({item.year}) - <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              ))}
-            </ul>
+          {/* Conference Publications */}
+          <details className="cst-dropdown">
+            <summary>Conference Publications</summary>
+            <div className="cst-dropdown-content">
+              {conferencePublications.length > 0 ? (
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {conferencePublications.map((item, index) => (
+                    <li key={index}>
+                      {item.title}
+                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
+                      {item.url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
           </details>
-        </div>
 
-        {/* Book Publications */}
-        <div className="mb-6">
-          <details>
-            <summary className="text-xl font-semibold cursor-pointer">Book Publications</summary>
-            <ul className="list-disc pl-6 mt-4 space-y-2">
-              {bookPublications.map((item, index) => (
-                <li key={index}>
-                  {item.title} ({item.year}) - <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              ))}
-            </ul>
+          {/* Book Publications */}
+          <details className="cst-dropdown">
+            <summary>Book Publications</summary>
+            <div className="cst-dropdown-content">
+              {bookPublications.length > 0 ? (
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {bookPublications.map((item, index) => (
+                    <li key={index}>
+                      {item.title}
+                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
+                      {item.url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
           </details>
-        </div>
 
-        {/* Certifications */}
-        <div className="mb-6">
-          <details>
-            <summary className="text-xl font-semibold cursor-pointer">Certifications</summary>
-            <ul className="list-disc pl-6 mt-4 space-y-2">
-              {certifications.map((item, index) => (
-                <li key={index}>
-                  {item.title} ({item.year}) - <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
-                </li>
-              ))}
-            </ul>
+          {/* Certifications */}
+          <details className="cst-dropdown">
+            <summary>Certifications</summary>
+            <div className="cst-dropdown-content">
+              {certifications.length > 0 ? (
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {certifications.map((item, index) => (
+                    <li key={index}>
+                      {item.title}
+                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
+                      {item.url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
           </details>
-        </div>
 
-        {/* Patents */}
-        <div className="mb-6">
-          <details>
-            <summary className="text-xl font-semibold cursor-pointer">Patents</summary>
-            <ul className="list-disc pl-6 mt-4 space-y-2">
-              {patents.map((item, index) => (
-                <li key={index}>
-                  {item.title} ({item.year}) - <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
-                </li>
-              ))}
-            </ul>
+          {/* Patents */}
+          <details className="cst-dropdown">
+            <summary>Patents</summary>
+            <div className="cst-dropdown-content">
+              {patents.length > 0 ? (
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {patents.map((item, index) => (
+                    <li key={index}>
+                      {item.title}
+                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
+                      {item.url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
           </details>
-        </div>
 
-        {/* Awards */}
-        <div className="mb-6">
-          <details>
-            <summary className="text-xl font-semibold cursor-pointer">Awards</summary>
-            <ul className="list-disc pl-6 mt-4 space-y-2">
-              {awards.map((item, index) => (
-                <li key={index}>
-                  {item.title} ({item.year}) - <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
-                </li>
-              ))}
-            </ul>
+          {/* Awards */}
+          <details className="cst-dropdown">
+            <summary>Awards</summary>
+            <div className="cst-dropdown-content">
+              {awards.length > 0 ? (
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {awards.map((item, index) => (
+                    <li key={index}>
+                      {item.title}
+                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
+                      {item.url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
           </details>
         </div>
 
@@ -791,222 +902,114 @@ const ECEDepartment: React.FC = () => {
         );
 
       case 'Physical Facilities':
+        // Group by type/category
+        const facilityTypes = Array.from(new Set(physicalfacilities.map((f: any) => f.type || f.category || 'Other')));
+        const groupedFacilities = facilityTypes.map(type => ({
+          category: type,
+          items: physicalfacilities.filter((f: any) => (f.type || f.category || 'Other') === type)
+        }));
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Physical Facilities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
             {PhysicalFacilitiesLoading ? (
-              <div className="text-center py-8">Loading...</div>
+              <div className="text-center py-8 text-gray-500">Loading...</div>
             ) : (
-              <div className="space-y-8">
-                {/* Class Rooms & Time Tables */}
-                <details className="border rounded-lg">
-                  <summary className="font-semibold text-lg px-4 py-2 cursor-pointer">Class Rooms & Class Time Tables</summary>
-                  <div className="p-4 space-y-6">
-                    <div>
-                      <h5 className="font-semibold mb-2">Class Rooms</h5>
-                      <ul className="list-disc pl-6 space-y-2">
-                        {physicalfacilities
-                          .filter(item => item.type === 'class_room')
-                          .map((item, index) => (
-                            <li key={index}>
-                              {item.title} -{' '}
-                              <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#B22222] font-semibold hover:underline"
-                              >
-                                View
-                              </a>
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h5 className="font-semibold mb-2">Class Time Tables</h5>
-                      <ul className="list-disc pl-6 space-y-2">
-                        {physicalfacilities
-                          .filter(item => item.type === 'class_time_table')
-                          .map((item, index) => (
-                            <li key={index}>
-                              {item.title} -{' '}
-                              <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#B22222] font-semibold hover:underline"
-                              >
-                                View
-                              </a>
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-                {/* Laboratories */}
-                <details className="border rounded-lg">
-                  <summary className="font-semibold text-lg px-4 py-2 cursor-pointer">Laboratories</summary>
-                  <div className="p-4 space-y-6">
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">Major Equipment Available</h3>
-                      <ul className="list-disc pl-6 space-y-2">
-                        {physicalfacilities
-                          .filter(item => item.type === 'lab_equipment')
-                          .map((item, index) => (
-                            <li key={index}>
-                              {item.title}
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">Major Software Available</h3>
-                      <ul className="list-disc pl-6 space-y-2">
-                        {physicalfacilities
-                          .filter(item => item.type === 'lab_software')
-                          .map((item, index) => (
-                            <li key={index}>
-                              {item.title}
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">Laboratory Facilities</h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {physicalfacilities
-                          .filter(item => item.type === 'lab_image')
-                          .map((item, index) => (
-                            <img
-                              key={index}
-                              src={item.url}
-                              alt={`Lab Image ${index + 1}`}
-                              className="rounded-lg shadow-md w-full h-auto object-cover"
-                            />
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                </details>
-                {/* Department Library */}
-                <details className="border rounded-lg">
-                  <summary className="font-semibold text-lg px-4 py-2 cursor-pointer">Department Library</summary>
-                  <div className="p-4 space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
-                      {physicalfacilities
-                        .filter(item => item.type === 'library_image')
-                        .map((item, index) => (
-                          <img
-                            key={index}
-                            src={item.url}
-                            alt={`Library ${index + 1}`}
-                            className="rounded-lg shadow-md w-full h-auto object-cover"
-                          />
+              <div className="space-y-6">
+                {groupedFacilities.map((group, index) => (
+                  <details key={group.category} open={index === 0} className="cst-dropdown">
+                    <summary>{group.category.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {group.items.map((item: any, idx: number) => (
+                          <li key={idx}>
+                            {item.title}
+                            {item.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline font-medium"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
                         ))}
+                      </ul>
                     </div>
-                    <h5 className="text-center font-semibold">The department runs an exclusive department Library to the benefit of Faculty as well as students.</h5>
-                    <div className="overflow-x-auto">
-                      <table className="min-w-full bg-white border border-gray-300 rounded-lg text-sm mt-4">
-                        <thead className="bg-gray-100">
-                          <tr>
-                            <th className="px-4 py-2">S.No.</th>
-                            <th className="px-4 py-2">Academic Year</th>
-                            <th className="px-4 py-2">No. of Titles</th>
-                            <th className="px-4 py-2">No. of Volumes</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {physicalfacilities
-                            .filter(item => item.type === 'library_stat')
-                            .map((item, index) => (
-                              <tr key={index}>
-                                <td className="px-4 py-2">{index + 1}</td>
-                                <td className="px-4 py-2">{item.year}</td>
-                                <td className="px-4 py-2">{item.titles}</td>
-                                <td className="px-4 py-2">{item.volumes}</td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    <div className="text-center mt-4">
-                      <h2 className="text-lg font-semibold">Faculty Incharge</h2>
-                      {physicalfacilities
-                        .filter(item => item.type === 'library_incharge')
-                        .map((item, index) => (
-                          <div key={index}>
-                            <p>
-                              <b>Phone:</b> {item.phone}
-                            </p>
-                            <p>
-                              <b>Email:</b> {item.email}
-                            </p>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </details>
+                  </details>
+                ))}
               </div>
             )}
           </div>
         );
       case 'Syllabus':
+        // Group syllabus by type (B.Tech, M.Tech, etc.) or program
+        const syllabusTypes = Array.from(new Set(syllabus.map((s: any) => s.type || s.program || 'Other')));
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Syllabus</h2>
-            <div className="container mx-auto">
-              {SyllabusLoading ? (
-                <div className="text-center py-8">Loading...</div>
-              ) : (
-                <div className="space-y-6">
-                  {Array.isArray(syllabus) ? (
-                    syllabus.map((item, index) => (
-                      <details key={index} className="border rounded-lg">
-                        <summary className="font-semibold text-lg px-4 py-2 cursor-pointer">
-                          {item.program} ({item.academic_year})
-                        </summary>
-                        <div className="p-4">
-                          <ul className="list-disc pl-6 space-y-2">
-                            <li>
-                              {item.title} -{' '}
-                              <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#B22222] font-semibold hover:underline"
-                              >
-                                View
-                              </a>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
+            {SyllabusLoading ? (
+              <div className="text-center py-8 text-gray-500">Loading syllabus...</div>
+            ) : Array.isArray(syllabus) && syllabus.length > 0 ? (
+              <div className="space-y-6">
+                {syllabusTypes.map((type, index) => (
+                  <details key={type} open={index === 0} className="cst-dropdown">
+                    <summary>{type}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {syllabus
+                          .filter((s: any) => (s.type || s.program || 'Other') === type)
+                          .map((item: any, idx: number) => (
+                            <li key={idx}>
+                              {item.title}
+                              {item.academic_year && <span className="text-gray-600"> ({item.academic_year})</span>}
+                              {item.url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline font-medium"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
                             </li>
-                          </ul>
-                        </div>
-                      </details>
-                    ))
-                  ) : (
-                    <div className="text-center py-8">Syllabus data is not available.</div>
-                  )}
-                </div>
-              )}
-            </div>
+                          ))}
+                      </ul>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">No syllabus data available.</div>
+            )}
           </div>
         );
       case 'Faculty Innovations in Teaching & Learning':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Innovations in Teaching & Learning</h2>
             <div className="space-y-4">
               {facultyInnovations
                 .filter(item => item.title !== 'Question Banks')
                 .map((innovation, index) => (
-                  <details key={index} className="border rounded-md">
-                    <summary className="font-semibold px-4 py-2 cursor-pointer">{innovation.title}</summary>
-                    <div className="p-4">
+                  <details key={index} open={index === 0} className="cst-dropdown">
+                    <summary>{innovation.title}</summary>
+                    <div className="cst-dropdown-content">
                       {innovation.description && (
                         <>
                           <h3 className="text-xl text-center text-[#B22222] font-semibold mb-2">e-Resources</h3>
-                          <p>{innovation.description}</p>
-                          <p className="mt-2">
+                          <p className="text-gray-700">{innovation.description}</p>
+                          <p className="mt-2 text-gray-700">
                             <b>Some of the methods adopted by the faculty members in Teaching & Learning are:</b>
                           </p>
                         </>
@@ -1016,7 +1019,7 @@ const ECEDepartment: React.FC = () => {
                           {innovation.links && innovation.links.length > 0 ? (
                             innovation.items.map((item, idx) => (
                               <li key={idx}>
-                                {item} - <a href={innovation.links[idx]?.url} className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">View More</a>
+                                {item} - <a href={innovation.links[idx]?.url} className="text-[#B22222] hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                               </li>
                             ))
                           ) : (
@@ -1033,16 +1036,16 @@ const ECEDepartment: React.FC = () => {
                 const questionBanks = facultyInnovations.filter(item => item.title === 'Question Banks');
                 if (questionBanks.length > 0) {
                   return (
-                    <details className="border rounded-md">
-                      <summary className="font-semibold px-4 py-2 cursor-pointer">Question Banks</summary>
-                      <div className="p-4">
+                    <details className="cst-dropdown">
+                      <summary>Question Banks</summary>
+                      <div className="cst-dropdown-content">
                         {questionBanks.map((qb, idx) => (
                           <div key={idx}>
                             <h3 className="text-xl text-center text-[#B22222] font-semibold mb-2">{qb.description}</h3>
                             <ul className="list-disc pl-6 space-y-1">
                               {qb.items.map((item, i) => (
                                 <li key={i}>
-                                  {item} - <a href={qb.links[i]?.url} className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">View More</a>
+                                  {item} - <a href={qb.links[i]?.url} className="text-[#B22222] hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                                 </li>
                               ))}
                             </ul>
@@ -1072,61 +1075,33 @@ const ECEDepartment: React.FC = () => {
         }, {});
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Academic HandBooks</h2>
-            <div className="space-y-6">
-              {Object.entries(groupedHandbooks).sort(([a], [b]) => b.localeCompare(a)).map(([year, items]) => (
-                <details key={year} className="border rounded-lg">
-                  <summary className="font-semibold text-lg px-4 py-2 cursor-pointer">Academic year {year}</summary>
-                  {year === '2018-19' ? (
-                    <>
-                      <ul className="pt-3 list-disc pl-6 space-y-2">
-                        {items.filter(item => item.title.includes('II-Sem')).map((item, idx) => (
-                          <li key={idx}>
-                            {item.title} -{' '}
-                            <a
-                              href={item.url}
-                              className="text-[#B22222] font-semibold hover:underline"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              View
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                      <ul className="list-disc pl-6 space-y-2 mt-4">
-                        {items.filter(item => item.title.includes('I-Sem')).map((item, idx) => (
-                          <li key={idx}>
-                            {item.title} -{' '}
-                            <a
-                              href={item.url}
-                              className="text-[#B22222] font-semibold hover:underline"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              View
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ) : (
-                    <ul className="pt-3 list-disc pl-6 space-y-2">
-                      {items.map((item, idx) => (
-                        <li key={idx}>
-                          {item.title} -{' '}
-                          <a
-                            href={item.url}
-                            className="text-[#B22222] font-semibold hover:underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            View
-                          </a>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic HandBooks</h2>
+            <div className="space-y-4">
+              {Object.entries(groupedHandbooks).sort(([a], [b]) => b.localeCompare(a)).map(([year, items], idx) => (
+                <details key={year} open={idx === 0} className="cst-dropdown">
+                  <summary>Academic year {year}</summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {items.map((item, itemIdx) => (
+                        <li key={itemIdx}>
+                          {item.title}
+                          {item.url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View
+                              </a>
+                            </>
+                          )}
                         </li>
                       ))}
                     </ul>
-                  )}
+                  </div>
                 </details>
               ))}
             </div>
@@ -1134,161 +1109,194 @@ const ECEDepartment: React.FC = () => {
         );
       case 'Extra-Curricular Activities':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Extra-Curricular Activities</h2>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
             {extraCurricularActivities.length === 0 ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
-              <>
-                {/* Extracurricular Activities List */}
-                <div className="mb-8 max-w-4xl mx-auto">
-                  <ul className="list-disc pl-8 space-y-3 text-left">
-                    {extraCurricularActivities
-                      .filter(item => item.type === 'yearly_activity')
-                      .map((item, idx) => (
-                        <li key={idx} className="activity-item">
-                          {item.label} -{' '}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] font-semibold hover:underline"
-                          >
-                            View More
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-                {/* Departmental Sports Meet */}
-                <h2 className="text-2xl font-bold mb-4 text-center">Departmental Sports Meet-2k17</h2>
-                <div className="mb-8 max-w-4xl mx-auto">
-                  <ul className="list-disc pl-8 space-y-3 text-left">
-                    {extraCurricularActivities
-                      .filter(item => item.type === 'sports_meet')
-                      .map((item, idx) => (
-                        <li key={idx} className="activity-item">
-                          {item.label} -{' '}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] font-semibold hover:underline"
-                          >
-                            View More
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-                {/* Departmental Cultural Meet */}
-                {extraCurricularActivities
-                  .filter(item => item.type === 'cultural_meet')
-                  .map((item, idx) => (
-                    <h2 key={idx} className="text-2xl font-bold mb-4 text-center">
-                      {item.label} -{' '}
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#B22222] font-semibold hover:underline"
-                      >
-                        View More
-                      </a>
-                    </h2>
-                  ))}
-                {/* Industrial Visit */}
-                <h2 className="text-2xl font-bold mb-4 text-center">Industrial Visit</h2>
-                <div className="mb-8 max-w-4xl mx-auto">
-                  <ul className="list-disc pl-8 space-y-3 text-left">
-                    {extraCurricularActivities
-                      .filter(item => item.type === 'industrial_visit')
-                      .map((item, idx) => (
-                        <li key={idx} className="activity-item">
-                          {item.label} -{' '}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] font-semibold hover:underline"
-                          >
-                            View More
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-                {/* Blood Donation Camp */}
-                {extraCurricularActivities
-                  .filter(item => item.type === 'blood_donation_camp')
-                  .map((item, idx) => (
-                    <h2 key={idx} className="text-2xl font-bold mb-4 text-center">
-                      {item.label} -{' '}
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#B22222] font-semibold hover:underline"
-                      >
-                        View More
-                      </a>
-                    </h2>
-                  ))}
-                {/* YUVA Section */}
-                <h2 className="text-2xl font-bold mb-4 text-center">YUVA</h2>
-                <div className="bg-gray-50 rounded-xl p-6 mb-8 max-w-4xl mx-auto">
-                  <h3 className="text-xl font-semibold mb-2">Social Services</h3>
-                  <p className="mb-2">
-                    There are many people who like to donate things to the poor and needy because they are blessed with every comfort and know that others are struggling,. It is everyone's courtesy to help poor children who are less fortunate, though. If you are helping someone in their need, then you are doing the right thing by providing them with the essentials. In this world it is a fact that whatever seed you sow, that's the sort of fruit you'll get.So, if we are ready to help people then we'll also get someone to help in our hour of need. Things change with the passage of time, bringing new situations to everyone's lives.
-                  </p>
-                  <p className="mb-4">
-                    With this motto the Department of ECE of Sri Vasavi Engineering College has started in <b>"YUVA"</b> Program with the caption of <b>"The Society Needs You"</b> on the occasion of Engineer's Day in 2016-17.. Under this program students are involving voluntarily and identify the poor and needy people and help them. This program will be carried out once in a semester continuously. In this regard the College Management has encouraged the students by extending their heartful support.
-                  </p>
-                  <hr className="my-4" />
-                  <h3 className="text-lg font-semibold mb-2">LIST OF YUVA EVENTS CONDUCTED YEAR WISE</h3>
-                  <ul className="list-disc pl-8 space-y-3 text-left">
-                    {extraCurricularActivities
-                      .filter(item => item.type === 'yuva_event')
-                      .map((item, idx) => (
-                        <li key={idx}>
-                          {item.label} -{' '}
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] font-semibold hover:underline"
-                          >
-                            For more details
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              </>
+              <div className="space-y-6">
+                <details open className="cst-dropdown">
+                  <summary>Extra-Curricular Activities</summary>
+                  <div className="cst-dropdown-content">
+                    {/* Extracurricular Activities List */}
+                    {extraCurricularActivities.filter(item => item.type === 'yearly_activity').length > 0 && (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {extraCurricularActivities
+                          .filter(item => item.type === 'yearly_activity')
+                          .map((item, idx) => (
+                            <li key={idx}>
+                              {item.label} -{' '}
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View More
+                              </a>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
+
+                    {/* Departmental Sports Meet */}
+                    {extraCurricularActivities.filter(item => item.type === 'sports_meet').length > 0 && (
+                      <div className="border-t border-gray-200 pt-4 mt-4">
+                        <h4 className="text-lg font-bold text-[#B22222] mb-3">Departmental Sports Meet-2k17</h4>
+                        <ul className="list-disc pl-6 space-y-2">
+                          {extraCurricularActivities
+                            .filter(item => item.type === 'sports_meet')
+                            .map((item, idx) => (
+                              <li key={idx}>
+                                {item.label} -{' '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View More
+                                </a>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Departmental Cultural Meet */}
+                    {extraCurricularActivities.filter(item => item.type === 'cultural_meet').length > 0 && (
+                      <div className="border-t border-gray-200 pt-4 mt-4">
+                        <h4 className="text-lg font-bold text-[#B22222] mb-3">Departmental Cultural Meet</h4>
+                        {extraCurricularActivities
+                          .filter(item => item.type === 'cultural_meet')
+                          .map((item, idx) => (
+                            <div key={idx} className="mb-2">
+                              {item.label} -{' '}
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View More
+                              </a>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+
+                    {/* Industrial Visit */}
+                    {extraCurricularActivities.filter(item => item.type === 'industrial_visit').length > 0 && (
+                      <div className="border-t border-gray-200 pt-4 mt-4">
+                        <h4 className="text-lg font-bold text-[#B22222] mb-3">Industrial Visit</h4>
+                        <ul className="list-disc pl-6 space-y-2">
+                          {extraCurricularActivities
+                            .filter(item => item.type === 'industrial_visit')
+                            .map((item, idx) => (
+                              <li key={idx}>
+                                {item.label} -{' '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View More
+                                </a>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Blood Donation Camp */}
+                    {extraCurricularActivities.filter(item => item.type === 'blood_donation_camp').length > 0 && (
+                      <div className="border-t border-gray-200 pt-4 mt-4">
+                        <h4 className="text-lg font-bold text-[#B22222] mb-3">Blood Donation Camp</h4>
+                        {extraCurricularActivities
+                          .filter(item => item.type === 'blood_donation_camp')
+                          .map((item, idx) => (
+                            <div key={idx} className="mb-2">
+                              {item.label} -{' '}
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View More
+                              </a>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                </details>
+
+                {/* YUVA Events */}
+                <details className="cst-dropdown">
+                  <summary>YUVA - The Society Needs You</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="space-y-4">
+                      <div>
+                        <h3 className="text-xl font-semibold text-[#B22222] mb-3">Social Services</h3>
+                        <p className="text-gray-700 text-justify mb-3">
+                          There are many people who like to donate things to the poor and needy because they are blessed with every comfort and know that others are struggling. It is everyone's courtesy to help poor children who are less fortunate, though. If you are helping someone in their need, then you are doing the right thing by providing them with the essentials. In this world it is a fact that whatever seed you sow, that's the sort of fruit you'll get. So, if we are ready to help people then we'll also get someone to help in our hour of need. Things change with the passage of time, bringing new situations to everyone's lives.
+                        </p>
+                        <p className="text-gray-700 text-justify mb-3">
+                          With this motto the Department of ECE of Sri Vasavi Engineering College has started in <b>"YUVA"</b> Program with the caption of <b>"The Society Needs You"</b> on the occasion of Engineer's Day in 2016-17. Under this program students are involving voluntarily and identify the poor and needy people and help them. This program will be carried out once in a semester continuously. In this regard the College Management has encouraged the students by extending their heartful support.
+                        </p>
+                      </div>
+                      <div className="border-t border-gray-200 pt-4">
+                        <h4 className="text-lg font-bold text-[#B22222] mb-3">LIST OF YUVA EVENTS CONDUCTED YEAR WISE</h4>
+                        <ul className="list-disc pl-6 space-y-2">
+                          {extraCurricularActivities
+                            .filter(item => item.type === 'yuva_event')
+                            .map((item, idx) => (
+                              <li key={idx}>
+                                {item.label} -{' '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  For more details
+                                </a>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+              </div>
             )}
           </div>
         );
       case 'Newsletters':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Newsletters</h2>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Newsletters</h2>
             {newslettersLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
               <div className="space-y-4">
                 {newsletters.map((item, idx) => (
-                  <details key={idx} className="border rounded-lg">
-                    <summary className="text-lg font-semibold cursor-pointer px-4 py-2">{item.title}</summary>
-                    <div className="text-center p-3">
-                      {item.title} -{' '}
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#B22222] text-lg font-semibold hover:underline"
-                      >
-                        View
-                      </a>
+                  <details key={idx} open={idx === 0} className="cst-dropdown">
+                    <summary>{item.title}</summary>
+                    <div className="cst-dropdown-content">
+                      <p className="p-2">
+                        {item.title} -{' '}
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline"
+                        >
+                          View
+                        </a>
+                      </p>
                     </div>
                   </details>
                 ))}
@@ -1298,175 +1306,238 @@ const ECEDepartment: React.FC = () => {
         );
       case 'Training Activities':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Training Activities</h2>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Training Activities</h2>
             <div className="space-y-6">
-              {technicalAssociationActivities
-                .filter(item => item.type === 'training_activity')
-                .map((item, idx) => (
-                  <details key={idx} className="border rounded-lg">
-                    <summary className="text-lg font-semibold cursor-pointer px-4 py-2">{item.title}</summary>
-                    <div className="text-center p-3">
-                      {item.title} -{' '}
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#B22222] text-lg font-semibold hover:underline"
-                      >
-                        View
-                      </a>
-                    </div>
-                  </details>
-                ))}
+              <details open className="cst-dropdown">
+                <summary>Training Activities</summary>
+                <div className="cst-dropdown-content">
+                  {technicalAssociationActivities.filter(item => item.type === 'training_activity').length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {technicalAssociationActivities
+                        .filter(item => item.type === 'training_activity')
+                        .map((item, idx) => (
+                          <li key={idx}>
+                            {item.title}
+                            {item.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  ) : (
+                    <div className="text-gray-600 text-sm mt-2">No training activities available currently.</div>
+                  )}
+                </div>
+              </details>
             </div>
           </div>
         );
       case 'Technical Association':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Technical Association</h2>
-            <div className="mb-8">
-              <details className="mb-6">
-                <summary className="text-xl font-semibold cursor-pointer">Celebrations Under Veda</summary>
-                <p className="py-2">
-                  Victorious Electronics with Dynamic Aspirants is the departmental student association. The main intention of VEDA is to provide effective communication among the students of ECE department and share their ideas and improve their technical skills. The Department also conducts various Activities under the banner of IETE Student Chapter.
-                </p>
-                <ul className="list-disc pl-6 mt-4 space-y-2">
-                  {technicalAssociationActivities
-                    .filter(item => item.type === 'technical_association_event')
-                    .map((item, idx) => (
-                      <li key={idx}>
-                        {item.title} -{' '}
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          View More
-                        </a>
-                      </li>
-                    ))}
-                </ul>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
+            <p className="text-gray-700 mb-6 text-justify">
+              Victorious Electronics with Dynamic Aspirants is the departmental student association. The main intention of VEDA is to provide effective communication among the students of ECE department and share their ideas and improve their technical skills. The Department also conducts various Activities under the banner of IETE Student Chapter.
+            </p>
+
+            <div className="space-y-4">
+              <details open className="cst-dropdown">
+                <summary>Celebrations Under VEDA</summary>
+                <div className="cst-dropdown-content">
+                  {technicalAssociationActivities.filter(item => item.type === 'technical_association_event').length > 0 ? (
+                    <ul className="list-disc pl-6 my-4 space-y-2">
+                      {technicalAssociationActivities
+                        .filter(item => item.type === 'technical_association_event')
+                        .map((item, idx) => (
+                          <li key={idx}>
+                            <span className="text-gray-800">{item.title}</span>
+                            {item.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline font-medium"
+                                >
+                                  View More
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  ) : (
+                    <div className="text-gray-600 text-sm mt-2">No activities available currently.</div>
+                  )}
+                </div>
               </details>
-            </div>
-            <div className="mb-8">
-              <h3 className="text-2xl font-semibold mb-4 text-center">Images</h3>
-              {/* TECKVEDA-2K19 Gallery */}
-              <div className="mb-8">
-                <h4 className="text-xl font-bold text-center mb-4">TECKVEDA-2K19</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {technicalAssociationActivities
-                    .filter(item => item.type === 'gallery_2k19')
-                    .map((item, idx) => (
-                      <img
-                        key={idx}
-                        src={item.url}
-                        alt={item.title}
-                        className="rounded-lg shadow-md w-full h-auto object-cover"
-                      />
-                    ))}
+
+              <details className="cst-dropdown">
+                <summary>Image Gallery</summary>
+                <div className="cst-dropdown-content">
+                  <div className="space-y-6">
+                    {/* TECKVEDA-2K19 Gallery */}
+                    {technicalAssociationActivities.filter(item => item.type === 'gallery_2k19').length > 0 && (
+                      <div>
+                        <h4 className="text-xl font-bold text-[#B22222] mb-4">TECKVEDA-2K19</h4>
+                        <div className="grid grid-cols-2 gap-4">
+                          {technicalAssociationActivities
+                            .filter(item => item.type === 'gallery_2k19')
+                            .map((item, idx) => (
+                              <img
+                                key={idx}
+                                src={item.url}
+                                alt={item.title}
+                                className="w-full rounded-lg shadow-md object-cover"
+                                style={{ height: '300px', width: '400px' }}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                }}
+                              />
+                            ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TECKVEDA-2K18 Gallery */}
+                    {technicalAssociationActivities.filter(item => item.type === 'gallery_2k18').length > 0 && (
+                      <div>
+                        <h4 className="text-xl font-bold text-[#B22222] mb-4">TECKVEDA-2K18</h4>
+                        <div className="grid grid-cols-2 gap-4">
+                          {technicalAssociationActivities
+                            .filter(item => item.type === 'gallery_2k18')
+                            .map((item, idx) => (
+                              <img
+                                key={idx}
+                                src={item.url}
+                                alt={item.title}
+                                className="w-full rounded-lg shadow-md object-cover"
+                                style={{ height: '300px', width: '400px' }}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                }}
+                              />
+                            ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {technicalAssociationActivities.filter(item => item.type === 'gallery_2k19' || item.type === 'gallery_2k18').length === 0 && (
+                      <p className="text-gray-500 text-center py-4">No gallery images available yet</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-              {/* TECKVEDA-2K18 Gallery */}
-              <div>
-                <h4 className="text-xl font-bold text-center mb-4">TECKVEDA-2K18</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {technicalAssociationActivities
-                    .filter(item => item.type === 'gallery_2k18')
-                    .map((item, idx) => (
-                      <img
-                        key={idx}
-                        src={item.url}
-                        alt={item.title}
-                        className="rounded-lg shadow-md w-full h-auto object-cover"
-                      />
-                    ))}
-                </div>
-              </div>
+              </details>
             </div>
           </div>
         );
       case 'Merit Scholarship/Academic Toppers':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Merit Scholarships and Academic Toppers</h2>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
             {ScholarshipToppersLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
-              <div className="mb-8">
-                <details className="mb-6">
-                  <summary className="text-xl font-semibold cursor-pointer">Merit Scholarships Year Wise</summary>
-                  <p className="py-2">The college management is very much interested to encourage the students by giving merit scholarships and incentives to the best EAMCET Rankers and semester wise class topper. With this every year some students are receiving the scholarships and get benefitted and motivated. The details are listed below:</p>
-                  <ul className="list-disc pl-6 mt-4 space-y-2">
-                    {scholarshipToppers
-                      .filter(item => item.type === 'merit_scholarship')
-                      .map((item, index) => (
-                        <li key={index}>
-                          {item.title} ({item.year}) - <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                        </li>
-                      ))}
-                  </ul>
+              <div className="space-y-6">
+                <details open className="cst-dropdown">
+                  <summary>Merit Scholarships Year Wise</summary>
+                  <div className="cst-dropdown-content">
+                    <p className="py-2">The college management is very much interested to encourage the students by giving merit scholarships and incentives to the best EAMCET Rankers and semester wise class topper. With this every year some students are receiving the scholarships and get benefitted and motivated. The details are listed below:</p>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                      {scholarshipToppers
+                        .filter(item => item.type === 'merit_scholarship')
+                        .map((item, index) => (
+                          <li key={index}>
+                            {item.title} ({item.year}) - <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View More</a>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
                 </details>
-                <details>
-                  <summary className="text-xl font-semibold cursor-pointer">Cash Award's and Scholarship's given by College Management</summary>
-                  <div className="overflow-x-auto mt-4">
-                    <table className="min-w-full bg-white border border-gray-300 rounded-lg text-sm">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th className="py-2 px-4 border-b">S.No</th>
-                          <th className="py-2 px-4 border-b">Academic Year</th>
-                          <th className="py-2 px-4 border-b">Based on</th>
-                          <th className="py-2 px-4 border-b">No. of Students Benefited</th>
-                          <th className="py-2 px-4 border-b">Scholarship Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {scholarshipToppers
-                          .filter(item => item.type === 'cash_award')
-                          .map((item, index) => {
-                            const isEAMCET = item.based_on === 'EAMCET Rank';
-                            return (
-                              <React.Fragment key={index}>
-                                <tr>
-                                  <td className="py-2 px-4 border-b">{index + 1}</td>
-                                  <td className="py-2 px-4 border-b">{item.year}</td>
-                                  <td className="py-2 px-4 border-b">{item.based_on}</td>
-                                  <td className="py-2 px-4 border-b">{item.students}</td>
-                                  <td className="py-2 px-4 border-b">{item.amount}</td>
-                                </tr>
-                                {isEAMCET && (
-                                  <tr>
-                                    <td className="py-2 px-4 border-b"></td>
-                                    <td className="py-2 px-4 border-b"></td>
-                                    <td className="py-2 px-4 border-b">EAMCET Rank</td>
-                                    <td className="py-2 px-4 border-b">{item.students}</td>
-                                    <td className="py-2 px-4 border-b">{item.amount}</td>
+                <details className="cst-dropdown">
+                  <summary>Cash Award's and Scholarship's given by College Management</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full bg-white border border-gray-200">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th className="py-3 px-4 border-b text-left">S.No</th>
+                            <th className="py-3 px-4 border-b text-left">Academic Year</th>
+                            <th className="py-3 px-4 border-b text-left">Based on</th>
+                            <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th>
+                            <th className="py-3 px-4 border-b text-left">Scholarship Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {scholarshipToppers
+                            .filter(item => item.type === 'cash_award')
+                            .map((item, index) => {
+                              const isEAMCET = item.based_on === 'EAMCET Rank';
+                              return (
+                                <React.Fragment key={index}>
+                                  <tr className="hover:bg-gray-50">
+                                    <td className="py-3 px-4 border-b">{index + 1}</td>
+                                    <td className="py-3 px-4 border-b">{item.year}</td>
+                                    <td className="py-3 px-4 border-b">{item.based_on}</td>
+                                    <td className="py-3 px-4 border-b">{item.students}</td>
+                                    <td className="py-3 px-4 border-b">{item.amount}</td>
                                   </tr>
-                                )}
-                              </React.Fragment>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                                  {isEAMCET && (
+                                    <tr className="hover:bg-gray-50">
+                                      <td className="py-3 px-4 border-b"></td>
+                                      <td className="py-3 px-4 border-b"></td>
+                                      <td className="py-3 px-4 border-b">EAMCET Rank</td>
+                                      <td className="py-3 px-4 border-b">{item.students}</td>
+                                      <td className="py-3 px-4 border-b">{item.amount}</td>
+                                    </tr>
+                                  )}
+                                </React.Fragment>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </details>
+
+                <details className="cst-dropdown">
+                  <summary>Image Gallery</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      {[
+                        1, 2, 3, 6, 5, 7, 8, 9, 9, 10, 11, 12, 13, 14
+                      ].map((num, idx) => (
+                        <img
+                          key={idx}
+                          src={`https://srivasaviengg.ac.in/eceguest_worksemfdpfiles/Merit_Scholars${num}.jpg`}
+                          alt={`Merit Scholar ${num}`}
+                          className="w-full rounded-lg shadow-md object-cover"
+                          style={{ height: '300px', width: '400px' }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </details>
               </div>
             )}
-            <h3 className="text-2xl font-semibold mb-4 text-center mt-8">Image Gallery</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                1, 2, 3, 6, 5, 7, 8, 9, 9, 10, 11, 12, 13, 14
-              ].map((num, idx) => (
-                <img
-                  key={idx}
-                  src={`https://srivasaviengg.ac.in/eceguest_worksemfdpfiles/Merit_Scholars${num}.jpg`}
-                  alt={`Merit Scholar ${num}`}
-                  className="rounded-lg shadow-md w-full h-auto object-cover"
-                />
-              ))}
-            </div>
           </div>
         );
       case 'Student Achievements':
@@ -1477,25 +1548,38 @@ const ECEDepartment: React.FC = () => {
         );
       case 'Placements':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Placements</h2>
-            <div className="space-y-4">
-              {placements.map((placement, idx) => (
-                <details key={placement.year} className="border rounded-lg">
-                  <summary className="text-lg font-semibold cursor-pointer px-4 py-2">Placements during the Academic Year {placement.year}</summary>
-                  <div className="text-center p-3">
-                    Placements during the Academic Year {placement.year} -{' '}
-                    <a
-                      href={placement.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#B22222] text-lg font-semibold hover:underline"
-                    >
-                      View
-                    </a>
-                  </div>
-                </details>
-              ))}
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Placements Details</summary>
+                <div className="cst-dropdown-content">
+                  {placements.length > 0 ? (
+                    placements.map((placement, idx) => (
+                      <div key={placement.year} className="mb-4">
+                        <p className="font-medium">
+                          Placements during the Academic Year {placement.year}
+                          {placement.url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={placement.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View More
+                              </a>
+                            </>
+                          )}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-600 text-sm">No placement details available.</p>
+                  )}
+                </div>
+              </details>
             </div>
           </div>
         );
@@ -1508,74 +1592,103 @@ const ECEDepartment: React.FC = () => {
           <div>
             {/* Placeholder for dynamic data */}
             {workshop_gl.length > 0 ? (
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in space-y-6">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
                 {/* Workshops/SOC */}
-                <div className="mb-8">
-                  <details className="mb-6">
-                    <summary className="text-xl font-semibold cursor-pointer">Workshops/SOC</summary>
-                    <div className="mt-4">
-                      <ol className="list-decimal pl-6 space-y-2">
+                <details open className="cst-dropdown">
+                  <summary>Workshops/SOC</summary>
+                  <div className="cst-dropdown-content">
+                    {workshop_gl.filter((item) => item.type === 'workshop_soc').length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
                         {workshop_gl
                           .filter((item) => item.type === 'workshop_soc')
                           .map((item, index) => (
                             <li key={index}>
-                              {item.title} {item.year ? `(${item.year})` : ''} -{' '}
-                              <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline"
-                              >
-                                View More
-                              </a>
+                              {item.title}
+                              {item.year && <> ({item.year})</>}
+                              {item.url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
                             </li>
                           ))}
-                      </ol>
-                    </div>
-                  </details>
-                </div>
+                      </ul>
+                    ) : (
+                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                    )}
+                  </div>
+                </details>
+
                 {/* Guest Lectures */}
-                <div className="mb-8">
-                  <details>
-                    <summary className="text-xl font-semibold cursor-pointer">Guest Lectures</summary>
-                    <div className="mt-4">
-                      <ol className="list-decimal pl-6 space-y-2">
+                <details className="cst-dropdown">
+                  <summary>Guest Lectures</summary>
+                  <div className="cst-dropdown-content">
+                    {workshop_gl.filter((item) => item.type === 'guest_lecture').length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
                         {workshop_gl
                           .filter((item) => item.type === 'guest_lecture')
                           .map((item, index) => (
                             <li key={index}>
-                              {item.title} {item.year ? `(${item.year})` : ''} -{' '}
-                              <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline"
-                              >
-                                View More
-                              </a>
+                              {item.title}
+                              {item.year && <> ({item.year})</>}
+                              {item.url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
                             </li>
                           ))}
-                      </ol>
-                    </div>
-                  </details>
-                </div>
-                {/* Workshops/SOC Gallery */}
-                <div className="text-center mt-8">
-                  <h3 className="text-2xl font-semibold mb-4">Workshops/SOC Gallery PICS</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {workshop_gl
-                      .filter((item) => item.type === 'gallery')
-                      .map((item, index) => (
-                        <img
-                          key={index}
-                          src={item.url}
-                          alt={item.title}
-                          className="rounded-lg shadow-md w-full h-auto object-cover"
-                        />
-                      ))}
+                      </ul>
+                    ) : (
+                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                    )}
                   </div>
-                </div>
+                </details>
+
+                {/* Gallery */}
+                <details className="cst-dropdown">
+                  <summary>Gallery</summary>
+                  <div className="cst-dropdown-content">
+                    {workshop_gl.filter((item) => item.type === 'gallery').length > 0 ? (
+                      <div className="grid grid-cols-2 gap-4 mt-4">
+                        {workshop_gl
+                          .filter((item) => item.type === 'gallery')
+                          .map((item, index) => (
+                            <img
+                              key={index}
+                              src={item.url}
+                              alt={item.title}
+                              className="w-full rounded-lg shadow-md object-cover"
+                              style={{ height: '300px', width: '400px' }}
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                              }}
+                            />
+                          ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-500 text-center py-4">No gallery images available yet</p>
+                    )}
+                  </div>
+                </details>
               </div>
             ) : (
               <div>Loading Workshops/SOC/Guest Lecturers data...</div>
@@ -1585,99 +1698,118 @@ const ECEDepartment: React.FC = () => {
       // ...existing cases...
       case 'Faculty Development Programs':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Development Programs</h2>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2 }}>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
             {FdpLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
-              <>
-                <div className="mb-8">
-                  <details className="mb-6">
-                    <summary className="text-xl font-semibold cursor-pointer">FDP Attended</summary>
-                    <ul className="list-disc pl-6 mt-4 space-y-2">
-                      {fdp
-                        .filter((item) => item.type === 'attended')
-                        .map((item, index) => (
-                          <li key={index} className="fdp-item">
-                            {item.title} {item.year ? `(${item.year})` : ''} -{' '}
-                            <a
-                              href={item.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:underline"
-                            >
-                              View
-                            </a>
-                          </li>
-                        ))}
-                    </ul>
-                  </details>
-                </div>
-                <div>
-                  <details>
-                    <summary className="text-xl font-semibold cursor-pointer">FDPs/ Workshops/ Training Programmes Conducted</summary>
-                    <ul className="list-disc pl-6 mt-4 space-y-2">
-                      {fdp
-                        .filter((item) => item.type === 'conducted')
-                        .map((item, index) => (
-                          <li key={index} className="fdp-item">
-                            {item.title} {item.year ? `(${item.year})` : ''} -{' '}
-                            <a
-                              href={item.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:underline"
-                            >
-                              View
-                            </a>
-                          </li>
-                        ))}
-                    </ul>
-                  </details>
-                </div>
-              </>
+              <div className="space-y-6">
+                <details open className="cst-dropdown">
+                  <summary>FDP Attended</summary>
+                  <div className="cst-dropdown-content">
+                    {fdp.filter((item) => item.type === 'attended').length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {fdp
+                          .filter((item) => item.type === 'attended')
+                          .map((item, index) => (
+                            <li key={index}>
+                              {item.title}
+                              {item.year && <> ({item.year})</>}
+                              {item.url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    ) : null}
+                  </div>
+                </details>
+
+                <details className="cst-dropdown">
+                  <summary>FDPs/ Workshops/ Training Programmes Conducted</summary>
+                  <div className="cst-dropdown-content">
+                    {fdp.filter((item) => item.type === 'conducted').length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {fdp
+                          .filter((item) => item.type === 'conducted')
+                          .map((item, index) => (
+                            <li key={index}>
+                              {item.title}
+                              {item.year && <> ({item.year})</>}
+                              {item.url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    ) : null}
+                  </div>
+                </details>
+              </div>
             )}
           </div>
         );
       case 'MoUs':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
-            <h3 className="text-2xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
+            <h3 className="text-xl font-semibold text-[#B22222] mb-4 text-center">A. MOUs with Industries</h3>
             <div className="overflow-x-auto mb-8">
               {MousLoading ? (
-                <div className="text-center py-8">Loading...</div>
+                <div className="text-center py-8 text-gray-500">Loading...</div>
               ) : mous.length === 0 ? (
-                <div className="text-center py-8">No MoUs found.</div>
+                <div className="text-center py-8 text-gray-500">No MoUs found.</div>
               ) : (
-                <table className="min-w-full bg-white border border-gray-300 rounded-lg text-sm">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="py-2 px-4 border-b">S.No</th>
-                      <th className="py-2 px-4 border-b">Organization Name</th>
-                      <th className="py-2 px-4 border-b">Date</th>
-                      <th className="py-2 px-4 border-b">Status</th>
-                      <th className="py-2 px-4 border-b">Purpose</th>
-                      <th className="py-2 px-4 border-b">Document</th>
+                <table className="min-w-full bg-white border border-gray-200">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="py-3 px-4 border-b text-left">S.No</th>
+                      <th className="py-3 px-4 border-b text-left">Organization Name</th>
+                      <th className="py-3 px-4 border-b text-left">Date</th>
+                      <th className="py-3 px-4 border-b text-left">Status</th>
+                      <th className="py-3 px-4 border-b text-left">Document</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {mous.map((mou, index) => (
-                      <tr key={index}>
-                        <td className="py-2 px-4 border-b">{index + 1}</td>
-                        <td className="py-2 px-4 border-b">{mou.organisation}</td>
-                        <td className="py-2 px-4 border-b">{mou.date}</td>
-                        <td className="py-2 px-4 border-b">{mou.status}</td>
-                        <td className="py-2 px-4 border-b">{mou.purpose}</td>
-                        <td className="py-2 px-4 border-b">
-                          <a
-                            href={mou.document_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
-                          >
-                            View
-                          </a>
+                    {mous.map((mou: any, index: number) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">{index + 1}</td>
+                        <td className="py-3 px-4 border-b">{mou.organisation || mou.organization_name}</td>
+                        <td className="py-3 px-4 border-b">{mou.date || mou.signed_date || mou.from_date}</td>
+                        <td className="py-3 px-4 border-b">{mou.status || 'Active'}</td>
+                        <td className="py-3 px-4 border-b">
+                          {mou.document_url ? (
+                            <a
+                              href={mou.document_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline"
+                            >
+                              View
+                            </a>
+                          ) : (
+                            <span className="text-gray-400">No document</span>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -1685,15 +1817,15 @@ const ECEDepartment: React.FC = () => {
                 </table>
               )}
             </div>
-            <h3 className="text-2xl font-semibold mb-4">B. Interaction with the Industry</h3>
+            <h3 className="text-xl font-semibold text-[#B22222] mb-4">B. Interaction with the Industry</h3>
             <ul className="list-disc pl-6 space-y-2">
               <li>
                 Making MOU with Electro-Pro e-Waste Management, Visakapatnam to establish Electro Pro e-Waste in Campus -{' '}
-                <a href="https://srivasaviengg.ac.in/eceguest_worksemfdpfiles/MOU%20With%20Electro%20Pro%20Management.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                <a href="https://srivasaviengg.ac.in/eceguest_worksemfdpfiles/MOU%20With%20Electro%20Pro%20Management.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a>
               </li>
               <li>
                 Making MOU with Thing tronics company, Banglore to establish IOT lab in Campus -{' '}
-                <a href="https://srivasaviengg.ac.in/eceguest_worksemfdpfiles/MOU%20With%20Thingtronics.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                <a href="https://srivasaviengg.ac.in/eceguest_worksemfdpfiles/MOU%20With%20Thingtronics.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a>
               </li>
             </ul>
           </div>
@@ -1709,196 +1841,235 @@ const ECEDepartment: React.FC = () => {
     switch (activeContent) {
       // ...existing cases...
       case 'Clubs':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            {ClubsLoading ? (
-              <div className="text-center py-8">Loading...</div>
-            ) : (
-              <div>
-                {/* SPACE CLUB_AICTE-SPICES */}
-                <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">SPACE CLUB_AICTE-SPICES</h2>
-                <div className="mb-10">
-                  <details className="mb-6">
-                    <summary className="text-xl font-semibold cursor-pointer">SPACE CLUB_AICTE-SPICES</summary>
-                    <ul className="list-disc pl-6 mt-4 space-y-2">
-                      {clubs
-                        .filter((clubItem) => clubItem.club === 'SPACE CLUB_AICTE-SPICES')
-                        .map((clubItem, index) => (
-                          <li key={index} className="fdp-item">
-                            {clubItem.event} -{' '}
-                            <a
-                              href={clubItem.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:underline"
-                            >
-                              View
-                            </a>
-                          </li>
-                        ))}
-                    </ul>
-                  </details>
-                </div>
+        // Group clubs by club name
+        const clubNames = Array.from(new Set(clubs.map((c: any) => c.club)));
 
-                {/* E- Waste Management Refurbishing club */}
-                <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">E- Waste Management Refurbishing club</h2>
-                <div>
-                  <details>
-                    <summary className="text-xl font-semibold cursor-pointer">E- Waste Management Refurbishing club</summary>
-                    <ul className="list-disc pl-6 mt-4 space-y-2">
-                      {clubs
-                        .filter((clubItem) => clubItem.club === 'E- Waste Management Refurbishing club')
-                        .map((clubItem, index) => (
-                          <li key={index} className="fdp-item">
-                            {clubItem.event} -{' '}
-                            <a
-                              href={clubItem.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:underline"
-                            >
-                              View
-                            </a>
-                          </li>
-                        ))}
-                    </ul>
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Clubs</h2>
+            {ClubsLoading ? (
+              <div className="text-center py-8 text-gray-500">Loading...</div>
+            ) : clubs.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">No clubs data available.</div>
+            ) : (
+              <div className="space-y-6">
+                {clubNames.map((clubName, index) => (
+                  <details key={clubName} open={index === 0} className="cst-dropdown">
+                    <summary>{clubName}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {clubs
+                          .filter((clubItem: any) => clubItem.club === clubName)
+                          .map((clubItem: any, idx: number) => (
+                            <li key={idx}>
+                              {clubItem.event}
+                              {clubItem.url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={clubItem.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline font-medium"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
                   </details>
-                </div>
+                ))}
               </div>
             )}
           </div>
         );
       case 'Faculty Profiles':
         return (
-          <div className="space-y-8">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Teaching Faculty</h2>
-              {facultyLoading ? (
-                <div className="text-center py-8">Loading...</div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th className="px-6 py-3">S.No.</th>
-                        <th className="px-6 py-3">Name</th>
-                        <th className="px-6 py-3">Qualification</th>
-                        <th className="px-6 py-3">Designation</th>
-                        <th className="px-6 py-3">Profile</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {faculty.map((member: Faculty, idx) => (
-                        <tr key={idx} className="bg-white border-b hover:bg-gray-50">
-                          <td className="px-6 py-4">{idx + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.qualification}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                          <td className="px-6 py-4">
-                            {member.profile_url && (
-                              <a
-                                href={member.profile_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="font-medium text-blue-600 hover:underline"
-                              >
-                                View
-                              </a>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Teaching Faculty</summary>
+                <div className="cst-dropdown-content">
+                  {facultyLoading ? (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">Loading teaching faculty...</div>
+                    </div>
+                  ) : faculty && faculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {faculty.map((member: Faculty, idx) => (
+                            <tr key={idx} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{idx + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              <td className="px-6 py-4">
+                                {member.profile_url ? (
+                                  <a
+                                    href={member.profile_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
+                                  >
+                                    View Profile
+                                  </a>
+                                ) : (
+                                  <span className="text-gray-400 text-sm">No Profile</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">No teaching faculty data available.</div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Non-Teaching Staff</h2>
-              {nonTeachingLoading ? (
-                <div className="text-center py-8">Loading...</div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th className="px-6 py-3">S.No.</th>
-                        <th className="px-6 py-3">Name</th>
-                        <th className="px-6 py-3">Designation</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {nonTeachingFaculty.map((member: NonTeachingFaculty, idx) => (
-                        <tr key={idx} className="bg-white border-b hover:bg-gray-50">
-                          <td className="px-6 py-4">{idx + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              </details>
+
+              <details className="cst-dropdown">
+                <summary>Non-Teaching Staff</summary>
+                <div className="cst-dropdown-content">
+                  {nonTeachingLoading ? (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">Loading non-teaching staff...</div>
+                    </div>
+                  ) : nonTeachingFaculty && nonTeachingFaculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {nonTeachingFaculty.map((member: NonTeachingFaculty, idx) => (
+                            <tr key={idx} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{idx + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">No non-teaching staff data available.</div>
+                    </div>
+                  )}
                 </div>
-              )}
+              </details>
             </div>
           </div>
         );
 
       case 'Board of Studies':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg overflow-hidden">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                  <tr>
-                    <th className="px-4 py-3">S.No</th>
-                    <th className="px-4 py-3">Name of the BOS Member</th>
-                    <th className="px-4 py-3">Designation</th>
-                    <th className="px-4 py-3">Organization</th>
-                    <th className="px-4 py-3">Position in JOB</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {boardOfStudiesLoading ? (
-                    <tr>
-                      <td colSpan={5} className="px-4 py-3 text-center">Loading...</td>
-                    </tr>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Board of Studies Members</summary>
+                <div className="cst-dropdown-content">
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {boardOfStudiesLoading ? (
+                          <tr>
+                            <td colSpan={5} className="px-4 py-3 text-center text-gray-500">Loading...</td>
+                          </tr>
+                        ) : boardOfStudies && boardOfStudies.length > 0 ? (
+                          boardOfStudies.map((member: BoardOfStudiesMember, index) => (
+                            <tr key={index} className="hover:bg-gray-50">
+                              <td className="py-3 px-4 border-b border-gray-200">{index + 1}</td>
+                              <td className="py-3 px-4 border-b border-gray-200">{member.member_name}</td>
+                              <td className="py-3 px-4 border-b border-gray-200">{member.designation || ''}</td>
+                              <td className="py-3 px-4 border-b border-gray-200">{member.organization || ''}</td>
+                              <td className="py-3 px-4 border-b border-gray-200">{member.role}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={5} className="px-4 py-3 text-center text-gray-500">No data available.</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </details>
+
+              <details className="cst-dropdown">
+                <summary>Board of Studies Meeting Minutes</summary>
+                <div className="cst-dropdown-content">
+                  {BosMinutesLoading ? (
+                    <div className="text-center py-8 text-gray-500">Loading...</div>
+                  ) : bosminutes && bosminutes.length > 0 ? (
+                    <div className="space-y-3">
+                      {bosminutes.map((minute: BosMinutes, index) => {
+                        const formatDate = (dateStr: string) => {
+                          const dateOnly = dateStr?.split('T')[0];
+                          if (!dateOnly) return dateStr;
+                          const [year, month, day] = dateOnly.split('-');
+                          return `${day}-${month}-${year}`;
+                        };
+
+                        return (
+                          <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div className="flex-1">
+                              <span className="font-medium text-gray-900">
+                                {minute.meeting_title} - {minute.meeting_number}
+                              </span>
+                              <span className="text-gray-600 ml-2">
+                                ({formatDate(minute.meeting_date)}) [{minute.academic_year}]
+                              </span>
+                            </div>
+                            <a
+                              href={minute.document_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors text-sm font-medium"
+                            >
+                              View Document
+                            </a>
+                          </div>
+                        );
+                      })}
+                    </div>
                   ) : (
-                    boardOfStudies.map((member: BoardOfStudiesMember, index) => (
-                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-4 py-3">{index + 1}</td>
-                        <td className="px-4 py-3">{member.member_name}</td>
-                        <td className="px-4 py-3">{member.designation}</td>
-                        <td className="px-4 py-3">{member.organization}</td>
-                        <td className="px-4 py-3">{member.role}</td>
-                      </tr>
-                    ))
+                    <div className="text-center py-8 text-gray-500">No meeting minutes available.</div>
                   )}
-                </tbody>
-              </table>
-            </div>
-            <div className="mt-8">
-              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
-              <ul className="list-disc pl-6 space-y-2">
-                {BosMinutesLoading ? (
-                  <li>Loading...</li>
-                ) : (
-                  // meeting_title, meeting_number, meeting_date, document_url, academic_year
-                  bosminutes.map((minute: BosMinutes, index) => (
-                    <li key={index}>
-                      {minute.meeting_title} - {minute.meeting_number} ({minute.meeting_date}) [{minute.academic_year}] -{' '}
-                      <a
-                        href={minute.document_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        View
-                      </a>
-                    </li>
-                  ))
-                )}
-              </ul>
+                </div>
+              </details>
             </div>
           </div>
         );
