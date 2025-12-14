@@ -241,26 +241,40 @@ const About: React.FC = () => {
               {/* Vision Mission Values */}
               <section className="py-12 bg-background">
                 <div className="container mx-auto px-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="text-center p-8 rounded-xl bg-card border-2 border-primary text-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg">
-                      <Eye className="w-16 h-16 mx-auto mb-6 text-primary" />
-                      <h3 className="text-2xl font-bold mb-4">Vision</h3>
-                      <p className="leading-relaxed text-justify">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    {/* Vision */}
+                    <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-card border border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full relative overflow-hidden group">
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+                      <div className="p-4 bg-primary/5 rounded-full mb-6 group-hover:bg-primary/10 transition-colors duration-300">
+                        <Eye className="w-10 h-10 text-primary" />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-4 text-foreground">Vision</h3>
+                      <p className="text-muted-foreground leading-relaxed text-lg max-w-md">
                         To be a premier technological institute striving for excellence with global perspective and commitment to the Nation.
                       </p>
                     </div>
-                    <div className="text-center p-8 rounded-xl bg-card border-2 border-primary text-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg">
-                      <Target className="w-16 h-16 mx-auto mb-6 text-primary" />
-                      <h3 className="text-2xl font-bold mb-4">Mission</h3>
-                      <p className="leading-relaxed text-justify mb-4">
-                        To produce Engineering graduates of professional quality and global perspective through Learner Centric Education.
-                      </p>
-                      <p className="leading-relaxed text-justify mb-4">
-                        To establish linkages with government, industry and Research laboratories to promote R&D activities and to disseminate innovations.
-                      </p>
-                      <p className="leading-relaxed text-justify">
-                        To create an eco-system in the institute that leads to holistic development and ability for life- long learning.
-                      </p>
+
+                    {/* Mission */}
+                    <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-card border border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full relative overflow-hidden group">
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+                      <div className="p-4 bg-primary/5 rounded-full mb-6 group-hover:bg-primary/10 transition-colors duration-300">
+                        <Target className="w-10 h-10 text-primary" />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-4 text-foreground">Mission</h3>
+                      <div className="text-muted-foreground leading-relaxed space-y-3 text-left w-full">
+                        <div className="flex gap-3">
+                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                          <p>To produce Engineering graduates of professional quality and global perspective through Learner Centric Education.</p>
+                        </div>
+                        <div className="flex gap-3">
+                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                          <p>To establish linkages with government, industry and Research laboratories to promote R&D activities and to disseminate innovations.</p>
+                        </div>
+                        <div className="flex gap-3">
+                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                          <p>To create an eco-system in the institute that leads to holistic development and ability for life- long learning.</p>
+                        </div>
+                      </div>
                     </div>
                     
                   </div>

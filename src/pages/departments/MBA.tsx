@@ -38,12 +38,14 @@ const MBADepartment: React.FC = () => {
   const [facultyDev, setFacultyDev] = React.useState<any[]>([]);
   const [facultyAch, setFacultyAch] = React.useState<any[]>([]);
   const [placement, setPlacement] = React.useState<any[]>([]);
-  const [StudentAch, setStudentAch] = React.useState<any[]>([]);
+  const [StudentAch, setStudentAch] = React.useState<Record<string, any[]>>({});
+  const [workshops, setWorkshops] = React.useState<Record<string, any[]>>({});
   const [handbooks, setHandbooks] = React.useState<any[]>([]);
   const [meritScholarships, setMeritScholarships] = React.useState<any[]>([]);
   const [mous, setMous] = React.useState<any[]>([]);
   const [newsletters, setNewsletters] = React.useState<any[]>([]);
   const [physicalFacilities, setPhysicalFacilities] = React.useState<any[]>([]);
+  const [departmentLibrary, setDepartmentLibrary] = React.useState<any>(null);
   const [accordionOpenState, setAccordionOpenState] = React.useState<Record<string, boolean>>({
     teaching: true,
     nonTeaching: false,
@@ -56,9 +58,28 @@ const MBADepartment: React.FC = () => {
   });
   useEffect(() => {
     fetch('/api/mba/student-achievements') // backend API URL
-      .then((res) => res.json())
-      .then((data) => setStudentAch(Array.isArray(data) ? data : []))
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        console.log('MBA Student Achievements Data:', data);
+        setStudentAch(data || {});
+      })
       .catch((err) => console.error("Error fetching MBA Student Achievements:", err));
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/mba/workshops')
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        console.log('MBA Workshops Data:', data);
+        setWorkshops(data || {});
+      })
+      .catch((err) => console.error("Error fetching MBA Workshops:", err));
   }, []);
   useEffect(() => {
     fetch('/api/mba/placements') // backend API URL
@@ -105,9 +126,15 @@ const MBADepartment: React.FC = () => {
   }, []);
   useEffect(() => {
     fetch('/api/mba/faculty-achievements') // backend API URL
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => setFacultyAch(Array.isArray(data) ? data : []))
-      .catch((err) => console.error("Error fetching Faculty Achievements:", err));
+      .catch((err) => {
+        console.error("Error fetching Faculty Achievements:", err);
+        setFacultyAch([]);
+      });
   }, []);
 
   const groupedData = React.useMemo(() => {
@@ -122,75 +149,155 @@ const MBADepartment: React.FC = () => {
 
   useEffect(() => {
     fetch('/api/mba/faculty-development') // backend API URL
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => setFacultyDev(Array.isArray(data) ? data : []))
-      .catch((err) => console.error("Error fetching Faculty Development:", err));
+      .catch((err) => {
+        console.error("Error fetching Faculty Development:", err);
+        setFacultyDev([]);
+      });
   }, []);
   React.useEffect(() => {
     fetch('/api/mba/syllabus')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
         setSyllabus(Array.isArray(data) ? data : []);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error("Error fetching Syllabus:", err);
+        setSyllabus([]);
+        setLoading(false);
+      });
   }, []);
   useEffect(() => {
     fetch('/api/mba/bos-meetings') // backend API URL
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => setbosMeetings(data))
-      .catch((err) => console.error("Error fetching BOS meetings:", err));
+      .catch((err) => {
+        console.error("Error fetching BOS meetings:", err);
+        setbosMeetings([]);
+      });
   }, []);
   React.useEffect(() => {
     fetch("/api/mba/non-teaching-staff")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
         console.log(data)
         setNonTeachingFaculty(data.nonTeaching || []);
+      })
+      .catch((err) => {
+        console.error("Error fetching Non-Teaching Staff:", err);
+        setNonTeachingFaculty([]);
       });
   }, []);
   React.useEffect(() => {
     fetch("/api/mba/board-of-studies")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
         console.log(data)
         setboardOfStudies(data || []);
+      })
+      .catch((err) => {
+        console.error("Error fetching Board of Studies:", err);
+        setboardOfStudies([]);
       });
   }, []);
 
   React.useEffect(() => {
-    fetch('/api/mba/handbooks')
-      .then((res) => res.json())
+    fetch('/api/mba/handbook')
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => setHandbooks(Array.isArray(data) ? data : []))
-      .catch((err) => console.error("Error fetching MBA Handbooks:", err));
+      .catch((err) => {
+        console.error("Error fetching MBA Handbooks:", err);
+        setHandbooks([]);
+      });
   }, []);
 
   React.useEffect(() => {
     fetch('/api/mba/merit-scholarships')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => setMeritScholarships(Array.isArray(data) ? data : []))
-      .catch((err) => console.error("Error fetching MBA Merit Scholarships:", err));
+      .catch((err) => {
+        console.error("Error fetching MBA Merit Scholarships:", err);
+        setMeritScholarships([]);
+      });
   }, []);
 
   React.useEffect(() => {
     fetch('/api/mba/mous')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => setMous(Array.isArray(data) ? data : []))
-      .catch((err) => console.error("Error fetching MBA MoUs:", err));
+      .catch((err) => {
+        console.error("Error fetching MBA MoUs:", err);
+        setMous([]);
+      });
   }, []);
 
   React.useEffect(() => {
     fetch('/api/mba/newsletters')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => setNewsletters(Array.isArray(data) ? data : []))
-      .catch((err) => console.error("Error fetching MBA Newsletters:", err));
+      .catch((err) => {
+        console.error("Error fetching MBA Newsletters:", err);
+        setNewsletters([]);
+      });
   }, []);
 
   React.useEffect(() => {
     fetch('/api/mba/physical-facilities')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => setPhysicalFacilities(Array.isArray(data) ? data : []))
-      .catch((err) => console.error("Error fetching MBA Physical Facilities:", err));
+      .catch((err) => {
+        console.error("Error fetching MBA Physical Facilities:", err);
+        setPhysicalFacilities([]);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/mba/department-library')
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setDepartmentLibrary(data[0]); // Get the first record
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching MBA Department Library:", err);
+        setDepartmentLibrary(null);
+      });
   }, []);
 
   const sidebarItems = [
@@ -213,8 +320,7 @@ const MBADepartment: React.FC = () => {
     { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
     { id: 'Hackathons', label: 'Hackathons', icon: <Activity className="w-4 h-4" /> },
     // { id: 'e-Resources', label: 'e-Resources', icon: <Wifi className="w-4 h-4" /> },
-    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
+    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> }
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
@@ -1063,99 +1169,96 @@ const MBADepartment: React.FC = () => {
         );
       }
 
+      case 'Workshops':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops</h2>
+
+            <div className="space-y-4">
+              {workshops && Object.keys(workshops).length > 0 ? (
+                Object.entries(workshops).map(([category, items]: [string, any[]]) => (
+                  <details key={category} open className="cst-dropdown">
+                    <summary>{category}</summary>
+                    <div className="cst-dropdown-content">
+                      {items && items.length > 0 ? (
+                        <ul className="list-disc pl-6 my-2 space-y-2">
+                          {items.map((item: any) => (
+                            <li key={item.id}>
+                              {item.title}
+                              {item.year && ` (${item.year})`}
+                              {item.file_url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.file_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline inline-flex items-center gap-1"
+                                  >
+                                    <FileText className="w-4 h-4" />
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                      )}
+                    </div>
+                  </details>
+                ))
+              ) : (
+                <p className="text-gray-600 dark:text-gray-400">No workshops available.</p>
+              )}
+            </div>
+          </div>
+        );
+
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
 
             <div className="space-y-4">
-              <details open className="cst-dropdown">
-                <summary>Internships</summary>
-                <div className="cst-dropdown-content">
-                  <ul className="list-disc pl-6 my-2 space-y-2">
-                    <li>
-                      Internships during the Academic Year 2020-22
-                      <span className="ml-2 text-gray-400 italic text-sm">(Document unavailable)</span>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2019-21
-                      <span className="ml-2 text-gray-400 italic text-sm">(Document unavailable)</span>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2018-20
-                      <span className="ml-2 text-gray-400 italic text-sm">(Document unavailable)</span>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2017-19
-                      <span className="ml-2 text-gray-400 italic text-sm">(Document unavailable)</span>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="cst-dropdown">
-                <summary>NPTEL</summary>
-                <div className="cst-dropdown-content">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      NPTEL Certifications during Academic Year 2021-2022
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mba/mba%2021-22%20nptel.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      NPTEL Certifications during Academic Year 2020-2021
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mba/mba%2020-21%20nptel.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      NPTEL Certifications during Academic Year 2019-2020
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mba/mba%2019-20%20pdf.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View Details
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="cst-dropdown">
-                <summary>Industrial Visits</summary>
-                <div className="cst-dropdown-content">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      Industrial Visits during 2012-2014 to 2022-2023
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mba/Industrial%20Visit.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-[#B22222] hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View Details
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
+              {StudentAch && Object.keys(StudentAch).length > 0 ? (
+                Object.entries(StudentAch).map(([category, achievements]: [string, any[]]) => (
+                  <details key={category} open className="cst-dropdown">
+                    <summary>{category}</summary>
+                    <div className="cst-dropdown-content">
+                      {achievements && achievements.length > 0 ? (
+                        <ul className="list-disc pl-6 my-2 space-y-2">
+                          {achievements.map((achievement: any) => (
+                            <li key={achievement.id}>
+                              {achievement.title}
+                              {achievement.year && ` (${achievement.year})`}
+                              {achievement.file_url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={achievement.file_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline inline-flex items-center gap-1"
+                                  >
+                                    <FileText className="w-4 h-4" />
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                      )}
+                    </div>
+                  </details>
+                ))
+              ) : (
+                <p className="text-gray-600 dark:text-gray-400">No student achievements available.</p>
+              )}
             </div>
           </div>
         );
@@ -1282,6 +1385,56 @@ const MBADepartment: React.FC = () => {
           </div>
         );
       }
+
+      case 'Department Library': {
+        if (!departmentLibrary) {
+          return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center">Loading...</div>;
+        }
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Library</h2>
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
+              <div className="md:w-1/2">
+                {departmentLibrary.image_url && (
+                  <img
+                    src={departmentLibrary.image_url}
+                    alt="MBA Department Library"
+                    className="w-full h-auto object-cover rounded-lg shadow-md"
+                  />
+                )}
+              </div>
+              <div className="md:w-1/2">
+                <p className="text-gray-700 text-lg text-justify">
+                  {departmentLibrary.description || 'No description available.'}
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
+                <h5 className="text-lg font-semibold text-center text-[#B22222] mb-2">No. of Titles</h5>
+                <p className="text-2xl font-bold text-red-600 text-center">{departmentLibrary.titles}</p>
+              </div>
+              <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
+                <h5 className="text-lg font-semibold text-center text-green-700 mb-2">No. of Volumes</h5>
+                <p className="text-2xl font-bold text-green-600 text-center">{departmentLibrary.volumes}</p>
+              </div>
+            </div>
+            <div className="flex flex-col items-center">
+              <h3 className="text-xl font-bold text-[#B22222] mb-4">Faculty Incharge</h3>
+              <ul className="text-center space-y-2 list-none">
+                <li className="text-lg font-medium">{departmentLibrary.faculty_incharge}</li>
+                {departmentLibrary.phone && <li className="text-lg">Phone: {departmentLibrary.phone}</li>}
+                {departmentLibrary.email && (
+                  <li className="text-lg">
+                    E-mail: <a href={`mailto:${departmentLibrary.email}`} className="text-[#B22222] hover:underline">{departmentLibrary.email}</a>
+                  </li>
+                )}
+              </ul>
+            </div>
+          </div>
+        );
+      }
+
       case 'Newsletters': {
         // Group newsletters by year for better UX
         const grouped = newsletters.reduce((acc, n) => {
@@ -1450,45 +1603,44 @@ const MBADepartment: React.FC = () => {
             </div>
           </div>
         );
-      case 'Syllabus':
+      case 'Syllabus': {
+        // Group syllabus by type or year
+        const types = Array.from(new Set(syllabus.map(s => s.type || s.year || 'MBA Syllabus')));
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
-
-            <AccordionSection
-              title="MBA Syllabus"
-              isOpen={accordionOpenState.syllabus}
-              onToggle={() => toggleAccordion('syllabus')}
-            >
-              {loading ? (
-                <p className="text-center text-gray-600">Loading syllabus...</p>
-              ) : syllabus.length === 0 ? (
-                <p className="text-center text-gray-600">No syllabus available.</p>
-              ) : (
-                <div className="container mt-5">
-                  <div className="grid grid-cols-1 gap-6">
-                    {syllabus.map((item, index) => (
-                      <div key={index} className="text-center">
-                        <h3 className="text-xl font-semibold mb-2">
-                          {item.year} - {item.title}
-                          <a
-                            href={item.pdf_url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-5 w-5 mr-1" />
-                            View
-                          </a>
-                        </h3>
-                      </div>
-                    ))}
+            <div className="space-y-6">
+              {types.map((type, index) => (
+                <details key={type} open={index === 0} className="cst-dropdown">
+                  <summary>{type}</summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-disc pl-6 my-2">
+                      {syllabus.filter(s => (s.type || s.year || 'MBA Syllabus') === type).map((item, idx) => (
+                        <li key={idx}>
+                          {item.title || item.subject || `${item.year} Syllabus`}
+                          {(item.pdf_url || item.file_url || item.fileUrl) && (
+                            <>
+                              {' '}
+                              <a
+                                href={item.pdf_url || item.file_url || item.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                - View
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
-              )}
-            </AccordionSection>
+                </details>
+              ))}
+            </div>
           </div>
         );
+      }
 
       case 'Handbooks':
         return (

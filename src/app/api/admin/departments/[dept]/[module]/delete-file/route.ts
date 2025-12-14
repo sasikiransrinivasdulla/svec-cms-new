@@ -62,7 +62,8 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'student-achievements': 'mba_student_achievements',
     'syllabus': 'mba_syllabus',
     'technical-faculty': 'mba_technical_faculty',
-    'training-activities': 'mba_training_activities'
+    'training-activities': 'mba_training_activities',
+    'workshops': 'mba_workshops'
   },
   'aiml': {
     'academic-toppers': 'aiml_academictoppers',
@@ -158,7 +159,7 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'department-library': 'ect_department_library',
     'department-overview': 'ect_department_overview',
     'eresources': 'ect_eresources',
-    'extra-curricular': 'ect_extra_curricular',
+    'extra-curricular': 'ect_extracurricular_activities',
     'faculty': 'ect_faculty',
     'faculty-achievements': 'ect_faculty_achievements',
     'faculty-development': 'ect_faculty_development',

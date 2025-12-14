@@ -520,7 +520,7 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {resultsError}</div>
             ) : (
               <div className="nav-content mb-2">
-                <details open className="cst-dropdown group">
+                <details open className="cst-dropdown">
                   <summary className="flex justify-between items-center">
                     <span>Results Since 2001</span>
                   </summary>
@@ -562,7 +562,7 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {activitiesError}</div>
             ) : (
               Object.entries(groupedActivities).map(([section, acts], index) => (
-                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown">
                   <summary className="flex justify-between items-center">
                     <span>{section}</span>
 
@@ -598,7 +598,7 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {facultyAchievementsError}</div>
             ) : (
               Object.entries(groupedAchievements).map(([section, achs], index) => (
-                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown">
                   <summary className="flex justify-between items-center">
                     <span>{section}</span>
 
@@ -635,7 +635,7 @@ const BSHDepartment: React.FC = () => {
             ) : (
               Object.entries(groupedLabs).map(([lab_name, items], index) => (
                 <div className="mt-4 m-2" key={lab_name}>
-                  <details {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                  <details {...(index === 0 ? { open: true } : {})} className="cst-dropdown">
                     <summary className="flex justify-between items-center">
                       <span>{lab_name}</span>
   
@@ -665,7 +665,7 @@ const BSHDepartment: React.FC = () => {
             ) : paperPresentationsError ? (
               <div className="text-red-600">Error: {paperPresentationsError}</div>
             ) : (
-              <details open className="cst-dropdown group">
+              <details open className="cst-dropdown">
                 <summary className="flex justify-between items-center">
                   <span>Faculty Paper Presentations</span>
                     
@@ -694,7 +694,7 @@ const BSHDepartment: React.FC = () => {
             ) : fdpError ? (
               <div className="text-red-600">Error: {fdpError}</div>
             ) : (
-              <details open className="cst-dropdown group">
+              <details open className="cst-dropdown">
                 <summary className="flex justify-between items-center">
                   <span>FDPs/Workshops Participated</span>
                     
@@ -934,7 +934,7 @@ const BSHDepartment: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 {/* FDPs Organized Dropdown */}
-                <details className="cst-dropdown group">
+                <details className="cst-dropdown">
                   <summary className="flex justify-between items-center">
                     <span>FDPs Organized</span>
 
@@ -967,7 +967,7 @@ const BSHDepartment: React.FC = () => {
                 </details>
 
                 {/* Guest Lectures Organized Dropdown */}
-                <details className="cst-dropdown group">
+                <details className="cst-dropdown">
                   <summary className="flex justify-between items-center">
                     <span>Guest Lectures Organized</span>
 
@@ -1014,7 +1014,7 @@ const BSHDepartment: React.FC = () => {
             ) : (
               <>
                 {Object.entries(bosData).map(([section, items], index) => (
-                  <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                  <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown">
                     <summary className="flex justify-between items-center">
                       <span>
                         {section === 'english' && 'English BOS Meetings'}
@@ -1050,7 +1050,7 @@ const BSHDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
 
             {/* Teaching Faculty Dropdown */}
-            <details open className="cst-dropdown group">
+            <details open className="cst-dropdown">
               <summary className="flex justify-between items-center">
                 <span>Teaching Faculty</span>
                   
@@ -1140,7 +1140,7 @@ const BSHDepartment: React.FC = () => {
             </details>
 
             {/* Non-Teaching Faculty Dropdown */}
-            <details className="cst-dropdown group">
+            <details className="cst-dropdown">
               <summary className="flex justify-between items-center">
                 <span>Non-Teaching Staff</span>
                   
@@ -1192,7 +1192,7 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {studentAchievementsError}</div>
             ) : (
               Object.entries(groupedStudentAchievements).map(([section, achs], index) => (
-                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown">
                   <summary className="flex justify-between items-center">
                     <span>{section}</span>
 
@@ -1228,7 +1228,7 @@ const BSHDepartment: React.FC = () => {
               <div className="text-red-600">Error: {facultyAchievementsError}</div>
             ) : (
               Object.entries(groupedDeptAchievements).map(([section, achs], index) => (
-                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown group">
+                <details key={section} {...(index === 0 ? { open: true } : {})} className="cst-dropdown">
                   <summary className="flex justify-between items-center">
                     <span>{section}</span>
 

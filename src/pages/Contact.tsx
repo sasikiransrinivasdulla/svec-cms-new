@@ -114,14 +114,16 @@ const Contact: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Contact Information</h2>
             <p className="text-xl text-gray-600">Multiple ways to reach us</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {contactInfo.map((info, index) => (
-              <div key={index} className="bg-[#FFF8F0] p-8 rounded-xl hover:shadow-lg transition-all">
-                <info.icon className="w-12 h-12 text-[#B22222] mb-6" />
+              <div key={index} className="bg-[#FFF8F0] p-8 rounded-xl hover:shadow-lg transition-all text-center border border-[#B22222]/10 hover:-translate-y-1 duration-300 h-full flex flex-col items-center group">
+                <div className="p-4 bg-white rounded-full shadow-sm mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <info.icon className="w-10 h-10 text-[#B22222]" />
+                </div>
                 <h3 className="text-xl font-bold text-[#222222] mb-4">{info.title}</h3>
-                <div className="space-y-2">
+                <div className="space-y-2 flex-grow">
                   {info.details.map((detail, idx) => (
-                    <p key={idx} className="text-gray-600 text-sm">{detail}</p>
+                    <p key={idx} className="text-gray-600 text-sm font-medium">{detail}</p>
                   ))}
                 </div>
               </div>
@@ -130,27 +132,35 @@ const Contact: React.FC = () => {
         </div>
       </section>
 
-      {/* Contact Form */}
+      {/* Department Contacts */}
       <section className="py-16 bg-[#FFF8F0]">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              
-              {/* Department Contacts */}
-              <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-8">Department Contacts</h2>
-                <div className="space-y-4">
-                  {departments.map((dept, index) => (
-                    <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
-                      <h3 className="text-lg font-bold text-[#B22222] mb-2">{dept.name}</h3>
-                      <div className="flex flex-col sm:flex-row sm:justify-between text-sm text-gray-600">
-                        <span className="mb-1 sm:mb-0">📞 +08818-284322 (Ext: {dept.ext})</span>
-                        <span>📧 {dept.email}</span>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Department Contacts</h2>
+              <p className="text-xl text-gray-600">Direct lines to key departments</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {departments.map((dept, index) => (
+                <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-l-4 border-[#B22222] hover:-translate-y-1 duration-300 group">
+                  <h3 className="text-xl font-bold text-[#B22222] mb-4 group-hover:text-[#0097A7] transition-colors">{dept.name}</h3>
+                  <div className="space-y-3 text-gray-600">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-[#FFF8F0] rounded-full text-[#B22222]">
+                        <Phone className="w-4 h-4" />
                       </div>
+                      <span className="font-medium">+08818-284322 <span className="text-gray-400">|</span> Ext: {dept.ext}</span>
                     </div>
-                  ))}
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-[#FFF8F0] rounded-full text-[#B22222]">
+                        <Mail className="w-4 h-4" />
+                      </div>
+                      <span className="text-sm break-all">{dept.email}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

@@ -20,8 +20,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const grouped: Record<string, any[]> = {};
         (rows as any[]).forEach((r) => {
-            if (!grouped[r.achievement_type]) grouped[r.achievement_type] = [];
-            grouped[r.achievement_type].push(r);
+            if (!grouped[r.category]) grouped[r.category] = [];
+            grouped[r.category].push(r);
         });
 
         res.status(200).json(grouped);

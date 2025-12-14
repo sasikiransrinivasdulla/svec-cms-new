@@ -36,8 +36,9 @@ interface EResource {
   id: number;
   regulation: string;
   semester: string;
-  subject: string;
-  ppt_url: string;
+  subject_name: string;
+  file_url: string;
+  display_order?: number;
 }
 
 interface BOSMember {
@@ -142,6 +143,7 @@ const ECTDepartment: React.FC = () => {
   const [sahayaEvents, setSahayaEvents] = useState<any[]>([]);
   const [ecActivities, setEcActivities] = useState<any[]>([]);
   const [scudActivities, setScudActivities] = useState<any[]>([]);
+  const [technicalAssociation, setTechnicalAssociation] = useState<any[]>([]);
   const [extraCurricularGallery, setExtraCurricularGallery] = useState<any[]>([]);
   const [technicalAssociationGallery, setTechnicalAssociationGallery] = useState<any[]>([]);
   const [newsletters, setNewsletters] = useState<any[]>([]);
@@ -170,14 +172,20 @@ const ECTDepartment: React.FC = () => {
   useEffect(() => {
     // Make all API calls in parallel using Promise.all()
     Promise.all([
-      fetch('/api/ect/ect-faculty').then(res => res.json()).catch(() => []),
+      fetch('/api/ect/ect-faculty').then(res => {
+        console.log('Faculty API Response Status:', res.status, res.ok);
+        return res.json();
+      }).catch(err => { console.error('Faculty fetch error:', err); return []; }),
       fetch('/api/ect/ect-student-achievements').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-syllabus').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-eresources').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-department-library').then(res => res.json()).catch(() => null),
       fetch('/api/ect/ect-mous').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-industry-programs').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-department-overview').then(res => res.json()).catch(() => null),
+      fetch('/api/ect/ect-department-overview').then(res => {
+        console.log('Overview API Response Status:', res.status, res.ok);
+        return res.json();
+      }).catch(err => { console.error('Overview fetch error:', err); return null; }),
       fetch('/api/ect/ect-training-activities').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-bos-members').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-bos-minutes').then(res => res.json()).catch(() => []),
@@ -189,6 +197,7 @@ const ECTDepartment: React.FC = () => {
       fetch('/api/ect/ect-extra-curricular').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-sahaya-events').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-scud-activities').then(res => res.json()).catch(() => []),
+      fetch('/api/ect/ect-technical-association').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-newsletters').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-hackathons').then(res => res.json()).catch(() => []),
       fetch('/api/ect/ect-placements').then(res => res.json()).catch(() => []),
@@ -230,6 +239,7 @@ const ECTDepartment: React.FC = () => {
         extraCurricularData,
         sahayaEventsData,
         scudActivitiesData,
+        technicalAssociationData,
         newslettersData,
         hackathonsData,
         placementsData,
@@ -249,12 +259,12 @@ const ECTDepartment: React.FC = () => {
         workshopsGalleryDataFetch,
         lecturersGalleryDataFetch
       ]) => {
-        console.log('ECT API responses:', {
-          faculty: facultyData,
-          studentAchievements: studentAchievementsData,
-          syllabus: syllabusData,
-          eresources: eresourcesData
-        });
+        console.log('=== ECT DATA FETCHING COMPLETE ===');
+        console.log('Faculty RAW:', JSON.stringify(facultyData));
+        console.log('Faculty Type:', typeof facultyData, 'IsArray:', Array.isArray(facultyData));
+        console.log('Overview RAW:', JSON.stringify(overviewData));
+        console.log('E-Resources RAW:', JSON.stringify(eresourcesData));
+        console.log('Extra-Curricular RAW:', JSON.stringify(extraCurricularData));
 
         // Separate teaching, technical, and non-teaching faculty from the unified response
         // The API now includes faculty_type field: 'teaching', 'technical', or 'non_teaching'
@@ -262,39 +272,80 @@ const ECTDepartment: React.FC = () => {
         const technicalFacultySeparated: Faculty[] = [];
         const nonTeachingFaculty: NonTeachingMember[] = [];
 
+        console.log('ECT Faculty Data Received:', facultyData);
+        console.log('Faculty Keys:', Object.keys(facultyData || {}));
+        console.log('Faculty has error?', facultyData?.error);
+
         if (Array.isArray(facultyData)) {
           facultyData.forEach((f: any) => {
+            // Map profileUrl to profile_url for consistency
+            const facultyMember = {
+              ...f,
+              profile_url: f.profileUrl || f.profile_url,
+              faculty_type: f.faculty_type || 'teaching'
+            };
+
             if (f.faculty_type === 'technical') {
-              technicalFacultySeparated.push(f);
+              technicalFacultySeparated.push(facultyMember);
             } else if (f.faculty_type === 'non_teaching') {
-              nonTeachingFaculty.push(f);
+              nonTeachingFaculty.push(facultyMember);
             } else {
-              teachingFaculty.push(f);
+              // Default to teaching faculty if no type specified
+              teachingFaculty.push(facultyMember);
             }
           });
         }
 
+        console.log('ECT Teaching Faculty:', teachingFaculty);
+        console.log('ECT Technical Faculty:', technicalFacultySeparated);
+        console.log('ECT Non-Teaching Faculty:', nonTeachingFaculty);
+
         // Set data
+        console.log('Setting Faculty State:', teachingFaculty);
         setFaculty(teachingFaculty);
         setTechnicalFaculty(technicalFacultySeparated);
         setNonTeachingFaculty(nonTeachingFaculty);
+        console.log('Faculty state set. Length:', teachingFaculty.length);
         setStudentAchievements(Array.isArray(studentAchievementsData) ? studentAchievementsData : []);
         setSyllabus(Array.isArray(syllabusData) ? syllabusData : []);
+        console.log('ECT E-Resources Data:', eresourcesData);
         setEResources(Array.isArray(eresourcesData) ? eresourcesData : []);
         setDepartmentLibrary(departmentLibraryData && departmentLibraryData.length > 0 ? departmentLibraryData[0] : null);
         setMous(Array.isArray(mousData) ? mousData : []);
+        console.log('ECT Industry Programs Data:', industryProgramsData);
         setIndustryPrograms(Array.isArray(industryProgramsData) ? industryProgramsData : []);
-        setOverview(overviewData && overviewData.length > 0 ? overviewData[0] : null);
+        console.log('ECT Department Overview Data:', overviewData);
+        // Handle overview data - could be array or object
+        if (Array.isArray(overviewData) && overviewData.length > 0) {
+          setOverview(overviewData[0]);
+        } else if (overviewData && typeof overviewData === 'object' && overviewData.hod_name) {
+          setOverview(overviewData);
+        } else {
+          setOverview(null);
+        }
         setTrainingActivities(Array.isArray(trainingActivitiesData) ? trainingActivitiesData : []);
         setTrainingActivitiesGallery(Array.isArray(trainingActivitiesGalleryData) ? trainingActivitiesGalleryData : []);
         setBosMembers(Array.isArray(bosMembersData) ? bosMembersData : []);
         setBosMinutes(Array.isArray(bosMinutesData) ? bosMinutesData : []);
         setHandbooks(Array.isArray(handbooksData) ? handbooksData : []);
-        setPhysicalFacilities(Array.isArray(physicalFacilitiesData) ? physicalFacilitiesData : []);
+
+        // Parse JSON fields in physical facilities data
+        const parsedPhysicalFacilities = Array.isArray(physicalFacilitiesData)
+          ? physicalFacilitiesData.map(item => ({
+            ...item,
+            lab_details: typeof item.lab_details === 'string' ? JSON.parse(item.lab_details || '[]') : item.lab_details || [],
+            gallery: typeof item.gallery === 'string' ? JSON.parse(item.gallery || '[]') : item.gallery || []
+          }))
+          : [];
+        console.log('Physical Facilities Data (parsed):', parsedPhysicalFacilities);
+        setPhysicalFacilities(parsedPhysicalFacilities);
+
         setLaboratories([]);
         setFacultyDevelopment(Array.isArray(facultyDevelopmentData) ? facultyDevelopmentData : []);
         setFacultyAchievements(Array.isArray(facultyAchievementsData) ? facultyAchievementsData : []);
+        console.log('Merit Scholarships Data Received:', meritScholarshipsData);
         setMeritScholarships(Array.isArray(meritScholarshipsData) ? meritScholarshipsData : []);
+        console.log('ECT Extra-Curricular Data:', extraCurricularData);
         setExtraCurricular(Array.isArray(extraCurricularData) ? extraCurricularData : []);
         setSahayaEvents(Array.isArray(sahayaEventsData) ? sahayaEventsData : []);
         // Filter EC Activities from sahaya events
@@ -303,6 +354,7 @@ const ECTDepartment: React.FC = () => {
           : [];
         setEcActivities(ecActivitiesData);
         setScudActivities(Array.isArray(scudActivitiesData) ? scudActivitiesData : []);
+        setTechnicalAssociation(Array.isArray(technicalAssociationData) ? technicalAssociationData : []);
         setExtraCurricularGallery(Array.isArray(extraCurricularGalleryData) ? extraCurricularGalleryData : []);
         setTechnicalAssociationGallery(Array.isArray(technicalAssociationGalleryData) ? technicalAssociationGalleryData : []);
         setNewsletters(Array.isArray(newslettersData) ? newslettersData : []);
@@ -1155,12 +1207,13 @@ const ECTDepartment: React.FC = () => {
       }
 
       case 'Faculty Profiles':
+        console.log('Rendering Faculty Profiles. Faculty count:', faculty.length, faculty);
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
             <div className="space-y-6">
               <details open className="cst-dropdown">
-                <summary>Teaching Faculty</summary>
+                <summary>Teaching Faculty ({faculty.length})</summary>
                 <div className="cst-dropdown-content">
                   {faculty && faculty.length > 0 ? (
                     <div className="overflow-x-auto">
@@ -1288,7 +1341,9 @@ const ECTDepartment: React.FC = () => {
 
       case 'e-Resources': {
         // Group by regulation
+        console.log('Rendering e-Resources, count:', eresources.length, eresources);
         const regulations = Array.from(new Set(eresources.map(e => e.regulation)));
+        console.log('Regulations found:', regulations);
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <div className="space-y-6">
@@ -1537,6 +1592,8 @@ const ECTDepartment: React.FC = () => {
 
 
       case 'Physical Facilities': {
+        console.log('Physical Facilities State:', physicalFacilities);
+
         // Group by category
         const categories = Array.from(new Set(physicalFacilities.map(f => f.category)));
         const grouped = categories.map(cat => ({
@@ -1544,82 +1601,112 @@ const ECTDepartment: React.FC = () => {
           items: physicalFacilities.filter(f => f.category === cat)
         }));
 
+        console.log('Grouped Physical Facilities:', grouped);
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
             <div className="space-y-6">
-              {grouped.map((group, index) => (
-                <details key={group.category} open={index === 0} className="cst-dropdown">
-                  <summary>{group.category}</summary>
-                  <div className="cst-dropdown-content">
-                    {group.category === 'Laboratories' ? (
-                      <div>
-                        {group.items.map(item => (
-                          <div key={item.id} className="mb-8">
-                            {item.lab_details && item.lab_details.length > 0 && (
-                              <div className="overflow-x-auto">
-                                <table className="min-w-full bg-white border-2 border-[#B22222]">
-                                  <thead className="bg-[#333333] text-white">
-                                    <tr>
-                                      <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">S.No</th>
-                                      <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">Name of the Lab</th>
-                                      <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">Configuration</th>
-                                      <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">No. of Systems</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {item.lab_details.map((lab, idx) => (
-                                      <tr key={idx} className={idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                                        <td className="py-3 px-4 border-b border-gray-300 font-medium text-center">{idx + 1}</td>
-                                        <td className="py-3 px-4 border-b border-gray-300 font-medium whitespace-nowrap">{lab.name || 'Laboratory'}</td>
-                                        <td className="py-3 px-4 border-b border-gray-300">
-                                          <div className="space-y-0.5 text-sm">
-                                            {lab.model && <div><span className="font-semibold">Model :</span> {lab.model}</div>}
-                                            {lab.processor && <div><span className="font-semibold">Processor :</span> {lab.processor}</div>}
-                                            {lab.ram && <div><span className="font-semibold">{lab.ram}</span></div>}
-                                            {lab.storage && <div><span className="font-semibold">{lab.storage}</span></div>}
-                                            {lab.system_type && <div><span className="font-semibold">System type :</span> {lab.system_type}</div>}
-                                            {lab.monitor && <div><span className="font-semibold">Monitor :</span> {lab.monitor}</div>}
-                                            {lab.keyboard && <div><span className="font-semibold">Keyboard :</span> {lab.keyboard}</div>}
-                                            {lab.mouse && <div><span className="font-semibold">Mouse :</span> {lab.mouse}</div>}
-                                            {!lab.model && lab.configuration && <div>{lab.configuration}</div>}
-                                          </div>
-                                        </td>
-                                        <td className="py-3 px-4 border-b border-gray-300 text-center font-medium text-lg">{lab.systems || lab.no_of_systems || '02'}</td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
+              {grouped.length > 0 ? (
+                grouped.map((group, index) => (
+                  <details key={group.category} open={index === 0} className="cst-dropdown">
+                    <summary>{group.category}</summary>
+                    <div className="cst-dropdown-content">
+                      {group.category === 'Laboratories' ? (
+                        <div>
+                          {group.items.map(item => {
+                            // Check if lab_details is an array of objects
+                            const hasValidLabDetails = Array.isArray(item.lab_details) &&
+                              item.lab_details.length > 0 &&
+                              typeof item.lab_details[0] === 'object';
+
+                            return (
+                              <div key={item.id} className="mb-8">
+                                <h3 className="text-xl font-semibold text-[#B22222] mb-3">{item.title}</h3>
+                                {item.description && <p className="text-gray-700 mb-4">{item.description}</p>}
+
+                                {hasValidLabDetails ? (
+                                  <div className="overflow-x-auto">
+                                    <table className="min-w-full bg-white border-2 border-[#B22222]">
+                                      <thead className="bg-[#333333] text-white">
+                                        <tr>
+                                          <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">S.No</th>
+                                          <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">Name of the Lab</th>
+                                          <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">Configuration</th>
+                                          <th className="py-3 px-4 border-b border-[#B22222] text-left font-bold">No. of Systems</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {item.lab_details.map((lab: any, idx: number) => (
+                                          <tr key={idx} className={idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                                            <td className="py-3 px-4 border-b border-gray-300 font-medium text-center">{idx + 1}</td>
+                                            <td className="py-3 px-4 border-b border-gray-300 font-medium whitespace-nowrap">{lab.name || 'Laboratory'}</td>
+                                            <td className="py-3 px-4 border-b border-gray-300">
+                                              <div className="space-y-0.5 text-sm">
+                                                {lab.model && <div><span className="font-semibold">Model :</span> {lab.model}</div>}
+                                                {lab.processor && <div><span className="font-semibold">Processor :</span> {lab.processor}</div>}
+                                                {lab.ram && <div><span className="font-semibold">{lab.ram}</span></div>}
+                                                {lab.storage && <div><span className="font-semibold">{lab.storage}</span></div>}
+                                                {lab.system_type && <div><span className="font-semibold">System type :</span> {lab.system_type}</div>}
+                                                {lab.monitor && <div><span className="font-semibold">Monitor :</span> {lab.monitor}</div>}
+                                                {lab.keyboard && <div><span className="font-semibold">Keyboard :</span> {lab.keyboard}</div>}
+                                                {lab.mouse && <div><span className="font-semibold">Mouse :</span> {lab.mouse}</div>}
+                                                {!lab.model && lab.configuration && <div>{lab.configuration}</div>}
+                                              </div>
+                                            </td>
+                                            <td className="py-3 px-4 border-b border-gray-300 text-center font-medium text-lg">{lab.systems || lab.no_of_systems || '02'}</td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                ) : (
+                                  <p className="text-gray-600 italic">Lab details configuration needed. Please update with proper lab structure.</p>
+                                )}
+
+                                {item.file_url && (
+                                  <a
+                                    href={item.file_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline mt-3 inline-block"
+                                  >
+                                    View Document
+                                  </a>
+                                )}
                               </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <ul className="list-disc pl-6 my-2 space-y-2">
-                        {group.items.map(item => (
-                          <li key={item.id}>
-                            {item.title}
-                            {item.file_url && (
-                              <>
-                                {' - '}
-                                <a
-                                  href={item.file_url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[#B22222] hover:underline"
-                                >
-                                  View
-                                </a>
-                              </>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </details>
-              ))}
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <ul className="list-disc pl-6 my-2 space-y-2">
+                          {group.items.map(item => (
+                            <li key={item.id}>
+                              {item.title}
+                              {item.description && <span className="text-gray-600"> - {item.description}</span>}
+                              {item.file_url && (
+                                <>
+                                  {' '}
+                                  <a
+                                    href={item.file_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </details>
+                ))
+              ) : (
+                <p className="text-gray-600 text-center py-8">No physical facilities data available.</p>
+              )}
             </div>
           </div>
         );
@@ -1786,6 +1873,9 @@ const ECTDepartment: React.FC = () => {
         );
       }
       case 'Merit Scholarship/Academic Toppers': {
+        console.log('Merit Scholarships Data:', meritScholarships);
+        console.log('Merit Scholarships Count:', meritScholarships.length);
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
@@ -1794,30 +1884,34 @@ const ECTDepartment: React.FC = () => {
               <details open className="cst-dropdown">
                 <summary>Merit Scholarships / Academic Toppers</summary>
                 <div className="cst-dropdown-content">
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border border-gray-200">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th className="py-3 px-4 border-b text-left">S.No</th>
-                          <th className="py-3 px-4 border-b text-left">Academic Year</th>
-                          <th className="py-3 px-4 border-b text-left">Particulars</th>
-                          <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th>
-                          <th className="py-3 px-4 border-b text-left">Scholarship Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {meritScholarships.map((item, idx) => (
-                          <tr key={item.id} className="hover:bg-gray-50">
-                            <td className="py-3 px-4 border-b">{idx + 1}</td>
-                            <td className="py-3 px-4 border-b">{item.academic_year}</td>
-                            <td className="py-3 px-4 border-b">{item.particulars}</td>
-                            <td className="py-3 px-4 border-b">{item.students_benefited}</td>
-                            <td className="py-3 px-4 border-b">{item.scholarship_amount}</td>
+                  {meritScholarships.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full bg-white border border-gray-200">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th className="py-3 px-4 border-b text-left">S.No</th>
+                            <th className="py-3 px-4 border-b text-left">Academic Year</th>
+                            <th className="py-3 px-4 border-b text-left">Particulars</th>
+                            <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th>
+                            <th className="py-3 px-4 border-b text-left">Scholarship Amount</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
+                        <tbody>
+                          {meritScholarships.map((item, idx) => (
+                            <tr key={item.id} className="hover:bg-gray-50">
+                              <td className="py-3 px-4 border-b">{idx + 1}</td>
+                              <td className="py-3 px-4 border-b">{item.academic_year}</td>
+                              <td className="py-3 px-4 border-b">{item.particulars}</td>
+                              <td className="py-3 px-4 border-b">{item.students_benefited}</td>
+                              <td className="py-3 px-4 border-b">{item.scholarship_amount}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <p className="text-gray-600 text-center py-4">No merit scholarships data available.</p>
+                  )}
                 </div>
               </details>
 
@@ -1863,18 +1957,6 @@ const ECTDepartment: React.FC = () => {
 
 
       case 'Technical Association': {
-        // Group SCUD activities by academic year
-        const grouped: Record<string, any[]> = {};
-        scudActivities.forEach(activity => {
-          if (!grouped[activity.academic_year]) {
-            grouped[activity.academic_year] = [];
-          }
-          grouped[activity.academic_year].push(activity);
-        });
-
-        // Sort years in descending order
-        const sortedYears = Object.keys(grouped).sort().reverse();
-
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
@@ -1884,37 +1966,75 @@ const ECTDepartment: React.FC = () => {
             </p>
 
             <div className="space-y-4">
-              {/* SCUD Activities by Year */}
-              {sortedYears.map((year, idx) => (
-                <details key={year} open={idx === 0} className="cst-dropdown group">
-                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
-                    <span>SCUD Activities</span>
-                    <span className="group-open:rotate-180 transition-transform text-xl"></span>
-                  </summary>
-                  <div className="cst-dropdown-content">
-                    <ul className="list-disc pl-6 my-4 space-y-2">
-                      {grouped[year].map((activity) => (
-                        <li key={activity.id}>
-                          <span className="text-gray-800">{activity.title}</span>
-                          {activity.file_url && (
-                            <>
-                              {' - '}
-                              <a
-                                href={activity.file_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#B22222] hover:underline font-medium"
-                              >
-                                View More
-                              </a>
-                            </>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </details>
-              ))}
+              {/* Technical Association Activities */}
+              {technicalAssociation && technicalAssociation.length > 0 ? (
+                technicalAssociation.map((activity) => (
+                  <details key={activity.id} className="cst-dropdown group">
+                    <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                      <span>{activity.title}</span>
+                      <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
+                    </summary>
+                    <div className="cst-dropdown-content p-6">
+                      {activity.description && (
+                        <div className="text-gray-800 mb-4">
+                          <strong>Description:</strong> {activity.description}
+                        </div>
+                      )}
+                      {activity.content && (
+                        <div className="text-gray-700 mb-4 leading-relaxed whitespace-pre-wrap">
+                          {activity.content}
+                        </div>
+                      )}
+                      {activity.date_created && (
+                        <div className="text-sm text-gray-600 mb-4">
+                          <strong>Date:</strong> {new Date(activity.date_created).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </div>
+                      )}
+                      {activity.image_url && (
+                        <div className="my-4">
+                          <img
+                            src={activity.image_url}
+                            alt={activity.title}
+                            className="rounded-lg shadow-md w-full max-w-2xl"
+                          />
+                        </div>
+                      )}
+                      <div className="flex gap-4 mt-4">
+                        {activity.file_url && (
+                          <a
+                            href={activity.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-[#B22222] hover:bg-[#a01a1a] text-white rounded-lg transition-colors"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                            View Document
+                          </a>
+                        )}
+                        {activity.link && (
+                          <a
+                            href={activity.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            External Link
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </details>
+                ))
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  No technical association activities available.
+                </div>
+              )}
 
               {/* Gallery Section */}
               <details className="cst-dropdown">
@@ -1994,17 +2114,19 @@ const ECTDepartment: React.FC = () => {
         );
       }
       case 'Extra-Curricular Activities': {
-        const activityItems = extraCurricular.filter(a => a.type === 'activity');
-        const sahaya = extraCurricular.find(a => a.type === 'sahaya');
-
         // Debug logging
         console.log('Extra Curricular Debug:', {
           extraCurricular,
-          activityItems,
-          sahaya,
-          sahayaEvents,
           extraCurricularGallery
         });
+
+        // Group by category
+        const extracurricularActivities = extraCurricular.filter((a: any) => a.category === 'Extracurricular Activities');
+        const sportsMeet = extraCurricular.filter((a: any) => a.category === 'Departmental Sports Meet');
+        const culturalMeet = extraCurricular.filter((a: any) => a.category === 'Departmental Cultural Meet');
+        const industrialVisit = extraCurricular.filter((a: any) => a.category === 'Industrial Visit');
+        const bloodDonation = extraCurricular.filter((a: any) => a.category === 'Blood Donation Camp');
+        const yuvaActivities = extraCurricular.filter((a: any) => a.category === 'YUVA');
 
         // Group extra-curricular gallery by academic year
         const groupedByYear: Record<string, any[]> = {};
@@ -2019,95 +2141,202 @@ const ECTDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
             <div className="space-y-6">
-              <details open className="cst-dropdown">
-                <summary>Extra-Curricular Activities</summary>
-                <div className="cst-dropdown-content">
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-[#B22222] mb-3">Social Services</h3>
-                      <p className="text-gray-700 text-justify mb-3">
-                        We come across many heart-rending incidents and pathetic conditions of people in the society every day. We may not be in a position to give an immediate reaction though we want to. But the Computer Science and Technology Students of Sri Vasavi Engineering College extended their hands to help the needy. These helping activities are going on under the name of "SAHAYA" with the slogan 'The Helping Hands,' which aptly suits its purpose.
-                      </p>
-                      <p className="text-gray-700 text-justify mb-3">
-                        SAHAYA is not a one-man army; rather, it is the brainchild of '07 batch students and is being carried on by the subsequent batch students, which sounds the real meaning of teamwork. SAHAYA, from its first day, was engaged in performing its activities. It was started with the event "CHEYUTHA" in the memory of SVEC Academic Director LATE Dr. B. Janardhan Reddy at ZP High school, Pedatadepalli by providing the fee for needy students and their necessities for study like compass boxes, books, etc., and thereafter, the journey of helping the needy continued uninterruptedly till date.
-                      </p>
-                      <p className="text-gray-700 text-justify mb-3">
-                        Students may have many thoughts in mind, but the seeds of thought have sprouted to grow with great confidence by the magnanimous support of the Management. The Management of Sri Vasavi Engineering College always infuses confidence in the students by extending their heartfelt cooperation. "SAHAYA" is aptly serving its motto and contributing its little part to society. A drop may be small, but many drops together form an ocean. So, one hand may seem weak, but joining the hands together makes many changes to step into a brighter world.
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-bold text-[#B22222] mb-2">Faculty Coordinator:</h4>
-                      <p className="font-semibold text-gray-800">
-                        Mr. P. Ramamohan Rao<br />
-                        Assistant Professor
-                      </p>
-                    </div>
-                    <div className="border-t border-gray-200 pt-4">
-                      <h4 className="text-lg font-bold text-[#B22222] mb-3">EC Activities</h4>
-                      {ecActivities && ecActivities.length > 0 ? (
-                        <div className="space-y-2">
-                          {ecActivities.map((event: any, index: number) => {
-                            const pdfUrl = event.url || event.file_url || event.pdf_url;
-                            return (
-                              <div key={event.id || index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-                                <div>
-                                  <h5 className="font-semibold text-gray-800">{event.title || `EC Activity ${event.year}`}</h5>
-                                  {event.year && <span className="text-sm text-gray-600">Year: {event.year}</span>}
-                                </div>
-                                {pdfUrl ? (
-                                  <a
-                                    href={pdfUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[#B22222] hover:underline font-medium flex items-center gap-1"
-                                  >
-                                    <FileText className="w-4 h-4" />
-                                    View Document
-                                  </a>
-                                ) : (
-                                  <span className="text-gray-500 text-sm">No document available</span>
-                                )}
-                              </div>
-                            );
-                          })}
+              {/* Extracurricular Activities */}
+              {extracurricularActivities.length > 0 && (
+                <details open className="cst-dropdown">
+                  <summary>Extracurricular Activities</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="space-y-4">
+                      {extracurricularActivities.map((activity: any) => (
+                        <div key={activity.id} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                          <div className="flex-1">
+                            <h5 className="font-semibold text-gray-800">{activity.title}</h5>
+                            {activity.description && <p className="text-sm text-gray-600 mt-1">{activity.description}</p>}
+                            {activity.year && <span className="text-xs text-gray-500">Year: {activity.year}</span>}
+                          </div>
+                          {activity.url && (
+                            <a
+                              href={activity.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline font-medium flex items-center gap-1 ml-4"
+                            >
+                              <FileText className="w-4 h-4" />
+                              View
+                            </a>
+                          )}
                         </div>
-                      ) : (
-                        <p className="text-gray-600 text-center py-4">No EC Activities available at the moment.</p>
-                      )}
-
-                      <div className="border-t border-gray-200 pt-4 mt-4">
-                        <h4 className="text-lg font-bold text-[#B22222] mb-3">Other Activities</h4>
-                        <ul className="list-none space-y-2">
-                          {activityItems.map(item => (
-                            <li key={item.id}>
-                              {item.title} -{' '}
-                              <a
-                                href={item.file_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#B22222] hover:underline"
-                              >
-                                View More
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-              </details>
+                </details>
+              )}
 
-              {/* Sahaya Events Links */}
+              {/* Departmental Sports Meet */}
+              {sportsMeet.length > 0 && (
+                <details className="cst-dropdown">
+                  <summary>Departmental Sports Meet</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="space-y-4">
+                      {sportsMeet.map((activity: any) => (
+                        <div key={activity.id} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                          <div className="flex-1">
+                            <h5 className="font-semibold text-gray-800">{activity.title}</h5>
+                            {activity.description && <p className="text-sm text-gray-600 mt-1">{activity.description}</p>}
+                            {activity.year && <span className="text-xs text-gray-500">Year: {activity.year}</span>}
+                          </div>
+                          {activity.url && (
+                            <a
+                              href={activity.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline font-medium flex items-center gap-1 ml-4"
+                            >
+                              <FileText className="w-4 h-4" />
+                              View
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              )}
+
+              {/* Departmental Cultural Meet */}
+              {culturalMeet.length > 0 && (
+                <details className="cst-dropdown">
+                  <summary>Departmental Cultural Meet</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="space-y-4">
+                      {culturalMeet.map((activity: any) => (
+                        <div key={activity.id} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                          <div className="flex-1">
+                            <h5 className="font-semibold text-gray-800">{activity.title}</h5>
+                            {activity.description && <p className="text-sm text-gray-600 mt-1">{activity.description}</p>}
+                            {activity.year && <span className="text-xs text-gray-500">Year: {activity.year}</span>}
+                          </div>
+                          {activity.url && (
+                            <a
+                              href={activity.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline font-medium flex items-center gap-1 ml-4"
+                            >
+                              <FileText className="w-4 h-4" />
+                              View
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              )}
+
+              {/* Industrial Visit */}
+              {industrialVisit.length > 0 && (
+                <details className="cst-dropdown">
+                  <summary>Industrial Visit</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="space-y-4">
+                      {industrialVisit.map((activity: any) => (
+                        <div key={activity.id} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                          <div className="flex-1">
+                            <h5 className="font-semibold text-gray-800">{activity.title}</h5>
+                            {activity.description && <p className="text-sm text-gray-600 mt-1">{activity.description}</p>}
+                            {activity.year && <span className="text-xs text-gray-500">Year: {activity.year}</span>}
+                          </div>
+                          {activity.url && (
+                            <a
+                              href={activity.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline font-medium flex items-center gap-1 ml-4"
+                            >
+                              <FileText className="w-4 h-4" />
+                              View
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              )}
+
+              {/* Blood Donation Camp */}
+              {bloodDonation.length > 0 && (
+                <details className="cst-dropdown">
+                  <summary>Blood Donation Camp</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="space-y-4">
+                      {bloodDonation.map((activity: any) => (
+                        <div key={activity.id} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                          <div className="flex-1">
+                            <h5 className="font-semibold text-gray-800">{activity.title}</h5>
+                            {activity.description && <p className="text-sm text-gray-600 mt-1">{activity.description}</p>}
+                            {activity.year && <span className="text-xs text-gray-500">Year: {activity.year}</span>}
+                          </div>
+                          {activity.url && (
+                            <a
+                              href={activity.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline font-medium flex items-center gap-1 ml-4"
+                            >
+                              <FileText className="w-4 h-4" />
+                              View
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              )}
+
+              {/* YUVA Activities */}
+              {yuvaActivities.length > 0 && (
+                <details className="cst-dropdown">
+                  <summary>YUVA Activities</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="space-y-4">
+                      {yuvaActivities.map((activity: any) => (
+                        <div key={activity.id} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                          <div className="flex-1">
+                            <h5 className="font-semibold text-gray-800">{activity.title}</h5>
+                            {activity.description && <p className="text-sm text-gray-600 mt-1">{activity.description}</p>}
+                            {activity.year && <span className="text-xs text-gray-500">Year: {activity.year}</span>}
+                          </div>
+                          {activity.url && (
+                            <a
+                              href={activity.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline font-medium flex items-center gap-1 ml-4"
+                            >
+                              <FileText className="w-4 h-4" />
+                              View
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              )}
+
+              {/* Gallery Section */}
               <details className="cst-dropdown">
-                <summary>Sahaya Events</summary>
+                <summary>Extra-Curricular Gallery</summary>
                 <div className="cst-dropdown-content">
-                  {sahayaEvents && sahayaEvents.length > 0 ? (
+                  {Object.keys(groupedByYear).length > 0 ? (
                     <div className="text-center space-y-2">
-                      {Array.from(new Set(sahayaEvents.map((item: any) => String(item.year))))
+                      {Object.keys(groupedByYear)
                         .sort((a, b) => Number(b) - Number(a))
                         .map((year: string) => {
-                          const yearEvent = sahayaEvents.find((item: any) => String(item.year) === year);
+                          const yearEvent = groupedByYear[year][0];
                           const pdfUrl = yearEvent?.url || yearEvent?.file_url || yearEvent?.pdf_url;
                           return (
                             <div key={year}>
@@ -2117,7 +2346,7 @@ const ECTDepartment: React.FC = () => {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="text-[#B22222] hover:underline font-medium text-lg cursor-pointer"
-                                  title={`Open ${year} Sahaya events PDF`}
+                                  title={`Open ${year} Gallery PDF`}
                                 >
                                   {year}
                                 </a>
@@ -2132,31 +2361,7 @@ const ECTDepartment: React.FC = () => {
                     </div>
                   ) : (
                     <div className="text-gray-600 text-center py-4">
-                      {sahaya && sahaya.sahaya_events ? (
-                        <div className="space-y-2">
-                          {sahaya.sahaya_events.map((ev: any, i: number) => (
-                            <div key={i}>
-                              {ev.url ? (
-                                <a
-                                  href={ev.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[#B22222] hover:underline font-medium text-lg cursor-pointer"
-                                  title={`Open ${ev.year} Sahaya events PDF`}
-                                >
-                                  {ev.year}
-                                </a>
-                              ) : (
-                                <span className="text-gray-600 font-medium text-lg" title="PDF not available">
-                                  {ev.year}
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        "No Sahaya events available currently."
-                      )}
+                      <p>No gallery items available at the moment.</p>
                     </div>
                   )}
                 </div>
@@ -2458,8 +2663,7 @@ const ECTDepartment: React.FC = () => {
         );
       }
       case 'Placements': {
-        // Filter for ect department
-        const ectPlacements = placements.filter((p: any) => p.dept === 'ect');
+        console.log('Placements Data:', placements);
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -2468,8 +2672,8 @@ const ECTDepartment: React.FC = () => {
               <details open className="cst-dropdown">
                 <summary>Placements Details</summary>
                 <div className="cst-dropdown-content">
-                  {ectPlacements.length > 0 ? (
-                    ectPlacements.map((placement, idx) => (
+                  {placements.length > 0 ? (
+                    placements.map((placement, idx) => (
                       <div key={placement.id} className="mb-4">
                         <p className="font-medium">
                           {placement.title || `Placements for Batch ${placement.batch}`}
@@ -2585,7 +2789,7 @@ const ECTDepartment: React.FC = () => {
             <details className="cst-dropdown group">
               <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
                 <span>Gallery</span>
-
+                <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
               </summary>
               <div className="cst-dropdown-content">
                 {workshopsGalleryData.length > 0 ? (
@@ -2674,7 +2878,7 @@ const ECTDepartment: React.FC = () => {
                   <details key={`workshops-${year}`} open={idx === 0} className="cst-dropdown group">
                     <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
                       <span>Workshops</span>
-                      <span className="group-open:rotate-180 transition-transform text-xl"></span>
+                      <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                     </summary>
                     <div className="cst-dropdown-content">
                       <ul className="list-disc pl-6 my-4 space-y-2">
@@ -2736,7 +2940,7 @@ const ECTDepartment: React.FC = () => {
                       <details key={`lecturers-${year}`} open={idx === 0} className="cst-dropdown group">
                         <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
                           <span>Guest Lecturers/Seminars</span>
-                          <span className="group-open:rotate-180 transition-transform text-xl"></span>
+                          <span className="group-open:rotate-180 transition-transform text-xl">▼</span>
                         </summary>
                         <div className="cst-dropdown-content">
                           <ul className="list-disc pl-6 my-4 space-y-2">

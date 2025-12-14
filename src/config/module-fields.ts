@@ -3386,7 +3386,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       tableName: 'bsh_fdps',
       displayField: 'title',
       fields: [
-         {
+        {
           name: 'type',
           label: 'Type',
           type: 'select',              // dropdown
@@ -3458,6 +3458,15 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           ]
         },
         {
+          name: 'year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2023-2024',
+          required: false,
+          size: 'half',
+          description: 'Enter academic year'
+        },
+        {
           name: 'title',
           label: 'Workshop Title',
           type: 'text',
@@ -3476,9 +3485,9 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           description: 'Upload workshop document, brochure, or image (PDF, DOC, or Image files)'
         }
       ],
-      searchableFields: ['title', 'category',],
-      sortableFields: ['title', 'category', 'created_at'],
-      editableFields: ['title', 'category', 'file_url']
+      searchableFields: ['title', 'category', 'year'],
+      sortableFields: ['title', 'category', 'year', 'created_at'],
+      editableFields: ['title', 'category', 'year', 'file_url']
     },
     'faculty': {
       tableName: 'mba_faculty',
@@ -4555,53 +4564,76 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
     },
     'department-library': {
       tableName: 'mba_department_library',
-      displayField: 'title',
+      displayField: 'titles',
       fields: [
         {
-          name: 'title',
-          label: 'Book Title',
+          name: 'titles',
+          label: 'Number of Titles',
           type: 'text',
-          placeholder: 'e.g., Advanced Management Techniques',
+          placeholder: 'e.g., 1500',
+          required: true,
+          size: 'half',
+          description: 'Total number of unique titles in library'
+        },
+        {
+          name: 'volumes',
+          label: 'Number of Volumes',
+          type: 'text',
+          placeholder: 'e.g., 2000',
+          required: true,
+          size: 'half',
+          description: 'Total number of volumes in library'
+        },
+        {
+          name: 'faculty_incharge',
+          label: 'Faculty In-charge',
+          type: 'text',
+          placeholder: 'e.g., Dr. John Smith',
           required: true,
           size: 'full',
-          description: 'Enter the book or resource title'
+          description: 'Name of faculty member responsible for library'
         },
         {
-          name: 'author',
-          label: 'Author',
+          name: 'phone',
+          label: 'Phone Number',
           type: 'text',
-          placeholder: 'e.g., John Smith',
+          placeholder: 'e.g., +91 9876543210',
           required: false,
-          size: 'half'
+          size: 'half',
+          description: 'Contact phone number'
         },
         {
-          name: 'category',
-          label: 'Category',
-          type: 'text',
-          placeholder: 'e.g., Management, Finance',
+          name: 'email',
+          label: 'Email',
+          type: 'email',
+          placeholder: 'e.g., library@example.com',
           required: false,
-          size: 'half'
+          size: 'half',
+          description: 'Contact email address'
         },
         {
-          name: 'isbn',
-          label: 'ISBN',
-          type: 'text',
-          placeholder: 'e.g., 978-3-16-148410-0',
+          name: 'description',
+          label: 'Description',
+          type: 'textarea',
+          placeholder: 'Enter library information and resources',
           required: false,
-          size: 'half'
+          size: 'full',
+          rows: 4,
+          description: 'Detailed description of library facilities and resources'
         },
         {
-          name: 'available_copies',
-          label: 'Available Copies',
-          type: 'number',
-          placeholder: 'e.g., 5',
+          name: 'image_url',
+          label: 'Library Image',
+          type: 'file',
           required: false,
-          size: 'half'
+          size: 'full',
+          accept: '.jpg,.jpeg,.png,.gif,.webp',
+          description: 'Upload library image (JPG, PNG, GIF, or WebP)'
         }
       ],
-      searchableFields: ['title', 'author', 'category'],
-      sortableFields: ['title', 'author', 'available_copies', 'created_at'],
-      editableFields: ['title', 'author', 'category', 'isbn', 'available_copies']
+      searchableFields: ['faculty_incharge', 'titles'],
+      sortableFields: ['titles', 'volumes', 'created_at'],
+      editableFields: ['titles', 'volumes', 'faculty_incharge', 'phone', 'email', 'description', 'image_url']
     },
   },
 
@@ -7380,7 +7412,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
   // ECT DEPARTMENT (Electronics & Communication Technology)
   // Table Prefix: ect_*
   // ================================================================================================
-   'ect': {
+  'ect': {
 
 
     'faculty': {
@@ -7501,39 +7533,89 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
     },
     'technical-association': {
       tableName: 'ect_technical_association',
-      displayField: 'batch',
+      displayField: 'title',
       fields: [
         {
           name: 'title',
           label: 'Title',
           type: 'text',
-
+          placeholder: 'Enter activity title',
           required: true,
           size: 'full',
-          description: 'Enter the batch year for this placement'
+          description: 'Enter the title of the technical association activity'
         },
         {
-          name: 'batch',
-          label: 'Batch',
-          type: 'text',
-          placeholder: 'Enter batch',
-          required: true,
+          name: 'description',
+          label: 'Description',
+          type: 'textarea',
+          placeholder: 'Enter brief description',
+          required: false,
           size: 'full',
-          description: 'Enter the batch year for this placement'
+          rows: 3,
+          description: 'Enter a brief description'
+        },
+        {
+          name: 'content',
+          label: 'Content',
+          type: 'textarea',
+          placeholder: 'Enter detailed content',
+          required: false,
+          size: 'full',
+          rows: 5,
+          description: 'Enter detailed content about the activity'
+        },
+        {
+          name: 'image_url',
+          label: 'Image',
+          type: 'file',
+          required: false,
+          size: 'half',
+          accept: '.jpg,.jpeg,.png,.gif,.webp',
+          description: 'Upload an image (JPG, PNG, GIF, WebP)'
         },
         {
           name: 'file_url',
-          label: 'File Url',
+          label: 'Document/PDF',
           type: 'file',
           required: false,
+          size: 'half',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload a document (PDF, DOC, DOCX)'
+        },
+        {
+          name: 'link',
+          label: 'External Link',
+          type: 'text',
+          placeholder: 'https://example.com',
+          required: false,
           size: 'full',
-          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx',
-          description: 'File Upload Guidelines\n• Maximum size: 1MB - Files larger than 1MB will be rejected\n• Supported formats: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX\n• Files will be stored in: /uploads/cseai/placements/'
+          description: 'Enter an external link URL'
+        },
+        {
+          name: 'date_created',
+          label: 'Date',
+          type: 'date',
+          required: false,
+          size: 'half',
+          description: 'Select the date of the activity'
+        },
+        {
+          name: 'status',
+          label: 'Status',
+          type: 'select',
+          required: false,
+          size: 'half',
+          description: 'Select the status',
+          options: [
+            { value: 'active', label: 'Active' },
+            { value: 'inactive', label: 'Inactive' },
+            { value: 'archived', label: 'Archived' }
+          ]
         }
       ],
-      searchableFields: ['title', 'batch'],
-      sortableFields: ['title', 'batch', 'created_at'],
-      editableFields: ['title', 'batch', 'file_url']
+      searchableFields: ['title', 'description'],
+      sortableFields: ['title', 'date_created', 'created_at'],
+      editableFields: ['title', 'description', 'content', 'image_url', 'file_url', 'link', 'date_created', 'status']
     },
     'non-teaching-faculty': {
       tableName: 'ect_non_teaching_faculty',
@@ -7672,7 +7754,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['title', 'category', 'file_url']
     },
     'faculty-development': {
-      tableName: 'ect_faculty_development_programs',
+      tableName: 'ect_faculty_development',
       displayField: 'title',
       fields: [
         {
@@ -7915,25 +7997,10 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full'
         },
         {
-          name: 'file_type',
-          label: 'File Type',
-          type: 'select',
-          required: false,
-          size: 'half',
-          options: [
-            { value: 'PPT', label: 'PowerPoint (PPT)' },
-            { value: 'PDF', label: 'PDF' },
-            { value: 'DOCX', label: 'Document (DOCX)' },
-            { value: 'XLS', label: 'Spreadsheet (XLS)' },
-            { value: 'Video', label: 'Video' },
-            { value: 'Other', label: 'Other' }
-          ]
-        },
-        {
-          name: 'academic_year',
-          label: 'Academic Year',
-          type: 'text',
-          placeholder: 'e.g., 2024',
+          name: 'display_order',
+          label: 'Display Order',
+          type: 'number',
+          placeholder: 'Enter display order',
           required: false,
           size: 'half'
         },
@@ -7947,8 +8014,8 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
         }
       ],
       searchableFields: ['subject_name', 'regulation', 'semester'],
-      sortableFields: ['subject_name', 'regulation', 'semester', 'academic_year'],
-      editableFields: ['regulation', 'semester', 'subject_name', 'file_type', 'academic_year', 'file_url']
+      sortableFields: ['subject_name', 'regulation', 'semester', 'display_order'],
+      editableFields: ['regulation', 'semester', 'subject_name', 'display_order', 'file_url']
     },
     'hackathons': {
       tableName: 'ect_hackathons',
@@ -8271,17 +8338,8 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
     },
     'extra-curricular': {
       tableName: 'ect_extracurricular_activities',
-      displayField: 'activity_name',
+      displayField: 'title',
       fields: [
-        {
-          name: 'activity_name',
-          label: 'Activity Name',
-          type: 'text',
-          placeholder: 'e.g., Maitri Association, Tech Club',
-          required: true,
-          size: 'full',
-          description: 'Name of the extra-curricular activity/association'
-        },
         {
           name: 'category',
           label: 'Category',
@@ -8290,86 +8348,51 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'half',
           description: 'Type of activity',
           options: [
-            { value: 'social_service', label: 'Social Service' },
-            { value: 'cultural', label: 'Cultural' },
-            { value: 'sports', label: 'Sports' },
-            { value: 'technical', label: 'Technical' },
-            { value: 'professional', label: 'Professional Society' },
-            { value: 'community', label: 'Community Service' }
+            { value: 'Extracurricular Activities', label: 'Extracurricular Activities' },
+            { value: 'Departmental Sports Meet', label: 'Departmental Sports Meet' },
+            { value: 'Departmental Cultural Meet', label: 'Departmental Cultural Meet' },
+            { value: 'Industrial Visit', label: 'Industrial Visit' },
+            { value: 'Blood Donation Camp', label: 'Blood Donation Camp' },
+            { value: 'YUVA', label: 'YUVA' }
           ]
         },
         {
-          name: 'academic_year',
-          label: 'Academic Year',
+          name: 'title',
+          label: 'Title',
           type: 'text',
-          placeholder: 'e.g., 2024-25',
-          required: false,
-          size: 'half',
-          description: 'Academic year of the activity'
+          placeholder: 'e.g., 2022-23 Activities',
+          required: true,
+          size: 'full'
         },
         {
           name: 'description',
           label: 'Description',
           type: 'textarea',
-          placeholder: 'Enter detailed description of the activity',
+          placeholder: 'Enter detailed description',
           required: true,
           size: 'full',
-          rows: 6,
-          description: 'Detailed information about the activity'
+          rows: 4
         },
         {
-          name: 'faculty_coordinator_name',
-          label: 'Faculty Coordinator Name',
+          name: 'year',
+          label: 'Year',
           type: 'text',
-          placeholder: 'e.g., Mr. M Yesu Sekharam',
+          placeholder: 'e.g., 2022-23',
           required: false,
-          size: 'full',
-          description: 'Name of the primary faculty coordinator'
+          size: 'half'
         },
         {
-          name: 'faculty_coordinator_designation',
-          label: 'Coordinator Designation',
-          type: 'text',
-          placeholder: 'e.g., Assistant Professor',
-          required: false,
-          size: 'half',
-          description: 'Designation of the coordinator'
-        },
-        {
-          name: 'image_url',
-          label: 'Activity Cover Image',
+          name: 'url',
+          label: 'Document/Image',
           type: 'file',
           required: false,
-          size: 'half',
-          accept: '.jpg,.jpeg,.png,.gif,.webp',
-          description: 'Cover image for the activity'
-        },
-        {
-          name: 'status',
-          label: 'Status',
-          type: 'select',
-          required: true,
-          size: 'half',
-          options: [
-            { value: 'active', label: 'Active' },
-            { value: 'inactive', label: 'Inactive' },
-            { value: 'archived', label: 'Archived' }
-          ],
-          description: 'Activity status'
+          size: 'full',
+          accept: '.jpg,.jpeg,.png,.pdf,.doc,.docx'
         }
       ],
-      searchableFields: ['activity_name', 'category', 'faculty_coordinator_name'],
-      sortableFields: ['activity_name', 'category', 'academic_year', 'created_at'],
-      editableFields: [
-        'activity_name',
-        'category',
-        'academic_year',
-        'description',
-        'faculty_coordinator_name',
-        'faculty_coordinator_designation',
-        'image_url',
-        'status'
-      ]
+      searchableFields: ['title', 'category', 'year'],
+      sortableFields: ['title', 'category', 'year', 'created_at'],
+      editableFields: ['category', 'title', 'description', 'year', 'url']
     },
     'activity-coordinators': {
       tableName: 'ect_activity_coordinators',
@@ -8781,6 +8804,259 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       searchableFields: ['title', 'year', 'category'],
       sortableFields: ['title', 'year', 'category', 'created_at'],
       editableFields: ['title', 'year', 'category', 'file_url']
+    },
+    'department-library': {
+      tableName: 'ect_department_library',
+      displayField: 'description',
+      fields: [
+        {
+          name: 'titles',
+          label: 'Number of Titles',
+          type: 'number',
+          placeholder: 'e.g., 150',
+          required: true,
+          size: 'half',
+          description: 'Enter total number of book titles'
+        },
+        {
+          name: 'volumes',
+          label: 'Number of Volumes',
+          type: 'number',
+          placeholder: 'e.g., 500',
+          required: false,
+          size: 'half',
+          description: 'Enter total number of volumes'
+        },
+        {
+          name: 'description',
+          label: 'Description',
+          type: 'textarea',
+          placeholder: 'Brief description of library resources',
+          required: false,
+          size: 'full',
+          rows: 3,
+          description: 'Enter library description'
+        },
+        {
+          name: 'faculty_incharge',
+          label: 'Faculty In-charge',
+          type: 'text',
+          placeholder: 'e.g., Dr. Kumar',
+          required: false,
+          size: 'half',
+          description: 'Enter faculty in-charge name'
+        },
+        {
+          name: 'phone',
+          label: 'Phone',
+          type: 'text',
+          placeholder: 'e.g., 9876543210',
+          required: false,
+          size: 'half',
+          description: 'Enter contact phone number'
+        },
+        {
+          name: 'email',
+          label: 'Email',
+          type: 'email',
+          placeholder: 'e.g., library@svec.edu.in',
+          required: false,
+          size: 'half',
+          description: 'Enter contact email'
+        },
+        {
+          name: 'image_url',
+          label: 'Library Image',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.jpg,.jpeg,.png',
+          description: 'Upload library image'
+        }
+      ],
+      searchableFields: ['description', 'faculty_incharge'],
+      sortableFields: ['titles', 'volumes', 'faculty_incharge', 'created_at'],
+      editableFields: ['titles', 'volumes', 'description', 'faculty_incharge', 'phone', 'email', 'image_url']
+    },
+    'handbooks': {
+      tableName: 'ect_handbooks',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Handbook Title',
+          type: 'text',
+          placeholder: 'e.g., Student Handbook 2024',
+          required: true,
+          size: 'full',
+          description: 'Enter handbook title'
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: false,
+          size: 'half',
+          description: 'Enter academic year'
+        },
+        {
+          name: 'file_url',
+          label: 'Handbook PDF',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf',
+          description: 'Upload handbook PDF file'
+        }
+      ],
+      searchableFields: ['title', 'academic_year'],
+      sortableFields: ['title', 'academic_year', 'created_at'],
+      editableFields: ['title', 'academic_year', 'file_url']
+    },
+    'physical-facilities': {
+      tableName: 'ect_physical_facilities',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select facility category',
+          options: [
+            { value: 'Laboratories', label: 'Laboratories' },
+            { value: 'Classroom', label: 'Classroom' },
+            { value: 'Library', label: 'Library' },
+            { value: 'Other', label: 'Other' }
+          ]
+        },
+        {
+          name: 'title',
+          label: 'Facility Name',
+          type: 'text',
+          placeholder: 'e.g., Communication Lab',
+          required: true,
+          size: 'full',
+          description: 'Enter facility or lab name'
+        },
+        {
+          name: 'description',
+          label: 'Description',
+          type: 'textarea',
+          placeholder: 'Brief description',
+          required: false,
+          size: 'full',
+          rows: 4,
+          description: 'Enter facility description'
+        },
+        {
+          name: 'file_url',
+          label: 'File/Document',
+          type: 'file',
+          required: false,
+          size: 'half',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload related document'
+        },
+        {
+          name: 'gallery',
+          label: 'Gallery Images (JSON)',
+          type: 'textarea',
+          placeholder: '["url1", "url2"]',
+          required: false,
+          size: 'full',
+          rows: 2,
+          description: 'Enter image URLs as JSON array'
+        },
+        {
+          name: 'lab_details',
+          label: 'Lab Details (JSON)',
+          type: 'textarea',
+          placeholder: '{"equipment": [], "capacity": 0}',
+          required: false,
+          size: 'full',
+          rows: 3,
+          description: 'Enter lab details as JSON object'
+        }
+      ],
+      searchableFields: ['title', 'category'],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['category', 'title', 'description', 'file_url', 'gallery', 'lab_details']
+    },
+    'scud-activities': {
+      tableName: 'ect_scud_activities',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Activity Title',
+          type: 'text',
+          placeholder: 'e.g., SCUD Tech Talk',
+          required: true,
+          size: 'full',
+          description: 'Enter SCUD activity title'
+        },
+        {
+          name: 'academic_year',
+          label: 'Academic Year',
+          type: 'text',
+          placeholder: 'e.g., 2024-25',
+          required: false,
+          size: 'half',
+          description: 'Enter academic year'
+        },
+        {
+          name: 'description',
+          label: 'Description',
+          type: 'textarea',
+          placeholder: 'Brief description',
+          required: false,
+          size: 'full',
+          rows: 3,
+          description: 'Enter activity description'
+        }
+      ],
+      searchableFields: ['title', 'academic_year'],
+      sortableFields: ['title', 'academic_year', 'created_at'],
+      editableFields: ['title', 'academic_year', 'description']
+    },
+    'training-activities': {
+      tableName: 'ect_training_activities',
+      displayField: 'title',
+      fields: [
+        {
+          name: 'title',
+          label: 'Training Title',
+          type: 'text',
+          placeholder: 'e.g., Python Programming Training',
+          required: true,
+          size: 'full',
+          description: 'Enter training activity title'
+        },
+        {
+          name: 'trainer',
+          label: 'Trainer/Resource Person',
+          type: 'text',
+          placeholder: 'e.g., Dr. Kumar',
+          required: false,
+          size: 'half',
+          description: 'Enter trainer name'
+        },
+        {
+          name: 'file_url',
+          label: 'Training Document',
+          type: 'file',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx',
+          description: 'Upload training document or certificate'
+        }
+      ],
+      searchableFields: ['title', 'trainer'],
+      sortableFields: ['title', 'trainer', 'created_at'],
+      editableFields: ['title', 'trainer', 'file_url']
     }
   }
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { TrendingUp, Building, Users, Award, Target, Briefcase, Star, CheckCircle, ChevronRight, Phone, Mail, ExternalLink, Loader, FileDown } from 'lucide-react';
+import { TrendingUp, Building, Users, Award, Target, Briefcase, Star, CheckCircle, ChevronRight, ChevronLeft, Phone, Mail, ExternalLink, Loader, FileDown } from 'lucide-react';
 
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import content from '../content/placements.json';
@@ -108,7 +108,16 @@ const Placements: React.FC = () => {
   const [team, setTeam] = useState<PlacementTeamMember[]>([]);
   const [placementOfficer, setPlacementOfficer] = useState<PlacementOfficer | null>(null);
   const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const nextSlide = () => {
+    setActiveSlide((prev) => (prev + 1) % carouselImages.length);
+  };
+
+  const prevSlide = () => {
+    setActiveSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
+  };
   const [error, setError] = useState<string | null>(null);
 
   // State for placement_info table
@@ -424,60 +433,60 @@ const Placements: React.FC = () => {
           {/* Placement Images Carousel */}
           <section className="py-16 bg-white">
             <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto">
-                <div ref={carouselRef} className="relative">
-                  <div className="overflow-hidden rounded-xl shadow-lg">
-                    <div className="relative h-96">
-                      {carouselImages.length > 0 ? carouselImages.map((image, index) => (
-                        <div
-                          key={image.id}
-                          className={`carousel-item absolute inset-0 transition-opacity duration-500 ${index === 0 ? 'active opacity-100' : 'opacity-0'
-                            }`}
-                        >
-                          <img
-                            src={image.image_url}
-                            alt={image.alt_text}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              // Hide broken image
-                              e.currentTarget.style.display = 'none';
-                            }}
-                          />
-                        </div>
-                      )) : (
-                        <div className="flex items-center justify-center h-full bg-gray-200">
-                          <p className="text-gray-500 text-lg">No carousel images available</p>
-                        </div>
-                      )}
+              <div className="max-w-5xl mx-auto relative px-12 group">
+                
+                {/* Main Image Container */}
+                <div className="relative rounded-xl overflow-hidden shadow-2xl bg-gray-50 border border-gray-100">
+                  {carouselImages.length > 0 ? (
+                    <div className="relative w-full">
+                      <img
+                        src={carouselImages[activeSlide].image_url}
+                        alt={carouselImages[activeSlide].alt_text}
+                        className="w-full h-auto object-contain block"
+                        style={{ maxHeight: '80vh' }}
+                      />
                     </div>
-                  </div>
-
-                  {/* Carousel indicators */}
-                  {carouselImages.length > 0 && (
-                    <div className="flex justify-center mt-6 space-x-2">
-                      {carouselImages.map((_, index) => (
-                        <button
-                          key={index}
-                          className={`w-3 h-3 rounded-full transition-colors ${index === 0 ? 'bg-[#B22222]' : 'bg-gray-300'
-                            }`}
-                          onClick={() => {
-                            const carousel = carouselRef.current;
-                            if (carousel) {
-                              const activeSlide = carousel.querySelector('.carousel-item.active');
-                              const targetSlide = carousel.querySelectorAll('.carousel-item')[index];
-                              if (activeSlide && targetSlide) {
-                                activeSlide.classList.remove('active', 'opacity-100');
-                                activeSlide.classList.add('opacity-0');
-                                targetSlide.classList.remove('opacity-0');
-                                targetSlide.classList.add('active', 'opacity-100');
-                              }
-                            }
-                          }}
-                        />
-                      ))}
+                  ) : (
+                    <div className="flex items-center justify-center h-64 bg-gray-200">
+                      <p className="text-gray-500 text-lg">No carousel images available</p>
                     </div>
                   )}
                 </div>
+
+                {/* Navigation Arrows */}
+                {carouselImages.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevSlide}
+                      className="absolute top-1/2 left-2 -translate-y-1/2 text-[#B22222] hover:text-[#850209] transition-colors duration-300 z-10 transform hover:scale-110"
+                      aria-label="Previous slide"
+                    >
+                      <ChevronLeft className="w-8 h-8" />
+                    </button>
+                    <button
+                      onClick={nextSlide}
+                      className="absolute top-1/2 right-2 -translate-y-1/2 text-[#B22222] hover:text-[#850209] transition-colors duration-300 z-10 transform hover:scale-110"
+                      aria-label="Next slide"
+                    >
+                      <ChevronRight className="w-8 h-8" />
+                    </button>
+                  </>
+                )}
+
+                {/* Indicators */}
+                {carouselImages.length > 0 && (
+                  <div className="flex justify-center mt-6 space-x-3">
+                    {carouselImages.map((_, index) => (
+                      <button
+                        key={index}
+                        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                          index === activeSlide ? 'bg-[#B22222] scale-125' : 'bg-gray-300 hover:bg-[#B22222]/50'
+                        }`}
+                        onClick={() => setActiveSlide(index)}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </section>

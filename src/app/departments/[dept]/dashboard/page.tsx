@@ -356,6 +356,28 @@ const DEPARTMENT_MODULES: Record<string, Array<{
     { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'ect_technical_faculty' },
     { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'ect_training_activities' },
   ],
+
+  'mba': [
+    { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'mba_bos_members' },
+    { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'mba_bos_minutes' },
+    { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'mba_department_overview' },
+    { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and information', table: 'mba_department_library' },
+    { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'mba_extra_curricular' },
+    { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'mba_faculty_achievements' },
+    { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'mba_faculty_development' },
+    { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'mba_handbooks' },
+    { key: 'merit-scholarships', name: 'Merit Scholarships', icon: Award, description: 'Student scholarship programs', table: 'mba_merit_scholarships' },
+    { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'mba_mous' },
+    { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'mba_newsletters' },
+    { key: 'non-teaching-staff', name: 'Non-Teaching Staff', icon: Users, description: 'Non-teaching staff members', table: 'mba_non_teaching_staff' },
+    { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'mba_physical_facilities' },
+    { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'mba_placements' },
+    { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'mba_student_achievements' },
+    { key: 'workshops', name: 'Workshops', icon: Activity, description: 'Workshops, seminars and guest lectures', table: 'mba_workshops' },
+    { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'mba_syllabus' },
+    { key: 'faculty-profiles', name: 'Faculty Profiles', icon: Users, description: 'Faculty members and profiles', table: 'mba_faculty' },
+    { key: 'board-of-studies', name: 'Board of Studies', icon: Users, description: 'Board of Studies information', table: 'mba_board_of_studies' },
+  ],
 };
 
 const DEPARTMENT_NAMES: Record<string, string> = {
